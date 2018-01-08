@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 16:25:46 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/08 21:52:49 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/08 22:48:45 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int			main(int argc, char **argv)
 
 	ft_bzero(&e, sizeof(t_env));
 	index = flag(&e.flag, argc, argv);
-	if (!sdl_init(&e.sdl))
-		return (end_of_program(&e, "Erreur a l'initialisation de la SDL: ", ERROR_SDL));
-	scop_loop(&e, &e.sdl);
+	scop_loop(&e);
 	end_of_program(&e, NULL, 0);
 	return (0);
 }
