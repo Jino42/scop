@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/08 22:52:44 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/01/08 23:10:29 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,15 +16,16 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
-INC_FILES = includes/scop.h
+INC_FILES = includes/scop.h includes/scop_glfw.h
 
-INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/
+INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/
 
 SRC_DIR = srcs/
 
 SRC = main.c \
 	  end_of_program.c \
 	  init.c \
+	  glad.c \
 	  scop_loop.c \
 	  update/update_fps.c
 
@@ -34,7 +35,7 @@ OBJET = $(SRC:.c=.o)
 
 GLFW_DIR = ./glfw-3.2.1/construct
 GLFW_LIB = $(GLFW_DIR)/src/libglfw3.a
-GLFW_FLAG = $(GLFW_LIB) -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -I glfw-3.2.1/include/GLFW/glfw3.h
+GLFW_FLAG = $(GLFW_LIB) -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
 FRAMEWORK = -framework OpenGL -framework AppKit -framework Opencl
 
@@ -66,6 +67,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)
 	@mkdir $(OBJ_DIR)$(SRC_DIR)
 	@mkdir $(OBJ_DIR)$/update
+	@mkdir $(OBJ_DIR)$/glfw
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<

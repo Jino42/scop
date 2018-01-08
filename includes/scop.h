@@ -6,13 +6,15 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/08 22:46:54 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/08 23:09:54 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCOP_H
 # define SCOP_H
 
+# include "scop_glfw.h"
+# include "glad.h"
 # include "libft.h"
 
 # include <sys/types.h>
