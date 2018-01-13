@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/13 23:08:48 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/14 00:08:38 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,24 +83,24 @@ t_matrix matrix_get_projection_opengl(const float angleOfView,
 
 t_matrix look_at(t_vector *position, t_vector *to, t_vector *up)
 {
-	t_vector zaxis = vector_get_sub(position, to);
+	t_vector zaxis = vector_get_sub(to, position);
 	vector_normalize(&zaxis);
 	t_vector tmp = vector_get_normalize(up);
     t_vector xaxis = vector_get_cross_product(&tmp, &zaxis);
     t_vector yaxis = vector_get_cross_product(&zaxis, &xaxis);
 	(void)yaxis;
     t_matrix cam_to_world = matrix_get_identity();
-/*
+
     cam_to_world.matrix[0][0] = xaxis.x;
-    cam_to_world.matrix[0][1] = xaxis.y;
-    cam_to_world.matrix[0][2] = xaxis.z;
-    cam_to_world.matrix[1][0] = yaxis.x;
+    cam_to_world.matrix[1][0] = xaxis.y;
+    cam_to_world.matrix[2][0] = xaxis.z;
+    cam_to_world.matrix[0][1] = yaxis.x;
     cam_to_world.matrix[1][1] = yaxis.y;
-    cam_to_world.matrix[1][2] = yaxis.z;
-    cam_to_world.matrix[2][0] = zaxis.x;
-    cam_to_world.matrix[2][1] = zaxis.y;
+    cam_to_world.matrix[2][1] = yaxis.z;
+    cam_to_world.matrix[0][2] = zaxis.x;
+    cam_to_world.matrix[1][2] = zaxis.y;
     cam_to_world.matrix[2][2] = zaxis.z;
-*/
+
     cam_to_world.matrix[3][0] = position->x;
     cam_to_world.matrix[3][1] = position->y;
     cam_to_world.matrix[3][2] = position->z;
@@ -114,28 +114,73 @@ void		update_cam(t_env *e, t_cam *cam, t_glfw *glfw)
 	float		speed;
 
 	speed = 2 * e->fps.delta_time;
-	if (glfwGetKey(glfw->window, GLFW_KEY_UP) == GLFW_PRESS)
+	if (glfwGetKey(glfw->window, GLFW_KEY_UP) == GLFW_PRESS
+			|| glfwGetKey(glfw->window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		dir = vector_get_mult(&cam->to, speed);
 		vector_add(&cam->position, &dir);
 	}
-	if (glfwGetKey(glfw->window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	if (glfwGetKey(glfw->window, GLFW_KEY_DOWN) == GLFW_PRESS
+			|| glfwGetKey(glfw->window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		dir = vector_get_mult(&cam->to, -speed);
 		vector_add(&cam->position, &dir);
 	}
-	if (glfwGetKey(glfw->window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	if (glfwGetKey(glfw->window, GLFW_KEY_LEFT) == GLFW_PRESS
+			|| glfwGetKey(glfw->window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		dir = vector_get_cross_product(&e->cam.to, &e->cam.up);
 		dir = vector_get_mult(&dir, speed);
 		vector_add(&cam->position, &dir);
 	}
-	if (glfwGetKey(glfw->window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	if (glfwGetKey(glfw->window, GLFW_KEY_RIGHT) == GLFW_PRESS
+			|| glfwGetKey(glfw->window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		dir = vector_get_cross_product(&e->cam.to, &e->cam.up);
 		dir = vector_get_mult(&dir, -speed);
 		vector_add(&cam->position, &dir);
 	}
+}
+
+float pitch = 0.f;
+float yaw = -90.f;
+t_vector tmp_to;
+
+void mouse_callback(GLFWwindow *window, double pos_x, double pos_y)
+{
+	(void)window;
+	float sensitivity = 0.05;
+	static bool first_callback = true;
+	static float last_x = WIDTH/2, last_y = HEIGHT/2;
+
+	if (first_callback)
+	{
+		last_x = pos_x;
+		last_y = pos_y;
+		first_callback = false;
+	}
+
+	float offset_x = (pos_x - last_x);
+	float offset_y = (last_y - pos_y);
+	last_x = pos_x;
+	last_y = pos_y;
+
+	offset_x *= sensitivity;
+	offset_y *= sensitivity;
+
+	yaw   += offset_x;
+	pitch += offset_y;
+
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	t_vector front;
+	front.x = cosf(get_radians(yaw)) * cosf(get_radians(pitch));
+	front.y = sinf(get_radians(pitch));
+	front.z = sinf(get_radians(yaw)) * cosf(get_radians(pitch));
+	tmp_to = vector_get_normalize(&front);
 }
 
 void	render_loop(t_env *e, t_glfw *glfw)
@@ -144,6 +189,9 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	GLint nrAttributes;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	ft_printf("Maximum number of vertex attribute GLSL supported : %i\n", (int)nrAttributes);
+	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(glfw->window, &mouse_callback);
+	e->cam.to = tmp_to;
 
 	float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f,
@@ -254,7 +302,10 @@ void	render_loop(t_env *e, t_glfw *glfw)
 			return ;
 		}
 */
-		view = look_at(&e->cam.position, &e->cam.to, &e->cam.up);
+		e->cam.to = tmp_to;
+		printf("Tmp_to : %.2f %.2f %.2f\n", e->cam.to.x, e->cam.to.y, e->cam.to.z);
+		t_vector dir_look = vector_get_add(&e->cam.position, &e->cam.to);
+		view = look_at(&e->cam.position, &dir_look, &e->cam.up);
 		//view = matrix_get_transpose(&view);
 
 
