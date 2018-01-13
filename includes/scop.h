@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/09 21:20:42 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/13 17:59:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,26 @@
 # include "scop_glfw.h"
 # include "glad.h"
 # include "libft.h"
+# include "matrix.h"
 
+# include <math.h>
 # include <sys/types.h>
-# include <sys/stat.h>
 # include <sys/time.h>
 # include <stdbool.h>
 # include <stdint.h>
-# include <pthread.h>
 
 # define WIDTH 1280
 # define HEIGHT 720
+
+#define MAX_SOURCE_SIZE 2000
+#define BUFFER_LOG 2048
+
+typedef struct		s_shader
+{
+	GLuint			program;
+
+	void			(*use)(struct s_shader *);
+}					t_shader;
 
 typedef struct	s_glfw
 {
@@ -58,5 +68,9 @@ int					end_of_program(t_env *e, char *str, int flag);
 bool				glfw_init(t_glfw *glfw);
 void				glfw_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void				glfw_input(t_glfw *glfw);
+
+GLboolean			shader_construct(t_shader *shader,
+									const char *vertex_shader_path,
+									const char *fragment_shader_path);
 
 #endif

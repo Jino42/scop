@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/09 21:12:23 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/01/13 16:36:57 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC = main.c \
 	  end_of_program.c \
 	  init.c \
 	  glad.c \
+	  shader_construct.c \
 	  glfw_init.c \
 	  glfw_temp.c \
 	  render_loop.c \
