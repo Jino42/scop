@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/13 20:35:02 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/13 22:43:35 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ typedef struct		s_shader
 	void			(*use)(struct s_shader *);
 }					t_shader;
 
+typedef struct		s_cam
+{
+	t_vector		position;
+	t_vector		angle;
+	t_vector		to;
+	t_vector		up;
+}					t_cam;
+
 typedef struct	s_glfw
 {
 	GLFWwindow	*window;
@@ -57,6 +65,8 @@ typedef struct		s_env
 {
 	t_fps			fps;
 	t_glfw			glfw;
+
+	t_cam			cam;
 
 	int64_t			flag;
 }					t_env;

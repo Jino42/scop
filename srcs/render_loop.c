@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/13 21:50:55 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/13 23:08:48 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,63 @@ t_matrix matrix_get_projection_opengl(const float angleOfView,
 	return (m);
 }
 
+t_matrix look_at(t_vector *position, t_vector *to, t_vector *up)
+{
+	t_vector zaxis = vector_get_sub(position, to);
+	vector_normalize(&zaxis);
+	t_vector tmp = vector_get_normalize(up);
+    t_vector xaxis = vector_get_cross_product(&tmp, &zaxis);
+    t_vector yaxis = vector_get_cross_product(&zaxis, &xaxis);
+	(void)yaxis;
+    t_matrix cam_to_world = matrix_get_identity();
+/*
+    cam_to_world.matrix[0][0] = xaxis.x;
+    cam_to_world.matrix[0][1] = xaxis.y;
+    cam_to_world.matrix[0][2] = xaxis.z;
+    cam_to_world.matrix[1][0] = yaxis.x;
+    cam_to_world.matrix[1][1] = yaxis.y;
+    cam_to_world.matrix[1][2] = yaxis.z;
+    cam_to_world.matrix[2][0] = zaxis.x;
+    cam_to_world.matrix[2][1] = zaxis.y;
+    cam_to_world.matrix[2][2] = zaxis.z;
+*/
+    cam_to_world.matrix[3][0] = position->x;
+    cam_to_world.matrix[3][1] = position->y;
+    cam_to_world.matrix[3][2] = position->z;
+
+    return cam_to_world;
+}
+
+void		update_cam(t_env *e, t_cam *cam, t_glfw *glfw)
+{
+	t_vector	dir;
+	float		speed;
+
+	speed = 2 * e->fps.delta_time;
+	if (glfwGetKey(glfw->window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		dir = vector_get_mult(&cam->to, speed);
+		vector_add(&cam->position, &dir);
+	}
+	if (glfwGetKey(glfw->window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		dir = vector_get_mult(&cam->to, -speed);
+		vector_add(&cam->position, &dir);
+	}
+	if (glfwGetKey(glfw->window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		dir = vector_get_cross_product(&e->cam.to, &e->cam.up);
+		dir = vector_get_mult(&dir, speed);
+		vector_add(&cam->position, &dir);
+	}
+	if (glfwGetKey(glfw->window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		dir = vector_get_cross_product(&e->cam.to, &e->cam.up);
+		dir = vector_get_mult(&dir, -speed);
+		vector_add(&cam->position, &dir);
+	}
+}
+
 void	render_loop(t_env *e, t_glfw *glfw)
 {
 
@@ -88,14 +145,48 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	ft_printf("Maximum number of vertex attribute GLSL supported : %i\n", (int)nrAttributes);
 
-	GLfloat vertices[] = {
-	    -0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
-	     0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
-	     -0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
-		 0.5f, 0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
-		 0.90f, 0.90f, 0.0f,	0.0f, 0.0f, 0.0f,
-		 0.85f, 0.90f, 0.0f,	0.0f, 0.90f, 0.0f,
-		 0.90f, 0.70f, 0.0f,	0.0f, 0.70f, 0.0f
+	float vertices[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f
 	};
 	GLuint indices[] = {
 		0, 1, 2,
@@ -139,19 +230,19 @@ void	render_loop(t_env *e, t_glfw *glfw)
 //////////////////////////////////////
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnable(GL_DEPTH_TEST);
 	float timeValue = glfwGetTime();
 	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
 	//Use strict === verif_ret
 
-	t_matrix model, view, projection, mvp;
-	t_vector vec;
-
-	vec = vector_construct(0.0f, 0.0f, -3.0f);
+	t_matrix model, view, projection, mvp, temp;
+	(void)temp;
 	while (!glfwWindowShouldClose(glfw->window))
 	{
 		update_fps(&e->fps);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfw_input(glfw);
+		update_cam(e, &e->cam, &e->glfw);
 
 		//Tu peux mettre de uniform a l'infinie sans forcement les update cash
 		//Update seulement ares UseProgram(yourShader);
@@ -163,11 +254,16 @@ void	render_loop(t_env *e, t_glfw *glfw)
 			return ;
 		}
 */
-		view = matrix_get_translation(&vec);
-		view = matrix_get_transpose(&view);
-		model = matrix_get_rotation_y(glfwGetTime());
+		view = look_at(&e->cam.position, &e->cam.to, &e->cam.up);
+		//view = matrix_get_transpose(&view);
+
+
+		//model = matrix_get_rotation_y(glfwGetTime());
+		//temp = matrix_get_rotation_x(glfwGetTime() / 2);
+		//model = matrix_get_mult_matrix(&model, &temp);
+		model = matrix_get_identity();
 		model = matrix_get_transpose(&model);
-		projection = matrix_get_projection_opengl(90.f, (float)WIDTH / (float)HEIGHT, 0.001f, 100.f);
+		projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
 
 		mvp = matrix_get_mult_matrix(&view, &projection);
 		mvp = matrix_get_mult_matrix(&model, &mvp);
@@ -180,17 +276,10 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		glUniformMatrix4fv(
 				glGetUniformLocation(shader->program, "MVP"),
 				1, GL_FALSE, &mvp.matrix[0][0]);
-				glUniformMatrix4fv(
-						glGetUniformLocation(shader->program, "M"),
-						1, GL_FALSE, &model.matrix[0][0]);
-						glUniformMatrix4fv(
-								glGetUniformLocation(shader->program, "V"),
-								1, GL_FALSE, &view.matrix[0][0]);
-								glUniformMatrix4fv(
-										glGetUniformLocation(shader->program, "P"),
-										1, GL_FALSE, &projection.matrix[0][0]);
+
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		//glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		glUseProgram(0);
 
