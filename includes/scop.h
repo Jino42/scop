@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/13 17:59:21 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/13 20:35:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <stdint.h>
+# include <stdio.h>
 
 # define WIDTH 1280
 # define HEIGHT 720
