@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/14 00:08:38 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/14 16:16:22 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 //VertexsBufferObject : Vertex, Coordonates, Textures, -> RAM
 //VertexArrayObject : tableau de reference of VBO
 //ElementBufferObject :
+
+
+float pitch = 0.f;
+float yaw = -90.f;
+t_vector front;
 
 t_matrix	matrix_get_transpose(t_matrix *mn)
 {
@@ -38,7 +43,7 @@ t_matrix	matrix_get_transpose(t_matrix *mn)
 
 float get_radians(const float degrees)
 {
-	return (degrees * M_PI / 180);
+	return ((degrees * M_PI) / 180.f);
 }
 float get_degrees(const float radians)
 {
@@ -83,29 +88,30 @@ t_matrix matrix_get_projection_opengl(const float angleOfView,
 
 t_matrix look_at(t_vector *position, t_vector *to, t_vector *up)
 {
-	t_vector zaxis = vector_get_sub(to, position);
+	t_vector zaxis = vector_get_sub(position, to);
 	vector_normalize(&zaxis);
 	t_vector tmp = vector_get_normalize(up);
     t_vector xaxis = vector_get_cross_product(&tmp, &zaxis);
+	vector_normalize(&xaxis);
     t_vector yaxis = vector_get_cross_product(&zaxis, &xaxis);
-	(void)yaxis;
-    t_matrix cam_to_world = matrix_get_identity();
+	t_matrix rotation = matrix_get_identity();
+    t_matrix translation = matrix_get_identity();
 
-    cam_to_world.matrix[0][0] = xaxis.x;
-    cam_to_world.matrix[1][0] = xaxis.y;
-    cam_to_world.matrix[2][0] = xaxis.z;
-    cam_to_world.matrix[0][1] = yaxis.x;
-    cam_to_world.matrix[1][1] = yaxis.y;
-    cam_to_world.matrix[2][1] = yaxis.z;
-    cam_to_world.matrix[0][2] = zaxis.x;
-    cam_to_world.matrix[1][2] = zaxis.y;
-    cam_to_world.matrix[2][2] = zaxis.z;
+    rotation.matrix[0][0] = xaxis.x;
+    rotation.matrix[1][0] = xaxis.y;
+    rotation.matrix[2][0] = xaxis.z;
+    rotation.matrix[0][1] = yaxis.x;
+    rotation.matrix[1][1] = yaxis.y;
+    rotation.matrix[2][1] = yaxis.z;
+    rotation.matrix[0][2] = zaxis.x;
+    rotation.matrix[1][2] = zaxis.y;
+    rotation.matrix[2][2] = zaxis.z;
 
-    cam_to_world.matrix[3][0] = position->x;
-    cam_to_world.matrix[3][1] = position->y;
-    cam_to_world.matrix[3][2] = position->z;
+    translation.matrix[3][0] = position->x;
+    translation.matrix[3][1] = position->y;
+	translation.matrix[3][2] = position->z;
 
-    return cam_to_world;
+    return matrix_get_mult_matrix(&translation, &rotation);
 }
 
 void		update_cam(t_env *e, t_cam *cam, t_glfw *glfw)
@@ -117,13 +123,13 @@ void		update_cam(t_env *e, t_cam *cam, t_glfw *glfw)
 	if (glfwGetKey(glfw->window, GLFW_KEY_UP) == GLFW_PRESS
 			|| glfwGetKey(glfw->window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		dir = vector_get_mult(&cam->to, speed);
+		dir = vector_get_mult(&cam->to, -speed);
 		vector_add(&cam->position, &dir);
 	}
 	if (glfwGetKey(glfw->window, GLFW_KEY_DOWN) == GLFW_PRESS
 			|| glfwGetKey(glfw->window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		dir = vector_get_mult(&cam->to, -speed);
+		dir = vector_get_mult(&cam->to, speed);
 		vector_add(&cam->position, &dir);
 	}
 	if (glfwGetKey(glfw->window, GLFW_KEY_LEFT) == GLFW_PRESS
@@ -141,10 +147,6 @@ void		update_cam(t_env *e, t_cam *cam, t_glfw *glfw)
 		vector_add(&cam->position, &dir);
 	}
 }
-
-float pitch = 0.f;
-float yaw = -90.f;
-t_vector tmp_to;
 
 void mouse_callback(GLFWwindow *window, double pos_x, double pos_y)
 {
@@ -170,17 +172,30 @@ void mouse_callback(GLFWwindow *window, double pos_x, double pos_y)
 
 	yaw   += offset_x;
 	pitch += offset_y;
-
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-
-	t_vector front;
-	front.x = cosf(get_radians(yaw)) * cosf(get_radians(pitch));
+	front.x = cosf(get_radians(pitch)) * cosf(get_radians(yaw));
 	front.y = sinf(get_radians(pitch));
-	front.z = sinf(get_radians(yaw)) * cosf(get_radians(pitch));
-	tmp_to = vector_get_normalize(&front);
+	front.z = cosf(get_radians(pitch)) * sinf(get_radians(yaw));
+	vector_normalize(&front);
+}
+
+void 	matrix_print(t_matrix *m, char *str)
+{
+	printf("Print %s :\n", str);
+	int y = 0;
+	int x;
+
+	while (y < 4)
+	{
+		x = 0;
+		printf("[");
+		while(x < 4)
+		{
+			printf("%.2f ", m->matrix[y][x]);
+			x++;
+		}
+		printf("]\n");
+		y++;
+	}
 }
 
 void	render_loop(t_env *e, t_glfw *glfw)
@@ -191,7 +206,6 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	ft_printf("Maximum number of vertex attribute GLSL supported : %i\n", (int)nrAttributes);
 	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(glfw->window, &mouse_callback);
-	e->cam.to = tmp_to;
 
 	float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f,
@@ -255,6 +269,18 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	}
 //		Buffer Management
 ///////////////////////////////////
+	float place[] = {
+	 0.0f,  0.0f,  0.0f,
+	 2.0f,  5.0f, -15.0f,
+	-1.5f, -2.2f, -2.5f,
+	-3.8f, -2.0f, -12.3f,
+	2.4f, -0.4f, -3.5f,
+	-1.7f,  3.0f, -7.5f,
+	 1.3f, -2.0f, -2.5f,
+	 1.5f,  2.0f, -2.5f,
+	 1.5f,  0.2f, -1.5f,
+	-1.3f,  1.0f, -1.5f
+	};
 	GLuint VBO, VAO, EBO;
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -279,6 +305,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
+
 	float timeValue = glfwGetTime();
 	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
 	//Use strict === verif_ret
@@ -302,9 +329,9 @@ void	render_loop(t_env *e, t_glfw *glfw)
 			return ;
 		}
 */
-		e->cam.to = tmp_to;
-		printf("Tmp_to : %.2f %.2f %.2f\n", e->cam.to.x, e->cam.to.y, e->cam.to.z);
+		e->cam.to = front;
 		t_vector dir_look = vector_get_add(&e->cam.position, &e->cam.to);
+		printf("Tmp_to : %.2f %.2f %.2f\n", e->cam.to.x, e->cam.to.y, e->cam.to.z);
 		view = look_at(&e->cam.position, &dir_look, &e->cam.up);
 		//view = matrix_get_transpose(&view);
 
@@ -312,12 +339,11 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		//model = matrix_get_rotation_y(glfwGetTime());
 		//temp = matrix_get_rotation_x(glfwGetTime() / 2);
 		//model = matrix_get_mult_matrix(&model, &temp);
-		model = matrix_get_identity();
-		model = matrix_get_transpose(&model);
 		projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
-
-		mvp = matrix_get_mult_matrix(&view, &projection);
-		mvp = matrix_get_mult_matrix(&model, &mvp);
+		matrix_print(&model, "model");
+		matrix_print(&view, "view");
+		//mvp = matrix_get_mult_matrix(&view, &projection);
+		//mvp = matrix_get_mult_matrix(&model, &mvp);
 
 		greenValue += 0.001;
 		shader->use(shader);
@@ -327,10 +353,24 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		glUniformMatrix4fv(
 				glGetUniformLocation(shader->program, "MVP"),
 				1, GL_FALSE, &mvp.matrix[0][0]);
-
+		glUniformMatrix4fv(
+				glGetUniformLocation(shader->program, "V"),
+				1, GL_FALSE, &view.matrix[0][0]);
+		glUniformMatrix4fv(
+				glGetUniformLocation(shader->program, "P"),
+				1, GL_FALSE, &projection.matrix[0][0]);
 		glBindVertexArray(VAO);
 		//glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		for (uint32_t i = 0; i < 10; i++)
+		{
+			t_vector pl = vector_construct(place[i*3], place[i*3+1], place[i*3+2]);
+			model = matrix_get_translation(&pl);
+			model = matrix_get_transpose(&model);
+			glUniformMatrix4fv(
+					glGetUniformLocation(shader->program, "M"),
+					1, GL_FALSE, &model.matrix[0][0]);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 		glBindVertexArray(0);
 		glUseProgram(0);
 
