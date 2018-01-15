@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/15 22:44:43 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/15 23:42:35 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,19 +99,14 @@ t_asset	*asset_create(const char *path_obj)
 		return (NULL);
 	}
 	int i = 0;
-	int fd = open("osef", O_RDWR | O_TRUNC);
-	if (!fd || fd < 0)
-	exit(0);
 	while (i < asset->nb_vertices)
 	{
-		dprintf(fd, "%10.5f ", asset->vertices[i]);
-		dprintf(fd, "%10.5f ", asset->vertices[i + 1]);
-		dprintf(fd, "%10.5f ", asset->vertices[i + 2]);
-		dprintf(fd, "\n");
+		printf("%10.5f ", asset->vertices[i]);
+		printf("%10.5f ", asset->vertices[i + 1]);
+		printf("%10.5f ", asset->vertices[i + 2]);
+		printf("\n");
 		i += 3;
 	}
-	dprintf(fd, "%i\n", asset->nb_vertices);
-	close(fd);
 	return (asset);
 }
 
@@ -185,7 +180,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		end_of_program(e, NULL, 0);
 		return ;
 	}
-	if (!(teapot->asset = asset_create("ressources/teapot2.obj")))
+	if (!(teapot->asset = asset_create("ressources/42.obj")))
 	{
 		end_of_program(e, "Create obj failed", 0);
 		return ;
@@ -195,7 +190,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 //		Buffer Management
 ///////////////////////////////////
 	float place[] = {
-		 15.0f,  0.0f,  0.0f,
+		 0.0f,  0.0f,  0.0f,
 		 2.0f,  5.0f, -15.0f,
 		-1.5f, -2.2f, -2.5f,
 		-3.8f, -2.0f, -12.3f,
@@ -205,23 +200,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		 1.5f,  2.0f, -2.5f,
 		 1.5f,  0.2f, -1.5f,
 		-1.3f,  1.0f, -1.5f
-	}; (void)place;
-
-
-		glGenBuffers(1, &teapot->asset->VBO);
-		glGenVertexArrays(1, &teapot->asset->VAO);
-
-		glBindVertexArray(teapot->asset->VAO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, teapot->asset->VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(teapot->asset->vertices), teapot->asset->vertices, GL_STATIC_DRAW);
-
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
-		glBindVertexArray(0);				//UnBind
-		///////////////////////////////////////////////
-
+	};
 	GLuint VBO, VAO, EBO;
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -242,6 +221,20 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
 	glBindVertexArray(0);				//UnBind
 	///////////////////////////////////////////
+
+	glGenBuffers(1, &teapot->asset->VBO);
+	glGenVertexArrays(1, &teapot->asset->VAO);
+
+	glBindVertexArray(teapot->asset->VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, teapot->asset->VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), teapot->asset->vertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
+	glBindVertexArray(0);				//UnBind
+	///////////////////////////////////////////////
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
@@ -272,6 +265,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		e->cam.to = front;
 		t_vector dir_look = vector_get_add(&e->cam.position, &e->cam.to);
 		view = look_at(&e->cam.position, &dir_look, &e->cam.up);
+
 
 		projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
 		mvp = matrix_get_mult_matrix(&view, &projection);
@@ -308,7 +302,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		glUniformMatrix4fv(
 				glGetUniformLocation(shader->program, "M"),
 				1, GL_FALSE, &model.matrix[0][0]);
-		glDrawArrays(GL_TRIANGLES, 0, 40);
+		glDrawArrays(GL_TRIANGLES, 0, teapot->asset->nb_vertices);
 		glBindVertexArray(0);
 		glUseProgram(0);
 
