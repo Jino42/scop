@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/15 23:42:35 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/15 23:50:31 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,52 +115,47 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
 	float vertices[] = {
-	    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f,
-	     0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-	    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
+	    -0.5f, -0.5f, -0.5f,  0.0f,
+	     0.5f, -0.5f, -0.5f,  1.0f,
+	     0.5f,  0.5f, -0.5f,  1.0f,
+	     0.5f,  0.5f, -0.5f,  1.0f,
+	    -0.5f,  0.5f, -0.5f,  0.0f,
+	    -0.5f, -0.5f, -0.5f,  0.0f,
 
-	    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f,
-	     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
-	    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 1.0f,
-	    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f,
+	    -0.5f, -0.5f,  0.5f,  0.0f,
+	     0.5f, -0.5f,  0.5f,  1.0f,
+	     0.5f,  0.5f,  0.5f,  1.0f,
+	     0.5f,  0.5f,  0.5f,  1.0f,
+	    -0.5f,  0.5f,  0.5f,  0.0f,
+	    -0.5f, -0.5f,  0.5f,  0.0f,
 
-	    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-	    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-	    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-	    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+	    -0.5f,  0.5f,  0.5f,  1.0f,
+	    -0.5f,  0.5f, -0.5f,  1.0f,
+	    -0.5f, -0.5f, -0.5f,  0.0f,
+	    -0.5f, -0.5f, -0.5f,  0.0f,
+	    -0.5f, -0.5f,  0.5f,  0.0f,
+	    -0.5f,  0.5f,  0.5f,  1.0f,
 
-	     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-	     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-	     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-	     0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+	     0.5f,  0.5f,  0.5f,  1.0f,
+	     0.5f,  0.5f, -0.5f,  1.0f,
+	     0.5f, -0.5f, -0.5f,  0.0f,
+	     0.5f, -0.5f, -0.5f,  0.0f,
+	     0.5f, -0.5f,  0.5f,  0.0f,
+	     0.5f,  0.5f,  0.5f,  1.0f,
 
-	    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-	     0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-	     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-	     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-	    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+	    -0.5f, -0.5f, -0.5f,  0.0f,
+	     0.5f, -0.5f, -0.5f,  1.0f,
+	     0.5f, -0.5f,  0.5f,  1.0f,
+	     0.5f, -0.5f,  0.5f,  1.0f,
+	    -0.5f, -0.5f,  0.5f,  0.0f,
+	    -0.5f, -0.5f, -0.5f,  0.0f,
 
-	    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-	    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-	    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f
-	};
-	GLuint indices[] = {
-		0, 1, 2,
-		1, 2, 3,
-		4, 5, 6
+	    -0.5f,  0.5f, -0.5f,  0.0f,
+	     0.5f,  0.5f, -0.5f,  1.0f,
+	     0.5f,  0.5f,  0.5f,  1.0f,
+	     0.5f,  0.5f,  0.5f,  1.0f,
+	    -0.5f,  0.5f,  0.5f,  0.0f,
+	    -0.5f,  0.5f, -0.5f,  0.0f
 	};
 
 	t_model *teapot;
@@ -189,39 +184,6 @@ void	render_loop(t_env *e, t_glfw *glfw)
 
 //		Buffer Management
 ///////////////////////////////////
-	float place[] = {
-		 0.0f,  0.0f,  0.0f,
-		 2.0f,  5.0f, -15.0f,
-		-1.5f, -2.2f, -2.5f,
-		-3.8f, -2.0f, -12.3f,
-		2.4f, -0.4f, -3.5f,
-		-1.7f,  3.0f, -7.5f,
-		 1.3f, -2.0f, -2.5f,
-		 1.5f,  2.0f, -2.5f,
-		 1.5f,  0.2f, -1.5f,
-		-1.3f,  1.0f, -1.5f
-	};
-	GLuint VBO, VAO, EBO;
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-	glGenVertexArrays(1, &VAO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void *)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
-	glBindVertexArray(0);				//UnBind
-	///////////////////////////////////////////
-
 	glGenBuffers(1, &teapot->asset->VBO);
 	glGenVertexArrays(1, &teapot->asset->VAO);
 
@@ -285,18 +247,6 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		glUniformMatrix4fv(
 				glGetUniformLocation(shader->program, "P"),
 				1, GL_FALSE, &projection.matrix[0][0]);
-		glBindVertexArray(VAO);
-		//glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
-		for (uint32_t i = 0; i < 10; i++)
-		{
-			t_vector pl = vector_construct(place[i*3], place[i*3+1], place[i*3+2]);
-			model = matrix_get_translation(&pl);
-			model = matrix_get_transpose(&model);
-			glUniformMatrix4fv(
-					glGetUniformLocation(shader->program, "M"),
-					1, GL_FALSE, &model.matrix[0][0]);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
 		glBindVertexArray(teapot->asset->VAO);
 		model = matrix_get_identity();
 		glUniformMatrix4fv(
