@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/14 16:16:22 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/15 20:38:10 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,6 @@
 float pitch = 0.f;
 float yaw = -90.f;
 t_vector front;
-
-t_matrix	matrix_get_transpose(t_matrix *mn)
-{
-	t_matrix	m;
-	int			y;
-	int			x;
-
-	y = 0;
-	while (y < 4)
-	{
-		x = 0;
-		while (x < 4)
-		{
-			m.matrix[x][y] = mn->matrix[y][x];
-			x++;
-		}
-		y++;
-	}
-	return (m);
-}
 
 float get_radians(const float degrees)
 {
@@ -174,7 +154,7 @@ void mouse_callback(GLFWwindow *window, double pos_x, double pos_y)
 	pitch += offset_y;
 	front.x = cosf(get_radians(pitch)) * cosf(get_radians(yaw));
 	front.y = sinf(get_radians(pitch));
-	front.z = cosf(get_radians(pitch)) * sinf(get_radians(yaw));
+	front.z = sinf(get_radians(yaw));
 	vector_normalize(&front);
 }
 
@@ -250,6 +230,51 @@ void	render_loop(t_env *e, t_glfw *glfw)
     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f
 	};
+
+	float vertices2[] = {
+		0.232406, -1.216630, 1.133818,
+		0.232406, -0.745504, 2.843098,
+		-0.227475, -0.745504, 2.843098,
+		-0.227475, -1.216630, 1.133818,
+		0.232407, 1.119982, 1.133819,
+		0.232406, 1.119982, 1.602814,
+		-0.227475, 1.119982, 1.602813,
+		-0.227475, 1.119982, 1.133818,
+		0.232406, -0.340316, 2.843098,
+		-0.227475, -0.340316, 2.843098,
+		0.232407, -0.305193, 1.133819,
+		0.232407, -0.294496, 2.297937,
+		-0.227475, -0.305193, 1.133818,
+		-0.227475, -0.294496, 2.297937,
+		0.232406, -1.222569, 1.497195,
+		0.232406, -0.745504, 1.477731,
+		-0.227475, -0.745504, 1.477731,
+		-0.227475, -1.222569, 1.497194,
+		-0.227403, -0.731178, 0.901477,
+		-0.227403, -0.731178, -0.037620,
+		0.223704, -0.731178, -0.037620,
+		0.223704, -0.731178, 0.901477,
+		-0.227403, 1.119377, 0.901477,
+		-0.227403, 1.119377, -0.037620,
+		0.223704, 1.119377, -0.037620,
+		0.223704, 1.119377, 0.901477,
+		-0.227403, -0.129772, 0.901477,
+		-0.227403, 0.551492, 0.384487,
+		-0.227403, 1.104268, 0.408501,
+		-0.227403, 0.507336, 0.901477,
+		0.223704, 0.507336, 0.901477,
+		0.223704, 1.104269, 0.408501,
+		0.223704, 0.551492, 0.384487,
+		0.223704, -0.129772, 0.901477,
+		-0.227403, 0.634134, -0.037620,
+		-0.227403, -0.066768, 0.398575,
+		-0.227403, -0.684649, 0.389681,
+		-0.227403, -0.075523, -0.037620,
+		0.223704, 0.634134, -0.037620,
+		0.223704, -0.066768, 0.398575,
+		0.223704, -0.684649, 0.389681,
+		0.223704, -0.075523, -0.037620
+	};
 	GLuint indices[] = {
 		0, 1, 2,
 		1, 2, 3,
@@ -281,7 +306,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	 1.5f,  0.2f, -1.5f,
 	-1.3f,  1.0f, -1.5f
 	};
-	GLuint VBO, VAO, EBO;
+	GLuint VBO, VAO, EBO, VBO2, VAO2;
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
 	glGenVertexArrays(1, &VAO);
@@ -298,6 +323,20 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
+	glBindVertexArray(0);				//UnBind
+	///////////////////////////////////////////
+
+	glGenBuffers(1, &VBO2);
+	glGenVertexArrays(1, &VAO2);
+
+	glBindVertexArray(VAO2);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
+	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
 	glBindVertexArray(0);				//UnBind
@@ -331,19 +370,12 @@ void	render_loop(t_env *e, t_glfw *glfw)
 */
 		e->cam.to = front;
 		t_vector dir_look = vector_get_add(&e->cam.position, &e->cam.to);
-		printf("Tmp_to : %.2f %.2f %.2f\n", e->cam.to.x, e->cam.to.y, e->cam.to.z);
 		view = look_at(&e->cam.position, &dir_look, &e->cam.up);
-		//view = matrix_get_transpose(&view);
 
 
-		//model = matrix_get_rotation_y(glfwGetTime());
-		//temp = matrix_get_rotation_x(glfwGetTime() / 2);
-		//model = matrix_get_mult_matrix(&model, &temp);
 		projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
-		matrix_print(&model, "model");
-		matrix_print(&view, "view");
-		//mvp = matrix_get_mult_matrix(&view, &projection);
-		//mvp = matrix_get_mult_matrix(&model, &mvp);
+		mvp = matrix_get_mult_matrix(&view, &projection);
+		mvp = matrix_get_mult_matrix(&model, &mvp);
 
 		greenValue += 0.001;
 		shader->use(shader);
@@ -371,6 +403,12 @@ void	render_loop(t_env *e, t_glfw *glfw)
 					1, GL_FALSE, &model.matrix[0][0]);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+		model = matrix_get_identity();
+		glUniformMatrix4fv(
+				glGetUniformLocation(shader->program, "M"),
+				1, GL_FALSE, &model.matrix[0][0]);
+		glBindVertexArray(VAO2);
+		glDrawArrays(GL_TRIANGLES, 0, 41 * 3);
 		glBindVertexArray(0);
 		glUseProgram(0);
 
