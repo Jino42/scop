@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/13 16:36:57 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/01/15 21:17:14 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,13 @@ SRC = main.c \
 	  glad.c \
 	  shader_construct.c \
 	  glfw_init.c \
+	  tools.c \
+	  matrix_view.c \
+	  matrix_projection.c \
 	  glfw_temp.c \
 	  render_loop.c \
-	  update/update_fps.c
+	  update/update_fps.c \
+	  event/event_cam.c
 
 OBJ_DIR = objs/
 
@@ -71,6 +75,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$(SRC_DIR)
 	@mkdir $(OBJ_DIR)$/update
 	@mkdir $(OBJ_DIR)$/glfw
+	@mkdir $(OBJ_DIR)$/event
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<

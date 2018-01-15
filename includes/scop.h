@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/13 22:43:35 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/15 22:23:49 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,26 @@ typedef struct		s_shader
 
 	void			(*use)(struct s_shader *);
 }					t_shader;
+
+typedef struct	s_asset
+{
+	t_shader	*shader;
+	//tex
+	GLuint		VBO;
+	GLuint		VAO;
+	GLuint		EBO;
+	GLfloat		*vertices;
+	GLfloat		*indices;
+
+	GLenum		type_draw;
+	GLint		nb_vertices;
+}				t_asset;
+
+typedef struct	s_model
+{
+	t_asset		*asset;
+	t_matrix	transform;
+}				t_model;
 
 typedef struct		s_cam
 {
@@ -80,8 +100,23 @@ bool				glfw_init(t_glfw *glfw);
 void				glfw_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void				glfw_input(t_glfw *glfw);
 
+float				get_degrees(const float radians);
+float				get_radians(const float degrees);
+
 GLboolean			shader_construct(t_shader *shader,
 									const char *vertex_shader_path,
 									const char *fragment_shader_path);
+
+
+
+t_matrix		look_at(const t_vector *position,
+						const t_vector *to,
+						const t_vector *up);
+t_matrix		matrix_get_projection_opengl(const float fov,
+												const float ratio,
+												const float near,
+												const float far);
+
+void			event_cam(t_env *e, t_cam *cam, t_glfw *glfw);
 
 #endif
