@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/15 22:38:18 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/15 22:44:43 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_asset	*asset_create(const char *path_obj)
 		dprintf(fd, "\n");
 		i += 3;
 	}
+	dprintf(fd, "%i\n", asset->nb_vertices);
 	close(fd);
 	return (asset);
 }
@@ -194,7 +195,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 //		Buffer Management
 ///////////////////////////////////
 	float place[] = {
-		 0.0f,  0.0f,  0.0f,
+		 15.0f,  0.0f,  0.0f,
 		 2.0f,  5.0f, -15.0f,
 		-1.5f, -2.2f, -2.5f,
 		-3.8f, -2.0f, -12.3f,
@@ -205,6 +206,22 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		 1.5f,  0.2f, -1.5f,
 		-1.3f,  1.0f, -1.5f
 	}; (void)place;
+
+
+		glGenBuffers(1, &teapot->asset->VBO);
+		glGenVertexArrays(1, &teapot->asset->VAO);
+
+		glBindVertexArray(teapot->asset->VAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, teapot->asset->VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(teapot->asset->vertices), teapot->asset->vertices, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
+		glBindVertexArray(0);				//UnBind
+		///////////////////////////////////////////////
+
 	GLuint VBO, VAO, EBO;
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -225,20 +242,6 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
 	glBindVertexArray(0);				//UnBind
 	///////////////////////////////////////////
-
-	glGenBuffers(1, &teapot->asset->VBO);
-	glGenVertexArrays(1, &teapot->asset->VAO);
-
-	glBindVertexArray(teapot->asset->VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, teapot->asset->VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat), teapot->asset->vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);	//UnBind
-	glBindVertexArray(0);				//UnBind
-	///////////////////////////////////////////////
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
@@ -288,7 +291,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		glUniformMatrix4fv(
 				glGetUniformLocation(shader->program, "P"),
 				1, GL_FALSE, &projection.matrix[0][0]);
-		/*glBindVertexArray(VAO);
+		glBindVertexArray(VAO);
 		//glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 		for (uint32_t i = 0; i < 10; i++)
 		{
@@ -299,13 +302,13 @@ void	render_loop(t_env *e, t_glfw *glfw)
 					glGetUniformLocation(shader->program, "M"),
 					1, GL_FALSE, &model.matrix[0][0]);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}*/
+		}
 		glBindVertexArray(teapot->asset->VAO);
 		model = matrix_get_identity();
 		glUniformMatrix4fv(
 				glGetUniformLocation(shader->program, "M"),
 				1, GL_FALSE, &model.matrix[0][0]);
-		glDrawArrays(GL_TRIANGLES, 0, teapot->asset->nb_vertices);
+		glDrawArrays(GL_TRIANGLES, 0, 40);
 		glBindVertexArray(0);
 		glUseProgram(0);
 
