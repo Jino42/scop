@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/15 23:50:31 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/16 22:56:51 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,45 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 	int		fd;
 	char	*line;
 	char	type[10];
-	float	tab[3];
+	float	tab[4];
+	int	tabi[4];
 
 	fd = open(path_obj, O_RDONLY);
 	if (!fd || fd < 0)
 		return (false);
 	line = NULL;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 0; i++)
 		get_next_line(fd, &line);
 	asset->vertices = ft_memalloc(sizeof(GLfloat) * 10000000);
+	asset->indices = ft_memalloc(sizeof(GLuint) * 10000000);
 	int i = 0;
+	int j = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
-		if (sscanf(line, "%s %f %f %f\n", type, &tab[0], &tab[1], &tab[2]) != 4)
+		if (sscanf(line, "%s ", type) != 1)
 			return (true);
-		printf("%s %f %f %f\n", type, tab[0], tab[1], tab[2]);
-		asset->vertices[3 * i + 0] = tab[0];
-		asset->vertices[3 * i + 1] = tab[1];
-		asset->vertices[3 * i + 2] = tab[2];
-		asset->nb_vertices += 3;
+		if (!strcmp("v", type))
+		{
+			if (sscanf(line, "%s %f %f %f\n", type, &tab[0], &tab[1], &tab[2]) != 4)
+				return (true);
+			asset->vertices[3 * i + 0] = tab[0];
+			asset->vertices[3 * i + 1] = tab[1];
+			asset->vertices[3 * i + 2] = tab[2];
+			asset->nb_vertices++;
+		}
+		else if (!strcmp("f", type))
+		{
+			int ret = 0;
+			ret = sscanf(line, "%s %i %i %i\n", type, &tabi[0], &tabi[1], &tabi[2]);
+			asset->indices[j] = tabi[0];
+			j++;
+			asset->indices[j] = tabi[1];
+			j++;
+			asset->indices[j] = tabi[2];
+			asset->nb_truck += 3;
+			asset->nb_faces += 1;
+			j++;
+		}
 		i++;
 	}
 	return (true);
@@ -99,98 +119,62 @@ t_asset	*asset_create(const char *path_obj)
 		return (NULL);
 	}
 	int i = 0;
-	while (i < asset->nb_vertices)
+	while (i < asset->nb_vertices * 3)
 	{
-		printf("%10.5f ", asset->vertices[i]);
-		printf("%10.5f ", asset->vertices[i + 1]);
-		printf("%10.5f ", asset->vertices[i + 2]);
-		printf("\n");
+		printf("v %f %f %f\n", asset->vertices[i], asset->vertices[i + 1], asset->vertices[i + 2]);
 		i += 3;
 	}
+	i = 0;
+	while (i < asset->nb_faces)
+	{
+		printf("f %i %i %i\n", asset->indices[i*3+0], asset->indices[i*3+1], asset->indices[i*3+2]);
+		i++;
+	}
+	printf("%d\n", asset->nb_vertices);
+	printf("%d\n", asset->nb_truck);
+	printf("%d\n", asset->nb_faces);
 	return (asset);
+}
+
+bool	pers_load(t_env *e, t_model **teapot)
+{
+	t_shader *shader;
+
+	if (!(shader = ft_memalloc(sizeof(t_shader))))
+		return (end_of_program(e, "Error Malloc", 0));
+	if (!(*teapot = ft_memalloc(sizeof(t_model))))
+		return (end_of_program(e, "Error Malloc", 0));
+	if (!shader_construct(shader, "shader/basic.vert", "shader/basic.frag"))
+		return (end_of_program(e, NULL, 0));
+	if (!((*teapot)->asset = asset_create("ressources/teapot.obj")))
+		return (end_of_program(e, "Create obj failed", 0));
+	(*teapot)->asset->shader = shader;
+
+	return (true);
 }
 
 void	render_loop(t_env *e, t_glfw *glfw)
 {
 	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
-	float vertices[] = {
-	    -0.5f, -0.5f, -0.5f,  0.0f,
-	     0.5f, -0.5f, -0.5f,  1.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f,
-	    -0.5f,  0.5f, -0.5f,  0.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f,
-
-	    -0.5f, -0.5f,  0.5f,  0.0f,
-	     0.5f, -0.5f,  0.5f,  1.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f,
-	    -0.5f,  0.5f,  0.5f,  0.0f,
-	    -0.5f, -0.5f,  0.5f,  0.0f,
-
-	    -0.5f,  0.5f,  0.5f,  1.0f,
-	    -0.5f,  0.5f, -0.5f,  1.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f,
-	    -0.5f, -0.5f,  0.5f,  0.0f,
-	    -0.5f,  0.5f,  0.5f,  1.0f,
-
-	     0.5f,  0.5f,  0.5f,  1.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f,
-	     0.5f, -0.5f, -0.5f,  0.0f,
-	     0.5f, -0.5f, -0.5f,  0.0f,
-	     0.5f, -0.5f,  0.5f,  0.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f,
-
-	    -0.5f, -0.5f, -0.5f,  0.0f,
-	     0.5f, -0.5f, -0.5f,  1.0f,
-	     0.5f, -0.5f,  0.5f,  1.0f,
-	     0.5f, -0.5f,  0.5f,  1.0f,
-	    -0.5f, -0.5f,  0.5f,  0.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f,
-
-	    -0.5f,  0.5f, -0.5f,  0.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f,
-	     0.5f,  0.5f,  0.5f,  1.0f,
-	    -0.5f,  0.5f,  0.5f,  0.0f,
-	    -0.5f,  0.5f, -0.5f,  0.0f
-	};
 
 	t_model *teapot;
-	t_shader *shader;
-	if (!(shader = ft_memalloc(sizeof(t_shader))))
-	{
-		end_of_program(e, "Error Malloc", 0);
+
+	if (!pers_load(e, &teapot))
 		return ;
-	}
-	if (!(teapot = ft_memalloc(sizeof(t_model))))
-	{
-		end_of_program(e, "Error Malloc", 0);
-		return ;
-	}
-	if (!shader_construct(shader, "shader/basic.vert", "shader/basic.frag"))
-	{
-		end_of_program(e, NULL, 0);
-		return ;
-	}
-	if (!(teapot->asset = asset_create("ressources/42.obj")))
-	{
-		end_of_program(e, "Create obj failed", 0);
-		return ;
-	}
-	teapot->asset->shader = shader;
 
 //		Buffer Management
 ///////////////////////////////////
+	glGenBuffers(1, &teapot->asset->EBO);
 	glGenBuffers(1, &teapot->asset->VBO);
 	glGenVertexArrays(1, &teapot->asset->VAO);
 
 	glBindVertexArray(teapot->asset->VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, teapot->asset->VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), teapot->asset->vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * teapot->asset->nb_vertices * 3, teapot->asset->vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, teapot->asset->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * teapot->asset->nb_truck, teapot->asset->indices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
 	glEnableVertexAttribArray(0);
@@ -201,12 +185,7 @@ void	render_loop(t_env *e, t_glfw *glfw)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
 
-	float timeValue = glfwGetTime();
-	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-	//Use strict === verif_ret
-
-	t_matrix model, view, projection, mvp, temp;
-	(void)temp;
+	t_matrix model, view, projection;
 	while (!glfwWindowShouldClose(glfw->window))
 	{
 		update_fps(&e->fps);
@@ -214,45 +193,28 @@ void	render_loop(t_env *e, t_glfw *glfw)
 		glfw_input(glfw);
 		event_cam(e, &e->cam, &e->glfw);
 
-		//Tu peux mettre de uniform a l'infinie sans forcement les update cash
-		//Update seulement ares UseProgram(yourShader);
-
-/* 		// IF Uniform isnt used, then delete
-		if (vertexColorLocation == -1)
-		{
-			end_of_program(e, "Error Opngel: glGetUniformLocation fail", 0);
-			return ;
-		}
-*/
 		e->cam.to = front;
 		t_vector dir_look = vector_get_add(&e->cam.position, &e->cam.to);
 		view = look_at(&e->cam.position, &dir_look, &e->cam.up);
 
-
 		projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
-		mvp = matrix_get_mult_matrix(&view, &projection);
-		mvp = matrix_get_mult_matrix(&model, &mvp);
 
-		greenValue += 0.001;
-		shader->use(shader);
-		glUniform4f(
-				glGetUniformLocation(shader->program, "testUniform"),
-				0.3f, greenValue, 0.45f, 1.0f);
+		teapot->asset->shader->use(teapot->asset->shader);
+
 		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "MVP"),
-				1, GL_FALSE, &mvp.matrix[0][0]);
-		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "V"),
+				glGetUniformLocation(teapot->asset->shader->program, "V"),
 				1, GL_FALSE, &view.matrix[0][0]);
 		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "P"),
+				glGetUniformLocation(teapot->asset->shader->program, "P"),
 				1, GL_FALSE, &projection.matrix[0][0]);
-		glBindVertexArray(teapot->asset->VAO);
 		model = matrix_get_identity();
 		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "M"),
+				glGetUniformLocation(teapot->asset->shader->program, "M"),
 				1, GL_FALSE, &model.matrix[0][0]);
-		glDrawArrays(GL_TRIANGLES, 0, teapot->asset->nb_vertices);
+
+		glBindVertexArray(teapot->asset->VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, teapot->asset->nb_vertices);
+		glDrawElements(GL_TRIANGLES, teapot->asset->nb_truck, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		glUseProgram(0);
 

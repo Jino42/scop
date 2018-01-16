@@ -9,5 +9,5 @@ uniform mat4 P;
 
 void main()
 {
-	gl_Position = P * V * M * vec4(aPos, 1.0f);
+	gl_Position =  P * V * M * vec4(aPos, 1.0f);
 }

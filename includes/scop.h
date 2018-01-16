@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/15 22:23:49 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/16 21:55:41 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ typedef struct	s_asset
 	GLuint		VAO;
 	GLuint		EBO;
 	GLfloat		*vertices;
-	GLfloat		*indices;
+	GLuint		*indices;
 
 	GLenum		type_draw;
 	GLint		nb_vertices;
+	GLint		nb_faces;
+	GLint		nb_truck;
 }				t_asset;
 
 typedef struct	s_model
