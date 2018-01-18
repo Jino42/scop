@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/15 21:17:14 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/01/18 23:40:31 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,9 @@ SRC = main.c \
 	  matrix_projection.c \
 	  glfw_temp.c \
 	  render_loop.c \
+	  parsing/parsing_temp.c \
 	  update/update_fps.c \
+	  event/event_mouse.c \
 	  event/event_cam.c
 
 OBJ_DIR = objs/
@@ -76,6 +78,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/update
 	@mkdir $(OBJ_DIR)$/glfw
 	@mkdir $(OBJ_DIR)$/event
+	@mkdir $(OBJ_DIR)$/parsing
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<

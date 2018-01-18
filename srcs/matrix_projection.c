@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 20:51:03 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/16 22:58:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/16 23:38:17 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ t_matrix matrix_get_projection_opengl(const float fov,
 	l = -r;
     t = scale;
 	b = -t;
-
+	(void)far;
+	
     m.matrix[0][0] = 2.f * near / (r - l);
     m.matrix[0][1] = 0.f;
     m.matrix[0][2] = 0.f;

@@ -6,11 +6,23 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 20:51:59 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/16 22:28:55 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/18 23:41:00 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
+
+t_matrix		matrix_view(t_cam *cam)
+{
+	t_vector		dir_look;
+	t_event_camfps	*camfps;
+
+	camfps = singleton_mouse();
+	cam->to = camfps->front;
+	dir_look = vector_get_add(&cam->position, &cam->to);
+	return (look_at(&cam->position, &dir_look, &cam->up));
+}
+
 
 t_matrix		look_at(const t_vector *position,
 						const t_vector *to,
