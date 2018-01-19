@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/18 23:41:10 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/19 22:50:31 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,22 @@ typedef struct		s_shader
 	void			(*use)(struct s_shader *);
 }					t_shader;
 
+typedef struct		s_texture
+{
+	unsigned char	*texture;
+	uint32_t		width;
+	uint32_t		height;
+}					t_texture;
+
 typedef struct	s_asset
 {
-	t_shader	*shader;
+	t_texture	texture;
+	t_shader	shader;
 	//tex
 	GLuint		VBO;
 	GLuint		VAO;
 	GLuint		EBO;
+	GLuint		textureID;
 	GLfloat		*vertices;
 	GLuint		*indices;
 
@@ -58,6 +67,8 @@ typedef struct	s_model
 {
 	t_asset		*asset;
 	t_matrix	transform;
+	void		(*render)(struct s_model *,
+						t_matrix *, t_matrix *);
 }				t_model;
 
 typedef struct	s_camfps
@@ -100,6 +111,7 @@ typedef struct		s_env
 	int64_t			flag;
 }					t_env;
 
+bool				import_texture(t_texture *texture, const char *path);
 bool				obj_pars(t_asset *asset, const char * path_obj);
 
 int					flag(int64_t *f, int argc, char **argv);

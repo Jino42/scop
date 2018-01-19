@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/18 23:43:26 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/19 23:25:04 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,42 @@
 //VertexArrayObject : tableau de reference of VBO
 //ElementBufferObject :
 
-void		asset_set_buffers(t_asset *asset)
+void		model_render(t_model *model, t_matrix *view, t_matrix *projection)
+{
+	t_asset *asset;
+	t_matrix temp, mvp;
+
+	asset = model->asset;
+	asset->shader.use(&asset->shader);
+	temp = matrix_get_mult_matrix(&model->transform, view);
+	mvp = matrix_get_mult_matrix(&temp, projection);
+	glUniformMatrix4fv(
+			glGetUniformLocation(asset->shader.program, "MVP"),
+			1, GL_FALSE, &mvp.matrix[0][0]);
+
+	glBindVertexArray(asset->VAO);
+	glDrawElements(asset->type_draw, asset->nb_indices, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	glUseProgram(0);
+}
+
+bool		asset_texture(t_asset *asset, const char *texture_path)
+{
+	if (!import_texture(&asset->texture, texture_path))
+		return (false);
+	glGenTextures(1, &asset->textureID);
+	glBindTexture(GL_TEXTURE_2D, asset->textureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+								asset->texture.width,
+								asset->texture.height,
+								0, GL_RGBA, GL_UNSIGNED_BYTE,
+								asset->texture.texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return (true);
+}
+void		asset_buffers(t_asset *asset)
 {
 	glGenBuffers(1, &asset->EBO);
 	glGenBuffers(1, &asset->VBO);
@@ -31,6 +66,8 @@ void		asset_set_buffers(t_asset *asset)
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
 	glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
+	//glEnableVertexAttribArray(1);
 	//Add if more
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -64,7 +101,12 @@ t_asset	*asset_create(const char *path_obj)
 	printf("%d\n", asset->nb_vertices);
 	printf("%d\n", asset->nb_indices);
 	printf("%d\n", asset->nb_faces);
-	asset_set_buffers(asset);
+	asset_buffers(asset);
+	if (!asset_texture(asset, "img/prevo.img"))
+	{
+		ft_memdel((void *)&asset);
+		return (NULL);
+	}
 	return (asset);
 }
 
@@ -72,19 +114,16 @@ t_model	*model_create(const char *obj_path,
 						const char *shader_vert_path,
 						const char *shader_frag_path)
 {
-	t_model *model;
-	t_shader *shader;
+	t_model		*model;
 
-	if (!(shader = ft_memalloc(sizeof(t_shader))))
-		return (NULL);
 	if (!(model = ft_memalloc(sizeof(t_model))))
-		return (NULL);
-	if (!shader_construct(shader, shader_vert_path, shader_frag_path))
 		return (NULL);
 	if (!(model->asset = asset_create(obj_path)))
 		return (NULL);
-	model->asset->shader = shader;
+	if (!shader_construct(&model->asset->shader, shader_vert_path, shader_frag_path))
+		return (NULL);
 	model->transform = matrix_get_identity();
+	model->render = &model_render;
 	return (model);
 }
 
@@ -103,7 +142,7 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
 
-	t_matrix view, projection, temp, mvp;
+	t_matrix view, projection;
 
 	projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
 
@@ -118,18 +157,7 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 		view = matrix_view(&e->cam);
 
-		teapot->asset->shader->use(teapot->asset->shader);
-
-		temp = matrix_get_mult_matrix(&teapot->transform, &view);
-		mvp = matrix_get_mult_matrix(&temp, &projection);
-		glUniformMatrix4fv(
-				glGetUniformLocation(teapot->asset->shader->program, "MVP"),
-				1, GL_FALSE, &mvp.matrix[0][0]);
-
-		glBindVertexArray(teapot->asset->VAO);
-		glDrawElements(teapot->asset->type_draw, teapot->asset->nb_indices, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-		glUseProgram(0);
+		teapot->render(teapot, &view, &projection);
 
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();

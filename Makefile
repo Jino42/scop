@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/18 23:40:31 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/01/19 22:20:00 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC = main.c \
 	  shader_construct.c \
 	  glfw_init.c \
 	  tools.c \
+	  import_texture.c \
 	  matrix_view.c \
 	  matrix_projection.c \
 	  glfw_temp.c \

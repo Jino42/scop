@@ -1,0 +1,1 @@
+gcc main.c -I ./libft/includes/ -I includes/ -I libmlxji/includes -L libs/ -lft -lmlx -lmlxji -framework OpenGL -framework AppKit -framework Opencl -o prog
