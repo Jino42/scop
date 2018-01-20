@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 21:50:56 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 23:24:30 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdio.h>
+#include <stdlib.h>
 
-# define DEBUG 1
+# define DEBUG 0
+
+# define BUFFER_OBJ (2048 * 3)
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -76,6 +79,9 @@ typedef struct	s_asset
 	GLint		nb_v;
 	GLint		nb_vt;
 	GLint		nb_vn;
+	GLint		nb_indexed_v;
+	GLint		nb_indexed_vt;
+	GLint		nb_indexed_vn;
 	GLint		nb_faces;
 	GLint		nb_indices;
 }				t_asset;

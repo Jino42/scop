@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 22:12:42 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 23:23:30 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 bool	obj_pars(t_asset *asset, const char * path_obj)
 {
-	int		fd;
-	char	*line;
-	char	type[10];
-	int		index_v[4];
-	int		index_vt[4];
-	int		index_vn[4];
+	int			fd;
+	char		*line;
+	char		type[10];
+	int			index_v[4];
+	int			index_vt[4];
+	int			index_vn[4];
 	float		v[4];
 	float		vt[4];
 	float		vn[4];
@@ -32,14 +32,21 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 	if (!fd || fd < 0)
 		return (false);
 	line = NULL;
-	asset->v = ft_memalloc(sizeof(GLfloat) * 10000000);
-	asset->vt = ft_memalloc(sizeof(GLfloat) * 10000000);
-	asset->vn = ft_memalloc(sizeof(GLfloat) * 10000000);
-	asset->indexed_v = ft_memalloc(sizeof(GLfloat) * 10000000);
-	asset->indexed_vt = ft_memalloc(sizeof(GLfloat) * 10000000);
-	asset->indexed_vn = ft_memalloc(sizeof(GLfloat) * 10000000);
-	asset->indices = ft_memalloc(sizeof(GLushort) * 10000000);
+	asset->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	asset->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	asset->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	asset->indexed_v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	asset->indexed_vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	asset->indexed_vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	asset->indices = ft_memalloc(BUFFER_OBJ);
 	int j = 0;
+	uint32_t mem_len_indices = BUFFER_OBJ; (void)mem_len_indices;
+	uint32_t mem_len_indexed_v = BUFFER_OBJ; (void)mem_len_indexed_v;
+	uint32_t mem_len_indexed_vn = BUFFER_OBJ; (void)mem_len_indexed_vn;
+	uint32_t mem_len_indexed_vt = BUFFER_OBJ; (void)mem_len_indexed_vt;
+	uint32_t mem_len_v = BUFFER_OBJ; (void)mem_len_v;
+	uint32_t mem_len_vt = BUFFER_OBJ; (void)mem_len_vt;
+	uint32_t mem_len_vn = BUFFER_OBJ; (void)mem_len_vn;
 	while (get_next_line(fd, &line) == 1)
 	{
 		sscanf(line, "%s ", type);
@@ -127,17 +134,20 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 					asset->indexed_v[j * 3 + 0] = asset->v[(index_v[sommet] - 1) * 3 + 0];
 					asset->indexed_v[j * 3 + 1] = asset->v[(index_v[sommet] - 1) * 3 + 1];
 					asset->indexed_v[j * 3 + 2] = asset->v[(index_v[sommet] - 1) * 3 + 2];
+					asset->nb_indexed_v++;
 				}
 				if (asset->flag & SCOP_VT)
 				{
 					asset->indexed_vt[j * 2 + 0] = asset->vt[(index_vt[sommet] - 1) * 2 + 0];
 					asset->indexed_vt[j * 2 + 1] = asset->vt[(index_vt[sommet] - 1) * 2 + 1];
+					asset->nb_indexed_vt++;
 				}
 				if (asset->flag & SCOP_VN)
 				{
 					asset->indexed_vn[j * 3 + 0] = asset->vn[(index_vn[sommet] - 1) * 3 + 0];
 					asset->indexed_vn[j * 3 + 1] = asset->vn[(index_vn[sommet] - 1) * 3 + 1];
 					asset->indexed_vn[j * 3 + 2] = asset->vn[(index_vn[sommet] - 1) * 3 + 2];
+					asset->nb_indexed_vn++;
 				}
 				j++;
 				sommet++;
@@ -157,17 +167,20 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 						asset->indexed_v[j * 3 + 0] = asset->v[(index_v[sommet] - 1) * 3 + 0];
 						asset->indexed_v[j * 3 + 1] = asset->v[(index_v[sommet] - 1) * 3 + 1];
 						asset->indexed_v[j * 3 + 2] = asset->v[(index_v[sommet] - 1) * 3 + 2];
+						asset->nb_indexed_v++;
 					}
 					if (asset->flag & SCOP_VT)
 					{
 						asset->indexed_vt[j * 2 + 0] = asset->vt[(index_vt[sommet] - 1) * 2 + 0];
 						asset->indexed_vt[j * 2 + 1] = asset->vt[(index_vt[sommet] - 1) * 2 + 1];
+						asset->nb_indexed_vt++;
 					}
 					if (asset->flag & SCOP_VN)
 					{
 						asset->indexed_vn[j * 3 + 0] = asset->vn[(index_vn[sommet] - 1) * 3 + 0];
 						asset->indexed_vn[j * 3 + 1] = asset->vn[(index_vn[sommet] - 1) * 3 + 1];
 						asset->indexed_vn[j * 3 + 2] = asset->vn[(index_vn[sommet] - 1) * 3 + 2];
+						asset->nb_indexed_vn++;
 					}
 					j++;
 					sommet++;
@@ -181,6 +194,42 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 		else if (!strcmp("usemtl", type))
 			;
 		ft_strdel(&line);
+		if (j * sizeof(GLushort) >= mem_len_indices - 100)
+		{
+			mem_len_indices += BUFFER_OBJ;
+			asset->indices = realloc(asset->indices, mem_len_indices);
+		}
+		if (asset->nb_indexed_v * sizeof(GLfloat) * 3 >= mem_len_indexed_v - 100)
+		{
+			mem_len_indexed_v += BUFFER_OBJ;
+			asset->indexed_v = realloc(asset->indexed_v, mem_len_indexed_v);
+		}
+		if (asset->nb_indexed_vn * sizeof(GLfloat) * 3 >= mem_len_indexed_vn - 100)
+		{
+			mem_len_indexed_vn += BUFFER_OBJ;
+			asset->indexed_vn = realloc(asset->indexed_vn, mem_len_indexed_vn);
+		}
+		if (asset->nb_indexed_vt * sizeof(GLfloat) * 2 >= mem_len_indexed_vt - 100)
+		{
+			mem_len_indexed_vt += BUFFER_OBJ;
+			asset->indexed_vt = realloc(asset->indexed_vt, mem_len_indexed_vt);
+		}
+		if (asset->nb_v * sizeof(GLfloat) * 3 >= mem_len_v - 100)
+		{
+			mem_len_v += BUFFER_OBJ;
+			asset->v = realloc(asset->v, mem_len_v);
+		}
+		if (asset->nb_vt * sizeof(GLfloat) * 2 >= mem_len_vt - 100)
+		{
+			mem_len_vt += BUFFER_OBJ;
+			asset->vt = realloc(asset->vt, mem_len_vt);
+		}
+		if (asset->nb_vn * sizeof(GLfloat) * 3 >= mem_len_vn - 100)
+		{
+			mem_len_vn += BUFFER_OBJ;
+			asset->vn = realloc(asset->vn, mem_len_vn);
+		}
 	}
+	printf("Pars end\n");
 	return (true);
 }

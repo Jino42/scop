@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 20:49:28 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 23:47:45 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void		model_render(t_model *model, t_matrix *view, t_matrix *projection)
 
 	asset = model->asset;
 	asset->shader.use(&asset->shader);
+	model->transform.matrix[0][0] = 0.005;
+	model->transform.matrix[1][1] = 0.005;
+	model->transform.matrix[2][2] = 0.005;
 	temp = matrix_get_mult_matrix(&model->transform, view);
 	mvp = matrix_get_mult_matrix(&temp, projection);
 	glUniformMatrix4fv(
@@ -112,10 +115,6 @@ void		asset_buffers(t_asset *asset)
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, asset->EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * asset->nb_indices, asset->indices, GL_STATIC_DRAW);
-
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
-	//glEnableVertexAttribArray(1);
-	//Add if more
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
