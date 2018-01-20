@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/19 22:50:31 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 18:31:38 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,14 @@
 # include <stdint.h>
 # include <stdio.h>
 
+# define DEBUG 1
+
 # define WIDTH 1920
 # define HEIGHT 1080
+
+# define SCOP_V (1 << 1)
+# define SCOP_VT (1 << 2)
+# define SCOP_VN (1 << 3)
 
 #define MAX_SOURCE_SIZE 2000
 #define BUFFER_LOG 2048
@@ -51,14 +57,25 @@ typedef struct	s_asset
 	t_shader	shader;
 	//tex
 	GLuint		VBO;
+	GLuint		VNBO;
+	GLuint		VTBO;
 	GLuint		VAO;
 	GLuint		EBO;
 	GLuint		textureID;
-	GLfloat		*vertices;
-	GLuint		*indices;
 
 	GLenum		type_draw;
-	GLint		nb_vertices;
+	uint32_t	flag;
+
+	GLfloat		*v;
+	GLfloat		*vt;
+	GLfloat		*vn;
+	GLfloat		*indexed_v;
+	GLfloat		*indexed_vt;
+	GLfloat		*indexed_vn;
+	GLushort	*indices;
+	GLint		nb_v;
+	GLint		nb_vt;
+	GLint		nb_vn;
 	GLint		nb_faces;
 	GLint		nb_indices;
 }				t_asset;

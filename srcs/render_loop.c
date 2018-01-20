@@ -6,11 +6,16 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/19 23:25:04 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 19:05:57 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
+
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 //VertexsBufferObject : Vertex, Coordonates, Textures, -> RAM
 //VertexArrayObject : tableau de reference of VBO
@@ -30,7 +35,7 @@ void		model_render(t_model *model, t_matrix *view, t_matrix *projection)
 			1, GL_FALSE, &mvp.matrix[0][0]);
 
 	glBindVertexArray(asset->VAO);
-	glDrawElements(asset->type_draw, asset->nb_indices, GL_UNSIGNED_INT, 0);
+	glDrawElements(asset->type_draw, asset->nb_indices, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 	glUseProgram(0);
 }
@@ -53,19 +58,60 @@ bool		asset_texture(t_asset *asset, const char *texture_path)
 }
 void		asset_buffers(t_asset *asset)
 {
+
+	int i = 0;
+	while (i < asset->nb_indices)
+	{
+		printf("%hi\n", asset->indices[i]);
+		printf("%.2f %.2f %.2f\n", asset->indexed_v[i*3], asset->indexed_v[i*3+1], asset->indexed_v[i*3+2]);
+		i++;
+	}
 	glGenBuffers(1, &asset->EBO);
-	glGenBuffers(1, &asset->VBO);
 	glGenVertexArrays(1, &asset->VAO);
 
 	glBindVertexArray(asset->VAO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, asset->VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_vertices * 3, asset->vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, asset->EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * asset->nb_indices, asset->indices, GL_STATIC_DRAW);
+	if (asset->flag & SCOP_V)
+	{
+		ft_printf("Set buffer : V\n");
+		glGenBuffers(1, &asset->VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, asset->VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 3, asset->indexed_v, GL_STATIC_DRAW);
+		glVertexAttribPointer(
+			0,                  // attribute
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+		);
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	if (asset->flag & SCOP_VN)
+	{
+		ft_printf("Set buffer : VN\n");
+		glGenBuffers(1, &asset->VNBO);
+		glBindBuffer(GL_ARRAY_BUFFER, asset->VNBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 3, asset->indexed_vn, GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	if (asset->flag & SCOP_VT)
+	{
+		ft_printf("Set buffer : VT\n");
+		glGenBuffers(1, &asset->VTBO);
+		glBindBuffer(GL_ARRAY_BUFFER, asset->VTBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 3, asset->indexed_vt, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	}
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
-	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, asset->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * asset->nb_indices, asset->indices, GL_STATIC_DRAW);
+
 	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
 	//glEnableVertexAttribArray(1);
 	//Add if more
@@ -86,21 +132,47 @@ t_asset	*asset_create(const char *path_obj)
 		ft_memdel((void *)&asset);
 		return (NULL);
 	}
-	int i = 0;
-	while (i < asset->nb_vertices * 3)
+	if (DEBUG)
 	{
-		printf("v %f %f %f\n", asset->vertices[i], asset->vertices[i + 1], asset->vertices[i + 2]);
-		i += 3;
+		int fd = open("osef", O_RDWR | O_TRUNC);
+		int i = 0;
+		dprintf(fd, "cc");
+		while (i < asset->nb_v)
+		{
+			dprintf(fd, "v %f %f %f\n", asset->v[i * 3], asset->v[i * 3 + 1], asset->v[i * 3 + 2]);
+			i++;
+		}
+		i = 0;
+		while (i < asset->nb_vt)
+		{
+			dprintf(fd, "vt %f %f\n", asset->vt[i * 2], asset->vt[i * 2 + 1]);
+			i++;
+		}
+		i = 0;
+		while (i < asset->nb_vn)
+		{
+			dprintf(fd, "vn %f %f %f\n", asset->vn[i * 3], asset->vn[i * 3 + 1], asset->vn[i * 3 + 2]);
+			i++;
+		}
+		i = 0;
+		while (i < asset->nb_faces)
+		{
+			dprintf(fd, "f %i/%i/%i %i/%i/%i %i/%i/%i\n",
+							asset->indices[i*9+0] + 1,
+							asset->indices[i*9+1] + 1,
+							asset->indices[i*9+2] + 1,
+							asset->indices[i*9+3] + 1,
+							asset->indices[i*9+4] + 1,
+							asset->indices[i*9+5] + 1,
+							asset->indices[i*9+6] + 1,
+							asset->indices[i*9+7] + 1,
+							asset->indices[i*9+8] + 1);
+			i++;
+		}
+		dprintf(fd, "%d\n", asset->nb_v);
+		dprintf(fd, "%d\n", asset->nb_indices);
+		dprintf(fd, "%d\n", asset->nb_faces);
 	}
-	i = 0;
-	while (i < asset->nb_faces)
-	{
-		printf("f %i %i %i\n", asset->indices[i*3+0], asset->indices[i*3+1], asset->indices[i*3+2]);
-		i++;
-	}
-	printf("%d\n", asset->nb_vertices);
-	printf("%d\n", asset->nb_indices);
-	printf("%d\n", asset->nb_faces);
 	asset_buffers(asset);
 	if (!asset_texture(asset, "img/prevo.img"))
 	{
