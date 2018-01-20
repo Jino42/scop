@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 19:09:18 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 19:12:39 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,30 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 			{
 				ret = sscanf(line, "%s %i//%i %i//%i %i//%i\n", type, &tabi[0], &tabi[1], &tabi[2], &tabi[3], &tabi[4], &tabi[5]);
 				asset->indices[j] = j;
-				asset->indexed_v[j] = asset->v[tabi[0] - 1];
-				asset->indexed_vn[j] = asset->vn[tabi[1] - 1];
+				asset->indexed_v[j*3+0] = asset->v[(tabi[0] - 1)*3];
+				asset->indexed_v[j*3+1] = asset->v[(tabi[0] - 1)*3 + 1];
+				asset->indexed_v[j*3+2] = asset->v[(tabi[0] - 1)*3 + 2];
+				asset->indexed_vn[j*3+0] = asset->vn[(tabi[1] - 1)*3];
+				asset->indexed_vn[j*3+1] = asset->vn[(tabi[1] - 1)*3 + 1];
+				asset->indexed_vn[j*3+2] = asset->vn[(tabi[1] - 1)*3 + 2];
 				j++;
 				//asset->indices[j++] = tabi[1] - 1;
 				asset->indices[j] = j;
-				asset->indexed_v[j] = asset->v[tabi[2] - 1];
-				asset->indexed_vn[j] = asset->vn[tabi[3] - 1];
+				asset->indexed_v[j*3+0] = asset->v[(tabi[2] - 1)*3];
+				asset->indexed_v[j*3+1] = asset->v[(tabi[2] - 1)*3 + 1];
+				asset->indexed_v[j*3+2] = asset->v[(tabi[2] - 1)*3 + 2];
+				asset->indexed_vn[j*3+0] = asset->vn[(tabi[3] - 1)*3];
+				asset->indexed_vn[j*3+1] = asset->vn[(tabi[3] - 1)*3 + 1];
+				asset->indexed_vn[j*3+2] = asset->vn[(tabi[3] - 1)*3 + 2];
 				j++;
 				//asset->indices[j++] = tabi[3] - 1;
 				asset->indices[j] = j;
-				asset->indexed_v[j] = asset->v[tabi[4] - 1];
-				asset->indexed_vn[j] = asset->vn[tabi[5] - 1];
+				asset->indexed_v[j*3+0] = asset->v[(tabi[4] - 1)*3];
+				asset->indexed_v[j*3+1] = asset->v[(tabi[4] - 1)*3 + 1];
+				asset->indexed_v[j*3+2] = asset->v[(tabi[4] - 1)*3 + 2];
+				asset->indexed_vn[j*3+0] = asset->vn[(tabi[5] - 1)*3];
+				asset->indexed_vn[j*3+1] = asset->vn[(tabi[5] - 1)*3 + 1];
+				asset->indexed_vn[j*3+2] = asset->vn[(tabi[5] - 1)*3 + 2];
 				j++;
 				//asset->indices[j++] = tabi[5] - 1;
 				asset->nb_indices += 3;
