@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 19:05:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 20:49:28 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ bool		asset_texture(t_asset *asset, const char *texture_path)
 }
 void		asset_buffers(t_asset *asset)
 {
-
+/*
 	int i = 0;
 	while (i < asset->nb_indices)
 	{
 		printf("%hi\n", asset->indices[i]);
 		printf("%.2f %.2f %.2f\n", asset->indexed_v[i*3], asset->indexed_v[i*3+1], asset->indexed_v[i*3+2]);
 		i++;
-	}
+	}*/
 	glGenBuffers(1, &asset->EBO);
 	glGenVertexArrays(1, &asset->VAO);
 
@@ -103,9 +103,10 @@ void		asset_buffers(t_asset *asset)
 		ft_printf("Set buffer : VT\n");
 		glGenBuffers(1, &asset->VTBO);
 		glBindBuffer(GL_ARRAY_BUFFER, asset->VTBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 3, asset->indexed_vt, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(2);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 2, asset->indexed_vt, GL_STATIC_DRAW);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 
