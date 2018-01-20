@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 18:31:38 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 21:50:56 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct	s_asset
 {
 	t_texture	texture;
 	t_shader	shader;
-	//tex
+
 	GLuint		VBO;
 	GLuint		VNBO;
 	GLuint		VTBO;

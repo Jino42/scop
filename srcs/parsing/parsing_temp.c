@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 20:50:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/20 22:12:42 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 	int		fd;
 	char	*line;
 	char	type[10];
-	float	tab[4];
-	int		tabi[20];
+	int		index_v[4];
+	int		index_vt[4];
+	int		index_vn[4];
+	float		v[4];
+	float		vt[4];
+	float		vn[4];
 
 	fd = open(path_obj, O_RDONLY);
 	if (!fd || fd < 0)
@@ -44,30 +48,30 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 		else if (!strcmp("vn", type))
 		{
 			asset->flag |= SCOP_VN;
-			if (sscanf(line, "%s %f %f %f\n", type, &tab[0], &tab[1], &tab[2]) != 4)
-				return (true);
-			asset->vn[3 * asset->nb_vn + 0] = tab[0];
-			asset->vn[3 * asset->nb_vn + 1] = tab[1];
-			asset->vn[3 * asset->nb_vn + 2] = tab[2];
+			if (sscanf(line, "%s %f %f %f\n", type, &v[0], &v[1], &v[2]) != 4)
+				return (false);
+			asset->vn[3 * asset->nb_vn + 0] = v[0];
+			asset->vn[3 * asset->nb_vn + 1] = v[1];
+			asset->vn[3 * asset->nb_vn + 2] = v[2];
 			asset->nb_vn++;
 		}
 		else if (!strcmp("vt", type))
 		{
 			asset->flag |= SCOP_VT;
-			if (sscanf(line, "%s %f %f\n", type, &tab[0], &tab[1]) != 3)
-				return (true);
-			asset->vt[2 * asset->nb_vt + 0] = tab[0];
-			asset->vt[2 * asset->nb_vt + 1] = tab[1];
+			if (sscanf(line, "%s %f %f\n", type, &vt[0], &vt[1]) != 3)
+				return (false);
+			asset->vt[2 * asset->nb_vt + 0] = vt[0];
+			asset->vt[2 * asset->nb_vt + 1] = vt[1];
 			asset->nb_vt++;
 		}
 		else if (!strcmp("v", type))
 		{
 			asset->flag |= SCOP_V;
-			if (sscanf(line, "%s %f %f %f\n", type, &tab[0], &tab[1], &tab[2]) != 4)
-				return (true);
-			asset->v[3 * asset->nb_v + 0] = tab[0];
-			asset->v[3 * asset->nb_v + 1] = tab[1];
-			asset->v[3 * asset->nb_v + 2] = tab[2];
+			if (sscanf(line, "%s %f %f %f\n", type, &vn[0], &vn[1], &vn[2]) != 4)
+				return (false);
+			asset->v[3 * asset->nb_v + 0] = vn[0];
+			asset->v[3 * asset->nb_v + 1] = vn[1];
+			asset->v[3 * asset->nb_v + 2] = vn[2];
 			asset->nb_v++;
 		}
 		else if (!strcmp("f", type))
@@ -75,93 +79,102 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 			int ret = 0;
 			if (asset->flag == SCOP_V)
 			{
-				ret = sscanf(line, "%s %i %i %i\n", type, &tabi[0], &tabi[1], &tabi[2]);
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[0] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[0] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[0] - 1)*3 + 2];
-				j++;
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[1] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[1] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[1] - 1)*3 + 2];
-				j++;
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[2] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[2] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[2] - 1)*3 + 2];
-				j++;
+				ret = sscanf(line, "%s %i %i %i %i\n", type, &index_v[0], &index_v[1], &index_v[2], &index_v[3]);
+				if (ret != 4 && ret != 7)
+					return (false);
+				ret = (ret - 1);
 			}
 			if (asset->flag == (SCOP_V | SCOP_VN))
 			{
-				ret = sscanf(line, "%s %i//%i %i//%i %i//%i\n", type, &tabi[0], &tabi[1], &tabi[2], &tabi[3], &tabi[4], &tabi[5]);
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[0] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[0] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[0] - 1)*3 + 2];
-				asset->indexed_vn[j*3+0] = asset->vn[(tabi[1] - 1)*3];
-				asset->indexed_vn[j*3+1] = asset->vn[(tabi[1] - 1)*3 + 1];
-				asset->indexed_vn[j*3+2] = asset->vn[(tabi[1] - 1)*3 + 2];
-				j++;
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[2] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[2] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[2] - 1)*3 + 2];
-				asset->indexed_vn[j*3+0] = asset->vn[(tabi[3] - 1)*3];
-				asset->indexed_vn[j*3+1] = asset->vn[(tabi[3] - 1)*3 + 1];
-				asset->indexed_vn[j*3+2] = asset->vn[(tabi[3] - 1)*3 + 2];
-				j++;
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[4] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[4] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[4] - 1)*3 + 2];
-				asset->indexed_vn[j*3+0] = asset->vn[(tabi[5] - 1)*3];
-				asset->indexed_vn[j*3+1] = asset->vn[(tabi[5] - 1)*3 + 1];
-				asset->indexed_vn[j*3+2] = asset->vn[(tabi[5] - 1)*3 + 2];
-				j++;
+				ret = sscanf(line, "%s %i//%i %i//%i %i//%i %i//%i\n", type,
+													&index_v[0], &index_vn[0],
+													&index_v[1], &index_vn[1],
+													&index_v[2], &index_vn[2],
+													&index_v[3], &index_vn[3]);
+				if (ret != 7 && ret != 9)
+					return (false);
+				ret = (ret - 1) >> 1;
+			}
+			if (asset->flag == (SCOP_V | SCOP_VT))
+			{
+				ret = sscanf(line, "%s %i/%i %i/%i %i/%i %i/%i\n", type,
+													&index_v[0], &index_vt[0],
+													&index_v[1], &index_vt[1],
+													&index_v[2], &index_vt[2],
+													&index_v[3], &index_vt[3]);
+				if (ret != 7 && ret != 9)
+					return (false);
+				ret = (ret - 1) >> 1;
+				ft_printf("Ret : [%i]\n", ret);
 			}
 			if (asset->flag == (SCOP_V | SCOP_VN | SCOP_VT))
 			{
-				ret = sscanf(line, "%s %i/%i/%i %i/%i/%i %i/%i/%i\n", type, &tabi[0], &tabi[1], &tabi[2], &tabi[3], &tabi[4], &tabi[5], &tabi[6], &tabi[7], &tabi[8]);
+				ret = sscanf(line, "%s %i/%i/%i %i/%i/%i %i/%i/%i %i/%i/%i\n", type,
+													&index_v[0], &index_vt[0], &index_vn[0],
+													&index_v[1], &index_vt[1], &index_vn[1],
+													&index_v[2], &index_vt[2], &index_vn[2],
+													&index_v[3], &index_vt[3], &index_vn[3]);
+				if (ret != 10 && ret != 13)
+					return (false);
+				ret = (ret - 1) >> 1;
+			}
+			int sommet = 0;
+			while (sommet < 3)
+			{
 				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[0] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[0] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[0] - 1)*3 + 2];
-
-				asset->indexed_vt[j*2+0] = asset->vt[(tabi[1] - 1)*2];
-				asset->indexed_vt[j*2+1] = asset->vt[(tabi[1] - 1)*2 + 1];
-
-				asset->indexed_vn[j*3+0] = asset->vn[(tabi[2] - 1)*3];
-				asset->indexed_vn[j*3+1] = asset->vn[(tabi[2] - 1)*3 + 1];
-				asset->indexed_vn[j*3+2] = asset->vn[(tabi[2] - 1)*3 + 2];
+				if (asset->flag & SCOP_V)
+				{
+					asset->indexed_v[j * 3 + 0] = asset->v[(index_v[sommet] - 1) * 3 + 0];
+					asset->indexed_v[j * 3 + 1] = asset->v[(index_v[sommet] - 1) * 3 + 1];
+					asset->indexed_v[j * 3 + 2] = asset->v[(index_v[sommet] - 1) * 3 + 2];
+				}
+				if (asset->flag & SCOP_VT)
+				{
+					asset->indexed_vt[j * 2 + 0] = asset->vt[(index_vt[sommet] - 1) * 2 + 0];
+					asset->indexed_vt[j * 2 + 1] = asset->vt[(index_vt[sommet] - 1) * 2 + 1];
+				}
+				if (asset->flag & SCOP_VN)
+				{
+					asset->indexed_vn[j * 3 + 0] = asset->vn[(index_vn[sommet] - 1) * 3 + 0];
+					asset->indexed_vn[j * 3 + 1] = asset->vn[(index_vn[sommet] - 1) * 3 + 1];
+					asset->indexed_vn[j * 3 + 2] = asset->vn[(index_vn[sommet] - 1) * 3 + 2];
+				}
 				j++;
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[3] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[3] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[3] - 1)*3 + 2];
-
-				asset->indexed_vt[j*2+0] = asset->vt[(tabi[4] - 1)*2];
-				asset->indexed_vt[j*2+1] = asset->vt[(tabi[4] - 1)*2 + 1];
-
-				asset->indexed_vn[j*3+0] = asset->vn[(tabi[5] - 1)*3];
-				asset->indexed_vn[j*3+1] = asset->vn[(tabi[5] - 1)*3 + 1];
-				asset->indexed_vn[j*3+2] = asset->vn[(tabi[5] - 1)*3 + 2];
-				j++;
-				asset->indices[j] = j;
-				asset->indexed_v[j*3+0] = asset->v[(tabi[6] - 1)*3];
-				asset->indexed_v[j*3+1] = asset->v[(tabi[6] - 1)*3 + 1];
-				asset->indexed_v[j*3+2] = asset->v[(tabi[6] - 1)*3 + 2];
-
-				asset->indexed_vt[j*2+0] = asset->vt[(tabi[7] - 1)*2];
-				asset->indexed_vt[j*2+1] = asset->vt[(tabi[7] - 1)*2 + 1];
-
-				asset->indexed_vn[j*3+0] = asset->vn[(tabi[8] - 1)*3];
-				asset->indexed_vn[j*3+1] = asset->vn[(tabi[8] - 1)*3 + 1];
-				asset->indexed_vn[j*3+2] = asset->vn[(tabi[8] - 1)*3 + 2];
-				j++;
+				sommet++;
 			}
 			asset->nb_indices += 3;
 			asset->nb_faces += 1;
+			if (ret == 4)
+			{
+				sommet = 0;
+				while (sommet < 4)
+				{
+					if (sommet == 1)
+						sommet++;
+					asset->indices[j] = j;
+					if (asset->flag & SCOP_V)
+					{
+						asset->indexed_v[j * 3 + 0] = asset->v[(index_v[sommet] - 1) * 3 + 0];
+						asset->indexed_v[j * 3 + 1] = asset->v[(index_v[sommet] - 1) * 3 + 1];
+						asset->indexed_v[j * 3 + 2] = asset->v[(index_v[sommet] - 1) * 3 + 2];
+					}
+					if (asset->flag & SCOP_VT)
+					{
+						asset->indexed_vt[j * 2 + 0] = asset->vt[(index_vt[sommet] - 1) * 2 + 0];
+						asset->indexed_vt[j * 2 + 1] = asset->vt[(index_vt[sommet] - 1) * 2 + 1];
+					}
+					if (asset->flag & SCOP_VN)
+					{
+						asset->indexed_vn[j * 3 + 0] = asset->vn[(index_vn[sommet] - 1) * 3 + 0];
+						asset->indexed_vn[j * 3 + 1] = asset->vn[(index_vn[sommet] - 1) * 3 + 1];
+						asset->indexed_vn[j * 3 + 2] = asset->vn[(index_vn[sommet] - 1) * 3 + 2];
+					}
+					j++;
+					sommet++;
+				}
+				asset->nb_indices += 3;
+				asset->nb_faces += 1;
+			}
 		}
 		else if(!strcmp("mtllib", type))
 			;
