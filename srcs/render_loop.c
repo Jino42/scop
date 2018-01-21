@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 14:58:59 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 19:39:51 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void		model_render(t_model *model, t_matrix *view, t_matrix *projection)
 			1, GL_FALSE, &mvp.matrix[0][0]);
 
 	glBindVertexArray(asset->VAO);
-	glDrawElements(asset->type_draw, asset->nb_indices, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, asset->nb_indices, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 	glUseProgram(0);
 }
@@ -79,7 +79,7 @@ void		asset_buffers(t_asset *asset)
 		ft_printf("Set buffer : V\n");
 		glGenBuffers(1, &asset->VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, asset->VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 3, asset->indexed_v, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (asset->nb_indices) * 3, asset->indexed_v, GL_STATIC_DRAW);
 		glVertexAttribPointer(
 			0,                  // attribute
 			3,                  // size
@@ -96,7 +96,7 @@ void		asset_buffers(t_asset *asset)
 		ft_printf("Set buffer : VN\n");
 		glGenBuffers(1, &asset->VNBO);
 		glBindBuffer(GL_ARRAY_BUFFER, asset->VNBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 3, asset->indexed_vn, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (asset->nb_indices) * 3, asset->indexed_vn, GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glEnableVertexAttribArray(1);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -106,7 +106,7 @@ void		asset_buffers(t_asset *asset)
 		ft_printf("Set buffer : VT\n");
 		glGenBuffers(1, &asset->VTBO);
 		glBindBuffer(GL_ARRAY_BUFFER, asset->VTBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * asset->nb_indices * 2, asset->indexed_vt, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (asset->nb_indices) * 2, asset->indexed_vt, GL_STATIC_DRAW);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -126,7 +126,7 @@ t_asset	*asset_create(const char *path_obj)
 
 	if (!(asset = ft_memalloc(sizeof(t_asset))))
 		return (NULL);
-	asset->type_draw = GL_LINES;
+	asset->type_draw = GL_POINTS;
 	if (!obj_pars(asset, path_obj))
 	{
 		ft_memdel((void *)&asset);
@@ -155,19 +155,13 @@ t_asset	*asset_create(const char *path_obj)
 			i++;
 		}
 		i = 0;
-		while (i < asset->nb_faces)
+		while (i < asset->nb_indices)
 		{
-			dprintf(fd, "f %i/%i/%i %i/%i/%i %i/%i/%i\n",
-							asset->indices[i*9+0] + 1,
-							asset->indices[i*9+1] + 1,
-							asset->indices[i*9+2] + 1,
-							asset->indices[i*9+3] + 1,
-							asset->indices[i*9+4] + 1,
-							asset->indices[i*9+5] + 1,
-							asset->indices[i*9+6] + 1,
-							asset->indices[i*9+7] + 1,
-							asset->indices[i*9+8] + 1);
-			i++;
+			dprintf(fd, "v %f %f %f\n",
+			asset->indexed_v[i],
+			asset->indexed_v[i+1],
+			asset->indexed_v[i+2]);
+			i+=3;
 		}
 		dprintf(fd, "%d\n", asset->nb_v);
 		dprintf(fd, "%d\n", asset->nb_indices);
@@ -211,8 +205,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 							"shader/basic.frag")))
 		return (end_of_program(e, "Erreur lors de la création de l'objet", 0));
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
+	glPointSize(5.0);
 
 	t_matrix view, projection;
 
@@ -228,7 +222,10 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 		event_cam(e, &e->cam, &e->glfw);
 
 		if (glfwGetKey(glfw->window, GLFW_KEY_F))
-			(teapot->asset->type_draw == GL_TRIANGLES) ? (teapot->asset->type_draw = GL_LINES) : (teapot->asset->type_draw = GL_TRIANGLES);
+		{
+			(teapot->asset->type_draw == GL_FILL) ? (teapot->asset->type_draw = GL_LINE) : (teapot->asset->type_draw = GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, teapot->asset->type_draw);
+		}
 		view = matrix_view(&e->cam);
 
 		teapot->render(teapot, &view, &projection);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 14:55:06 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 19:42:58 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 			int ret = 0;
 			if (asset->flag == SCOP_V)
 			{
-				ret = sscanf(line, "%s %i %i %i %i\n", type, &index_v[0], &index_v[1], &index_v[2], &index_v[3]);
-				if (ret != 4 && ret != 7)
+				ret = sscanf(line, "%s %i %i %i\n", type, &index_v[0], &index_v[1], &index_v[2]);
+				if (ret != 4)
 					return (false);
 				ret = (ret - 1);
 			}
@@ -112,7 +112,7 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 													&index_v[3], &index_vt[3]);
 				if (ret != 7 && ret != 9)
 					return (false);
-				ret = (ret - 1) / 3;
+				ret = (ret - 1) >> 1;
 				ft_printf("Ret : [%i]\n", ret);
 			}
 			if (asset->flag == (SCOP_V | SCOP_VN | SCOP_VT))
@@ -194,6 +194,11 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 			;
 		else if (!strcmp("usemtl", type))
 			;
+		else if (!strcmp("o", type))
+		{
+			ft_printf("Cet object contient des groups\n");
+			return (false);
+		}
 		ft_strdel(&line);/*
 		if (j * sizeof(GLushort) >= mem_len_indices)
 		{
