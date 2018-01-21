@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 18:07:07 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 19:51:57 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define DEBUG 0
 
-# define BUFFER_OBJ (2048 * 3)
+# define BUFFER_OBJ (2048)
 
 # define WIDTH 1920
 # define HEIGHT 1080

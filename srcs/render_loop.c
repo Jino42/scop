@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 19:39:51 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 19:59:40 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,6 @@ bool		asset_texture(t_asset *asset, const char *texture_path)
 }
 void		asset_buffers(t_asset *asset)
 {
-	/*
-	int i = 0;
-	while (i < asset->nb_indices)
-	{
-		printf("%hi\n", asset->indices[i]);
-		printf("%.2f %.2f %.2f\n", asset->indexed_v[i*3], asset->indexed_v[i*3+1], asset->indexed_v[i*3+2]);
-		i++;
-	}*/
 	glGenBuffers(1, &asset->EBO);
 	glGenVertexArrays(1, &asset->VAO);
 
