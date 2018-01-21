@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 23:47:45 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 14:58:59 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool		asset_texture(t_asset *asset, const char *texture_path)
 }
 void		asset_buffers(t_asset *asset)
 {
-/*
+	/*
 	int i = 0;
 	while (i < asset->nb_indices)
 	{
@@ -126,7 +126,7 @@ t_asset	*asset_create(const char *path_obj)
 
 	if (!(asset = ft_memalloc(sizeof(t_asset))))
 		return (NULL);
-	asset->type_draw = GL_TRIANGLES;
+	asset->type_draw = GL_LINES;
 	if (!obj_pars(asset, path_obj))
 	{
 		ft_memdel((void *)&asset);
@@ -227,6 +227,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		event_cam(e, &e->cam, &e->glfw);
 
+		if (glfwGetKey(glfw->window, GLFW_KEY_F))
+			(teapot->asset->type_draw == GL_TRIANGLES) ? (teapot->asset->type_draw = GL_LINES) : (teapot->asset->type_draw = GL_TRIANGLES);
 		view = matrix_view(&e->cam);
 
 		teapot->render(teapot, &view, &projection);

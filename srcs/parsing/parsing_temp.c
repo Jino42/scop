@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 00:01:31 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 14:55:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 	asset->indexed_v = ft_memalloc(sizeof(GLfloat) * 10000000);
 	asset->indexed_vt = ft_memalloc(sizeof(GLfloat) * 10000000);
 	asset->indexed_vn = ft_memalloc(sizeof(GLfloat) * 10000000);
-	asset->indices = ft_memalloc(100000000); ///////////////////////////////////////////////////
+	asset->indices = ft_memalloc(10000000); ///////////////////////////////////////////////////
 	///////////////////////////SIZEOF ? TES SUR ?
 	int j = 0;
 	uint32_t mem_len_indices = BUFFER_OBJ; (void)mem_len_indices;
@@ -112,7 +112,7 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 													&index_v[3], &index_vt[3]);
 				if (ret != 7 && ret != 9)
 					return (false);
-				ret = (ret - 1) >> 1;
+				ret = (ret - 1) / 3;
 				ft_printf("Ret : [%i]\n", ret);
 			}
 			if (asset->flag == (SCOP_V | SCOP_VN | SCOP_VT))
@@ -124,7 +124,7 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 													&index_v[3], &index_vt[3], &index_vn[3]);
 				if (ret != 10 && ret != 13)
 					return (false);
-				ret = (ret - 1) >> 1;
+				ret = (ret - 1) >> 2;
 			}
 			int sommet = 0;
 			while (sommet < 3)
