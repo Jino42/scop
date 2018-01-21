@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 20:00:06 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 21:16:35 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-bool	obj_pars(t_asset *asset, const char * path_obj)
+bool	obj_pars(t_mesh *mesh, const char * path_obj)
 {
 	int			fd;
 	char		*line;
@@ -32,13 +32,13 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 	if (!fd || fd < 0)
 		return (false);
 	line = NULL;
-	asset->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	asset->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	asset->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	asset->indexed_v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	asset->indexed_vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	asset->indexed_vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	asset->indices = ft_memalloc(sizeof(GLushort) * BUFFER_OBJ);
+	mesh->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indexed_v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indexed_vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indexed_vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indices = ft_memalloc(sizeof(GLushort) * BUFFER_OBJ);
 	int j = 0;
 	uint32_t mem_len_indices = BUFFER_OBJ * sizeof(GLushort); (void)mem_len_indices;
 	uint32_t mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat); (void)mem_len_indexed_v;
@@ -54,44 +54,44 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 			;
 		else if (!strcmp("vn", type))
 		{
-			asset->flag |= SCOP_VN;
+			mesh->flag |= SCOP_VN;
 			if (sscanf(line, "%s %f %f %f\n", type, &v[0], &v[1], &v[2]) != 4)
 				return (false);
-			asset->vn[3 * asset->nb_vn + 0] = v[0];
-			asset->vn[3 * asset->nb_vn + 1] = v[1];
-			asset->vn[3 * asset->nb_vn + 2] = v[2];
-			asset->nb_vn++;
+			mesh->vn[3 * mesh->nb_vn + 0] = v[0];
+			mesh->vn[3 * mesh->nb_vn + 1] = v[1];
+			mesh->vn[3 * mesh->nb_vn + 2] = v[2];
+			mesh->nb_vn++;
 		}
 		else if (!strcmp("vt", type))
 		{
-			asset->flag |= SCOP_VT;
+			mesh->flag |= SCOP_VT;
 			if (sscanf(line, "%s %f %f\n", type, &vt[0], &vt[1]) != 3)
 				return (false);
-			asset->vt[2 * asset->nb_vt + 0] = vt[0];
-			asset->vt[2 * asset->nb_vt + 1] = vt[1];
-			asset->nb_vt++;
+			mesh->vt[2 * mesh->nb_vt + 0] = vt[0];
+			mesh->vt[2 * mesh->nb_vt + 1] = vt[1];
+			mesh->nb_vt++;
 		}
 		else if (!strcmp("v", type))
 		{
-			asset->flag |= SCOP_V;
+			mesh->flag |= SCOP_V;
 			if (sscanf(line, "%s %f %f %f\n", type, &vn[0], &vn[1], &vn[2]) != 4)
 				return (false);
-			asset->v[3 * asset->nb_v + 0] = vn[0];
-			asset->v[3 * asset->nb_v + 1] = vn[1];
-			asset->v[3 * asset->nb_v + 2] = vn[2];
-			asset->nb_v++;
+			mesh->v[3 * mesh->nb_v + 0] = vn[0];
+			mesh->v[3 * mesh->nb_v + 1] = vn[1];
+			mesh->v[3 * mesh->nb_v + 2] = vn[2];
+			mesh->nb_v++;
 		}
 		else if (!strcmp("f", type))
 		{
 			int ret = 0;
-			if (asset->flag == SCOP_V)
+			if (mesh->flag == SCOP_V)
 			{
 				ret = sscanf(line, "%s %i %i %i\n", type, &index_v[0], &index_v[1], &index_v[2]);
 				if (ret != 4)
 					return (false);
 				ret = (ret - 1);
 			}
-			if (asset->flag == (SCOP_V | SCOP_VN))
+			if (mesh->flag == (SCOP_V | SCOP_VN))
 			{
 				ret = sscanf(line, "%s %i//%i %i//%i %i//%i %i//%i\n", type,
 													&index_v[0], &index_vn[0],
@@ -102,7 +102,7 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 					return (false);
 				ret = (ret - 1) >> 1;
 			}
-			if (asset->flag == (SCOP_V | SCOP_VT))
+			if (mesh->flag == (SCOP_V | SCOP_VT))
 			{
 				ret = sscanf(line, "%s %i/%i %i/%i %i/%i %i/%i\n", type,
 													&index_v[0], &index_vt[0],
@@ -114,7 +114,7 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 				ret = (ret - 1) >> 1;
 				ft_printf("Ret : [%i]\n", ret);
 			}
-			if (asset->flag == (SCOP_V | SCOP_VN | SCOP_VT))
+			if (mesh->flag == (SCOP_V | SCOP_VN | SCOP_VT))
 			{
 				ret = sscanf(line, "%s %i/%i/%i %i/%i/%i %i/%i/%i %i/%i/%i\n", type,
 													&index_v[0], &index_vt[0], &index_vn[0],
@@ -128,32 +128,32 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 			int sommet = 0;
 			while (sommet < 3)
 			{
-				asset->indices[j] = j;
-				if (asset->flag & SCOP_V)
+				mesh->indices[j] = j;
+				if (mesh->flag & SCOP_V)
 				{
-					asset->indexed_v[j * 3 + 0] = asset->v[(index_v[sommet] - 1) * 3 + 0];
-					asset->indexed_v[j * 3 + 1] = asset->v[(index_v[sommet] - 1) * 3 + 1];
-					asset->indexed_v[j * 3 + 2] = asset->v[(index_v[sommet] - 1) * 3 + 2];
-					asset->nb_indexed_v++;
+					mesh->indexed_v[j * 3 + 0] = mesh->v[(index_v[sommet] - 1) * 3 + 0];
+					mesh->indexed_v[j * 3 + 1] = mesh->v[(index_v[sommet] - 1) * 3 + 1];
+					mesh->indexed_v[j * 3 + 2] = mesh->v[(index_v[sommet] - 1) * 3 + 2];
+					mesh->nb_indexed_v++;
 				}
-				if (asset->flag & SCOP_VT)
+				if (mesh->flag & SCOP_VT)
 				{
-					asset->indexed_vt[j * 2 + 0] = asset->vt[(index_vt[sommet] - 1) * 2 + 0];
-					asset->indexed_vt[j * 2 + 1] = asset->vt[(index_vt[sommet] - 1) * 2 + 1];
-					asset->nb_indexed_vt++;
+					mesh->indexed_vt[j * 2 + 0] = mesh->vt[(index_vt[sommet] - 1) * 2 + 0];
+					mesh->indexed_vt[j * 2 + 1] = mesh->vt[(index_vt[sommet] - 1) * 2 + 1];
+					mesh->nb_indexed_vt++;
 				}
-				if (asset->flag & SCOP_VN)
+				if (mesh->flag & SCOP_VN)
 				{
-					asset->indexed_vn[j * 3 + 0] = asset->vn[(index_vn[sommet] - 1) * 3 + 0];
-					asset->indexed_vn[j * 3 + 1] = asset->vn[(index_vn[sommet] - 1) * 3 + 1];
-					asset->indexed_vn[j * 3 + 2] = asset->vn[(index_vn[sommet] - 1) * 3 + 2];
-					asset->nb_indexed_vn++;
+					mesh->indexed_vn[j * 3 + 0] = mesh->vn[(index_vn[sommet] - 1) * 3 + 0];
+					mesh->indexed_vn[j * 3 + 1] = mesh->vn[(index_vn[sommet] - 1) * 3 + 1];
+					mesh->indexed_vn[j * 3 + 2] = mesh->vn[(index_vn[sommet] - 1) * 3 + 2];
+					mesh->nb_indexed_vn++;
 				}
 				j++;
 				sommet++;
 			}
-			asset->nb_indices += 3;
-			asset->nb_faces += 1;
+			mesh->nb_indices += 3;
+			mesh->nb_faces += 1;
 			if (ret == 4)
 			{
 				sommet = 0;
@@ -161,32 +161,32 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 				{
 					if (sommet == 1)
 						sommet++;
-					asset->indices[j] = j;
-					if (asset->flag & SCOP_V)
+					mesh->indices[j] = j;
+					if (mesh->flag & SCOP_V)
 					{
-						asset->indexed_v[j * 3 + 0] = asset->v[(index_v[sommet] - 1) * 3 + 0];
-						asset->indexed_v[j * 3 + 1] = asset->v[(index_v[sommet] - 1) * 3 + 1];
-						asset->indexed_v[j * 3 + 2] = asset->v[(index_v[sommet] - 1) * 3 + 2];
-						asset->nb_indexed_v++;
+						mesh->indexed_v[j * 3 + 0] = mesh->v[(index_v[sommet] - 1) * 3 + 0];
+						mesh->indexed_v[j * 3 + 1] = mesh->v[(index_v[sommet] - 1) * 3 + 1];
+						mesh->indexed_v[j * 3 + 2] = mesh->v[(index_v[sommet] - 1) * 3 + 2];
+						mesh->nb_indexed_v++;
 					}
-					if (asset->flag & SCOP_VT)
+					if (mesh->flag & SCOP_VT)
 					{
-						asset->indexed_vt[j * 2 + 0] = asset->vt[(index_vt[sommet] - 1) * 2 + 0];
-						asset->indexed_vt[j * 2 + 1] = asset->vt[(index_vt[sommet] - 1) * 2 + 1];
-						asset->nb_indexed_vt++;
+						mesh->indexed_vt[j * 2 + 0] = mesh->vt[(index_vt[sommet] - 1) * 2 + 0];
+						mesh->indexed_vt[j * 2 + 1] = mesh->vt[(index_vt[sommet] - 1) * 2 + 1];
+						mesh->nb_indexed_vt++;
 					}
-					if (asset->flag & SCOP_VN)
+					if (mesh->flag & SCOP_VN)
 					{
-						asset->indexed_vn[j * 3 + 0] = asset->vn[(index_vn[sommet] - 1) * 3 + 0];
-						asset->indexed_vn[j * 3 + 1] = asset->vn[(index_vn[sommet] - 1) * 3 + 1];
-						asset->indexed_vn[j * 3 + 2] = asset->vn[(index_vn[sommet] - 1) * 3 + 2];
-						asset->nb_indexed_vn++;
+						mesh->indexed_vn[j * 3 + 0] = mesh->vn[(index_vn[sommet] - 1) * 3 + 0];
+						mesh->indexed_vn[j * 3 + 1] = mesh->vn[(index_vn[sommet] - 1) * 3 + 1];
+						mesh->indexed_vn[j * 3 + 2] = mesh->vn[(index_vn[sommet] - 1) * 3 + 2];
+						mesh->nb_indexed_vn++;
 					}
 					j++;
 					sommet++;
 				}
-				asset->nb_indices += 3;
-				asset->nb_faces += 1;
+				mesh->nb_indices += 3;
+				mesh->nb_faces += 1;
 			}
 		}
 		else if(!strcmp("mtllib", type))
@@ -202,37 +202,37 @@ bool	obj_pars(t_asset *asset, const char * path_obj)
 		if ((j + 6) * sizeof(GLushort) >= mem_len_indices)
 		{
 			mem_len_indices += BUFFER_OBJ * sizeof(GLushort);
-			asset->indices = realloc(asset->indices, mem_len_indices);
+			mesh->indices = realloc(mesh->indices, mem_len_indices);
 		}
-		if ((asset->nb_indexed_v + 6) * sizeof(GLfloat) * 3 >= mem_len_indexed_v)
+		if ((mesh->nb_indexed_v + 6) * sizeof(GLfloat) * 3 >= mem_len_indexed_v)
 		{
 			mem_len_indexed_v += BUFFER_OBJ * sizeof(GLfloat);
-			asset->indexed_v = realloc(asset->indexed_v, mem_len_indexed_v);
+			mesh->indexed_v = realloc(mesh->indexed_v, mem_len_indexed_v);
 		}
-		if ((asset->nb_indexed_vn + 6) * sizeof(GLfloat) * 3 >= mem_len_indexed_vn)
+		if ((mesh->nb_indexed_vn + 6) * sizeof(GLfloat) * 3 >= mem_len_indexed_vn)
 		{
 			mem_len_indexed_vn += BUFFER_OBJ * sizeof(GLfloat);
-			asset->indexed_vn = realloc(asset->indexed_vn, mem_len_indexed_vn);
+			mesh->indexed_vn = realloc(mesh->indexed_vn, mem_len_indexed_vn);
 		}
-		if ((asset->nb_indexed_vt + 6) * sizeof(GLfloat) * 2 >= mem_len_indexed_vt)
+		if ((mesh->nb_indexed_vt + 6) * sizeof(GLfloat) * 2 >= mem_len_indexed_vt)
 		{
 			mem_len_indexed_vt += BUFFER_OBJ * sizeof(GLfloat);
-			asset->indexed_vt = realloc(asset->indexed_vt, mem_len_indexed_vt);
+			mesh->indexed_vt = realloc(mesh->indexed_vt, mem_len_indexed_vt);
 		}
-		if ((asset->nb_v + 6) * sizeof(GLfloat) * 3 >= mem_len_v)
+		if ((mesh->nb_v + 6) * sizeof(GLfloat) * 3 >= mem_len_v)
 		{
 			mem_len_v += BUFFER_OBJ * sizeof(GLfloat);
-			asset->v = realloc(asset->v, mem_len_v);
+			mesh->v = realloc(mesh->v, mem_len_v);
 		}
-		if ((asset->nb_vt + 6) * sizeof(GLfloat) * 2 >= mem_len_vt)
+		if ((mesh->nb_vt + 6) * sizeof(GLfloat) * 2 >= mem_len_vt)
 		{
 			mem_len_vt += BUFFER_OBJ * sizeof(GLfloat);
-			asset->vt = realloc(asset->vt, mem_len_vt);
+			mesh->vt = realloc(mesh->vt, mem_len_vt);
 		}
-		if ((asset->nb_vn + 6) * sizeof(GLfloat) * 3 >= mem_len_vn)
+		if ((mesh->nb_vn + 6) * sizeof(GLfloat) * 3 >= mem_len_vn)
 		{
 			mem_len_vn += BUFFER_OBJ * sizeof(GLfloat);
-			asset->vn = realloc(asset->vn, mem_len_vn);
+			mesh->vn = realloc(mesh->vn, mem_len_vn);
 		}
 	}
 	printf("Pars end\n");

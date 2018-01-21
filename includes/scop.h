@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 21:12:40 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 21:30:40 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,60 +46,72 @@ typedef struct		s_shader
 
 	void			(*use)(struct s_shader *);
 }					t_shader;
+void				*shader_destroy(t_shader **shader);
+t_shader			*shader_construct(const char *vertex_shader_path,
+									const char *fragment_shader_path);
 
 typedef struct		s_texture
 {
-	GLuint		textureID;
+	GLuint			textureID;
 	unsigned char	*texture;
 	uint32_t		width;
 	uint32_t		height;
 }					t_texture;
+void				*texture_destroy(t_texture **texture);
+t_texture			*texture_construct(const char *texture_path);
 
-typedef struct	s_asset
+typedef struct		s_mesh
 {
-	t_texture	*texture;
-	t_shader	*shader;
+	t_texture		*texture;
+	t_shader		*shader;
 
-	GLuint		VBO;
-	GLuint		VNBO;
-	GLuint		VTBO;
-	GLuint		VAO;
-	GLuint		EBO;
+	GLuint			VBO;
+	GLuint			VNBO;
+	GLuint			VTBO;
+	GLuint			EBO;
+	GLuint			VAO;
 
-	GLenum		type_draw;
-	uint32_t	flag;
+	GLenum			type_draw;
+	uint32_t		flag;
 
-	GLfloat		*v;
-	GLfloat		*vt;
-	GLfloat		*vn;
-	GLfloat		*indexed_v;
-	GLfloat		*indexed_vt;
-	GLfloat		*indexed_vn;
-	GLushort	*indices;
-	GLint		nb_v;
-	GLint		nb_vt;
-	GLint		nb_vn;
-	GLint		nb_indexed_v;
-	GLint		nb_indexed_vt;
-	GLint		nb_indexed_vn;
-	GLint		nb_faces;
-	GLint		nb_indices;
-}				t_asset;
+	GLfloat			*v;
+	GLfloat			*vt;
+	GLfloat			*vn;
+	GLfloat			*indexed_v;
+	GLfloat			*indexed_vt;
+	GLfloat			*indexed_vn;
+	GLushort		*indices;
+	GLint			nb_v;
+	GLint			nb_vt;
+	GLint			nb_vn;
+	GLint			nb_indexed_v;
+	GLint			nb_indexed_vt;
+	GLint			nb_indexed_vn;
+	GLint			nb_faces;
+	GLint			nb_indices;
+}					t_mesh;
+void				*mesh_destroy(t_mesh **mesh);
+t_mesh				*mesh_construct(const char *path_obj,
+						const char *shader_vert_path,
+						const char *shader_frag_path,
+						const char *texture_path);
 
-typedef struct	s_model
+typedef struct		s_model
 {
-	t_asset		*asset;
-	t_matrix	transform;
-	void		(*render)(struct s_model *,
+	t_mesh			*mesh;
+	t_matrix		transform;
+	void			(*render)(struct s_model *,
 						t_matrix *, t_matrix *);
-}				t_model;
+}					t_model;
+void				*model_destroy(t_model **model);
+t_model				*model_construct(t_mesh *mesh);
 
-typedef struct	s_camfps
+typedef struct		s_camfps
 {
-	float		pitch;
-	float		yaw;
-	t_vector	front;
-}				t_event_camfps;
+	float			pitch;
+	float			yaw;
+	t_vector		front;
+}					t_event_camfps;
 
 typedef struct		s_cam
 {
@@ -109,10 +121,10 @@ typedef struct		s_cam
 	t_vector		up;
 }					t_cam;
 
-typedef struct	s_glfw
+typedef struct		s_glfw
 {
-	GLFWwindow	*window;
-}				t_glfw;
+	GLFWwindow		*window;
+}					t_glfw;
 
 typedef struct		s_fps
 {
@@ -134,17 +146,7 @@ typedef struct		s_env
 	int64_t			flag;
 }					t_env;
 
-void				*shader_destroy(t_shader **shader);
-t_shader			*shader_construct(const char *vertex_shader_path,
-									const char *fragment_shader_path);
-void				*model_destroy(t_model **model);
-t_model				*model_construct(const char *obj_path,
-						const char *shader_vert_path,
-						const char *shader_frag_path);
-void				*texture_destroy(t_texture **texture);
-t_texture			*texture_construct(const char *texture_path);
-
-bool				obj_pars(t_asset *asset, const char * path_obj);
+bool				obj_pars(t_mesh *mesh, const char * path_obj);
 
 int					flag(int64_t *f, int argc, char **argv);
 bool				render_loop(t_env *e, const char **argv, t_glfw *glfw);

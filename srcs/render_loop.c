@@ -6,15 +6,11 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 21:12:50 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 21:30:25 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
-
-//VertexsBufferObject : Vertex, Coordonates, Textures, -> RAM
-//VertexArrayObject : tableau de reference of VBO
-//ElementBufferObject :
 
 bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 {
@@ -23,9 +19,10 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 	t_model *teapot;
 
-	if (!(teapot = model_construct(argv[1],
+	if (!(teapot = model_construct(mesh_construct(argv[1],
 							"shader/basic.vert",
-							"shader/basic.frag")))
+							"shader/basic.frag",
+							"img/prevo.img"))))
 		return (end_of_program(e, "Erreur lors de la création de l'objet", 0));
 
 	glEnable(GL_DEPTH_TEST);
@@ -46,8 +43,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 		if (glfwGetKey(glfw->window, GLFW_KEY_F))
 		{
-			(teapot->asset->type_draw == GL_FILL) ? (teapot->asset->type_draw = GL_LINE) : (teapot->asset->type_draw = GL_FILL);
-			glPolygonMode(GL_FRONT_AND_BACK, teapot->asset->type_draw);
+			(teapot->mesh->type_draw == GL_FILL) ? (teapot->mesh->type_draw = GL_LINE) : (teapot->mesh->type_draw = GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, teapot->mesh->type_draw);
 		}
 		view = matrix_view(&e->cam);
 
