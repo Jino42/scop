@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 19:51:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 21:12:40 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct		s_shader
 
 typedef struct		s_texture
 {
+	GLuint		textureID;
 	unsigned char	*texture;
 	uint32_t		width;
 	uint32_t		height;
@@ -56,15 +57,14 @@ typedef struct		s_texture
 
 typedef struct	s_asset
 {
-	t_texture	texture;
-	t_shader	shader;
+	t_texture	*texture;
+	t_shader	*shader;
 
 	GLuint		VBO;
 	GLuint		VNBO;
 	GLuint		VTBO;
 	GLuint		VAO;
 	GLuint		EBO;
-	GLuint		textureID;
 
 	GLenum		type_draw;
 	uint32_t	flag;
@@ -134,7 +134,16 @@ typedef struct		s_env
 	int64_t			flag;
 }					t_env;
 
-bool				import_texture(t_texture *texture, const char *path);
+void				*shader_destroy(t_shader **shader);
+t_shader			*shader_construct(const char *vertex_shader_path,
+									const char *fragment_shader_path);
+void				*model_destroy(t_model **model);
+t_model				*model_construct(const char *obj_path,
+						const char *shader_vert_path,
+						const char *shader_frag_path);
+void				*texture_destroy(t_texture **texture);
+t_texture			*texture_construct(const char *texture_path);
+
 bool				obj_pars(t_asset *asset, const char * path_obj);
 
 int					flag(int64_t *f, int argc, char **argv);
@@ -156,12 +165,6 @@ void				event_cam(t_env *e, t_cam *cam, t_glfw *glfw);
 
 float				get_degrees(const float radians);
 float				get_radians(const float degrees);
-
-GLboolean			shader_construct(t_shader *shader,
-									const char *vertex_shader_path,
-									const char *fragment_shader_path);
-
-
 
 t_matrix		look_at(const t_vector *position,
 						const t_vector *to,

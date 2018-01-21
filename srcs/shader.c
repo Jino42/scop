@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 16:35:33 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/13 17:49:08 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/21 20:45:58 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static GLboolean	shader_build_shader(GLint *shader, const GLenum shader_type,
 	char			shader_src[MAX_SOURCE_SIZE];
 	const GLchar	*shader_src_ptr;
 
-	bzero(info_log, BUFFER_LOG);
 	bzero(shader_src, MAX_SOURCE_SIZE);
 	if (!shader_load_src(shader_path, shader_src))
 	{
@@ -49,6 +48,7 @@ static GLboolean	shader_build_shader(GLint *shader, const GLenum shader_type,
 	glGetShaderiv(*shader, GL_COMPILE_STATUS, &success);
 	if (success == GL_FALSE)
 	{
+		bzero(info_log, BUFFER_LOG);
 		glGetShaderInfoLog(*shader, BUFFER_LOG, NULL, info_log);
 		ft_dprintf(2, "[Error compilation shader :\n%s]\n", info_log);
 		return (GL_FALSE);
@@ -71,6 +71,7 @@ static GLboolean	shader_build_shader_program(t_shader *shader,
 	glGetProgramiv(shader->program, GL_LINK_STATUS, &success);
 	if (success == GL_FALSE)
 	{
+		bzero(info_log, BUFFER_LOG);
 		glGetShaderInfoLog(shader->program, BUFFER_LOG, NULL, info_log);
 		ft_dprintf(2, "[Error compilation program :\n%s]\n", info_log);
 		return (GL_FALSE);
@@ -83,23 +84,47 @@ void			shader_use(t_shader *shader)
 	glUseProgram(shader->program);
 }
 
-GLboolean		shader_construct(t_shader *shader,
-									const char *vertex_shader_path,
+void		*shader_destroy(t_shader **shader)
+{
+	glDeleteProgram((*shader)->program);
+	ft_memdel((void *)shader);
+	return (false);
+}
+
+t_shader		*shader_construct(const char *vertex_shader_path,
 									const char *fragment_shader_path)
 {
+	t_shader	*shader;
+
+	if (!(shader = ft_memalloc(sizeof(t_shader))))
+		return (NULL);
 	GLint	vertex_shader;
 	GLint	fragment_shader;
 
+	vertex_shader = 0;
+	fragment_shader = 0;
 	if (!shader_build_shader(&vertex_shader, GL_VERTEX_SHADER,
 											vertex_shader_path))
-		return (GL_FALSE);
+	{
+		glDeleteShader(vertex_shader);
+		glDeleteShader(fragment_shader);
+		return (shader_destroy(&shader));
+	}
 	if (!shader_build_shader(&fragment_shader, GL_FRAGMENT_SHADER,
 											fragment_shader_path))
-		return (GL_FALSE);
+	{
+		glDeleteShader(vertex_shader);
+		glDeleteShader(fragment_shader);
+		return (shader_destroy(&shader));
+	}
 	if (!shader_build_shader_program(shader, vertex_shader, fragment_shader))
-		return (GL_FALSE);
+	{
+		glDeleteShader(vertex_shader);
+		glDeleteShader(fragment_shader);
+		return (shader_destroy(&shader));
+	}
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
 	shader->use = &shader_use;
-	return (true);
+	return (shader);
 }
