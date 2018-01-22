@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 21:30:40 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/22 22:08:59 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@ typedef struct		s_texture
 void				*texture_destroy(t_texture **texture);
 t_texture			*texture_construct(const char *texture_path);
 
+typedef struct		s_cam
+{
+	t_vector		position;
+	t_vector		angle;
+	t_vector		to;
+	t_vector		up;
+}					t_cam;
+
 typedef struct		s_mesh
 {
 	t_texture		*texture;
@@ -89,6 +97,9 @@ typedef struct		s_mesh
 	GLint			nb_indexed_vn;
 	GLint			nb_faces;
 	GLint			nb_indices;
+	t_vector		object_color;
+
+	t_vector		light_temp; ///TEMP !!!!!
 }					t_mesh;
 void				*mesh_destroy(t_mesh **mesh);
 t_mesh				*mesh_construct(const char *path_obj,
@@ -101,6 +112,7 @@ typedef struct		s_model
 	t_mesh			*mesh;
 	t_matrix		transform;
 	void			(*render)(struct s_model *,
+						t_cam *,
 						t_matrix *, t_matrix *);
 }					t_model;
 void				*model_destroy(t_model **model);
@@ -112,14 +124,6 @@ typedef struct		s_camfps
 	float			yaw;
 	t_vector		front;
 }					t_event_camfps;
-
-typedef struct		s_cam
-{
-	t_vector		position;
-	t_vector		angle;
-	t_vector		to;
-	t_vector		up;
-}					t_cam;
 
 typedef struct		s_glfw
 {
