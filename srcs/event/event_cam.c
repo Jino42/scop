@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 21:16:27 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/20 23:49:20 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/26 23:44:08 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		event_cam(t_env *e, t_cam *cam, t_glfw *glfw)
 	t_vector	dir;
 	float		speed;
 
-	speed = 2 * e->fps.delta_time;
+	speed = 1 * e->fps.delta_time;
 	if (glfwGetKey(glfw->window, GLFW_KEY_UP) == GLFW_PRESS
 			|| glfwGetKey(glfw->window, GLFW_KEY_W) == GLFW_PRESS)
 	{

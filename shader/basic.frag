@@ -36,16 +36,16 @@ void main()
 	norm = normalize(normal);
 	lightDir = normalize(position - lightPosition);
 
-	diffuse = (lightColor * max(dot(norm, -lightDir), 0)) * material.diffuse;
+	diffuse = lightColor * (max(dot(norm, -lightDir), 0) * material.diffuse);
 
-	vec3 reflection = reflect(lightDir, norm);
+	vec3 reflection = reflect(-lightDir, norm);
 	cam_to_obj = normalize(position - cameraPosition);
 
 	float angleReflection = max(dot(-cam_to_obj, reflection), 0);
-	if (angleReflection > EPSILON)
-		specular = vec3(0.f, 0.f, 0.f);
-	else
-		specular = lightColor * (pow(angleReflection, material.shininess) * material.specular);
+	//if (angleReflection < 0.0005f)
+	//	specular = vec3(0.f, 0.f, 0.f);
+	//else
+		specular = lightColor * (pow(angleReflection, 6) * material.specular);
 
 	resultColor = (ambient + diffuse + specular);
 	FragColor = vec4(resultColor, 1.f);

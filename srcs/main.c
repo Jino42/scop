@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 16:25:46 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/18 23:34:54 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/26 22:49:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int			main(int argc, char **argv)
 	int		index;
 
 	bzero(&e, sizeof(t_env));
+	if (!(e.material = material_construct_tab()))
+		return (0);
 	index = flag(&e.flag, argc, argv);
 	e.cam.up = vector_construct(0.f, 1.f, 0.f);
 	e.cam.to = vector_construct(0.f, 0.f, 1.f);

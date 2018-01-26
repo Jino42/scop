@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/26 22:07:07 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/26 22:35:30 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "glad.h"
 # include "libft.h"
 # include "matrix.h"
+# include "material.h"
 
 # include <math.h>
 # include <sys/types.h>
@@ -77,6 +78,7 @@ typedef struct		s_material
 }					t_material;
 void				*material_destruct(t_material **material);
 t_material			*material_construct();
+t_material			*material_construct_tab();
 
 typedef struct		s_mesh
 {
@@ -159,6 +161,8 @@ typedef struct		s_env
 	t_cam			cam;
 
 	int64_t			flag;
+	int8_t			index_material;
+	t_material		*material;
 }					t_env;
 
 bool				obj_pars(t_mesh *mesh, const char * path_obj);

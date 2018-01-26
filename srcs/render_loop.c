@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/26 21:46:22 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/26 22:49:49 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ void	matrix_scaling(t_matrix *m, const float s)
 	m->matrix[0][0] *= s;
 	m->matrix[1][1] *= s;
 	m->matrix[2][2] *= s;
+}
+
+void	mesh_change_texture(t_env *e, t_mesh *mesh)
+{
+	e->index_material++;
+	e->index_material %= NB_MAT;
+	*mesh->material = e->material[e->index_material];
 }
 
 bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
@@ -71,7 +78,7 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		event_cam(e, &e->cam, &e->glfw);
 
-		if (glfwGetKey(glfw->window, GLFW_KEY_F))
+		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)
 		{
 			(teapot->mesh->type_draw == GL_FILL) ? (teapot->mesh->type_draw = GL_LINE) : (teapot->mesh->type_draw = GL_FILL);
 			glPolygonMode(GL_FRONT_AND_BACK, teapot->mesh->type_draw);
@@ -80,6 +87,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 			matrix_scaling(&teapot->transform, 1.005f);
 		if (glfwGetKey(glfw->window, GLFW_KEY_KP_SUBTRACT))
 			matrix_scaling(&teapot->transform, 0.995f);
+		if (glfwGetKey(glfw->window, GLFW_KEY_T))
+			mesh_change_texture(e, teapot->mesh);
 		view = matrix_view(&e->cam);
 
 		light->render(light, &e->cam, &view, &projection);
