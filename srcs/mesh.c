@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 21:13:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/22 21:15:43 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/26 21:55:36 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ t_mesh	*mesh_construct(const char *path_obj,
 	if (!(mesh->texture = texture_construct(texture_path)))
 		return (NULL); ////////DAFUQ
 	if (!(mesh->shader = shader_construct(shader_vert_path, shader_frag_path)))
+		return (NULL);
+	if (!(mesh->material = material_construct()))
 		return (NULL);
 	return (mesh);
 }

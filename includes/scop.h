@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/22 22:08:59 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/26 22:07:07 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,21 @@ typedef struct		s_cam
 	t_vector		up;
 }					t_cam;
 
+typedef struct		s_material
+{
+	t_vector		ambient;
+	t_vector		diffuse;
+	t_vector		specular;
+	GLfloat			shininess;
+}					t_material;
+void				*material_destruct(t_material **material);
+t_material			*material_construct();
+
 typedef struct		s_mesh
 {
 	t_texture		*texture;
 	t_shader		*shader;
+	t_material		*material;
 
 	GLuint			VBO;
 	GLuint			VNBO;

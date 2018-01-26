@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/22 22:37:02 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/26 21:46:22 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 			(teapot->mesh->type_draw == GL_FILL) ? (teapot->mesh->type_draw = GL_LINE) : (teapot->mesh->type_draw = GL_FILL);
 			glPolygonMode(GL_FRONT_AND_BACK, teapot->mesh->type_draw);
 		}
+		if (glfwGetKey(glfw->window, GLFW_KEY_KP_ADD))
+			matrix_scaling(&teapot->transform, 1.005f);
+		if (glfwGetKey(glfw->window, GLFW_KEY_KP_SUBTRACT))
+			matrix_scaling(&teapot->transform, 0.995f);
 		view = matrix_view(&e->cam);
 
 		light->render(light, &e->cam, &view, &projection);

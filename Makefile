@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/22 19:47:35 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/01/26 21:47:00 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC = main.c \
 	  mesh.c \
 	  texture.c \
 	  model.c \
+	  material.c \
 	  shader.c \
 	  end_of_program.c \
 	  init.c \

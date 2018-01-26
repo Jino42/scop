@@ -1,6 +1,10 @@
 
 #include "scop.h"
 
+/*
+** System de flag inter mesh si uniform changê
+*/
+
 void		model_render(t_model *model, t_cam *cam,
 								t_matrix *view, t_matrix *projection)
 {
@@ -11,6 +15,21 @@ void		model_render(t_model *model, t_cam *cam,
 	mesh->shader->use(mesh->shader);
 	temp = matrix_get_mult_matrix(&model->transform, view);
 	mvp = matrix_get_mult_matrix(&temp, projection);
+	glUniform3fv(
+			glGetUniformLocation(mesh->shader->program, "material.ambient"),
+			1,
+			(GLfloat *)&mesh->material->ambient);
+	glUniform3fv(
+			glGetUniformLocation(mesh->shader->program, "material.diffuse"),
+			1,
+			(GLfloat *)&mesh->material->diffuse);
+	glUniform3fv(
+			glGetUniformLocation(mesh->shader->program, "material.specular"),
+			1,
+			(GLfloat *)&mesh->material->specular);
+	glUniform1f(
+			glGetUniformLocation(mesh->shader->program, "material.shininess"),
+			mesh->material->shininess);
 	glUniform3f(
 			glGetUniformLocation(mesh->shader->program, "cameraPosition"),
 			cam->position.x,
