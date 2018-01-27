@@ -5,7 +5,7 @@
 ** System de flag inter mesh si uniform changê
 */
 
-void		model_render(t_model *model, t_cam *cam,
+void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection)
 {
 	t_mesh *mesh;
@@ -15,6 +15,22 @@ void		model_render(t_model *model, t_cam *cam,
 	mesh->shader->use(mesh->shader);
 	temp = matrix_get_mult_matrix(&model->transform, view);
 	mvp = matrix_get_mult_matrix(&temp, projection);
+	glUniform3fv(
+			glGetUniformLocation(mesh->shader->program, "light.ambient"),
+			1,
+			(GLfloat *)&light->ambient);
+	glUniform3fv(
+			glGetUniformLocation(mesh->shader->program, "light.diffuse"),
+			1,
+			(GLfloat *)&light->diffuse);
+	glUniform3fv(
+			glGetUniformLocation(mesh->shader->program, "light.specular"),
+			1,
+			(GLfloat *)&light->specular);
+	glUniform3fv(
+			glGetUniformLocation(mesh->shader->program, "light.position"),
+			1,
+			(GLfloat *)&light->position);
 	glUniform3fv(
 			glGetUniformLocation(mesh->shader->program, "material.ambient"),
 			1,
@@ -35,16 +51,6 @@ void		model_render(t_model *model, t_cam *cam,
 			cam->position.x,
 			cam->position.y,
 			cam->position.z);
-	glUniform3f(
-			glGetUniformLocation(mesh->shader->program, "objectColor"),
-			mesh->object_color.x,
-			mesh->object_color.y,
-			mesh->object_color.z);
-	glUniform3f(
-			glGetUniformLocation(mesh->shader->program, "lightPosition"),
-			mesh->light_temp.x,
-			mesh->light_temp.y,
-			mesh->light_temp.z);
 	glUniformMatrix4fv(
 			glGetUniformLocation(mesh->shader->program, "MVP"),
 			1, GL_FALSE, &mvp.matrix[0][0]);

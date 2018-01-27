@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/26 22:49:49 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/27 14:48:18 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
 
+	//mesh->light_temp = vector_construct(0.3f, 0.3f, 0.3f);
+
+
 	t_mesh *mesh = mesh_construct(argv[1],
 							"shader/basic.vert",
 							"shader/basic.frag",
@@ -39,15 +42,16 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 							"ressources/cube/basic.vert",
 							"ressources/cube/basic.frag",
 							"img/prevo.img");
-	t_model *teapot, *teapot2;
-	t_model *light;
+	t_model *teapot, *teapot2, *obj_light;
+	t_light *light;
 
-	if (!(light = model_construct(mesh_cube)))
+	light = light_construct();
+	if (!(obj_light = model_construct(mesh_cube)))
 		return (end_of_program(e, "Erreur lors de la création de l'objet", 0));
 	t_vector move = vector_construct(0.3f, 0.3f, 0.3f);
-	matrix_translation(&light->transform, &move);
-	matrix_transpose(&light->transform);
-	matrix_scaling(&light->transform, 0.05f);
+	matrix_translation(&obj_light->transform, &move);
+	matrix_transpose(&obj_light->transform);
+	matrix_scaling(&obj_light->transform, 0.05f);
 
 
 	if (!(teapot2 = model_construct(mesh)))
@@ -91,8 +95,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 			mesh_change_texture(e, teapot->mesh);
 		view = matrix_view(&e->cam);
 
-		light->render(light, &e->cam, &view, &projection);
-		teapot->render(teapot, &e->cam, &view, &projection);
+		obj_light->render(obj_light, &e->cam, light, &view, &projection);
+		teapot->render(teapot, &e->cam, light, &view, &projection);
 		//teapot2->render(teapot2, &e->cam, &view, &projection);
 
 		glfwSwapBuffers(glfw->window);

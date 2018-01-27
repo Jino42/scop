@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/26 21:47:00 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/01/27 14:25:19 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC_DIR = srcs/
 SRC = main.c \
 	  mesh.c \
 	  texture.c \
+	  light.c \
 	  model.c \
 	  material.c \
 	  shader.c \
