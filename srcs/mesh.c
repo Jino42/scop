@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 21:13:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 14:24:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/27 17:15:08 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,19 @@ static void		mesh_debug(t_mesh *mesh)
 	int i = 0;
 	while (i < mesh->nb_v)
 	{
-		dprintf(fd, "v %f %f %f\n", mesh->v[i * 3], mesh->v[i * 3 + 1], mesh->v[i * 3 + 2]);
+		dprintf(fd, "v %.6f %.6f %.6f\n", mesh->v[i * 3], mesh->v[i * 3 + 1], mesh->v[i * 3 + 2]);
 		i++;
 	}
 	i = 0;
 	while (i < mesh->nb_vt)
 	{
-		dprintf(fd, "vt %f %f\n", mesh->vt[i * 2], mesh->vt[i * 2 + 1]);
+		dprintf(fd, "vt %.4f %.4f\n", mesh->vt[i * 2], mesh->vt[i * 2 + 1]);
 		i++;
 	}
 	i = 0;
 	while (i < mesh->nb_vn)
 	{
-		dprintf(fd, "vn %f %f %f\n", mesh->vn[i * 3], mesh->vn[i * 3 + 1], mesh->vn[i * 3 + 2]);
+		dprintf(fd, "vn %.4f %.4f %.4f\n", mesh->vn[i * 3], mesh->vn[i * 3 + 1], mesh->vn[i * 3 + 2]);
 		i++;
 	}
 	i = 0;

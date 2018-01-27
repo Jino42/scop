@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 14:48:18 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/27 17:04:00 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,13 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 	//mesh->light_temp = vector_construct(0.3f, 0.3f, 0.3f);
 
-
-	t_mesh *mesh = mesh_construct(argv[1],
-							"shader/basic.vert",
-							"shader/basic.frag",
-							"img/prevo.img");
 	t_mesh *mesh_cube = mesh_construct("ressources/cube/cube.obj",
 							"ressources/cube/basic.vert",
 							"ressources/cube/basic.frag",
+							"img/prevo.img");
+	t_mesh *mesh = mesh_construct(argv[1],
+							"shader/basic.vert",
+							"shader/basic.frag",
 							"img/prevo.img");
 	t_model *teapot, *teapot2, *obj_light;
 	t_light *light;

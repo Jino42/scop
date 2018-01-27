@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 21:46:41 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 14:00:13 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/27 16:37:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ t_material		*material_construct()
 
 	if (!(material = ft_memalloc(sizeof(t_material))))
 		return (NULL);
-	material->ambient = vector_construct(0.7f, 0.6f, 0.3f);
-	material->diffuse = vector_construct(0.7f, 0.6f, 0.3f);
-	material->specular = vector_construct(0.7f, 0.6f, 0.3f);
-	material->shininess = 0.25;
+	*material = MAT_PR;
 	return (material);
 }
 

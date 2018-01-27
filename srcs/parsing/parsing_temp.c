@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/22 19:53:04 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/27 15:38:46 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ bool	obj_pars(t_mesh *mesh, const char * path_obj)
 			}
 			mesh->nb_indices += 3;
 			mesh->nb_faces += 1;
-			if (ret == 4)
+			/*if (ret == 4)
 			{
 				sommet = 0;
 				while (sommet < 4)
@@ -187,7 +187,7 @@ bool	obj_pars(t_mesh *mesh, const char * path_obj)
 				}
 				mesh->nb_indices += 3;
 				mesh->nb_faces += 1;
-			}
+			}*/
 		}
 		else if(!strcmp("mtllib", type))
 			;
