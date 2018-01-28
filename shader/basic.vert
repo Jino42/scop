@@ -9,10 +9,12 @@ uniform mat4 M;
 
 out vec3 position;
 out vec3 normal;
+out vec2 uv;
 
 void main()
 {
 	gl_Position =  MVP * vec4(vertexPos, 1.0f);
 	normal = mat3(transpose(inverse(M))) * vn;
 	position = vec3(M * vec4(vertexPos, 1.f));
+	uv = vt;
 }

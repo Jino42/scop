@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 22:16:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/21 21:03:25 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 17:37:54 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ static bool	import_texture(t_texture *texture, const char *path)
 
 	if (!(fd = open(path, O_RDONLY)))
 		return (false);
-	if (!(texture = ft_memalloc(sizeof(t_texture))))
-	{
-		close(fd);
-		return (false);
-	}
 	if (!size_texture(texture, fd, &size_tex) ||
 		!(texture->texture = ft_memalloc(size_tex)))
 	{
@@ -77,10 +72,11 @@ t_texture		*texture_construct(const char *texture_path)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
 								texture->width,
 								texture->height,
-								0, GL_RGBA, GL_UNSIGNED_BYTE,
+								0, GL_BGRA, GL_UNSIGNED_BYTE,
 								texture->texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return (texture);
 }

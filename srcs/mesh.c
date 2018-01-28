@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 21:13:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/28 14:46:43 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 20:31:00 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ t_mesh	*mesh_construct(const char *path_obj,
 
 	if (!(mesh = ft_memalloc(sizeof(t_mesh))))
 		return (NULL);
-	mesh->object_color = vector_construct(0.3f, 0.4f, 0.65f);
 	mesh->type_draw = GL_POINTS;
 	if (!obj_pars(mesh, path_obj))
 	{
@@ -141,11 +140,17 @@ t_mesh	*mesh_construct(const char *path_obj,
 	if (DEBUG)
 		mesh_debug(mesh);
 	mesh_buffers(mesh);
-	if (!(mesh->texture = texture_construct(texture_path)))
-		return (NULL); ////////DAFUQ
 	if (!(mesh->shader = shader_construct(shader_vert_path, shader_frag_path)))
 		return (NULL);
 	if (!(mesh->material = material_construct()))
 		return (NULL);
+	if (texture_path)
+	{
+		mesh->flag |= F_TEXTURE;
+		if (!(mesh->texture = texture_construct(texture_path)))
+			return (NULL); ////////DAFUQ
+		mesh->shader->use(mesh->shader);
+		glUniform1i(glGetUniformLocation(mesh->shader->program, "testTexture"), 0);
+	}
 	return (mesh);
 }

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/28 15:22:16 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 18:23:40 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	t_mesh *mesh = mesh_construct(argv[1],
 							"shader/basic.vert",
 							"shader/basic.frag",
-							"img/prevo.img");
+							"ressources/Orange_obj/Color.rgb");
 	t_model *teapot, *teapot2, *obj_light;
 	t_light *light;
 

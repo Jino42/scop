@@ -12,7 +12,15 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 	t_matrix temp, mvp;
 
 	mesh = model->mesh;
+
+	if (mesh->flag & F_TEXTURE)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mesh->texture->textureID);
+	}
+
 	mesh->shader->use(mesh->shader);
+
 	temp = matrix_get_mult_matrix(&model->transform, view);
 	mvp = matrix_get_mult_matrix(&temp, projection);
 	glUniform3fv(

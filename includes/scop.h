@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/28 14:46:19 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 20:30:41 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define SCOP_V (1 << 1)
 # define SCOP_VT (1 << 2)
 # define SCOP_VN (1 << 3)
+# define F_TEXTURE (1 << 4)
 
 #define MAX_SOURCE_SIZE 2000
 #define BUFFER_LOG 2048
@@ -120,9 +121,6 @@ typedef struct		s_mesh
 	GLint			nb_indexed_vn;
 	GLint			nb_faces;
 	GLint			nb_indices;
-	t_vector		object_color;
-
-	t_vector		light_temp; ///TEMP !!!!!
 }					t_mesh;
 void				*mesh_destroy(t_mesh **mesh);
 t_mesh				*mesh_construct(const char *path_obj,
