@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 15:38:46 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 15:29:19 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ bool	obj_pars(t_mesh *mesh, const char * path_obj)
 	mesh->indexed_v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
 	mesh->indexed_vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
 	mesh->indexed_vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	mesh->indices = ft_memalloc(sizeof(GLushort) * BUFFER_OBJ);
+	mesh->indices = ft_memalloc(sizeof(GLuint) * BUFFER_OBJ);
 	int j = 0;
-	uint32_t mem_len_indices = BUFFER_OBJ * sizeof(GLushort); (void)mem_len_indices;
+	uint32_t mem_len_indices = BUFFER_OBJ * sizeof(GLuint); (void)mem_len_indices;
 	uint32_t mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat); (void)mem_len_indexed_v;
 	uint32_t mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat); (void)mem_len_indexed_vn;
 	uint32_t mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat); (void)mem_len_indexed_vt;
@@ -86,7 +86,7 @@ bool	obj_pars(t_mesh *mesh, const char * path_obj)
 			int ret = 0;
 			if (mesh->flag == SCOP_V)
 			{
-				ret = sscanf(line, "%s %i %i %i\n", type, &index_v[0], &index_v[1], &index_v[2]);
+				ret = sscanf(line, "%s %i %i %i %i\n", type, &index_v[0], &index_v[1], &index_v[2], &index_v[3]);
 				if (ret != 4)
 					return (false);
 				ret = (ret - 1);
@@ -154,7 +154,7 @@ bool	obj_pars(t_mesh *mesh, const char * path_obj)
 			}
 			mesh->nb_indices += 3;
 			mesh->nb_faces += 1;
-			/*if (ret == 4)
+			if (ret == 4)
 			{
 				sommet = 0;
 				while (sommet < 4)
@@ -187,7 +187,7 @@ bool	obj_pars(t_mesh *mesh, const char * path_obj)
 				}
 				mesh->nb_indices += 3;
 				mesh->nb_faces += 1;
-			}*/
+			}
 		}
 		else if(!strcmp("mtllib", type))
 			;
@@ -199,9 +199,9 @@ bool	obj_pars(t_mesh *mesh, const char * path_obj)
 			//return (false);
 		}
 		ft_strdel(&line);
-		if ((j + 6) * sizeof(GLushort) >= mem_len_indices)
+		if ((j + 6) * sizeof(GLuint) >= mem_len_indices)
 		{
-			mem_len_indices += BUFFER_OBJ * sizeof(GLushort);
+			mem_len_indices += BUFFER_OBJ * sizeof(GLuint);
 			mesh->indices = realloc(mesh->indices, mem_len_indices);
 		}
 		if ((mesh->nb_indexed_v + 6) * sizeof(GLfloat) * 3 >= mem_len_indexed_v)

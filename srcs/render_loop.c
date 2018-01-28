@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 17:04:00 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 15:22:16 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	matrix_transpose(&obj_light->transform);
 	matrix_scaling(&obj_light->transform, 0.05f);
 
-
 	if (!(teapot2 = model_construct(mesh)))
 		return (end_of_program(e, "Erreur lors de la création de l'objet", 0));
 	if (!(teapot = model_construct(mesh)))
@@ -66,6 +65,7 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 	glEnable(GL_DEPTH_TEST);
 	glPointSize(5.0);
+//	glShadeModel(GL_SMOOTH);
 
 	t_matrix view, projection;
 

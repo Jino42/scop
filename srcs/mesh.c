@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 21:13:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 17:15:08 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 14:46:43 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void		mesh_buffers(t_mesh *mesh)
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * mesh->nb_indices, mesh->indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * mesh->nb_indices, mesh->indices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

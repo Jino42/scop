@@ -58,7 +58,7 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 			glGetUniformLocation(mesh->shader->program, "M"),
 			1, GL_FALSE, &model->transform.matrix[0][0]);
 	glBindVertexArray(mesh->VAO);
-	glDrawElements(GL_TRIANGLES, mesh->nb_indices, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, mesh->nb_indices, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	glUseProgram(0);
 }

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 17:02:23 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 14:46:19 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct		s_mesh
 	GLfloat			*indexed_v;
 	GLfloat			*indexed_vt;
 	GLfloat			*indexed_vn;
-	GLushort		*indices;
+	GLuint			*indices;
 	GLint			nb_v;
 	GLint			nb_vt;
 	GLint			nb_vn;
