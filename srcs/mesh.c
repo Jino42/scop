@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 21:13:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/28 20:31:00 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/29 22:34:11 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
+/*
 static void		mesh_buffers(t_mesh *mesh)
 {
 	glGenBuffers(1, &mesh->EBO);
@@ -131,7 +131,6 @@ t_mesh	*mesh_construct(const char *path_obj,
 
 	if (!(mesh = ft_memalloc(sizeof(t_mesh))))
 		return (NULL);
-	mesh->type_draw = GL_POINTS;
 	if (!obj_pars(mesh, path_obj))
 	{
 		ft_memdel((void *)&mesh);
@@ -154,3 +153,4 @@ t_mesh	*mesh_construct(const char *path_obj,
 	}
 	return (mesh);
 }
+*/

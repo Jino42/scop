@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/28 18:23:40 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/29 22:37:57 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,23 @@ void	matrix_scaling(t_matrix *m, const float s)
 	m->matrix[1][1] *= s;
 	m->matrix[2][2] *= s;
 }
-
+/*
 void	mesh_change_texture(t_env *e, t_mesh *mesh)
 {
 	e->index_material++;
 	e->index_material %= NB_MAT;
 	*mesh->material = e->material[e->index_material];
 }
-
+*/
 bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 {
 	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
-
+(void)e;
 	//mesh->light_temp = vector_construct(0.3f, 0.3f, 0.3f);
-
+	t_model *model = ft_memalloc(sizeof(t_model));
+	obj_pars(model, argv[1]);
+/*
 	t_mesh *mesh_cube = mesh_construct("ressources/cube/cube.obj",
 							"ressources/cube/basic.vert",
 							"ressources/cube/basic.frag",
@@ -83,8 +85,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)
 		{
-			(teapot->mesh->type_draw == GL_FILL) ? (teapot->mesh->type_draw = GL_LINE) : (teapot->mesh->type_draw = GL_FILL);
-			glPolygonMode(GL_FRONT_AND_BACK, teapot->mesh->type_draw);
+			(teapot->type_draw == GL_FILL) ? (teapot->type_draw = GL_LINE) : (teapot->type_draw = GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, teapot->type_draw);
 		}
 		if (glfwGetKey(glfw->window, GLFW_KEY_KP_ADD))
 			matrix_scaling(&teapot->transform, 1.005f);
@@ -100,6 +102,6 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
-	}
+	}*/
 	return (true);
 }

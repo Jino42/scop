@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/28 20:30:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/29 22:37:41 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ t_shader			*shader_construct(const char *vertex_shader_path,
 
 typedef struct		s_texture
 {
-	GLuint			textureID;
-	unsigned char	*texture;
+	GLuint			id;
 	uint32_t		width;
 	uint32_t		height;
 }					t_texture;
@@ -93,18 +92,11 @@ t_material			*material_construct_tab();
 
 typedef struct		s_mesh
 {
-	t_texture		*texture;
-	t_shader		*shader;
-	t_material		*material;
-
 	GLuint			VBO;
 	GLuint			VNBO;
 	GLuint			VTBO;
 	GLuint			EBO;
 	GLuint			VAO;
-
-	GLenum			type_draw;
-	uint32_t		flag;
 
 	GLfloat			*v;
 	GLfloat			*vt;
@@ -130,8 +122,16 @@ t_mesh				*mesh_construct(const char *path_obj,
 
 typedef struct		s_model
 {
-	t_mesh			*mesh;
+	uint32_t		size_textures;
+	t_texture		**textures;
+	uint32_t		size_materials;
+	t_material		**materials;
+	uint32_t		size_meshs;
+	t_mesh			**meshs;
 	t_matrix		transform;
+	GLenum			type_draw;
+
+	uint32_t		flag;
 	void			(*render)(struct s_model *,
 						t_cam *, t_light *,
 						t_matrix *, t_matrix *);
@@ -173,7 +173,7 @@ typedef struct		s_env
 	t_material		*material;
 }					t_env;
 
-bool				obj_pars(t_mesh *mesh, const char * path_obj);
+bool				obj_pars(t_model *model, const char * path_obj);
 
 int					flag(int64_t *f, int argc, char **argv);
 bool				render_loop(t_env *e, const char **argv, t_glfw *glfw);

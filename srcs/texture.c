@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 22:16:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/28 17:37:54 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/28 22:39:13 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,57 +26,59 @@ static bool	size_texture(t_texture *texture, const int fd, uint32_t *size_tex)
 	return (true);
 }
 
-static bool	import_texture(t_texture *texture, const char *path)
+static unsigned char	*import_texture(t_texture *texture, const char *path)
 {
-	int			fd;
-	uint32_t	size_tex;
+	unsigned char	*data_texture;
+	int				fd;
+	uint32_t		size_tex;
 
 	if (!(fd = open(path, O_RDONLY)))
-		return (false);
+		return (NULL);
 	if (!size_texture(texture, fd, &size_tex) ||
-		!(texture->texture = ft_memalloc(size_tex)))
+		!(data_texture = ft_memalloc(size_tex)))
 	{
 		close(fd);
-		return (false);
+		return (NULL);
 	}
-	if ((read(fd, texture->texture, size_tex)) != size_tex)
+	if ((read(fd, data_texture, size_tex)) != size_tex)
 	{
+		ft_memdel((void *)data_texture);
 		close(fd);
-		return (false);
+		return (NULL);
 	}
 	close(fd);
-	return (true);
+	return (data_texture);
 }
 
 void			*texture_destroy(t_texture **texture)
 {
 	if (!texture || !*texture)
 		return (NULL);
-	if ((*texture)->texture)
-		ft_memdel((void *)&(*texture)->texture);
-	glDeleteTextures(1, &(*texture)->textureID);
+	glDeleteTextures(1, &(*texture)->id);
 	ft_memdel((void *)texture);
 	return (NULL);
 }
 
 t_texture		*texture_construct(const char *texture_path)
 {
-	t_texture *texture;
+	t_texture		*texture;
+	unsigned char	*data_texture;
 
 	if (!(texture = ft_memalloc(sizeof(t_texture))))
 		return (texture_destroy(&texture));
-	if (!import_texture(texture, texture_path))
+	if (!(data_texture = import_texture(texture, texture_path)))
 		return (texture_destroy(&texture));
-	glGenTextures(1, &texture->textureID);
-	glBindTexture(GL_TEXTURE_2D, texture->textureID);
+	glGenTextures(1, &texture->id);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
 								texture->width,
 								texture->height,
 								0, GL_BGRA, GL_UNSIGNED_BYTE,
-								texture->texture);
+								data_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	ft_memdel((void *)&data_texture);
 	return (texture);
 }
