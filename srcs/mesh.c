@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 21:13:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/29 22:34:11 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/29 23:35:34 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ static void		mesh_buffers(t_mesh *mesh)
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-}
-
+}*/
+/*
 void	*mesh_destroy(t_mesh **mesh)
 {
 	if (!mesh || !*mesh)

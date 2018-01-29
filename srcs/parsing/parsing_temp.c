@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/29 23:24:16 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/29 23:44:57 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,52 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+void mesh_buffers(t_mesh *mesh, const uint32_t flag)
+{
+	glGenBuffers(1, &mesh->EBO);
+	glGenVertexArrays(1, &mesh->VAO);
+
+	glBindVertexArray(mesh->VAO);
+
+	if (flag & SCOP_V)
+	{
+		ft_printf("Set buffer : V\n");
+		glGenBuffers(1, &mesh->VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (mesh->nb_indices) * 3, mesh->indexed_v, GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	if (flag & SCOP_VN)
+	{
+		ft_printf("Set buffer : VN\n");
+		glGenBuffers(1, &mesh->VNBO);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->VNBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (mesh->nb_indices) * 3, mesh->indexed_vn, GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	if (flag & SCOP_VT)
+	{
+		ft_printf("Set buffer : VT\n");
+		glGenBuffers(1, &mesh->VTBO);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->VTBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (mesh->nb_indices) * 2, mesh->indexed_vt, GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * mesh->nb_indices, mesh->indices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
 
 t_mesh	*create_mesh()
 {
@@ -68,21 +114,20 @@ bool	obj_pars(t_model *model, const char * path_obj)
 	last_index_vn = 0;
 	last_index = 0;
 	int j = 0;
+	if (!model->size_meshs)
+	{
+		mesh = create_mesh();
+		mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
+		mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
+		mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
+		mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
+		mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
+		mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
+		mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
+	}
 	while (get_next_line(fd, &line) == 1)
 	{
 		printf("%s\n", line);
-		if (!model->size_meshs)
-		{
-			mesh = create_mesh();
-			model->size_meshs++;
-			mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
-			mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
-			mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
-			mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
-			mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
-			mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
-			mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
-		}
 		sscanf(line, "%s ", type);
 		if (!strcmp("#", type))
 			;
@@ -233,12 +278,12 @@ bool	obj_pars(t_model *model, const char * path_obj)
 		else if (!strcmp("o", type) && mesh->nb_indices)
 		{
 			ft_printf("Cet object contient des groups\n");
-			model->meshs = realloc((void *)model->meshs, sizeof(t_mesh **) * (model->size_meshs));
+			model->meshs = realloc((void *)model->meshs, sizeof(t_mesh **) * (model->size_meshs + 1));
 			last_index_v += mesh->nb_v;
 			last_index_vn += mesh->nb_vn;
 			last_index_vt += mesh->nb_vt;
 			last_index = j;
-			model->meshs[model->size_meshs - 1] = mesh;
+			model->meshs[model->size_meshs] = mesh;
 			model->size_meshs++;
 			mesh = create_mesh();
 			mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
@@ -286,6 +331,17 @@ bool	obj_pars(t_model *model, const char * path_obj)
 			mesh->vn = realloc(mesh->vn, mem_len_vn);
 		}
 	}
+	ft_printf("Cet object contient des groups\n");
+	model->meshs = realloc((void *)model->meshs, sizeof(t_mesh **) * (model->size_meshs + 1));
+	model->meshs[model->size_meshs] = mesh;
+	model->size_meshs++;
 	printf("Pars end\n");
+	uint32_t i = 0;
+	printf("%i\n", model->size_meshs);
+	while (i < model->size_meshs)
+	{
+		mesh_buffers(model->meshs[i], model->flag);
+		i++;
+	}
 	return (true);
 }

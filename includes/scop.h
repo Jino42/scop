@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/29 22:37:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/29 23:45:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,9 @@ typedef struct		s_model
 }					t_model;
 void				*model_destroy(t_model **model);
 t_model				*model_construct(t_mesh *mesh);
+void		model_render(t_model *model, t_cam *cam, t_light *light,
+								t_matrix *view, t_matrix *projection,
+								t_shader *shader, t_material *material);
 
 typedef struct		s_camfps
 {
