@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/30 22:10:12 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/30 23:48:25 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ bool	obj_pars(t_model *model, const char * path_obj)
 	last_index_vn = 0;
 	last_index = 0;
 	int j = 0;
-	if (!model->size_meshs)
+	if (!model->meshs->size)
 	{
 		mesh = create_mesh();
 		mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
@@ -207,12 +207,9 @@ bool	obj_pars(t_model *model, const char * path_obj)
 			int sommet = 0;
 			while (sommet < 3)
 			{
-				printf("j %i last %i = %i\n", j, last_index, j - last_index);
 				mesh->indices[j - last_index] = j - last_index;
 				if (model->flag & SCOP_V)
 				{
-					printf("%i = %i\n", (j - last_index) * 3 + 0, (index_v[sommet] - 1 - last_index_v) * 3 + 0);
-					printf("%i = %i\n", index_v[sommet], last_index_v);
 					mesh->indexed_v[(j - last_index) * 3 + 0] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 0];
 					mesh->indexed_v[(j - last_index) * 3 + 1] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 1];
 					mesh->indexed_v[(j - last_index) * 3 + 2] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 2];
@@ -243,12 +240,9 @@ bool	obj_pars(t_model *model, const char * path_obj)
 				{
 					if (sommet == 1)
 						sommet++;
-					printf("j %i last %i = %i\n", j, last_index, j - last_index);
 					mesh->indices[j - last_index] = j - last_index;
 					if (model->flag & SCOP_V)
 					{
-						printf("%i = %i\n", (j - last_index) * 3 + 0, (index_v[sommet] - 1 - last_index_v) * 3 + 0);
-						printf("%i = %i\n", index_v[sommet], last_index_v);
 						mesh->indexed_v[(j - last_index) * 3 + 0] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 0];
 						mesh->indexed_v[(j - last_index) * 3 + 1] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 1];
 						mesh->indexed_v[(j - last_index) * 3 + 2] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 2];
@@ -281,13 +275,13 @@ bool	obj_pars(t_model *model, const char * path_obj)
 		else if (!strcmp("o", type) && mesh->nb_indices)
 		{
 			ft_printf("Cet object contient des groups\n");
-			model->meshs = realloc((void *)model->meshs, sizeof(t_mesh **) * (model->size_meshs + 1));
+			model->meshs->mesh = realloc((void *)model->meshs->mesh, sizeof(t_mesh **) * (model->meshs->size + 1));
 			last_index_v += mesh->nb_v;
 			last_index_vn += mesh->nb_vn;
 			last_index_vt += mesh->nb_vt;
 			last_index = j;
-			model->meshs[model->size_meshs] = mesh;
-			model->size_meshs++;
+			model->meshs->mesh[model->meshs->size] = mesh;
+			model->meshs->size++;
 			mesh = create_mesh();
 			mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
 			mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
@@ -335,15 +329,15 @@ bool	obj_pars(t_model *model, const char * path_obj)
 		}
 	}
 	ft_printf("Cet object contient des groups\n");
-	model->meshs = realloc((void *)model->meshs, sizeof(t_mesh **) * (model->size_meshs + 1));
-	model->meshs[model->size_meshs] = mesh;
-	model->size_meshs++;
+	model->meshs->mesh = realloc((void *)model->meshs->mesh, sizeof(t_mesh **) * (model->meshs->size + 1));
+	model->meshs->mesh[model->meshs->size] = mesh;
+	model->meshs->size++;
 	printf("Pars end\n");
 	uint32_t i = 0;
-	printf("%i\n", model->size_meshs);
-	while (i < model->size_meshs)
+	printf("%i\n", model->meshs->size);
+	while (i < model->meshs->size)
 	{
-		mesh_buffers(model->meshs[i], model->flag);
+		mesh_buffers(model->meshs->mesh[i], model->flag);
 		i++;
 	}
 	return (true);

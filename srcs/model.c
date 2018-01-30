@@ -39,7 +39,7 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,
 								t_shader *shader, t_material *material)
 {
-	t_mesh **meshs;
+	t_meshs *meshs;
 	t_matrix temp, mvp;
 
 	meshs = model->meshs;
@@ -49,7 +49,7 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 		shader->use(shader);
 		glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, model->textures->textures[0]->id);
+		glBindTexture(GL_TEXTURE_2D, model->textures->texture[0]->id);
 	}
 
 	shader->use(shader);
@@ -99,10 +99,10 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 			glGetUniformLocation(shader->program, "M"),
 			1, GL_FALSE, &model->transform.matrix[0][0]);
 	uint32_t i = 0;
-	while (i < model->size_meshs)
+	while (i < meshs->size)
 	{
-		glBindVertexArray(meshs[i]->VAO);
-		glDrawElements(GL_TRIANGLES, meshs[i]->nb_indices, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(meshs->mesh[i]->VAO);
+		glDrawElements(GL_TRIANGLES, meshs->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		i++;
 	}
@@ -125,6 +125,7 @@ t_model	*model_construct(const char *path_obj,
 	(void)path_texture;
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
+	model->meshs = construct_meshs();
 	obj_pars(model, path_obj); // Hyper instable
 	model->type_draw = GL_POINTS;
 	model->transform = matrix_get_identity();

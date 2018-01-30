@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/30 21:55:06 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/30 23:45:50 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct		s_tex
 typedef struct		s_textures
 {
 	uint32_t		size;
-	t_tex			**textures;
+	t_tex			**texture;
 	bool			(*add)(struct s_textures *,
 							const char *);
 	void			(*use)(struct s_textures *,
@@ -128,14 +128,20 @@ t_mesh				*mesh_construct(const char *path_obj,
 						const char *shader_vert_path,
 						const char *shader_frag_path,
 						const char *texture_path);
+typedef struct		s_meshs
+{
+	uint32_t		size;
+	t_mesh			**mesh;
+	//				ADD;
+}					t_meshs;
+t_meshs				*construct_meshs();
 
 typedef struct		s_model
 {
 	t_textures		*textures;
 	uint32_t		size_materials;
 	t_material		**materials;
-	uint32_t		size_meshs;
-	t_mesh			**meshs;
+	t_meshs			*meshs;
 	t_matrix		transform;
 	GLenum			type_draw;
 

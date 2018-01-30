@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 22:16:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/30 22:01:12 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/30 23:46:29 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ t_tex			*tex_construct(const char *tex_path)
 bool	texture_add(t_textures *textures,
 				const char *texture_path)
 {
-	if (!(textures->textures = realloc(textures->textures, sizeof(t_tex **) * (textures->size + 1))))
+	if (!(textures->texture = realloc(textures->texture, sizeof(t_tex **) * (textures->size + 1))))
 		return (false);
-	textures->textures[textures->size] = tex_construct(texture_path);
+	textures->texture[textures->size] = tex_construct(texture_path);
 	textures->size++;
 	return (true);
 }
