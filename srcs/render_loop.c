@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/29 23:57:25 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/30 22:11:25 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
 (void)e;
 	//mesh->light_temp = vector_construct(0.3f, 0.3f, 0.3f);
-	t_model *model = ft_memalloc(sizeof(t_model));
-	obj_pars(model, argv[1]);
+	t_model *model;
+	model = model_construct(argv[1], "ressources/Orange_obj/Color.rgb");
 	t_material *material = material_construct();
-	t_shader *shader  = shader_construct("ressources/cube/basic.vert",
-										"ressources/cube/basic.frag");
+	t_shader *shader  = shader_construct("shader/basic.vert",
+										"shader/basic.frag");
 	(void)shader;
 	(void)material;
 	t_light *light;
@@ -48,6 +48,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	t_vector move = vector_construct(0.3f, 0.3f, 0.3f);
 	matrix_translation(&obj_light->transform, &move);
 	matrix_transpose(&obj_light->transform);
+	obj_light->transform = matrix_get_identity();
+	model->transform = matrix_get_identity();
 	matrix_scaling(&obj_light->transform, 0.05f);
 
 	t_shader *shader_l  = shader_construct("ressources/cube/basic.vert",
@@ -69,6 +71,16 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 		if (glfwGetKey(glfw->window, GLFW_KEY_I) == GLFW_PRESS)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		event_cam(e, &e->cam, &e->glfw);
+		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)
+		{
+			(model->type_draw == GL_FILL) ? (model->type_draw = GL_LINE) : (model->type_draw = GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
+		}
+		if (glfwGetKey(glfw->window, GLFW_KEY_KP_ADD))
+			matrix_scaling(&model->transform, 1.005f);
+		if (glfwGetKey(glfw->window, GLFW_KEY_KP_SUBTRACT))
+			matrix_scaling(&model->transform, 0.995f);
+
 		view = matrix_view(&e->cam);
 		model_render(model, &e->cam, light, &view, &projection, shader, material);
 		model_render(obj_light, &e->cam, light, &view, &projection, shader_l, material);

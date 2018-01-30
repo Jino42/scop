@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/29 23:44:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/30 22:10:12 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,32 +236,35 @@ bool	obj_pars(t_model *model, const char * path_obj)
 			}
 			mesh->nb_indices += 3;
 			mesh->nb_faces += 1;
-			/*if (ret == 4)
+			if (ret == 4)
 			{
 				sommet = 0;
 				while (sommet < 4)
 				{
 					if (sommet == 1)
 						sommet++;
-					mesh->indices[j] = j - last_index;
+					printf("j %i last %i = %i\n", j, last_index, j - last_index);
+					mesh->indices[j - last_index] = j - last_index;
 					if (model->flag & SCOP_V)
 					{
-						mesh->indexed_v[j * 3 + 0] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 0];
-						mesh->indexed_v[j * 3 + 1] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 1];
-						mesh->indexed_v[j * 3 + 2] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 2];
+						printf("%i = %i\n", (j - last_index) * 3 + 0, (index_v[sommet] - 1 - last_index_v) * 3 + 0);
+						printf("%i = %i\n", index_v[sommet], last_index_v);
+						mesh->indexed_v[(j - last_index) * 3 + 0] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 0];
+						mesh->indexed_v[(j - last_index) * 3 + 1] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 1];
+						mesh->indexed_v[(j - last_index) * 3 + 2] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 2];
 						mesh->nb_indexed_v++;
 					}
 					if (model->flag & SCOP_VT)
 					{
-						mesh->indexed_vt[j * 2 + 0] = mesh->vt[(index_vt[sommet] - 1 - last_index_vt) * 2 + 0];
-						mesh->indexed_vt[j * 2 + 1] = mesh->vt[(index_vt[sommet] - 1 - last_index_vt) * 2 + 1];
+						mesh->indexed_vt[(j - last_index) * 2 + 0] = mesh->vt[(index_vt[sommet] - 1 - last_index_vt) * 2 + 0];
+						mesh->indexed_vt[(j - last_index) * 2 + 1] = mesh->vt[(index_vt[sommet] - 1 - last_index_vt) * 2 + 1];
 						mesh->nb_indexed_vt++;
 					}
 					if (model->flag & SCOP_VN)
 					{
-						mesh->indexed_vn[j * 3 + 0] = mesh->vn[(index_vn[sommet] - 1 - last_index_vn) * 3 + 0];
-						mesh->indexed_vn[j * 3 + 1] = mesh->vn[(index_vn[sommet] - 1 - last_index_vn) * 3 + 1];
-						mesh->indexed_vn[j * 3 + 2] = mesh->vn[(index_vn[sommet] - 1 - last_index_vn) * 3 + 2];
+						mesh->indexed_vn[(j - last_index) * 3 + 0] = mesh->vn[(index_vn[sommet] - 1 - last_index_vn) * 3 + 0];
+						mesh->indexed_vn[(j - last_index) * 3 + 1] = mesh->vn[(index_vn[sommet] - 1 - last_index_vn) * 3 + 1];
+						mesh->indexed_vn[(j - last_index) * 3 + 2] = mesh->vn[(index_vn[sommet] - 1 - last_index_vn) * 3 + 2];
 						mesh->nb_indexed_vn++;
 					}
 					j++;
@@ -269,7 +272,7 @@ bool	obj_pars(t_model *model, const char * path_obj)
 				}
 				mesh->nb_indices += 3;
 				mesh->nb_faces += 1;
-			}*/
+			}
 		}
 		else if(!strcmp("mtllib", type))
 			;

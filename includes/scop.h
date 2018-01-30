@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/29 23:45:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/30 21:55:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,23 @@ void				*shader_destroy(t_shader **shader);
 t_shader			*shader_construct(const char *vertex_shader_path,
 									const char *fragment_shader_path);
 
-typedef struct		s_texture
+typedef struct		s_tex
 {
 	GLuint			id;
 	uint32_t		width;
 	uint32_t		height;
-}					t_texture;
-void				*texture_destroy(t_texture **texture);
-t_texture			*texture_construct(const char *texture_path);
+}					t_tex;
+typedef struct		s_textures
+{
+	uint32_t		size;
+	t_tex			**textures;
+	bool			(*add)(struct s_textures *,
+							const char *);
+	void			(*use)(struct s_textures *,
+							const t_shader *shader);
+}					t_textures;
+void				*textures_destroy(t_textures **textures);
+t_textures			*textures_construct();
 
 typedef struct		s_cam
 {
@@ -122,8 +131,7 @@ t_mesh				*mesh_construct(const char *path_obj,
 
 typedef struct		s_model
 {
-	uint32_t		size_textures;
-	t_texture		**textures;
+	t_textures		*textures;
 	uint32_t		size_materials;
 	t_material		**materials;
 	uint32_t		size_meshs;
@@ -137,7 +145,8 @@ typedef struct		s_model
 						t_matrix *, t_matrix *);
 }					t_model;
 void				*model_destroy(t_model **model);
-t_model				*model_construct(t_mesh *mesh);
+t_model				*model_construct(const char *path_obj,
+									const char *path_textures);
 void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,
 								t_shader *shader, t_material *material);
