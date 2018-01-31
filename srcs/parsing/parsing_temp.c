@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/31 23:35:56 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/31 23:59:56 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,7 +347,6 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 	int			fd;
 	char		*line;
 	char		type[10];
-	float		ftab[4];
 
 	fd = open(path_mtl, O_RDONLY);
 	if (!fd || fd < 0)
@@ -363,9 +362,18 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 	{
 		sscanf(line, "%s ", type);
 		if (!strcmp(line, "Ka"))
+			sscanf(line, "%s %f %f %f\n", type, &material->ambient.x, &material->ambient.y, &material->ambient.z);
+		else if (!strcmp(line, "Kd"))
+			sscanf(line, "%s %f %f %f\n", type, &material->diffuse.x, &material->diffuse.y, &material->diffuse.z);
+		else if (!strcmp(line, "Ks"))
+			sscanf(line, "%s %f %f %f\n", type, &material->specular.x, &material->specular.y, &material->specular.z);
+		else if (!strcmp(line, "Ns"))
+			sscanf(line, "%s %f", type, &material->shininess);
+		else if (!strcmp(line, "d"))
+			sscanf(line, "%s %f", type, &material->transparency);
+		else if (!strcmp(line, "map_Kd"))
 		{
-			sscanf(line, "%s %f %f %f\n", type, &ftab[0], &ftab[1], &ftab[2]);
-			;
+			
 		}
 		ft_memdel((void *)&line);
 	}
