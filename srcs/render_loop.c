@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/30 22:50:00 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/31 23:28:57 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	t_matrix projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
 	t_matrix view = matrix_view(&e->cam);
 
-
+	if (argv[2])
+		parsing_mtl(model, argv[2]);
 
 	glEnable(GL_DEPTH_TEST);
 	glPointSize(5.0);

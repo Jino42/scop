@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 22:16:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/30 23:46:29 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/31 22:24:20 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,41 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-static bool	size_texture(t_tex *tex, const int fd, uint32_t *size_tex)
+static bool	size_of_bmp_texture(t_texture *texture, const int fd, uint32_t *size_texture)
 {
-	read(fd, &tex->width, sizeof(uint32_t));
-	read(fd, &tex->height, sizeof(uint32_t));
-	*size_tex = tex->width * tex->height * 4;
-	if (tex->width > 4996 || tex->height > 4996)
+	read(fd, &texture->width, sizeof(uint32_t));
+	read(fd, &texture->height, sizeof(uint32_t));
+	*size_texture = texture->width * texture->height * 4;
+	if (texture->width > 4996 || texture->height > 4996)
 		return (false);
 	return (true);
 }
 
-static unsigned char	*import_texture(t_tex *tex, const char *path)
+static unsigned char	*import_texture(t_texture *texture, const char *path)
 {
-	unsigned char	*data_tex;
+	unsigned char	*data_texture;
 	int				fd;
-	uint32_t		size_tex;
+	uint32_t		size_texture;
 
 	if (!(fd = open(path, O_RDONLY)))
 		return (NULL);
-	if (!size_texture(tex, fd, &size_tex) ||
-		!(data_tex = ft_memalloc(size_tex)))
+	if (!size_of_bmp_texture(texture, fd, &size_texture) ||
+		!(data_texture = ft_memalloc(size_texture)))
 	{
 		close(fd);
 		return (NULL);
 	}
-	if ((read(fd, data_tex, size_tex)) != size_tex)
+	if ((read(fd, data_texture, size_texture)) != size_texture)
 	{
-		ft_memdel((void *)data_tex);
+		ft_memdel((void *)data_texture);
 		close(fd);
 		return (NULL);
 	}
 	close(fd);
-	return (data_tex);
+	return (data_texture);
 }
 
-void			*textures_destroy(t_textures **textures)
+void			*textures_destroy(t_m_textures **textures)
 {
 	if (!textures || !*textures)
 		return (NULL);
@@ -58,43 +58,43 @@ void			*textures_destroy(t_textures **textures)
 	return (NULL);
 }
 
-void			*tex_destroy(t_tex **tex)
+void			*texture_destroy(t_texture **texture)
 {
-	if (!tex || !*tex)
+	if (!texture || !*texture)
 		return (NULL);
-	ft_memdel((void*)tex);
+	ft_memdel((void*)texture);
 	return (NULL);
 }
-t_tex			*tex_construct(const char *tex_path)
+t_texture			*texture_construct(const char *texture_path)
 {
-	t_tex			*tex;
-	unsigned char	*data_tex;
+	t_texture			*texture;
+	unsigned char	*data_texture;
 
-	if (!(tex = ft_memalloc(sizeof(t_tex))))
+	if (!(texture = ft_memalloc(sizeof(t_texture))))
 		return (NULL);
-	if (!(data_tex = import_texture(tex, tex_path)))
-		return (tex_destroy(&tex));
-	glGenTextures(1, &tex->id);
-	glBindTexture(GL_TEXTURE_2D, tex->id);
+	if (!(data_texture = import_texture(texture, texture_path)))
+		return (texture_destroy(&texture));
+	glGenTextures(1, &texture->id);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-								tex->width,
-								tex->height,
+								texture->width,
+								texture->height,
 								0, GL_BGRA, GL_UNSIGNED_BYTE,
-								data_tex);
+								data_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	ft_memdel((void *)&data_tex);
-	return (tex);
+	ft_memdel((void *)&data_texture);
+	return (texture);
 }
 
-bool	texture_add(t_textures *textures,
+bool	texture_add(t_m_textures *textures,
 				const char *texture_path)
 {
-	if (!(textures->texture = realloc(textures->texture, sizeof(t_tex **) * (textures->size + 1))))
+	if (!(textures->texture = realloc(textures->texture, sizeof(t_texture **) * (textures->size + 1))))
 		return (false);
-	textures->texture[textures->size] = tex_construct(texture_path);
+	textures->texture[textures->size] = texture_construct(texture_path);
 	textures->size++;
 	return (true);
 }
@@ -109,11 +109,11 @@ void	texture_set(const t_texture *textures,
 	glBindTexture(GL_TEXTURE_2D, mesh->tex->id);
 }*/
 
-t_textures		*textures_construct()
+t_m_textures		*textures_construct()
 {
-	t_textures		*textures;
+	t_m_textures		*textures;
 
-	if (!(textures = ft_memalloc(sizeof(t_textures))))
+	if (!(textures = ft_memalloc(sizeof(t_m_textures))))
 		return (textures_destroy(&textures));
 	textures->add = &texture_add;
 	return (textures);

@@ -39,7 +39,7 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,
 								t_shader *shader, t_material *material)
 {
-	t_meshs *meshs;
+	t_m_meshs *meshs;
 	t_matrix temp, mvp;
 
 	meshs = model->meshs;
@@ -125,7 +125,7 @@ t_model	*model_construct(const char *path_obj,
 	(void)path_texture;
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
-	model->meshs = construct_meshs();
+	model->meshs = construct_m_meshs();
 	obj_pars(model, path_obj); // Hyper instable
 	model->type_draw = GL_POINTS;
 	model->transform = matrix_get_identity();

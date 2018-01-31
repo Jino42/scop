@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 22:15:26 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/27 16:38:13 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/31 22:58:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 
 # define NB_MAT 4
 
-# define MAT_EMERALD (t_material){{0.0215f, 0.1745f, 0.0215f, 0.f}, \
-							{0.07568f, 0.61424f, 0.07568f, 0.f}, \
-							{0.633f, 0.727811f, 0.633f, 0.f}, \
-						 	76.8f};
+# define MAT_EMERALD(mat) mat->ambient = vector_construct(0.0215f, 0.1745f, 0.0215f); \
+							mat->diffuse = vector_construct(0.07568f, 0.61424f, 0.07568f); \
+							mat->specular = vector_construct(0.633f, 0.727811f, 0.633f); \
+							mat->shininess = 76.8f;
+# define MAT_PR(mat) mat->ambient = vector_construct(0.8f, 0.2f, 0.4f); \
+						mat->diffuse = vector_construct(0.8f, 0.2f, 0.4f); \
+						mat->specular = vector_construct(0.8f, 0.2f, 0.4f); \
+						mat->shininess = 32.f;
+							/*
 # define MAT_PEARL (t_material){{0.25f, 0.20725f, 0.20725f, 0.f}, \
 							{0.1f, 0.829f, 0.829f, 0.f}, \
 							{0.296648f, 0.296648f, 0.296648f, 0.f}, \
@@ -31,13 +36,11 @@
 							{0.5f, 0.f, 0.f, 0.f}, \
 							{0.7f, 0.6f, 0.6f, 0.f}, \
 							32.f};
-# define MAT_PR (t_material){{0.8f, 0.2f, 0.4f, 0.f}, \
-							{0.8f, 0.2f, 0.4f, 0.f}, \
-							{0.8f, 0.2f, 0.4f, 0.f}, \
-							32.f};
 
+*/
 # define F_MAT_EMERALD (0)
 # define F_MAT_PEARL (1)
 # define F_MAT_JADE (2)
+# define F_MAT_PR (3)
 # define F_MAT_RED_PLASTIC (3)
 #endif

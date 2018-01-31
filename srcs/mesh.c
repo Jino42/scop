@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 21:13:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/30 23:48:40 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/31 22:24:47 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,11 @@ t_mesh	*mesh_construct(const char *path_obj,
 }
 */
 
-t_meshs		*construct_meshs()
+t_m_meshs		*construct_m_meshs()
 {
-	t_meshs *meshs;
+	t_m_meshs *meshs;
 
-	if (!(meshs = ft_memalloc(sizeof(t_meshs))))
+	if (!(meshs = ft_memalloc(sizeof(t_m_meshs))))
 		return (NULL);
 	return (meshs);
 }

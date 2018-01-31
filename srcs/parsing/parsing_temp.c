@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/30 23:48:25 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/01/31 23:35:56 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ bool	obj_pars(t_model *model, const char * path_obj)
 	}
 	while (get_next_line(fd, &line) == 1)
 	{
-		printf("%s\n", line);
 		sscanf(line, "%s ", type);
 		if (!strcmp("#", type))
 			;
@@ -339,6 +338,36 @@ bool	obj_pars(t_model *model, const char * path_obj)
 	{
 		mesh_buffers(model->meshs->mesh[i], model->flag);
 		i++;
+	}
+	return (true);
+}
+
+bool		parsing_mtl(t_model *model, const char *path_mtl)
+{
+	int			fd;
+	char		*line;
+	char		type[10];
+	float		ftab[4];
+
+	fd = open(path_mtl, O_RDONLY);
+	if (!fd || fd < 0)
+		return (false);
+
+(void)model;
+	line = NULL;
+	t_material *material;
+
+	if (!(material = ft_memalloc(sizeof(t_material))))
+		return (false);
+	while (get_next_line(fd, &line))
+	{
+		sscanf(line, "%s ", type);
+		if (!strcmp(line, "Ka"))
+		{
+			sscanf(line, "%s %f %f %f\n", type, &ftab[0], &ftab[1], &ftab[2]);
+			;
+		}
+		ft_memdel((void *)&line);
 	}
 	return (true);
 }
