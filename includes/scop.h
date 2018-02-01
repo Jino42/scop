@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/31 23:29:30 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/01 23:02:09 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ typedef struct		s_texture
 	GLuint			id;
 	uint32_t		width;
 	uint32_t		height;
+	char			*path;
 }					t_texture;
 typedef struct		s_m_textures
 {
 	uint32_t		size;
 	t_texture		**texture;
-	bool			(*add)(struct s_m_textures *,
+	GLuint			(*add)(struct s_m_textures *,
 							const char *);
 	void			(*use)(struct s_m_textures *,
 							const t_shader *shader);
@@ -90,7 +91,6 @@ void		*light_destruct(t_light **light);
 
 typedef struct		s_material
 {
-	char			*path;
 	char			*name;
 	t_vector		ambient;
 	t_vector		diffuse;
@@ -101,6 +101,11 @@ typedef struct		s_material
 	GLuint			texture_diffuse;
 	GLuint			texture_specular;
 	GLuint			texture_shininess;
+	GLuint			texture_normal;
+	uint32_t		flag;
+	bool			(*set_map)(struct s_material *,
+								uint32_t,
+								const GLuint);
 }					t_material;
 typedef struct		s_m_materials
 {

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/31 23:59:56 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/01 22:58:37 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,6 +347,8 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 	int			fd;
 	char		*line;
 	char		type[10];
+	char		path[1024];
+	GLuint		map_id;
 
 	fd = open(path_mtl, O_RDONLY);
 	if (!fd || fd < 0)
@@ -356,24 +358,62 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 	line = NULL;
 	t_material *material;
 
-	if (!(material = ft_memalloc(sizeof(t_material))))
+	if (!(material = material_construct()))
 		return (false);
 	while (get_next_line(fd, &line))
 	{
+		map_id = 0;
 		sscanf(line, "%s ", type);
-		if (!strcmp(line, "Ka"))
+		printf("%s\n", line);
+		if (!strcmp(type, "Ka"))
 			sscanf(line, "%s %f %f %f\n", type, &material->ambient.x, &material->ambient.y, &material->ambient.z);
-		else if (!strcmp(line, "Kd"))
+		else if (!strcmp(type, "Kd"))
 			sscanf(line, "%s %f %f %f\n", type, &material->diffuse.x, &material->diffuse.y, &material->diffuse.z);
-		else if (!strcmp(line, "Ks"))
+		else if (!strcmp(type, "Ks"))
 			sscanf(line, "%s %f %f %f\n", type, &material->specular.x, &material->specular.y, &material->specular.z);
-		else if (!strcmp(line, "Ns"))
+		else if (!strcmp(type, "Ns"))
 			sscanf(line, "%s %f", type, &material->shininess);
-		else if (!strcmp(line, "d"))
+		else if (!strcmp(type, "d"))
 			sscanf(line, "%s %f", type, &material->transparency);
-		else if (!strcmp(line, "map_Kd"))
+		else if (!strcmp(type, "map_Ka"))
 		{
-			
+			sscanf(line, "%s %s", type, path);
+			if (!(map_id = model->textures->add(model->textures, path)))
+				return (false);
+			material->set_map(material, MATERIAL_MAP_AMBIENT, map_id);
+			ft_printf("map_Ka set\n");
+		}
+		else if (!strcmp(type, "map_Kd"))
+		{
+			sscanf(line, "%s %s", type, path);
+			if (!(map_id = model->textures->add(model->textures, path)))
+				return (false);
+			material->set_map(material, MATERIAL_MAP_DIFFUSE, map_id);
+			ft_printf("Map_diffuse set\n");
+		}
+		else if (!strcmp(type, "map_Ks"))
+		{
+			sscanf(line, "%s %s", type, path);
+			if (!(map_id = model->textures->add(model->textures, path)))
+				return (false);
+			material->set_map(material, MATERIAL_MAP_SPECULAR, map_id);
+			ft_printf("Map_s set\n");
+		}
+		else if (!strcmp(type, "map_Ns"))
+		{
+			sscanf(line, "%s %s", type, path);
+			if (!(map_id = model->textures->add(model->textures, path)))
+				return (false);
+			material->set_map(material, MATERIAL_MAP_SHININESS, map_id);
+			ft_printf("Map_shininess set\n");
+		}
+		else if (!strcmp(type, "norm"))
+		{
+			sscanf(line, "%s %s", type, path);
+			if (!(map_id = model->textures->add(model->textures, path)))
+				return (false);
+			material->set_map(material, MATERIAL_MAP_NORMAL, map_id);
+			ft_printf("Map_normal set\n");
 		}
 		ft_memdel((void *)&line);
 	}

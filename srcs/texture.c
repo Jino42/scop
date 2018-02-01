@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 22:16:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/31 22:24:20 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/01 23:34:22 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static unsigned char	*import_texture(t_texture *texture, const char *path)
 	}
 	if ((read(fd, data_texture, size_texture)) != size_texture)
 	{
-		ft_memdel((void *)data_texture);
+		ft_memdel((void *)&data_texture);
 		close(fd);
 		return (NULL);
 	}
@@ -74,6 +74,7 @@ t_texture			*texture_construct(const char *texture_path)
 		return (NULL);
 	if (!(data_texture = import_texture(texture, texture_path)))
 		return (texture_destroy(&texture));
+	texture->path = strdup(texture_path);
 	glGenTextures(1, &texture->id);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
@@ -89,14 +90,33 @@ t_texture			*texture_construct(const char *texture_path)
 	return (texture);
 }
 
-bool	texture_add(t_m_textures *textures,
+int32_t	texture_already_exist(t_m_textures *textures,
+							const char *texture_path)
+{
+	uint32_t i;
+
+	i = 0;
+	while (i < textures->size)
+	{
+		if (!strcmp(texture_path, textures->texture[i]->path))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+GLuint	texture_add(t_m_textures *textures,
 				const char *texture_path)
 {
+	int32_t index;
 	if (!(textures->texture = realloc(textures->texture, sizeof(t_texture **) * (textures->size + 1))))
-		return (false);
-	textures->texture[textures->size] = texture_construct(texture_path);
+		return (0);
+	if ((index = texture_already_exist(textures, texture_path)) != -1)
+		return (textures->texture[index]->id);
+	if (!(textures->texture[textures->size] = texture_construct(texture_path)))
+		return (0);
 	textures->size++;
-	return (true);
+	return (textures->texture[textures->size - 1]->id);
 }
 /*
 void	texture_set(const t_texture *textures,

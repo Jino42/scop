@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 22:15:26 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/31 22:58:21 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/01 21:40:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,11 @@
 # define F_MAT_JADE (2)
 # define F_MAT_PR (3)
 # define F_MAT_RED_PLASTIC (3)
+
+# define MATERIAL_MAP_AMBIENT (1 << 0)
+# define MATERIAL_MAP_DIFFUSE (1 << 1)
+# define MATERIAL_MAP_SPECULAR (1 << 2)
+# define MATERIAL_MAP_NORMAL (1 << 3)
+# define MATERIAL_MAP_SHININESS (1 << 4)
+
 #endif
