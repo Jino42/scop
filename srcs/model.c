@@ -44,14 +44,6 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 
 	meshs = model->meshs;
 
-	if (model->flag & F_TEXTURE)
-	{
-		shader->use(shader);
-		glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, model->textures->texture[0]->id);
-	}
-
 	shader->use(shader);
 
 	temp = matrix_get_mult_matrix(&model->transform, view);
@@ -101,6 +93,12 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 	uint32_t i = 0;
 	while (i < meshs->size)
 	{
+		if (model->flag & F_TEXTURE)
+		{
+			glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, model->textures->texture[i]->id);
+		}
 		glBindVertexArray(meshs->mesh[i]->VAO);
 		glDrawElements(GL_TRIANGLES, meshs->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -126,13 +124,13 @@ t_model	*model_construct(const char *path,
 	(void)path_texture;
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
+	printf("Path : %s\n", path);
 	model->path = (unsigned char *)strdup(path);
+	model->textures = textures_construct();
 	model->meshs = construct_m_meshs();
+	model->transform = matrix_get_identity();
 	obj_pars(model, path_obj); // Hyper instable
 	model->type_draw = GL_POINTS;
-	model->transform = matrix_get_identity();
-	model->textures = textures_construct();
-
 	if (path_texture)
 	{
 		model->flag |= F_TEXTURE;

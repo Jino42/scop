@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 22:16:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 17:20:28 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:59:10 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ unsigned char *LoadTGAFile(t_texture *texture, const char *filename)
     // or 3 (uncompressed black-and-white images).
     if (tgaFile->imageTypeCode != 2 && tgaFile->imageTypeCode != 3)
     {
+		ft_printf("Image type : %i\n", tgaFile->imageTypeCode );
         fclose(filePtr);
         return (NULL);
     }
@@ -156,7 +157,9 @@ t_texture			*texture_construct(const char *texture_path)
 		return (NULL);
 	//if (!(data_texture = import_texture(texture, texture_path)))
 	if (!(data_texture = LoadTGAFile(texture, texture_path)))
+	{
 		return (texture_destroy(&texture));
+	}
 	texture->path = strdup(texture_path);
 	glGenTextures(1, &texture->id);
 	glBindTexture(GL_TEXTURE_2D, texture->id);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 17:33:29 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 18:06:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ typedef struct		s_mesh
 	GLuint			VTBO;
 	GLuint			EBO;
 	GLuint			VAO;
+
+	t_material		*material;
 
 	GLfloat			*v;
 	GLfloat			*vt;

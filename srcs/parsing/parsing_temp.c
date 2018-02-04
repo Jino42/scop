@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 17:30:05 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 19:31:01 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,14 @@ bool	obj_pars(t_model *model, const char * path_obj)
 	int			fd;
 	char		*line;
 	char		type[10];
+	char		name[1024];
 	int			index_v[4];
 	int			index_vt[4];
 	int			index_vn[4];
 	float		v[4];
 	float		vt[4];
 	float		vn[4];
+	bool		tex = false;
 
 	fd = open(path_obj, O_RDONLY);
 	if (!fd || fd < 0)
@@ -209,6 +211,7 @@ bool	obj_pars(t_model *model, const char * path_obj)
 				mesh->indices[j - last_index] = j - last_index;
 				if (model->flag & SCOP_V)
 				{
+					printf("ind :%i\n", (index_v[sommet] - 1 - last_index_v) * 3 + 0);
 					mesh->indexed_v[(j - last_index) * 3 + 0] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 0];
 					mesh->indexed_v[(j - last_index) * 3 + 1] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 1];
 					mesh->indexed_v[(j - last_index) * 3 + 2] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 2];
@@ -268,7 +271,14 @@ bool	obj_pars(t_model *model, const char * path_obj)
 			}
 		}
 		else if(!strcmp("mtllib", type))
-			;
+		{
+			tex = true;
+			sscanf(line, "%s %s\n", type, name);
+			char *path_mtl = ft_strjoin((const char *)model->path, name);
+			ft_printf("Name mtllib : %s\n", path_mtl);
+			if (!parsing_mtl(model, path_mtl))
+				exit(0);
+		}
 		else if (!strcmp("usemtl", type))
 			;
 		else if (!strcmp("o", type) && mesh->nb_indices)
@@ -339,6 +349,8 @@ bool	obj_pars(t_model *model, const char * path_obj)
 		mesh_buffers(model->meshs->mesh[i], model->flag);
 		i++;
 	}
+	if (tex)
+		model->flag |= F_TEXTURE;
 	return (true);
 }
 
@@ -378,23 +390,26 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 		else if (!strcmp(type, "map_Ka"))
 		{
 			sscanf(line, "%s %s", type, path);
-			if (!(map_id = model->textures->add(model->textures, path)))
+			char *path_tex = ft_strjoin((const char *)model->path, path);
+			if (!(map_id = model->textures->add(model->textures, path_tex)))
 				return (false);
 			material->set_map(material, MATERIAL_MAP_AMBIENT, map_id);
-			ft_printf("map_Ka set\n");
+			ft_printf("map_Ka set %s\n", path_tex);
 		}
 		else if (!strcmp(type, "map_Kd"))
 		{
 			sscanf(line, "%s %s", type, path);
-			if (!(map_id = model->textures->add(model->textures, path)))
+			char *path_tex = ft_strjoin((const char *)model->path, path);
+			if (!(map_id = model->textures->add(model->textures, path_tex)))
 				return (false);
 			material->set_map(material, MATERIAL_MAP_DIFFUSE, map_id);
-			ft_printf("Map_diffuse set\n");
+			ft_printf("Map_diffuse set  %s\n", path_tex);
 		}
 		else if (!strcmp(type, "map_Ks"))
 		{
 			sscanf(line, "%s %s", type, path);
-			if (!(map_id = model->textures->add(model->textures, path)))
+			char *path_tex = ft_strjoin((const char *)model->path, path);
+			if (!(map_id = model->textures->add(model->textures, path_tex)))
 				return (false);
 			material->set_map(material, MATERIAL_MAP_SPECULAR, map_id);
 			ft_printf("Map_s set\n");
@@ -402,18 +417,20 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 		else if (!strcmp(type, "map_Ns"))
 		{
 			sscanf(line, "%s %s", type, path);
-			if (!(map_id = model->textures->add(model->textures, path)))
+			char *path_tex = ft_strjoin((const char *)model->path, path);
+			if (!(map_id = model->textures->add(model->textures, path_tex)))
 				return (false);
 			material->set_map(material, MATERIAL_MAP_SHININESS, map_id);
-			ft_printf("Map_shininess set\n");
+			ft_printf("Map_shininess set %s\n", path_tex);
 		}
 		else if (!strcmp(type, "norm"))
 		{
 			sscanf(line, "%s %s", type, path);
-			if (!(map_id = model->textures->add(model->textures, path)))
+			char *path_tex = ft_strjoin((const char *)model->path, path);
+			if (!(map_id = model->textures->add(model->textures, path_tex)))
 				return (false);
 			material->set_map(material, MATERIAL_MAP_NORMAL, map_id);
-			ft_printf("Map_normal set\n");
+			ft_printf("Map_normal set %s\n", path_tex);
 		}
 		ft_memdel((void *)&line);
 	}

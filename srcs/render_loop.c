@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 17:32:46 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 18:08:14 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 							argv[2],
 							NULL);
 								//"ressources/Orange_obj/Color.rgb");
+
+//	if (argv[3])
+//		if (!parsing_mtl(model, argv[3]))
+//			return (0);
 	t_material *material = material_construct();
 	t_shader *shader  = shader_construct("shader/basic.vert",
 										"shader/basic.frag");
@@ -61,13 +65,6 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 	t_matrix projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
 	t_matrix view = matrix_view(&e->cam);
-
-	if (argv[3])
-	{
-		ft_printf("OUI");
-		if (!parsing_mtl(model, argv[2]))
-			return (0);
-	}
 
 	glEnable(GL_DEPTH_TEST);
 	glPointSize(5.0);
