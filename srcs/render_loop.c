@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/31 23:28:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:23:52 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 (void)e;
 	//mesh->light_temp = vector_construct(0.3f, 0.3f, 0.3f);
 	t_model *model;
-	model = model_construct(argv[1], "ressources/Orange_obj/Color.rgb");
+	model = model_construct(argv[1],
+							"ressources/maya/SirenBody_Bm.tga");
+								//"ressources/Orange_obj/Color.rgb");
 	t_material *material = material_construct();
 	t_shader *shader  = shader_construct("shader/basic.vert",
 										"shader/basic.frag");
@@ -44,7 +46,9 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 	light = light_construct();
 
-	t_model *obj_light = model_construct("ressources/cube/cube.obj", "img/prevo.img");
+	t_model *obj_light = model_construct("ressources/cube/cube.obj",
+											NULL);
+										//"img/prevo.img");
 	t_vector move = vector_construct(0.3f, 0.3f, 0.3f);
 	matrix_translation(&obj_light->transform, &move);
 	matrix_transpose(&obj_light->transform);

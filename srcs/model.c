@@ -130,6 +130,7 @@ t_model	*model_construct(const char *path_obj,
 	model->type_draw = GL_POINTS;
 	model->transform = matrix_get_identity();
 	model->textures = textures_construct();
+
 	if (path_texture)
 	{
 		model->flag |= F_TEXTURE;
