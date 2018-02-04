@@ -34,18 +34,23 @@ bool		model_loader(t_model *model,
 	return (true);
 }
 */
+t_material *material;
 
 void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,
-								t_shader *shader, t_material *material)
+								t_shader *shader)
 {
 	t_m_meshs *meshs;
 	t_matrix temp, mvp;
 
 	meshs = model->meshs;
+if (!material)
+{
+	material = ft_memalloc(sizeof(t_material));
+	MAT_PR(material);
+}
 
 	shader->use(shader);
-
 	temp = matrix_get_mult_matrix(&model->transform, view);
 	mvp = matrix_get_mult_matrix(&temp, projection);
 	glUniform3fv(
@@ -97,7 +102,7 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 		{
 			glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, model->textures->texture[i]->id);
+			glBindTexture(GL_TEXTURE_2D, meshs->mesh[i]->material->texture_diffuse);
 		}
 		glBindVertexArray(meshs->mesh[i]->VAO);
 		glDrawElements(GL_TRIANGLES, meshs->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
@@ -127,6 +132,7 @@ t_model	*model_construct(const char *path,
 	printf("Path : %s\n", path);
 	model->path = (unsigned char *)strdup(path);
 	model->textures = textures_construct();
+	model->materials = materials_construct();
 	model->meshs = construct_m_meshs();
 	model->transform = matrix_get_identity();
 	obj_pars(model, path_obj); // Hyper instable

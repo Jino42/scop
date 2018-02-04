@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 19:31:01 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 20:55:19 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,16 @@ bool	obj_pars(t_model *model, const char * path_obj)
 				exit(0);
 		}
 		else if (!strcmp("usemtl", type))
-			;
+		{
+			t_material *ptr_material;
+			sscanf(line, "%s %s\n", type, name);
+			if (!(ptr_material = model->materials->search(model->materials, name)))
+			{
+				printf("material does not find\n");
+				exit(0);
+			}
+			mesh->material = ptr_material;
+		}
 		else if (!strcmp("o", type) && mesh->nb_indices)
 		{
 			ft_printf("Cet object contient des groups\n");
@@ -360,8 +369,10 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 	char		*line;
 	char		type[10];
 	char		path[1024];
+	char		name[1024];
 	GLuint		map_id;
 
+	bzero(name, 1024);
 	fd = open(path_mtl, O_RDONLY);
 	if (!fd || fd < 0)
 		return (false);
@@ -370,14 +381,21 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 	line = NULL;
 	t_material *material;
 
-	if (!(material = material_construct()))
-		return (false);
+	//if (!(material = material_construct()))
+	//	return (false);
 	while (get_next_line(fd, &line))
 	{
 		map_id = 0;
 		sscanf(line, "%s ", type);
 		printf("%s\n", line);
-		if (!strcmp(type, "Ka"))
+		if (!strcmp(type, "newmtl"))
+		{
+			if (material)
+				model->materials->add(model->materials, material);
+			sscanf(line, "%s %s\n", type, name);
+			material = material_construct(name);
+		}
+		else if (!strcmp(type, "Ka"))
 			sscanf(line, "%s %f %f %f\n", type, &material->ambient.x, &material->ambient.y, &material->ambient.z);
 		else if (!strcmp(type, "Kd"))
 			sscanf(line, "%s %f %f %f\n", type, &material->diffuse.x, &material->diffuse.y, &material->diffuse.z);
@@ -432,6 +450,8 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 			material->set_map(material, MATERIAL_MAP_NORMAL, map_id);
 			ft_printf("Map_normal set %s\n", path_tex);
 		}
+		if (material)
+			model->materials->add(model->materials, material);
 		ft_memdel((void *)&line);
 	}
 	return (true);

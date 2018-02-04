@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 18:06:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 20:53:33 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ typedef struct		s_m_materials
 	uint32_t		size;
 	t_material		**material;
 	char			**path;
+	bool			(*add)(struct s_m_materials *, struct s_material *);
+	t_material		*(*search)(struct s_m_materials *, const char *);
 }					t_m_materials;
 t_m_materials			*materials_construct();
 void				*material_destruct(t_material **material);
@@ -160,10 +162,9 @@ t_m_meshs				*construct_m_meshs();
 typedef struct		s_model
 {
 	unsigned char 	*path;
-	t_m_textures		*textures;
-	uint32_t		size_materials;
-	t_material		**materials;
-	t_m_meshs			*meshs;
+	t_m_textures	*textures;
+	t_m_materials	*materials;
+	t_m_meshs		*meshs;
 	t_matrix		transform;
 	GLenum			type_draw;
 
@@ -178,7 +179,7 @@ t_model				*model_construct(const char *path,
 									const char *path_textures);
 void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,
-								t_shader *shader, t_material *material);
+								t_shader *shader);
 
 typedef struct		s_camfps
 {

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 18:08:14 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 19:50:18 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 //	if (argv[3])
 //		if (!parsing_mtl(model, argv[3]))
 //			return (0);
-	t_material *material = material_construct();
 	t_shader *shader  = shader_construct("shader/basic.vert",
 										"shader/basic.frag");
 	matrix_scaling(&model->transform, 0.005f);
 	(void)shader;
-	(void)material;
 	t_light *light;
 
 	light = light_construct();
@@ -88,8 +86,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 			matrix_scaling(&model->transform, 0.995f);
 
 		view = matrix_view(&e->cam);
-		model_render(model, &e->cam, light, &view, &projection, shader, material);
-		model_render(obj_light, &e->cam, light, &view, &projection, shader_l, material);
+		model_render(model, &e->cam, light, &view, &projection, shader);
+		model_render(obj_light, &e->cam, light, &view, &projection, shader_l);
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
 	}
