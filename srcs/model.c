@@ -117,7 +117,8 @@ void	*model_destroy(t_model **model)
 	return (NULL);
 }
 
-t_model	*model_construct(const char *path_obj,
+t_model	*model_construct(const char *path,
+						const char *path_obj,
 						const char *path_texture)
 {
 	t_model		*model;
@@ -125,6 +126,7 @@ t_model	*model_construct(const char *path_obj,
 	(void)path_texture;
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
+	model->path = (unsigned char *)strdup(path);
 	model->meshs = construct_m_meshs();
 	obj_pars(model, path_obj); // Hyper instable
 	model->type_draw = GL_POINTS;

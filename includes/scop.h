@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/01 23:02:09 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:33:29 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ t_m_meshs				*construct_m_meshs();
 
 typedef struct		s_model
 {
+	unsigned char 	*path;
 	t_m_textures		*textures;
 	uint32_t		size_materials;
 	t_material		**materials;
@@ -170,7 +171,8 @@ typedef struct		s_model
 						t_matrix *, t_matrix *);
 }					t_model;
 void				*model_destroy(t_model **model);
-t_model				*model_construct(const char *path_obj,
+t_model				*model_construct(const char *path,
+									const char *path_obj,
 									const char *path_textures);
 void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,

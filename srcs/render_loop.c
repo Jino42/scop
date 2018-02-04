@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 17:23:52 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:32:46 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	//mesh->light_temp = vector_construct(0.3f, 0.3f, 0.3f);
 	t_model *model;
 	model = model_construct(argv[1],
-							"ressources/maya/SirenBody_Bm.tga");
+							argv[2],
+							NULL);
 								//"ressources/Orange_obj/Color.rgb");
 	t_material *material = material_construct();
 	t_shader *shader  = shader_construct("shader/basic.vert",
@@ -46,7 +47,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 	light = light_construct();
 
-	t_model *obj_light = model_construct("ressources/cube/cube.obj",
+	t_model *obj_light = model_construct("ressources/cube/",
+										"ressources/cube/cube.obj",
 											NULL);
 										//"img/prevo.img");
 	t_vector move = vector_construct(0.3f, 0.3f, 0.3f);
@@ -60,8 +62,12 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	t_matrix projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
 	t_matrix view = matrix_view(&e->cam);
 
-	if (argv[2])
-		parsing_mtl(model, argv[2]);
+	if (argv[3])
+	{
+		ft_printf("OUI");
+		if (!parsing_mtl(model, argv[2]))
+			return (0);
+	}
 
 	glEnable(GL_DEPTH_TEST);
 	glPointSize(5.0);
