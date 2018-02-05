@@ -9,33 +9,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-/*
-bool		push_mesh(t_model *model, t_mesh *new_mesh)
-{
-	model->size_mesh++;
-	model->mesh = realloc(model->mesh, model->size_mesh * sizeof(t_mesh *));
-	model->mesh[model->size_mesh - 1] = new_mesh;
-}
-
-bool		model_loader(t_model *model,
-						const char *name_obj,
-						const char *path_obj)
-{
-	int fd;
-	char *full_path_obj = ft_strjoin(name_obj, path_obj);
-	t_mesh *mesh;
-
-	fd = open(path_obj, O_RDONLY);
-	if (!fd || fd < 0)
-		return (false);
-	if (!(mesh = ft_memalloc(t_mesh)))
-		return (NULL);
-	;
-	return (true);
-}
-*/
-t_material *material;
-
 void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,
 								t_shader *shader)
@@ -44,11 +17,7 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 	t_matrix temp, mvp;
 
 	meshs = model->meshs;
-if (!material)
-{
-	material = ft_memalloc(sizeof(t_material));
-	MAT_PR(material);
-}
+	t_material *material = NULL;
 
 	shader->use(shader);
 	temp = matrix_get_mult_matrix(&model->transform, view);
@@ -69,21 +38,6 @@ if (!material)
 			glGetUniformLocation(shader->program, "light.position"),
 			1,
 			(GLfloat *)&light->position);
-	glUniform3fv(
-			glGetUniformLocation(shader->program, "material.ambient"),
-			1,
-			(GLfloat *)&material->ambient);
-	glUniform3fv(
-			glGetUniformLocation(shader->program, "material.diffuse"),
-			1,
-			(GLfloat *)&material->diffuse);
-	glUniform3fv(
-			glGetUniformLocation(shader->program, "material.specular"),
-			1,
-			(GLfloat *)&material->specular);
-	glUniform1f(
-			glGetUniformLocation(shader->program, "material.shininess"),
-			material->shininess);
 	glUniform3f(
 			glGetUniformLocation(shader->program, "cameraPosition"),
 			cam->position.x,
@@ -100,10 +54,28 @@ if (!material)
 	{
 		if (model->flag & F_TEXTURE)
 		{
+			material =  meshs->mesh[i]->material;
 			glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, meshs->mesh[i]->material->texture_diffuse);
+			glBindTexture(GL_TEXTURE_2D, material->texture_diffuse);
 		}
+		else
+			material = model->materials->material[0];
+		glUniform3fv(
+				glGetUniformLocation(shader->program, "material.ambient"),
+				1,
+				(GLfloat *)&material->ambient);
+		glUniform3fv(
+				glGetUniformLocation(shader->program, "material.diffuse"),
+				1,
+				(GLfloat *)&material->diffuse);
+		glUniform3fv(
+				glGetUniformLocation(shader->program, "material.specular"),
+				1,
+				(GLfloat *)&material->specular);
+		glUniform1f(
+				glGetUniformLocation(shader->program, "material.shininess"),
+				material->shininess);
 		glBindVertexArray(meshs->mesh[i]->VAO);
 		glDrawElements(GL_TRIANGLES, meshs->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);

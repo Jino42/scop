@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 21:46:41 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 20:56:31 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/05 23:42:01 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ t_material			*material_construct_tab()
 
 	if (!(material = ft_memalloc(sizeof(t_material) * NB_MAT)))
 		return (NULL);
-	MAT_EMERALD((&material[F_MAT_EMERALD]));
-	MAT_PR((&material[F_MAT_PR]));
+//	MAT_EMERALD((&material[F_MAT_EMERALD]));
+//	MAT_PR((&material[F_MAT_PR]));
 	//material[F_MAT_PEARL] = MAT_PEARL;
 	//material[F_MAT_JADE] = MAT_JADE;
 	//material[F_MAT_RED_PLASTIC] = MAT_RED_PLASTIC;
@@ -50,10 +50,11 @@ t_material		*material_construct(const char *name)
 
 	if (!(new_material = ft_memalloc(sizeof(t_material))))
 		return (NULL);
-	MAT_PR(new_material);
 	new_material->set_map = &material_set_map;
 	if (name)
 		new_material->name = strdup(name);
+	else
+		new_material->name = strdup("no");
 	return (new_material);
 }
 
@@ -90,11 +91,15 @@ void			*material_destruct(t_material **material)
 
 t_m_materials		*materials_construct()
 {
-	t_m_materials *materials;
+	t_m_materials	*materials;
+	t_material		*material;
 
 	if (!(materials = ft_memalloc(sizeof(t_m_materials))))
 		return (NULL);
+	material = material_construct("basic");
+	MAT_PR(material);
 	materials->add = &materials_add;
 	materials->search = &materials_find;
+	materials->add(materials, material);
 	return (materials);
 }

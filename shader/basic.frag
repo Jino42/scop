@@ -8,6 +8,13 @@ struct t_material
 	vec3	diffuse;
 	vec3	specular;
 	float	shininess;
+	float	transparency;
+	int		texture_ambient;
+	int		texture_diffuse;
+	int		texture_specular;
+	int		texture_shininess;
+	int		texture_normal;
+	int		flag;
 };
 
 struct t_light
@@ -44,7 +51,7 @@ t_material newMaterial;
 void main()
 {
 	newMaterial = material;
-	newMaterial.ambient = texture(testTexture, uv).rgb;
+	//newMaterial.ambient = texture(testTexture, uv).rgb;
 	newMaterial.diffuse = texture(testTexture, uv).rgb;
 	//newMaterial.specular = vec3(1.f, 0.689344f, 0.154515f);
 
