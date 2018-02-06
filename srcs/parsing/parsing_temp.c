@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 20:55:19 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/06 23:44:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void mesh_buffers(t_mesh *mesh, const uint32_t flag)
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		for(int32_t i = 0;i< (int32_t)mesh->nb_indices;i++)
+		{
+			printf("%.2f %.2f\n", mesh->indexed_vt[i*2], mesh->indexed_vt[i*2+1]);
+		}
 	}
 
 
@@ -192,7 +196,6 @@ bool	obj_pars(t_model *model, const char * path_obj)
 				if (ret != 7 && ret != 9)
 					return (false);
 				ret = (ret - 1) >> 1;
-				ft_printf("Ret : [%i]\n", ret);
 			}
 			if (model->flag == (SCOP_V | SCOP_VN | SCOP_VT))
 			{
@@ -211,7 +214,6 @@ bool	obj_pars(t_model *model, const char * path_obj)
 				mesh->indices[j - last_index] = j - last_index;
 				if (model->flag & SCOP_V)
 				{
-					printf("ind :%i\n", (index_v[sommet] - 1 - last_index_v) * 3 + 0);
 					mesh->indexed_v[(j - last_index) * 3 + 0] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 0];
 					mesh->indexed_v[(j - last_index) * 3 + 1] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 1];
 					mesh->indexed_v[(j - last_index) * 3 + 2] = mesh->v[(index_v[sommet] - 1 - last_index_v) * 3 + 2];

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 20:53:33 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/06 22:59:16 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define SCOP_VN (1 << 3)
 # define F_TEXTURE (1 << 4)
 
-#define MAX_SOURCE_SIZE 2000
+#define MAX_SOURCE_SIZE 8000
 #define BUFFER_LOG 2048
 
 typedef struct		s_shader
