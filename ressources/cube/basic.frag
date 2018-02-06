@@ -69,21 +69,17 @@ out vec4 fragColor;
 in vec2 uv;
 in vec3 position;
 in mat4 oM;
+uniform vec3		cameraPosition;
 in mat4 oMVP;
+vec3 lightDir;
+uniform vec3 camDir;
 
 void    main()
 {
-   // Normalized pixel coordinates (from 0 to 1)
-   vec2 iResolution = vec2(1920.f, 1080.f);
    vec2 nuv = -1.0 + uv.xy * 2;
-   vec3 camPos = vec3(0.0f, 0.0f, -1.8f);
-   vec3 camDi = normalize(vec3(nuv, 1.0));
-   vec3 camDir;
+   vec3 camPos =cameraPosition;
+   vec3 camDi = normalize(vec3(nuv, 1.));
    float angle = 0.5;
-   camDir.x = camDi.x * cos(angle) + camDi.z * sin(angle);
-   camDir.y = camDi.y;
-   camDir.z = camDi.x * -sin(angle) + camDi.z * cos(angle);
-   camDir = camDi;
 
    // Time varying pixel color
    vec3 color = mix(vec3(0.4f, 0.5f, 0.6f), vec3(0.7f, 0.8f, 0.9f), -uv.y);
@@ -100,7 +96,7 @@ void    main()
                                     DE(pos+Dd.yyx)-DE(pos-Dd.yyx)));
            //float fc = fract(length(pos - camPos));
            //color = vec3(fc, fc, fc);
-           color = vec3(0.25, 0.5, 0.25) * dot(n, -camDir);
+           color = vec3(0.25, 0.5, 0.25) * dot(n, -lightDir);
            break;
        }
 
