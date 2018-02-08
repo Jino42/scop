@@ -22,7 +22,7 @@ void main()
 	oV = V;
 	oP = P;
 	oMVP = MVP;
-	gl_Position =  MVP * vec4(vertexPos, 1.0f);
-	position = vec3(M * vec4(vertexPos, 1.f));
+	gl_Position = vec4(vertexPos, 1.0f);
+	position = vertexPos;
 	uv = vt;
 }

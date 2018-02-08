@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 19:50:18 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/02/09 00:08:27 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	t_model *obj_light = model_construct("ressources/cube/",
 										"ressources/cube/cube.obj",
 											NULL);
-										//"img/prevo.img");
+	t_model *obj_f = model_construct("ressources/fract/",
+										"ressources/fract/cub.obj",
+											NULL);
+	if(!obj_f)
+		exit(0);
 	t_vector move = vector_construct(0.3f, 0.3f, 0.3f);
 	matrix_translation(&obj_light->transform, &move);
 	matrix_transpose(&obj_light->transform);
@@ -60,6 +64,8 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 
 	t_shader *shader_l  = shader_construct("ressources/cube/basic.vert",
 										"ressources/cube/basic.frag");
+				t_shader *shader_f  = shader_construct("ressources/fract/basic.vert",
+													"ressources/fract/basic.frag");
 
 	t_matrix projection = matrix_get_projection_opengl(66.f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.f);
 	t_matrix view = matrix_view(&e->cam);
@@ -88,6 +94,7 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 		view = matrix_view(&e->cam);
 		model_render(model, &e->cam, light, &view, &projection, shader);
 		model_render(obj_light, &e->cam, light, &view, &projection, shader_l);
+		model_render(obj_f, &e->cam, light, &view, &projection, shader_f);
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
 	}

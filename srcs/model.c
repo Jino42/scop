@@ -43,14 +43,20 @@ void		model_render(t_model *model, t_cam *cam, t_light *light,
 			cam->position.x,
 			cam->position.y,
 			cam->position.z);
-			glUniform3f(
-					glGetUniformLocation(shader->program, "camDir"),
-					cam->to.x,
-					cam->to.y,
-					cam->to.z);
+	glUniform3f(
+			glGetUniformLocation(shader->program, "camDir"),
+			cam->to.x,
+			cam->to.y,
+			cam->to.z);
 	glUniformMatrix4fv(
 			glGetUniformLocation(shader->program, "MVP"),
 			1, GL_FALSE, &mvp.matrix[0][0]);
+	glUniformMatrix4fv(
+			glGetUniformLocation(shader->program, "V"),
+			1, GL_FALSE, &view->matrix[0][0]);
+	glUniformMatrix4fv(
+			glGetUniformLocation(shader->program, "P"),
+			1, GL_FALSE, &projection->matrix[0][0]);
 	glUniformMatrix4fv(
 			glGetUniformLocation(shader->program, "M"),
 			1, GL_FALSE, &model->transform.matrix[0][0]);

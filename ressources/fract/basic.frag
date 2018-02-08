@@ -78,5 +78,44 @@ uniform vec3 camDir;
 
 void    main()
 {
-   fragColor = vec4(0.7, 0.8, 0.9, 1.0);
+	mat4 nV = oV;
+	nV[3][0] = 0;
+	nV[3][1] = 0;
+	nV[3][2] = 0;
+	mat4 nM = mat4(1.0);
+	nM[3][0] = oV[3][0];
+	nM[3][1] = oV[3][1];
+	nM[3][2] = oV[3][2];
+   vec2 nuv = -1.0 + uv.xy * 2;
+   vec3 camPos;
+   vec3 tmp = normalize(vec3(nuv, 1.));
+   vec3 camDi = normalize(position - cameraPosition);
+   float angle = 0.5;
+
+   // Time varying pixel color
+  //vec3 dir = vec3(vec4(camDi, 1.0) * oV);
+  vec3 dir = vec3(vec4(tmp, 1.0) * nV);
+   vec4 color = vec4(0.4f, 0.4f, 0.4f, 0.0f);
+   vec3 pos = vec3(vec3(0.,0.,-2.) + cameraPosition);
+   for (int i = 0; i < 64; i++)
+   {
+       float d = map(pos);
+       if (d < 0.01f)
+       {
+           //color = material(pos);
+        	vec2 Dd = vec2(0.01, 0.0);
+           	vec3 n = normalize(vec3(DE(pos+Dd.xyy)-DE(pos-Dd.xyy),
+                                DE(pos+Dd.yxy)-DE(pos-Dd.yxy),
+                                    DE(pos+Dd.yyx)-DE(pos-Dd.yyx)));
+           //float fc = fract(length(pos - camPos));
+           //color = vec3(fc, fc, fc);
+           color = vec4(0.25, 0.5, 0.25, 1.) * dot(n, -dir);
+           break;
+       }
+       pos += d * dir;
+   }
+
+   // Output to screen
+   fragColor = color;
+   //fragColor = color;
 }
