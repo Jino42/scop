@@ -1,3 +1,6 @@
+scop
+objs
+libs
 # Prerequisites
 *.d
 

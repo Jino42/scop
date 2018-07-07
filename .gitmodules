@@ -7,3 +7,6 @@
 [submodule "matrix"]
 	path = matrix
 	url = https://github.com/Jino42/matrix
+[submodule "libft"]
+	path = libft
+	url = https://github.com/Jino42/libft
