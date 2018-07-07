@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/04/22 19:54:13 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/08 00:20:04 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,25 +25,14 @@ SANIT = -fsanitize=address
 SRC_DIR = srcs/
 
 SRC = main.c \
-	  mesh.c \
-	  texture.c \
-	  light.c \
-	  model.c \
-	  material.c \
-	  shader.c \
-	  end_of_program.c \
-	  init.c \
-	  glad.c \
-	  glfw_init.c \
-	  tools.c \
-	  matrix_view.c \
-	  matrix_projection.c \
-	  glfw_temp.c \
-	  render_loop.c \
-	  parsing/parsing_temp.c \
-	  update/update_fps.c \
-	  event/event_mouse.c \
-	  event/event_cam.c
+		flag.c \
+		env.c \
+		fps.c \
+		glad.c \
+		glfw/glfw_construct.c \
+		glfw/glfw_destruct.c \
+		glfw/glfw_update.c \
+		glfw/glfw_callback_resize.c
 
 OBJ_DIR = objs/
 

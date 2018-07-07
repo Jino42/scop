@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 21:59:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/10 19:21:42 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/07 23:25:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ t_texture			*texture_3construct()
 	return (texture);
 }
 
-void	matrix_scaling(t_matrix *m, const float s)
-{
-	m->matrix[0][0] *= s;
-	m->matrix[1][1] *= s;
-	m->matrix[2][2] *= s;
-}
 /*
 void	mesh_change_texture(t_env *e, t_mesh *mesh)
 {
@@ -74,7 +68,6 @@ bool	render_loop(t_env *e, const char **argv, t_glfw *glfw)
 	matrix_translation(&obj_light->transform, &move);
 	matrix_transpose(&obj_light->transform);
 	matrix_scaling(&obj_light->transform, 0.05f);
-
 	//matrix_scaling(&obj_light2->transform, 1.f);
 
 	t_shader *shader_l  = shader_construct("ressources/cube/basic.vert",
