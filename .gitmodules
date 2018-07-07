@@ -4,3 +4,6 @@
 [submodule "vector"]
 	path = vector
 	url = https://github.com/Jino42/vector
+[submodule "matrix"]
+	path = matrix
+	url = https://github.com/Jino42/matrix
