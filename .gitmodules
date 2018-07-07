@@ -1,3 +1,6 @@
 [submodule "nanogui"]
 	path = nanogui
 	url = https://github.com/wjakob/nanogui
+[submodule "vector"]
+	path = vector
+	url = https://github.com/Jino42/vector
