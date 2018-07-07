@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 22:16:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/04 17:59:10 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/04/22 19:53:30 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,12 @@ unsigned char *LoadTGAFile(t_texture *texture, const char *filename)
     imageSize = tgaFile->imageWidth * tgaFile->imageHeight * colorMode;
 
     // Allocate memory for the image data.
-    tgaFile->imageData = (unsigned char*)malloc(sizeof(unsigned char)*imageSize);
-
+	printf("%li\n", imageSize);
+    if (!(tgaFile->imageData = (unsigned char*)ft_memalloc(sizeof(unsigned char)*imageSize)))
+	{
+		ft_printf("Rip\n");
+		exit(0);
+	}
     // Read the image data.
     fread(tgaFile->imageData, sizeof(unsigned char), imageSize, filePtr);
 

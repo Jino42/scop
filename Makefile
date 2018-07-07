@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/01/29 22:54:01 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/04/22 19:54:13 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ CFLAGS = -Wall -Werror -Wextra -g3
 
 INC_FILES = includes/scop.h includes/scop_glfw.h
 
-INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -fsanitize=address
+INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3
+
+SANIT = -fsanitize=address
 
 SRC_DIR = srcs/
 

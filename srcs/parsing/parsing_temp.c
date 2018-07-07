@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/18 22:45:11 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/02/09 23:48:42 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/04/22 19:47:49 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void mesh_buffers(t_mesh *mesh, const uint32_t flag)
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		for(int32_t i = 0;i< (int32_t)mesh->nb_indices;i++)
+		/*for(int32_t i = 0;i< (int32_t)mesh->nb_indices;i++)
 		{
 			printf("%.2f %.2f\n", mesh->indexed_vt[i*2], mesh->indexed_vt[i*2+1]);
-		}
+		}*/
 	}
 
 
@@ -389,7 +389,7 @@ bool		parsing_mtl(t_model *model, const char *path_mtl)
 	{
 		map_id = 0;
 		sscanf(line, "%s ", type);
-		printf("%s\n", line);
+	//	printf("%s\n", line);
 		if (!strcmp(type, "newmtl"))
 		{
 			if (material)
