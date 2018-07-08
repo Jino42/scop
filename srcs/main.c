@@ -9,5 +9,6 @@ int			main(int argc, char **argv)
 	if (!(e = env_construct()))
 		return (ft_bool_error("Erreur: L'initialisation de t_env a échoué", NULL, NULL));
 	loop(e);
+	env_destruct(e);
 	return (0);
 }

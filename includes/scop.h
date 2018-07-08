@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/08 21:19:50 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/08 23:54:38 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct		s_shader
 
 	void			(*use)(struct s_shader *);
 }					t_shader;
-void				*shader_destroy(t_shader **shader);
+void				*shader_destruct(t_shader **shader);
 t_shader			*shader_construct(const char *vertex_shader_path,
 									const char *fragment_shader_path);
 
@@ -76,10 +76,85 @@ typedef struct		s_m_shader
 }					t_m_shader;
 t_m_shader			*m_shader_construct();
 void				*m_shader_destruct(t_m_shader **m_shader);
+bool				m_shader_add(t_m_shader *m_shader,
+								const char *vertex_shader_path,
+								const char *fragment_shader_path);
 
 /*						*/
+/*		  MESH			*/
 /*						*/
+typedef struct		s_mesh
+{
+	GLuint			VBO;
+	GLuint			VNBO;
+	GLuint			VTBO;
+	GLuint			EBO;
+	GLuint			VAO;
+
+	//t_material		*material;
+
+	GLfloat			*v;
+	GLfloat			*vt;
+	GLfloat			*vn;
+	GLfloat			*indexed_v;
+	GLfloat			*indexed_vt;
+	GLfloat			*indexed_vn;
+	GLuint			*indices;
+	GLint			nb_v;
+	GLint			nb_vt;
+	GLint			nb_vn;
+	GLint			nb_indexed_v;
+	GLint			nb_indexed_vt;
+	GLint			nb_indexed_vn;
+	GLint			nb_faces;
+	GLint			nb_indices;
+}					t_mesh;
+void				*mesh_destruct(t_mesh **mesh);
+t_mesh				*mesh_construct();
+
+typedef struct		s_m_mesh
+{
+	unsigned int	size;
+	t_mesh			**mesh;
+	bool			(*add)(struct s_m_mesh *);
+}					t_m_mesh;
+t_m_mesh			*m_mesh_construct();
+void				*m_mesh_destruct(t_m_mesh **m_mesh);
+bool				m_mesh_add(t_m_mesh *m_mesh);
+
 /*						*/
+/*		  MODEL			*/
+/*						*/
+typedef struct		s_model
+{
+}					t_model;
+void				*model_destruct(t_model **model);
+t_model				*model_construct();
+
+typedef struct		s_m_model
+{
+	unsigned int	size;
+	t_model			**model;
+	bool			(*add)(struct s_m_model *);
+}					t_m_model;
+t_m_model			*m_model_construct();
+void				*m_model_destruct(t_m_model **m_model);
+bool				m_model_add(t_m_model *m_model);
+
+/*						*/
+/*		  SCENE			*/
+/*						*/
+typedef struct		s_scene
+{
+	t_m_shader		*m_shader;
+	t_m_mesh		*m_mesh;
+	t_m_model		*m_model;
+	bool			(*shader_add)(t_m_shader*, const char *, const char *);
+	bool			(*mesh_add)(t_m_mesh *);
+	bool			(*model_add)(t_m_model *);
+}					t_scene;
+void				*scene_destruct(t_scene **scene);
+t_scene				*scene_construct();
 
 typedef struct		s_cam
 {
@@ -103,9 +178,7 @@ typedef struct		s_env
 	t_glfw			*glfw;
 	t_cam			*cam;
 
-
-	//to scene
-	t_m_shader		*m_shader;
+	t_scene			*scene;
 
 	int64_t			flag;
 }					t_env;

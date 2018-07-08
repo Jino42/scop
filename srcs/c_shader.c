@@ -71,7 +71,7 @@ void			shader_use(t_shader *shader)
 	glUseProgram(shader->program);
 }
 
-void		*shader_destroy(t_shader **shader)
+void		*shader_destruct(t_shader **shader)
 {
 	glDeleteProgram((*shader)->program);
 	ft_memdel((void **)shader);
@@ -95,20 +95,20 @@ t_shader		*shader_construct(const char *vertex_shader_path,
 	{
 		glDeleteShader(vertex_shader);
 		glDeleteShader(fragment_shader);
-		return (shader_destroy(&shader));
+		return (shader_destruct(&shader));
 	}
 	if (!shader_build_shader(&fragment_shader, GL_FRAGMENT_SHADER,
 											fragment_shader_path))
 	{
 		glDeleteShader(vertex_shader);
 		glDeleteShader(fragment_shader);
-		return (shader_destroy(&shader));
+		return (shader_destruct(&shader));
 	}
 	if (!shader_build_shader_program(shader, vertex_shader, fragment_shader))
 	{
 		glDeleteShader(vertex_shader);
 		glDeleteShader(fragment_shader);
-		return (shader_destroy(&shader));
+		return (shader_destruct(&shader));
 	}
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
@@ -155,7 +155,7 @@ void			*m_shader_destruct(t_m_shader **m_shader)
 			i = 0;
 			while (i < (*m_shader)->size)
 			{
-				shader_destroy(&(*m_shader)->shader[i]);
+				shader_destruct(&(*m_shader)->shader[i]);
 				i++;
 			}
 			ft_memdel((void **)&(*m_shader)->shader);

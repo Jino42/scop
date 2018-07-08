@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/08 21:21:27 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/08 23:50:10 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,9 @@ SRC = main.c \
 		loop.c \
 		flag.c \
 		c_env.c \
+		c_mesh.c \
+		c_scene.c \
+		c_model.c \
 		c_cam.c \
 		c_fps.c \
 		c_shader.c \
