@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/08 00:20:04 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/08 21:21:27 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,14 +25,21 @@ SANIT = -fsanitize=address
 SRC_DIR = srcs/
 
 SRC = main.c \
-		flag.c \
-		env.c \
-		fps.c \
 		glad.c \
+		loop.c \
+		flag.c \
+		c_env.c \
+		c_cam.c \
+		c_fps.c \
+		c_shader.c \
 		glfw/glfw_construct.c \
 		glfw/glfw_destruct.c \
 		glfw/glfw_update.c \
-		glfw/glfw_callback_resize.c
+		glfw/glfw_callback_resize.c \
+		event/event_mouse.c \
+		tools/matrixgl_view.c \
+		tools/radian_degree.c \
+		tools/matrixgl_projection.c
 
 OBJ_DIR = objs/
 
@@ -75,6 +82,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/glfw
 	@mkdir $(OBJ_DIR)$/event
 	@mkdir $(OBJ_DIR)$/parsing
+	@mkdir $(OBJ_DIR)$/tools
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
@@ -98,3 +106,9 @@ fclean:
 	@/bin/rm -f $(NAME)
 
 re: fclean all
+
+clean_project:
+	@/bin/rm -rf $(OBJ_DIR)
+	@/bin/rm -f $(NAME)
+
+project: clean_project all

@@ -14,6 +14,13 @@ void 	*env_destruct(void *ptr)
 		glfw_destruct(&e->glfw);
 	if (e->fps)
 		fps_destruct(&e->fps);
+	if (e->cam)
+		cam_destruct(&e->cam);
+
+	// To Scene
+	if (e->m_shader)
+		m_shader_destruct(&e->m_shader);
+
 	ft_memdel((void **)&e);
 	return (NULL);
 }
@@ -27,6 +34,18 @@ t_env 	*env_construct()
 	if (!(e->glfw = glfw_construct("scop", 1920, 1080)))
 		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
 	if (!(e->fps = fps_construct()))
-		return (env_destruct(&e));
+		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
+	if (!(e->cam = cam_construct()))
+		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
+
+	// To Scene
+	if (!(e->m_shader = m_shader_construct()))
+		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
+
+	if (!e->m_shader->add(e->m_shader, "shader/basic.vert", "shader/basic.frag"))
+		return (ft_error("Erreur: L'ajout de shader a échoué", &env_destruct, e));
+	if (!e->m_shader->add(e->m_shader, "shader/basic.vert", "shader/basic.frag"))
+		return (ft_error("Erreur: L'ajout de shader a échoué", &env_destruct, e));
+
 	return (e);
 }

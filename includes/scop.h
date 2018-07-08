@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/08 20:08:29 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/08 21:19:50 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,33 @@ t_fps 				*fps_construct();
 void 				*fps_destruct(t_fps **e);
 void				fps_update(t_fps *fps, float *ptr);
 
+
+/*						*/
+/*		  SHADER		*/
+/*						*/
+typedef struct		s_shader
+{
+	GLuint			program;
+
+	void			(*use)(struct s_shader *);
+}					t_shader;
+void				*shader_destroy(t_shader **shader);
+t_shader			*shader_construct(const char *vertex_shader_path,
+									const char *fragment_shader_path);
+
+typedef struct		s_m_shader
+{
+	unsigned int	size;
+	t_shader		**shader;
+	bool			(*add)(struct s_m_shader *, const char *, const char *);
+}					t_m_shader;
+t_m_shader			*m_shader_construct();
+void				*m_shader_destruct(t_m_shader **m_shader);
+
+/*						*/
+/*						*/
+/*						*/
+
 typedef struct		s_cam
 {
 	float			pitch;
@@ -74,14 +101,21 @@ typedef struct		s_env
 	t_fps			*fps;
 	float			delta_time;
 	t_glfw			*glfw;
+	t_cam			*cam;
+
+
+	//to scene
+	t_m_shader		*m_shader;
 
 	int64_t			flag;
 }					t_env;
 t_env 				*env_construct();
 void 				*env_destruct(void *ptr);
 
+
+
 int					flag(int64_t *f, int argc, char **argv);
-int					end_of_program(t_env *e, char *str, int flag);
+bool				loop(t_env *e);
 
 
 
