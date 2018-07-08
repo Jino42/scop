@@ -24,7 +24,7 @@ t_env 	*env_construct()
 
 	if (!(e = ft_memalloc(sizeof(t_env))))
 		return (NULL);
-	if (!(e->glfw = glfw_construct("scop", 1920, 1080)) || 1)
+	if (!(e->glfw = glfw_construct("scop", 1920, 1080)))
 		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
 	if (!(e->fps = fps_construct()))
 		return (env_destruct(&e));

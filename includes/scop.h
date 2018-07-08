@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/08 00:31:12 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/08 20:08:29 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 #define BUFFER_LOG 2048
 
 
-
 typedef struct		s_fps
 {
 	struct timeval	step2;
@@ -55,9 +54,25 @@ t_fps 				*fps_construct();
 void 				*fps_destruct(t_fps **e);
 void				fps_update(t_fps *fps, float *ptr);
 
+typedef struct		s_cam
+{
+	float			pitch;
+	float			yaw;
+	float			sensitivity;
+	t_vector		front;
+	t_vector		last_cursor_position;
+	t_vector		position;
+	t_vector		to;
+	t_vector		up;
+}					t_cam;
+t_cam 		*cam_construct();
+void		*cam_destruct(t_cam **cam);
+void		cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time);
+
 typedef struct		s_env
 {
 	t_fps			*fps;
+	float			delta_time;
 	t_glfw			*glfw;
 
 	int64_t			flag;
@@ -70,19 +85,21 @@ int					end_of_program(t_env *e, char *str, int flag);
 
 
 
-//t_event_camfps		*singleton_mouse();
+t_vector			*singleton_mouse_position();
 void				event_mouse(GLFWwindow *window, double pos_x, double pos_y);
-//void				event_cam(t_env *e, t_cam *cam, t_glfw *glfw);
 
 float				get_degrees(const float radians);
 float				get_radians(const float degrees);
 
-t_matrix		look_at(const t_vector *position,
+
+
+t_matrix		matrixgl_view(t_cam *cam);
+t_matrix		look_at_gl(const t_vector *position,
 						const t_vector *to,
 						const t_vector *up);
-t_matrix		matrix_get_projection_opengl(const float fov,
-												const float ratio,
-												const float near,
-												const float far);
+t_matrix matrixgl_get_projection(const float fov,
+									const float ratio,
+									const float near,
+									const float far);
 
 #endif
