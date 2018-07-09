@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 20:51:59 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/09 23:07:35 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/09 23:18:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_matrix		matrixgl_view(t_cam *cam)
 	t_vector		dir_look;
 
 	cam->to = cam->front;
-	printf("[%.2f %.2f %.2f]\n", cam->to.x, cam->to.y, cam->to.z );
 	dir_look = vector_get_add(&cam->position, &cam->to);
 	return (look_at_gl(&cam->position, &dir_look, &cam->up));
 }

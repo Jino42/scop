@@ -62,7 +62,6 @@ void		scene_render(t_scene *scene)
 			glGetUniformLocation(shader->program, "M"),
 			1, GL_FALSE, &model->transform.matrix[0][0]);
 	uint32_t i = 0;
-	printf("%i\n", m_mesh->size);
 	while (i < m_mesh->size)
 	{
 		glUniform3fv(

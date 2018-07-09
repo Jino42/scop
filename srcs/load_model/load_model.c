@@ -309,7 +309,7 @@ bool	obj_pars(t_scene *scene, const char * path_obj)
 	mesh_buffers(mesh, mesh->flag);
 	scene->mesh_add(scene, mesh);
 	scene->model_add(scene, model);
-	obj_pars_debug(mesh);
+	//obj_pars_debug(mesh);
 	//if (tex)
 	//	mesh->flag |= F_TEXTURE;
 	return (true);

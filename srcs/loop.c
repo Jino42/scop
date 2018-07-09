@@ -16,15 +16,6 @@ bool			loop(t_env *e)
 		fps_update(e->fps, &e->delta_time);
 		glfw_update(e->glfw);
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
-		printf("Cam: \n");
-		printf("Position: %.2f %.2f %.2f\n", e->scene->cam->position.x,
-										e->scene->cam->position.y,
-										e->scene->cam->position.z);
-		printf("Delta [%.3f]\n", e->delta_time);
-
-		matrix_print(&e->scene->m_model->model[0]->transform, "matrix transform");
-		matrix_print(&e->scene->cam->view, "matrix view");
-		matrix_print(&e->scene->cam->projection, "matrix projection");
 		/*
 		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)
 		{
