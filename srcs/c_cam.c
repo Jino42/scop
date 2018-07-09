@@ -69,10 +69,15 @@ static void	cam_update_direction(t_cam *cam)
 	if (cursor_position->x != cam->last_cursor_position.x
 		|| cursor_position->y != cam->last_cursor_position.y)
 	{
+		if (!cam->first_callback)
+		{
+			cam->last_cursor_position = *cursor_position;
+			cam->first_callback = true;
+			return ;
+		}
 		offset.x = (cursor_position->x - cam->last_cursor_position.x);
 		offset.y = (cam->last_cursor_position.y - cursor_position->y);
 		cam->last_cursor_position = *cursor_position;
-
 		offset.x *= cam->sensitivity;
 		offset.y *= cam->sensitivity;
 

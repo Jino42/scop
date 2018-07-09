@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/09 23:43:17 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/09 23:53:44 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void				*m_model_destruct(t_m_model **m_model);
 
 typedef struct		s_cam
 {
+	bool			first_callback;
 	float			pitch;
 	float			yaw;
 	float			sensitivity;

@@ -102,7 +102,6 @@ void	model_setup_scaling(t_model *model)
 		scaling = 1.f / diff.y;
 	else
 		scaling = 1.f / diff.z;
-	printf("Scaling %f", scaling);
 	matrix_scaling(&model->transform, scaling);
 	diff = vector_construct(0.f, -0.5f, 0.f);
 	matrixgl_translation(&model->transform, &diff);
