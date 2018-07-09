@@ -1,6 +1,7 @@
 scop
 objs
 libs
+old_ressources
 # Prerequisites
 *.d
 
