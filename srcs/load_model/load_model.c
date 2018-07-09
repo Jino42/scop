@@ -74,6 +74,40 @@ bool	obj_pars_debug(t_mesh *mesh)
 	return (true);
 }
 
+void	model_min_max_vertex(t_model *model, float v[4])
+{
+	if (v[0] > model->max.x)
+		model->max.x = v[0];
+	else if (v[0] < model->min.x)
+		model->min.x = v[0];
+	else if (v[1] > model->max.y)
+		model->max.y = v[1];
+	else if (v[1] < model->min.y)
+		model->min.y = v[1];
+	else if (v[2] > model->max.z)
+		model->max.z = v[2];
+	else if (v[2] < model->min.z)
+		model->min.z = v[2];
+}
+void	model_setup_scaling(t_model *model)
+{
+	t_vector	diff;
+	float		scaling;
+
+	diff = vector_get_sub(&model->min, &model->max);
+	diff = vector_get_abs(&diff);
+	if (diff.x > diff.y && diff.x > diff.z)
+		scaling = 1.f / diff.x;
+	else if (diff.y > diff.x && diff.y > diff.z)
+		scaling = 1.f / diff.y;
+	else
+		scaling = 1.f / diff.z;
+	printf("Scaling %f", scaling);
+	matrix_scaling(&model->transform, scaling);
+	diff = vector_construct(0.f, -0.5f, 0.f);
+	matrixgl_translation(&model->transform, &diff);
+}
+
 bool	obj_pars(t_scene *scene, const char * path_obj)
 {
 	int			fd;
@@ -150,6 +184,7 @@ bool	obj_pars(t_scene *scene, const char * path_obj)
 			mesh->v[3 * mesh->nb_v + 1] = vn[1];
 			mesh->v[3 * mesh->nb_v + 2] = vn[2];
 			mesh->nb_v++;
+			model_min_max_vertex(model, vn);
 		}
 		else if (!strcmp("f", type))
 		{
@@ -307,6 +342,7 @@ bool	obj_pars(t_scene *scene, const char * path_obj)
 
 	// LE FAIRE SUR TOUS*************
 	mesh_buffers(mesh, mesh->flag);
+	model_setup_scaling(model);
 	scene->mesh_add(scene, mesh);
 	scene->model_add(scene, model);
 	//obj_pars_debug(mesh);

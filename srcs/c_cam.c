@@ -10,6 +10,12 @@ t_cam 		*cam_construct()
 	cam->sensitivity = 0.03f;
 	cam->up = vector_construct(0.f, 1.f, 0.f);
 	cam->to = vector_construct(0.f, 0.f, 1.f);
+	cam->yaw = 90.f;
+	cam->position = vector_construct(0.f, 0.f, 1.f);
+	cam->front.x = cosf(get_radians(cam->pitch)) * cosf(get_radians(cam->yaw));
+	cam->front.y = sinf(get_radians(cam->pitch));
+	cam->front.z = sinf(get_radians(cam->yaw));
+	vector_normalize(&cam->front);
 	return (cam);
 }
 

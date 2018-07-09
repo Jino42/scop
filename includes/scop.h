@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/09 23:15:33 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/09 23:43:17 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct		s_model
 	long			flag;
 	t_vector		min;
 	t_vector		max;
+	t_vector		center;
 }					t_model;
 void				*model_destruct(t_model **model);
 t_model				*model_construct();
