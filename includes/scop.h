@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/08 23:54:38 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/09 22:30:30 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ typedef struct		s_m_shader
 }					t_m_shader;
 t_m_shader			*m_shader_construct();
 void				*m_shader_destruct(t_m_shader **m_shader);
-bool				m_shader_add(t_m_shader *m_shader,
+/*bool				m_shader_add(t_m_shader *m_shader,
 								const char *vertex_shader_path,
-								const char *fragment_shader_path);
+								const char *fragment_shader_path);*/
 
 /*						*/
 /*		  MESH			*/
@@ -108,6 +108,7 @@ typedef struct		s_mesh
 	GLint			nb_indexed_vn;
 	GLint			nb_faces;
 	GLint			nb_indices;
+	long int		flag;
 }					t_mesh;
 void				*mesh_destruct(t_mesh **mesh);
 t_mesh				*mesh_construct();
@@ -116,17 +117,22 @@ typedef struct		s_m_mesh
 {
 	unsigned int	size;
 	t_mesh			**mesh;
-	bool			(*add)(struct s_m_mesh *);
+	bool			(*add)(struct s_m_mesh *, t_mesh *);
 }					t_m_mesh;
 t_m_mesh			*m_mesh_construct();
 void				*m_mesh_destruct(t_m_mesh **m_mesh);
-bool				m_mesh_add(t_m_mesh *m_mesh);
 
 /*						*/
 /*		  MODEL			*/
 /*						*/
 typedef struct		s_model
 {
+	//index_mesh
+	//index_material
+	//index_shader
+	t_matrix		transform;
+	GLenum			type_draw;
+	long			flag;
 }					t_model;
 void				*model_destruct(t_model **model);
 t_model				*model_construct();
@@ -135,26 +141,14 @@ typedef struct		s_m_model
 {
 	unsigned int	size;
 	t_model			**model;
-	bool			(*add)(struct s_m_model *);
+	bool			(*add)(struct s_m_model *, t_model *);
 }					t_m_model;
 t_m_model			*m_model_construct();
 void				*m_model_destruct(t_m_model **m_model);
-bool				m_model_add(t_m_model *m_model);
 
 /*						*/
-/*		  SCENE			*/
+/*		  CAM			*/
 /*						*/
-typedef struct		s_scene
-{
-	t_m_shader		*m_shader;
-	t_m_mesh		*m_mesh;
-	t_m_model		*m_model;
-	bool			(*shader_add)(t_m_shader*, const char *, const char *);
-	bool			(*mesh_add)(t_m_mesh *);
-	bool			(*model_add)(t_m_model *);
-}					t_scene;
-void				*scene_destruct(t_scene **scene);
-t_scene				*scene_construct();
 
 typedef struct		s_cam
 {
@@ -166,17 +160,35 @@ typedef struct		s_cam
 	t_vector		position;
 	t_vector		to;
 	t_vector		up;
+	t_matrix		view;
+	t_matrix		projection;
 }					t_cam;
 t_cam 		*cam_construct();
 void		*cam_destruct(t_cam **cam);
 void		cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time);
+
+/*						*/
+/*		  SCENE			*/
+/*						*/
+typedef struct		s_scene
+{
+	t_cam			*cam;
+
+	t_m_shader		*m_shader;
+	t_m_mesh		*m_mesh;
+	t_m_model		*m_model;
+	bool			(*shader_add)(struct s_scene*, const char *, const char *);
+	bool			(*mesh_add)(struct s_scene*, t_mesh *);
+	bool			(*model_add)(struct s_scene*, t_model *);
+}					t_scene;
+void				*scene_destruct(t_scene **scene);
+t_scene				*scene_construct();
 
 typedef struct		s_env
 {
 	t_fps			*fps;
 	float			delta_time;
 	t_glfw			*glfw;
-	t_cam			*cam;
 
 	t_scene			*scene;
 
@@ -209,4 +221,7 @@ t_matrix matrixgl_get_projection(const float fov,
 									const float near,
 									const float far);
 
+
+bool	obj_pars(t_scene *scene, const char * path_obj);
+void		scene_render(t_scene *scene);
 #endif

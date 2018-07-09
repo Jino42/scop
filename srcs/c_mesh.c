@@ -6,6 +6,13 @@ t_mesh		*mesh_construct()
 
 	if (!(mesh = ft_memalloc(sizeof(t_mesh))))
 		return (NULL);
+	mesh->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indexed_v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indexed_vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indexed_vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
+	mesh->indices = ft_memalloc(sizeof(GLuint) * BUFFER_OBJ);
 	return (mesh);
 }
 
@@ -16,12 +23,8 @@ void		*mesh_destruct(t_mesh **mesh)
 	return (NULL);
 }
 
-bool			m_mesh_add(t_m_mesh *m_mesh)
+bool			m_mesh_add(t_m_mesh *m_mesh, t_mesh *mesh)
 {
-	t_mesh *mesh;
-
-	if (!(mesh = mesh_construct()))
-		return (false);
 	if (!(m_mesh->mesh = realloc(m_mesh->mesh, sizeof(t_mesh **) * (m_mesh->size + 1))))
 	{
 		m_mesh->size = 0;
@@ -31,6 +34,7 @@ bool			m_mesh_add(t_m_mesh *m_mesh)
 	m_mesh->size++;
 	return (true);
 }
+
 
 t_m_mesh		*m_mesh_construct()
 {

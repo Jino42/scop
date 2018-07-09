@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/08 23:50:10 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/09 18:31:44 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC = main.c \
 		c_cam.c \
 		c_fps.c \
 		c_shader.c \
+		load_model/load_model.c \
 		glfw/glfw_construct.c \
 		glfw/glfw_destruct.c \
 		glfw/glfw_update.c \
@@ -86,6 +87,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/event
 	@mkdir $(OBJ_DIR)$/parsing
 	@mkdir $(OBJ_DIR)$/tools
+	@mkdir $(OBJ_DIR)$/load_model
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<

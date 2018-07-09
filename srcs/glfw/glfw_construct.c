@@ -1,4 +1,4 @@
-#include "scop_glfw.h"
+#include "scop.h"
 #include <stdlib.h>
 #include <strings.h>
 
@@ -23,5 +23,7 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 		return (glfw_destruct(&glfw));
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glfwSwapInterval(0);
+	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(glfw->window, &event_mouse);
 	return (glfw);
 }

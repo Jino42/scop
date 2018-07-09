@@ -6,6 +6,8 @@ t_model		*model_construct()
 
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
+	model->transform = matrix_get_identity();
+	model->type_draw = GL_FILL;
 	return (model);
 }
 
@@ -16,12 +18,9 @@ void		*model_destruct(t_model **model)
 	return (NULL);
 }
 
-bool			m_model_add(t_m_model *m_model)
-{
-	t_model *model;
 
-	if (!(model = model_construct()))
-		return (false);
+bool			m_model_add(t_m_model *m_model, t_model *model)
+{
 	if (!(m_model->model = realloc(m_model->model, sizeof(t_model **) * (m_model->size + 1))))
 	{
 		m_model->size = 0;
@@ -31,6 +30,7 @@ bool			m_model_add(t_m_model *m_model)
 	m_model->size++;
 	return (true);
 }
+
 
 t_m_model		*m_model_construct()
 {

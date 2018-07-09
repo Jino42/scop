@@ -6,6 +6,10 @@ t_cam 		*cam_construct()
 
 	if (!(cam = ft_memalloc(sizeof(t_cam))))
 		return (NULL);
+	cam->projection = matrixgl_get_projection(66.f, (float)WIDTH / (float)HEIGHT, 0.01f, 100.f);
+	cam->sensitivity = 0.03f;
+	cam->up = vector_construct(0.f, 1.f, 0.f);
+	cam->to = vector_construct(0.f, 0.f, 1.f);
 	return (cam);
 }
 
@@ -56,8 +60,8 @@ static void	cam_update_direction(t_cam *cam)
 
 	cursor_position = singleton_mouse_position();
 
-	if (cursor_position->x != cam->position.x
-		|| cursor_position->y != cam->position.y)
+	if (cursor_position->x != cam->last_cursor_position.x
+		|| cursor_position->y != cam->last_cursor_position.y)
 	{
 		offset.x = (cursor_position->x - cam->last_cursor_position.x);
 		offset.y = (cam->last_cursor_position.y - cursor_position->y);
@@ -79,4 +83,5 @@ void		cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time)
 {
 	cam_update_position(cam, glfw, delta_time);
 	cam_update_direction(cam);
+	cam->view = matrixgl_view(cam);
 }
