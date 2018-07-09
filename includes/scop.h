@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/09 22:30:30 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/09 23:15:33 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ typedef struct		s_model
 	t_matrix		transform;
 	GLenum			type_draw;
 	long			flag;
+	t_vector		min;
+	t_vector		max;
 }					t_model;
 void				*model_destruct(t_model **model);
 t_model				*model_construct();

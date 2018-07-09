@@ -9,6 +9,15 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+t_m_meshs		*construct_m_meshs()
+{
+	t_m_meshs *meshs;
+
+	if (!(meshs = ft_memalloc(sizeof(t_m_meshs))))
+		return (NULL);
+	return (meshs);
+}
+
 void		model_render(t_model *model, t_cam *cam, t_light *light,
 								t_matrix *view, t_matrix *projection,
 								t_shader *shader)
