@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/10 19:27:34 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/10 22:42:17 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ bool		lm_get_vnormal(t_lm *lm);
 bool		lm_get_vtexel(t_lm *lm);
 bool		lm_check_realloc(t_lm *lm);
 bool		lm_add_mesh(t_lm *lm);
+bool		lm_get_face(t_lm *lm);
 void		*lm_destruct(t_lm **c_lm);
 t_lm		*lm_construct(t_model *model, const char *path_obj);
 

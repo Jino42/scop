@@ -183,3 +183,122 @@ bool	lm_get_vertex(t_lm *lm)
 	lm_min_max_vertex(lm->model, lm->buffer_v);
 	return (true);
 }
+
+static int	lm_get_face_v(t_lm *lm)
+{
+	int ret = 0;
+
+	ret = sscanf(lm->line, "%s %i %i %i %i\n", lm->type, &lm->buffer_index_v[0], &lm->buffer_index_v[1], &lm->buffer_index_v[2], &lm->buffer_index_v[3]);
+	if (ret != 4)
+		return (0);
+	return (ret - 1);
+}
+static int	lm_get_face_v_vn(t_lm *lm)
+{
+	int ret;
+
+	ret = sscanf(lm->line, "%s %i//%i %i//%i %i//%i %i//%i\n", lm->type,
+							&lm->buffer_index_v[0], &lm->buffer_index_vn[0],
+							&lm->buffer_index_v[1], &lm->buffer_index_vn[1],
+							&lm->buffer_index_v[2], &lm->buffer_index_vn[2],
+							&lm->buffer_index_v[3], &lm->buffer_index_vn[3]);
+	if (ret != 7 && ret != 9)
+		return (0);
+	return (ret - 1) >> 1;
+}
+static int	lm_get_face_v_vt(t_lm *lm)
+{
+	int ret;
+
+	ret = sscanf(lm->line, "%s %i/%i %i/%i %i/%i %i/%i\n", lm->type,
+							&lm->buffer_index_v[0], &lm->buffer_index_vt[0],
+							&lm->buffer_index_v[1], &lm->buffer_index_vt[1],
+							&lm->buffer_index_v[2], &lm->buffer_index_vt[2],
+							&lm->buffer_index_v[3], &lm->buffer_index_vt[3]);
+	if (ret != 7 && ret != 9)
+		return (0);
+	return(ret - 1) >> 1;
+}
+static int	lm_get_face_v_vn_vt(t_lm *lm)
+{
+	int ret;
+
+	ret = sscanf(lm->line, "%s %i/%i/%i %i/%i/%i %i/%i/%i %i/%i/%i\n", lm->type,
+	&lm->buffer_index_v[0], &lm->buffer_index_vt[0], &lm->buffer_index_vn[0],
+	&lm->buffer_index_v[1], &lm->buffer_index_vt[1], &lm->buffer_index_vn[1],
+	&lm->buffer_index_v[2], &lm->buffer_index_vt[2], &lm->buffer_index_vn[2],
+	&lm->buffer_index_v[3], &lm->buffer_index_vt[3], &lm->buffer_index_vn[3]);
+	if (ret != 10 && ret != 13)
+		return (0);
+	return ((ret - 1) >> 2);
+}
+
+static int	lm_get_index_face(t_lm *lm)
+{
+	if (lm->mesh->flag == SCOP_V)
+		return (lm_get_face_v(lm));
+	if (lm->mesh->flag == (SCOP_V | SCOP_VN))
+		return (lm_get_face_v_vn(lm));
+	if (lm->mesh->flag == (SCOP_V | SCOP_VT))
+		return (lm_get_face_v_vt(lm));
+	if (lm->mesh->flag == (SCOP_V | SCOP_VN | SCOP_VT))
+		return (lm_get_face_v_vn_vt(lm));
+	return (0);
+}
+
+static void	lm_indexing(t_lm *lm, const int sommet)
+{
+	lm->mesh->indices[lm->mesh->nb_indices] = lm->mesh->nb_indices;
+	if (lm->mesh->flag & SCOP_V)
+	{
+		lm->mesh->indexed_v[lm->mesh->nb_indices * 3 + 0] = lm->v[(lm->buffer_index_v[sommet] - 1) * 3 + 0];
+		lm->mesh->indexed_v[lm->mesh->nb_indices * 3 + 1] = lm->v[(lm->buffer_index_v[sommet] - 1) * 3 + 1];
+		lm->mesh->indexed_v[lm->mesh->nb_indices * 3 + 2] = lm->v[(lm->buffer_index_v[sommet] - 1) * 3 + 2];
+	}
+	if (lm->mesh->flag & SCOP_VT)
+	{
+		lm->mesh->indexed_vt[lm->mesh->nb_indices * 2 + 0] = lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2 + 0];
+		lm->mesh->indexed_vt[lm->mesh->nb_indices * 2 + 1] = lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2 + 1];
+	}
+	if (lm->mesh->flag & SCOP_VN)
+	{
+		lm->mesh->indexed_vn[lm->mesh->nb_indices * 3 + 0] = lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3 + 0];
+		lm->mesh->indexed_vn[lm->mesh->nb_indices * 3 + 1] = lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3 + 1];
+		lm->mesh->indexed_vn[lm->mesh->nb_indices * 3 + 2] = lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3 + 2];
+	}
+	lm->mesh->nb_indices++;
+}
+
+static bool	lm_indexing_face(t_lm *lm, const int sommet4)
+{
+	int sommet = 0;
+	while (sommet < 3)
+	{
+		lm_indexing(lm, sommet);
+		sommet++;
+	}
+	lm->mesh->nb_faces++;
+	if (sommet4 == 4)
+	{
+		sommet = 0;
+		while (sommet < 4)
+		{
+			if (sommet == 1)
+				sommet++;
+			lm_indexing(lm, sommet);
+			sommet++;
+		}
+		lm->mesh->nb_faces++;
+	}
+	return (true);
+}
+
+bool		lm_get_face(t_lm *lm)
+{
+	int ret;
+
+	if (!(ret = lm_get_index_face(lm)))
+		return (false);
+	lm_indexing_face(lm, ret);
+	return (true);
+}

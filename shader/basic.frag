@@ -52,7 +52,9 @@ void main()
 {
 	newMaterial = material;
 	//newMaterial.ambient = texture(testTexture, uv).rgb;
-	newMaterial.diffuse = texture(testTexture, uv).rgb;
+
+	//newMaterial.diffuse = texture(testTexture, uv).rgb;
+
 	//newMaterial.specular = vec3(1.f, 0.689344f, 0.154515f);
 
 	ambient = newMaterial.ambient * light.ambient;
