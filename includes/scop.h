@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/10 15:57:25 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/10 19:27:34 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,24 @@ typedef struct		s_mesh
 
 	//t_material		*material;
 
-
 	GLfloat			*indexed_v;
 	GLfloat			*indexed_vt;
 	GLfloat			*indexed_vn;
 	GLuint			*indices;
 
-	GLint			nb_indexed_v;
-	GLint			nb_indexed_vt;
-	GLint			nb_indexed_vn;
 	GLint			nb_faces;
 	GLint			nb_indices;
-	long int		flag;
+	int				flag;
 }					t_mesh;
 void				*mesh_destruct(t_mesh **mesh);
 t_mesh				*mesh_construct();
-
+void				mesh_gen_gl_buffers(t_mesh *mesh);
 typedef struct		s_m_mesh
 {
 	unsigned int	size;
 	t_mesh			**mesh;
 	bool			(*add)(struct s_m_mesh *, t_mesh *);
+	t_mesh			*(*new)(struct s_m_mesh *);
 }					t_m_mesh;
 t_m_mesh			*m_mesh_construct();
 void				*m_mesh_destruct(t_m_mesh **m_mesh);
@@ -123,9 +120,9 @@ void				*m_mesh_destruct(t_m_mesh **m_mesh);
 /*						*/
 typedef struct		s_model
 {
-	//index_mesh
 	//index_material
 	//index_shader
+	t_m_mesh		*m_mesh;
 	t_matrix		transform;
 	GLenum			type_draw;
 	long			flag;
@@ -145,6 +142,7 @@ typedef struct		s_m_model
 }					t_m_model;
 t_m_model			*m_model_construct();
 void				*m_model_destruct(t_m_model **m_model);
+void				model_gen_gl_buffers(t_model *model);
 
 /*						*/
 /*		  CAM			*/
@@ -201,8 +199,8 @@ void 				*env_destruct(void *ptr);
 
 typedef struct		s_lm
 {
-	t_model		*model;
-	t_mesh		*mesh;
+	t_model			*model;
+	t_mesh			*mesh;
 
 	GLint			nb_v;
 	GLint			nb_vt;
@@ -211,30 +209,39 @@ typedef struct		s_lm
 	GLfloat			*vt;
 	GLfloat			*vn;
 
-	const char	*path;
-	int			fd;
+	const char		*path;
+	int				fd;
 
-	char		type[10];
-	int			buffer_index_v[4];
-	int			buffer_index_vt[4];
-	int			buffer_index_vn[4];
-	float		buffer_v[4];
-	float		buffer_vt[4];
-	float		buffer_vn[4];
-	uint32_t	mem_len_indices;
-	uint32_t	mem_len_indexed_v;
-	uint32_t	mem_len_indexed_vn;
-	uint32_t	mem_len_indexed_vt;
-	uint32_t	mem_len_v;
-	uint32_t	mem_len_vt;
-	uint32_t	mem_len_vn;
-	char		*line;
+	char			type[10];
+	int				buffer_index_v[4];
+	int				buffer_index_vt[4];
+	int				buffer_index_vn[4];
+	float			buffer_v[4];
+	float			buffer_vt[4];
+	float			buffer_vn[4];
+
+	uint32_t		mem_len_indices;
+
+	uint32_t		mem_len_v;
+	uint32_t		mem_len_vt;
+	uint32_t		mem_len_vn;
+	uint32_t		mem_len_indexed_v;
+	uint32_t		mem_len_indexed_vn;
+	uint32_t		mem_len_indexed_vt;
+
+	uint32_t		last_index_v;
+	uint32_t		last_index_vt;
+	uint32_t		last_index_vn;
+	uint32_t		last_index;
+	char			*line;
 }					t_lm;
 bool		lm_get_vertex(t_lm *lm);
 bool		lm_get_vnormal(t_lm *lm);
 bool		lm_get_vtexel(t_lm *lm);
-void		*lm_destruct(t_lm **c_lm, t_model **model, t_mesh **mesh);
-t_lm		*lm_construct();
+bool		lm_check_realloc(t_lm *lm);
+bool		lm_add_mesh(t_lm *lm);
+void		*lm_destruct(t_lm **c_lm);
+t_lm		*lm_construct(t_model *model, const char *path_obj);
 
 
 int					flag(int64_t *f, int argc, char **argv);

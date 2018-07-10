@@ -17,8 +17,8 @@ void		scene_render(t_scene *scene)
 	t_matrix temp, mvp;
 
 	shader = scene->m_shader->shader[0];
-	m_mesh = scene->m_mesh;
 	model = scene->m_model->model[0];
+	m_mesh = model->m_mesh;
 	glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
 
 	shader->use(shader);

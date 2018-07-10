@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-t_lm		*lm_construct(const char *path_obj)
+t_lm		*lm_construct(t_model *model, const char *path_obj)
 {
 	t_lm	*lm;
 	int		fd;
@@ -14,16 +14,15 @@ t_lm		*lm_construct(const char *path_obj)
 		return (NULL);
 	if (!(lm = ft_memalloc(sizeof(t_lm))))
 		return (NULL);
-	if (!(lm->mesh = mesh_construct()))
-		return (lm_destruct(&lm, NULL, NULL));
-	if (!(lm->model = model_construct()))
-		return (lm_destruct(&lm, NULL, &lm->mesh));
+	lm->model = model;
+	if (!(lm->mesh = lm->model->m_mesh->new(lm->model->m_mesh)))
+		return (lm_destruct(&lm));
 	if (!(lm->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm, &lm->model, &lm->mesh));
+		return (lm_destruct(&lm));
 	if (!(lm->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm, &lm->model, &lm->mesh));
+		return (lm_destruct(&lm));
 	if (!(lm->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm, &lm->model, &lm->mesh));
+		return (lm_destruct(&lm));
 	lm->mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
 	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
@@ -35,20 +34,42 @@ t_lm		*lm_construct(const char *path_obj)
 	return (lm);
 }
 
-void		*lm_destruct(t_lm **c_lm, t_model **model, t_mesh **mesh)
+void		*lm_destruct(t_lm **c_lm)
 {
 	t_lm	*lm;
 
 	if (c_lm && *c_lm)
 	{
 		lm = *c_lm;
+		ft_memdel((void **)&lm->v);
+		ft_memdel((void **)&lm->vt);
+		ft_memdel((void **)&lm->vn);
 		ft_memdel((void **)c_lm);
 	}
-	if (mesh && *mesh)
-		mesh_destruct(mesh);
-	if (model && *mesh)
-		model_destruct(model);
 	return (NULL);
+}
+
+bool		lm_add_mesh(t_lm *lm)
+{
+	if (!(lm->mesh = lm->model->m_mesh->new(lm->model->m_mesh)))
+		return (lm_destruct(&lm));
+	lm->mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
+	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
+	ft_memdel((void **)&lm->v);
+	ft_memdel((void **)&lm->vt);
+	ft_memdel((void **)&lm->vn);
+	if (!(lm->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
+		return (lm_destruct(&lm));
+	if (!(lm->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
+		return (lm_destruct(&lm));
+	if (!(lm->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
+		return (lm_destruct(&lm));
+	return (true);
 }
 
 void	lm_min_max_vertex(t_model *model, float v[4])
@@ -65,6 +86,56 @@ void	lm_min_max_vertex(t_model *model, float v[4])
 		model->max.z = v[2];
 	else if (v[2] < model->min.z)
 		model->min.z = v[2];
+}
+
+bool	lm_check_realloc(t_lm *lm)
+{
+	t_mesh *mesh;
+
+	mesh = lm->mesh;
+	if ((mesh->nb_indices + 8) * sizeof(GLuint) >= lm->mem_len_indices)
+	{
+		lm->mem_len_indices += BUFFER_OBJ * sizeof(GLuint);
+		if (!(mesh->indices = realloc(mesh->indices, lm->mem_len_indices)))
+			return (false);
+	}
+	if ((mesh->nb_indices + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_v)
+	{
+		lm->mem_len_indexed_v += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(mesh->indexed_v = realloc(mesh->indexed_v, lm->mem_len_indexed_v)))
+			return (false);
+	}
+	if ((mesh->nb_indices + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_vn)
+	{
+		lm->mem_len_indexed_vn += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(mesh->indexed_vn = realloc(mesh->indexed_vn, lm->mem_len_indexed_vn)))
+			return (false);
+	}
+	if ((mesh->nb_indices + 2) * sizeof(GLfloat) * 2 >= lm->mem_len_indexed_vt)
+	{
+		lm->mem_len_indexed_vt += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(mesh->indexed_vt = realloc(mesh->indexed_vt, lm->mem_len_indexed_vt)))
+			return (false);
+	}
+	if ((lm->nb_v + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_v)
+	{
+		lm->mem_len_v += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(lm->v = realloc(lm->v, lm->mem_len_v)))
+			return (false);
+	}
+	if ((lm->nb_vt + 2) * sizeof(GLfloat) * 2 >= lm->mem_len_vt)
+	{
+		lm->mem_len_vt += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(lm->vt = realloc(lm->vt, lm->mem_len_vt)))
+			return (false);
+	}
+	if ((lm->nb_vn + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_vn)
+	{
+		lm->mem_len_vn += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(lm->vn = realloc(lm->vn, lm->mem_len_vn)))
+			return (false);
+	}
+	return (true);
 }
 
 bool	lm_get_vtexel(t_lm *lm)

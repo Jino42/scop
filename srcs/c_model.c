@@ -8,16 +8,21 @@ t_model		*model_construct()
 		return (NULL);
 	model->transform = matrix_get_identity();
 	model->type_draw = GL_FILL;
+	if (!(model->m_mesh = m_mesh_construct()))
+		return (model_destruct(&model));
 	return (model);
 }
 
 void		*model_destruct(t_model **model)
 {
 	if (model && *model)
+	{
+		if ((*model)->m_mesh)
+			m_mesh_destruct(&(*model)->m_mesh);
 		ft_memdel((void **)model);
+	}
 	return (NULL);
 }
-
 
 bool			m_model_add(t_m_model *m_model, t_model *model)
 {
@@ -61,4 +66,16 @@ void		*m_model_destruct(t_m_model **m_model)
 		ft_memdel((void **)m_model);
 	}
 	return (NULL);
+}
+
+void		model_gen_gl_buffers(t_model *model)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < model->m_mesh->size)
+	{
+		mesh_gen_gl_buffers(model->m_mesh->mesh[i]);
+		i++;
+	}
 }
