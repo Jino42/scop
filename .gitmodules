@@ -10,3 +10,6 @@
 [submodule "libft"]
 	path = libft
 	url = https://github.com/Jino42/libft
+[submodule "cJSON"]
+	path = cJSON
+	url = https://github.com/DaveGamble/cJSON.git

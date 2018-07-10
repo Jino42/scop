@@ -6,9 +6,6 @@ t_mesh		*mesh_construct()
 
 	if (!(mesh = ft_memalloc(sizeof(t_mesh))))
 		return (NULL);
-	mesh->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	mesh->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
-	mesh->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
 	mesh->indexed_v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
 	mesh->indexed_vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);
 	mesh->indexed_vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ);

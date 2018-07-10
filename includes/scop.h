@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/09 23:53:44 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/10 15:57:25 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,12 @@ typedef struct		s_mesh
 
 	//t_material		*material;
 
-	GLfloat			*v;
-	GLfloat			*vt;
-	GLfloat			*vn;
+
 	GLfloat			*indexed_v;
 	GLfloat			*indexed_vt;
 	GLfloat			*indexed_vn;
 	GLuint			*indices;
-	GLint			nb_v;
-	GLint			nb_vt;
-	GLint			nb_vn;
+
 	GLint			nb_indexed_v;
 	GLint			nb_indexed_vt;
 	GLint			nb_indexed_vn;
@@ -136,6 +132,7 @@ typedef struct		s_model
 	t_vector		min;
 	t_vector		max;
 	t_vector		center;
+	t_vector		negative_center;
 }					t_model;
 void				*model_destruct(t_model **model);
 t_model				*model_construct();
@@ -201,6 +198,43 @@ typedef struct		s_env
 t_env 				*env_construct();
 void 				*env_destruct(void *ptr);
 
+
+typedef struct		s_lm
+{
+	t_model		*model;
+	t_mesh		*mesh;
+
+	GLint			nb_v;
+	GLint			nb_vt;
+	GLint			nb_vn;
+	GLfloat			*v;
+	GLfloat			*vt;
+	GLfloat			*vn;
+
+	const char	*path;
+	int			fd;
+
+	char		type[10];
+	int			buffer_index_v[4];
+	int			buffer_index_vt[4];
+	int			buffer_index_vn[4];
+	float		buffer_v[4];
+	float		buffer_vt[4];
+	float		buffer_vn[4];
+	uint32_t	mem_len_indices;
+	uint32_t	mem_len_indexed_v;
+	uint32_t	mem_len_indexed_vn;
+	uint32_t	mem_len_indexed_vt;
+	uint32_t	mem_len_v;
+	uint32_t	mem_len_vt;
+	uint32_t	mem_len_vn;
+	char		*line;
+}					t_lm;
+bool		lm_get_vertex(t_lm *lm);
+bool		lm_get_vnormal(t_lm *lm);
+bool		lm_get_vtexel(t_lm *lm);
+void		*lm_destruct(t_lm **c_lm, t_model **model, t_mesh **mesh);
+t_lm		*lm_construct();
 
 
 int					flag(int64_t *f, int argc, char **argv);

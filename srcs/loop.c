@@ -31,6 +31,21 @@ bool			loop(t_env *e)
 			matrix_scaling(&e->scene->m_model->model[0]->transform, 1.005f);
 		if (glfwGetKey(glfw->window, GLFW_KEY_KP_SUBTRACT))
 			matrix_scaling(&e->scene->m_model->model[0]->transform, 0.995f);
+		if (glfwGetKey(glfw->window, GLFW_KEY_KP_DIVIDE))
+		{
+			matrixgl_translation(&e->scene->m_model->model[0]->transform, &e->scene->m_model->model[0]->negative_center);
+			matrixgl_rotation_x(&e->scene->m_model->model[0]->transform, 0.01f);
+			matrixgl_translation(&e->scene->m_model->model[0]->transform, &e->scene->m_model->model[0]->center);
+		}
+
+		t_vector move;
+		move = vector_construct(0.0f, 0.0f, 0.1f);
+		if (glfwGetKey(glfw->window, GLFW_KEY_I))
+		{
+			vector_add(&e->scene->m_model->model[0]->center, &move);
+			vector_sub(&e->scene->m_model->model[0]->negative_center, &move);
+			matrixgl_translation(&e->scene->m_model->model[0]->transform, &move);
+		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if (glfwGetKey(glfw->window, GLFW_KEY_I) == GLFW_PRESS)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

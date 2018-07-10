@@ -5,12 +5,12 @@ void		scene_render(t_scene *scene)
 	t_vector ambient = vector_construct(0.0215f, 0.1745f, 0.0215f);
 	t_vector diffuse = vector_construct(0.07568f, 0.61424f, 0.07568f);;
 	t_vector specular = vector_construct(0.633f, 0.727811f, 0.633f);
+	float	shininess = 76.8f;
 
-	t_vector lambient = vector_construct(0.1f, 0.1f, 0.1f);
-	t_vector ldiffuse = vector_construct(0.8f, 0.8f, 0.8f);;
-	t_vector lspecular = vector_construct(0.3f, 0.3f, 0.3f);
+	t_vector lambient = vector_construct(0.9f, 0.9f, 0.9f);
+	t_vector ldiffuse = vector_construct(0.70f, 0.70f, 0.70f);;
+	t_vector lspecular = vector_construct(1.f, 1.f, 1.f);
 	t_vector lposition = vector_construct(0.3f, 0.3f, 0.3f);
-	float	shininess = 32.f;
 	t_m_mesh *m_mesh;
 	t_model	*model;
 	t_shader	*shader;
@@ -19,6 +19,7 @@ void		scene_render(t_scene *scene)
 	shader = scene->m_shader->shader[0];
 	m_mesh = scene->m_mesh;
 	model = scene->m_model->model[0];
+	glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
 
 	shader->use(shader);
 	temp = matrix_get_mult_matrix(&model->transform, &scene->cam->view);
