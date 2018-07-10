@@ -79,3 +79,23 @@ void		model_gen_gl_buffers(t_model *model)
 		i++;
 	}
 }
+
+void	model_setup_scaling(t_model *model)
+{
+	t_vector	diff;
+	float		scaling;
+
+	diff = vector_get_sub(&model->min, &model->max);
+	diff = vector_get_abs(&diff);
+	if (diff.x > diff.y && diff.x > diff.z)
+		scaling = 1.f / diff.x;
+	else if (diff.y > diff.x && diff.y > diff.z)
+		scaling = 1.f / diff.y;
+	else
+		scaling = 1.f / diff.z;
+	matrix_scaling(&model->transform, scaling);
+	diff = vector_construct(0.f, -0.5f, 0.f);
+	matrixgl_translation(&model->transform, &diff);
+	model->center = diff;
+	model->negative_center = vector_get_invert(&diff);
+}

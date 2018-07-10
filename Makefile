@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/10 15:28:49 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/10 22:49:10 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,13 @@ SRC = main.c \
 		loop.c \
 		flag.c \
 		c_env.c \
-		c_lm.c \
 		c_mesh.c \
 		c_scene.c \
 		c_model.c \
 		c_cam.c \
 		c_fps.c \
 		c_shader.c \
+		load_model/c_lm.c \
 		load_model/load_model.c \
 		glfw/glfw_construct.c \
 		glfw/glfw_destruct.c \

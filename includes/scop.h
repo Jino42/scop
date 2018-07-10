@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/10 22:42:17 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/10 22:47:55 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ typedef struct		s_model
 	t_vector		center;
 	t_vector		negative_center;
 }					t_model;
+void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);
 t_model				*model_construct();
 
@@ -268,6 +269,6 @@ t_matrix matrixgl_get_projection(const float fov,
 									const float far);
 
 
-bool	obj_pars(t_scene *scene, const char * path_obj);
+bool		load_model(t_scene *scene, const char * path_obj);
 void		scene_render(t_scene *scene);
 #endif
