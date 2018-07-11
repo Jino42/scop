@@ -13,3 +13,6 @@
 [submodule "cJSON"]
 	path = cJSON
 	url = https://github.com/DaveGamble/cJSON.git
+[submodule "nuklear"]
+	path = nuklear
+	url = https://github.com/vurtun/nuklear.git

@@ -1,7 +1,13 @@
 #include "scop.h"
+#include "scop_nk.h"
 
 bool			loop(t_env *e)
 {
+	t_nk *nk;
+
+	if (!(nk = nk_construct(e->glfw->window)))
+		return (false);
+
 	t_glfw		*glfw;
 
 	glfw = e->glfw;
@@ -15,6 +21,10 @@ bool			loop(t_env *e)
 	{
 		fps_update(e->fps, &e->delta_time);
 		glfw_update(e->glfw);
+
+		nk_update(nk);
+		nk_example(nk);
+
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
 		/*
 		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)
@@ -40,6 +50,10 @@ bool			loop(t_env *e)
 
 		t_vector move;
 		move = vector_construct(0.0f, 0.0f, 0.1f);
+		if (glfwGetKey(glfw->window, GLFW_KEY_TAB) == GLFW_PRESS)
+			glfwSetInputMode(e->glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		if (glfwGetKey(glfw->window, GLFW_KEY_1) == GLFW_PRESS)
+			glfwSetInputMode(e->glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		if (glfwGetKey(glfw->window, GLFW_KEY_I))
 		{
 			vector_add(&e->scene->m_model->model[0]->center, &move);
@@ -49,6 +63,15 @@ bool			loop(t_env *e)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if (glfwGetKey(glfw->window, GLFW_KEY_I) == GLFW_PRESS)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+		nk_render(nk);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glEnable(GL_DEPTH_TEST);
+		glPointSize(5.0);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 		scene_render(e->scene);
 		glfwSwapBuffers(glfw->window);

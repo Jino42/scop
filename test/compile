@@ -1,0 +1,1 @@
+cc -I ./ -I ../glfw-3.2.1/include/GLFW/ -std=c99 -pedantic -O2 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -lm -lGLEW -L/usr/local/lib -L/usr/local/lib -o lol.o -c lol.c

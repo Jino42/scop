@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/10 22:49:10 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/11 16:57:12 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -g3
 
-INC_FILES = includes/scop.h includes/scop_glfw.h
+INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h
 
-INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3
+INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -I ~/.brew/include/
 
 SANIT = -fsanitize=address
 
@@ -42,6 +42,7 @@ SRC = main.c \
 		glfw/glfw_update.c \
 		glfw/glfw_callback_resize.c \
 		event/event_mouse.c \
+		nk/nk.c \
 		tools/matrixgl_view.c \
 		tools/radian_degree.c \
 		tools/matrixgl_projection.c
@@ -54,7 +55,7 @@ GLFW_DIR = ./glfw-3.2.1/construct
 GLFW_LIB = $(GLFW_DIR)/src/libglfw3.a
 GLFW_FLAG = $(GLFW_LIB) -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
-FRAMEWORK = -framework OpenGL -framework AppKit -framework Opencl
+FRAMEWORK = -framework OpenGL -framework AppKit -framework Opencl -L ~/.brew/lib/ -lGLEW test/test.a
 
 DIR_LFT = libft/
 DIR_VEC = vector/
@@ -89,6 +90,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/parsing
 	@mkdir $(OBJ_DIR)$/tools
 	@mkdir $(OBJ_DIR)$/load_model
+	@mkdir $(OBJ_DIR)$/nk
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
