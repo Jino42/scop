@@ -16,7 +16,6 @@ t_cam 		*cam_construct()
 	cam->front.x = cosf(get_radians(cam->pitch)) * cosf(get_radians(cam->yaw));
 	cam->front.y = sinf(get_radians(cam->pitch));
 	cam->front.z = sinf(get_radians(cam->yaw));
-	cam->fps = true;
 	vector_normalize(&cam->front);
 	cam->flag |= CURSOR_NORMAL;
 	return (cam);
@@ -100,8 +99,6 @@ static void	cam_update_direction(t_cam *cam)
 		cam->front.y = sinf(get_radians(cam->pitch));
 		cam->front.z = sinf(get_radians(cam->yaw));
 	}
-	printf("Yaw   %f\n", cam->yaw);
-	printf("Pitch %f\n", cam->pitch);
 }
 
 void		cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time)
@@ -115,13 +112,15 @@ void		cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time)
 		glfw->key[GLFW_KEY_SPACE] = false;
 		if (cam->flag & CURSOR_NORMAL)
 		{
+			cam->fps = true;
 			cam->flag ^= CURSOR_NORMAL;
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 		else
 		{
-			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			cam->fps = false;
 			cam->flag |= CURSOR_NORMAL;
+			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 		cam->first_callback = false;
 	}

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/12 18:33:44 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/12 18:46:05 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ typedef struct		s_cam
 	float			yaw;
 	float			sensitivity;
 	t_vector		front;
-	t_vector		angle;
 	t_vector		last_cursor_position;
 	t_vector		position;
 	t_vector		to;

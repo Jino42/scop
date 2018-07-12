@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/11 16:57:12 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/12 19:12:47 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ SRC = main.c \
 		glfw/glfw_callback_resize.c \
 		event/event_mouse.c \
 		nk/nk.c \
+		nk/nk_cam.c \
+		nk/nk_scene.c \
 		tools/matrixgl_view.c \
 		tools/radian_degree.c \
 		tools/matrixgl_projection.c

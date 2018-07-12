@@ -6,6 +6,7 @@
 # include "scop_glfw.h"
 # include "libft.h"
 # include "scop.h"
+#include <float.h>
 //# include "nuklear_glfw_gl3.h"
 //# include "nuk_glfw_gl3.h"
 
@@ -105,6 +106,9 @@ struct nk_glfw {
 
 #endif
 
+#define MENU_NONE (1 << 0)
+#define MENU_FILE (1 << 1)
+
 typedef struct		s_nk
 {
 	GLFWwindow				*win;
@@ -124,6 +128,9 @@ void				*nk_destruct(t_nk **nk);
 void				nk_example(t_nk *nk);
 void				nk_update(t_nk *nk);
 void				nk_render(t_nk *nk);
-void				nk_camera(t_nk *nk, t_cam *cam);
+void				nk_position(t_nk *nk, t_vector *vector);
+
+void				nk_scene(t_nk *nk, t_cam *cam);
+void				nk_cam(t_nk *nk, t_cam *cam);
 
 #endif
