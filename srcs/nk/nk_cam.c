@@ -27,7 +27,7 @@ void 				nk_cam(t_nk *nk, t_cam *cam)
 	struct nk_context		*ctx;
 
 	ctx = nk->ctx;
-	if (nk_tree_push(ctx, NK_TREE_TAB, "Camera", NK_MINIMIZED)) {
+	if (nk_tree_push(ctx, NK_TREE_TAB, "Camera", NK_MAXIMIZED)) {
 
 		nk_cam_fov(nk, cam);
 		nk_position(nk, &cam->position);

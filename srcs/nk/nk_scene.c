@@ -1,7 +1,7 @@
 #include "scop_nk.h"
 #include "scop.h"
 
-void				nk_scene(t_nk *nk, t_cam *cam)
+void				nk_scene(t_nk *nk, t_scene *scene)
 {
 	struct nk_context		*ctx;
 
@@ -30,7 +30,8 @@ void				nk_scene(t_nk *nk, t_cam *cam)
 				nk->menu_state = (nk->menu_state == MENU_FILE) ? MENU_NONE: nk->menu_state;
 			nk_menu_end(ctx);
 		}
-		nk_cam(nk, cam);
+		nk_cam(nk, scene->cam);
+		nk_model(nk, scene->m_model);
 	}
 	nk_menubar_end(ctx);
 	nk_end(ctx);

@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/12 19:12:47 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/12 19:21:07 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRC = main.c \
 		nk/nk.c \
 		nk/nk_cam.c \
 		nk/nk_scene.c \
+		nk/nk_model.c \
 		tools/matrixgl_view.c \
 		tools/radian_degree.c \
 		tools/matrixgl_projection.c
