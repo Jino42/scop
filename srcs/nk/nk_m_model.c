@@ -1,7 +1,7 @@
 #include "scop_nk.h"
 #include "scop.h"
 
-void 				nk_model(t_nk *nk, t_m_model *m_model)
+void 				nk_m_model(t_nk *nk, t_m_model *m_model)
 {
 	struct nk_context		*ctx;
 

@@ -31,7 +31,7 @@ void				nk_scene(t_nk *nk, t_scene *scene)
 			nk_menu_end(ctx);
 		}
 		nk_cam(nk, scene->cam);
-		nk_model(nk, scene->m_model);
+		nk_m_model(nk, scene->m_model);
 	}
 	nk_menubar_end(ctx);
 	nk_end(ctx);
