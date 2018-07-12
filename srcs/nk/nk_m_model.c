@@ -1,7 +1,7 @@
 #include "scop_nk.h"
 #include "scop.h"
 
-void 				nk_m_model(t_nk *nk, t_m_model *m_model)
+void 				nk_m_model(t_nk *nk, t_scene *scene, t_m_model *m_model)
 {
 	struct nk_context		*ctx;
 
@@ -14,7 +14,7 @@ void 				nk_m_model(t_nk *nk, t_m_model *m_model)
 								m_model->size,
 								m_model->index_selected,
 								25, nk_vec2(200,200));
-		nk_model(nk, m_model->model[m_model->index_selected]);
+		nk_model(nk, scene, m_model->model[m_model->index_selected]);
 		nk_tree_pop(ctx);
 	}
 }

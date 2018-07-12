@@ -37,7 +37,8 @@ t_env 	*env_construct()
 		return (ft_error("Erreur: L'ajout de shader a échoué", &env_destruct, e));
 	if (!load_model(e->scene, "old_ressources/multicube.obj"))
 		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
-	//if (!load_model(e->scene, "old_ressources/lowtri.obj"))
+	if (!load_model(e->scene, "old_ressources/lowtri.obj"))
+		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
 	if (!load_model(e->scene, "old_ressources/newdva.obj"))
 		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
 	return (e);

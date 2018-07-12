@@ -27,7 +27,7 @@ void				nk_model_scaling(t_nk *nk, t_model *model)
 	}
 }
 
-void 				nk_model(t_nk *nk, t_model *model)
+void 				nk_model(t_nk *nk, t_scene *scene, t_model *model)
 {
 	struct nk_context		*ctx;
 
@@ -45,5 +45,12 @@ void 				nk_model(t_nk *nk, t_model *model)
 	model->type_draw = nk_option_label(ctx, "GL_POINT", model->type_draw == GL_POINT) ? GL_POINT : model->type_draw;
 	model->type_draw = nk_option_label(ctx, "GL_LINE",  model->type_draw == GL_LINE)  ? GL_LINE  : model->type_draw;
 	model->type_draw = nk_option_label(ctx, "GL_FILL",  model->type_draw == GL_FILL)  ? GL_FILL  : model->type_draw;
+
+	nk_layout_row_static(ctx, 25, 150, 1);
+	model->index_shader = nk_combo(ctx,
+							(const char **)scene->m_shader->shader_name,
+							scene->m_shader->size,
+							model->index_shader,
+							25, nk_vec2(200,200));
 
 }

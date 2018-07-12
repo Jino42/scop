@@ -16,10 +16,10 @@ void		scene_render(t_scene *scene)
 	t_shader	*shader;
 	t_matrix temp, mvp;
 
-	shader = scene->m_shader->shader[0];
 	for (unsigned int i = 0; i < scene->m_model->size; i++)
 	{
 		model = scene->m_model->model[i];
+		shader = scene->m_shader->shader[model->index_shader];
 		m_mesh = model->m_mesh;
 		glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
 
