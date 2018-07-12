@@ -41,4 +41,9 @@ void 				nk_model(t_nk *nk, t_model *model)
 
 	nk_model_scaling(nk, model);
 
+	nk_layout_row_static(ctx, 30, 80, 3);
+	model->type_draw = nk_option_label(ctx, "GL_POINT", model->type_draw == GL_POINT) ? GL_POINT : model->type_draw;
+	model->type_draw = nk_option_label(ctx, "GL_LINE",  model->type_draw == GL_LINE)  ? GL_LINE  : model->type_draw;
+	model->type_draw = nk_option_label(ctx, "GL_FILL",  model->type_draw == GL_FILL)  ? GL_FILL  : model->type_draw;
+
 }
