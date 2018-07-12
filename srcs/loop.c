@@ -23,7 +23,6 @@ bool			loop(t_env *e)
 		glfw_update(e->glfw);
 
 		nk_update(nk);
-		nk_example(nk);
 		nk_camera(nk, e->scene->cam);
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
 		/*
@@ -50,10 +49,6 @@ bool			loop(t_env *e)
 
 		t_vector move;
 		move = vector_construct(0.0f, 0.0f, 0.1f);
-		if (glfwGetKey(glfw->window, GLFW_KEY_TAB) == GLFW_PRESS)
-			glfwSetInputMode(e->glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		if (glfwGetKey(glfw->window, GLFW_KEY_1) == GLFW_PRESS)
-			glfwSetInputMode(e->glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		if (glfwGetKey(glfw->window, GLFW_KEY_I))
 		{
 			vector_add(&e->scene->m_model->model[0]->center, &move);

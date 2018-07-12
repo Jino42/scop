@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 22:54:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/08 00:27:29 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/12 16:35:50 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 typedef struct		s_glfw
 {
 	GLFWwindow		*window;
+	bool			*key;
 }					t_glfw;
 
 t_glfw				*glfw_construct(char *name, int width, int height);

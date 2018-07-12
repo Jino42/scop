@@ -1,4 +1,5 @@
 #include "scop_glfw.h"
+#include <strings.h>
 
 void glfw_update(t_glfw *glfw)
 {

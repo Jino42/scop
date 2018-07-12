@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/11 20:20:22 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/12 18:33:44 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,25 +149,31 @@ void				model_gen_gl_buffers(t_model *model);
 /*		  CAM			*/
 /*						*/
 
+# define CURSOR_NORMAL (1 << 0)
+# define CURSOR_HIDDEN (1 << 0)
+
 typedef struct		s_cam
 {
+	bool			fps;
 	bool			first_callback;
 	float			fov;
 	float			pitch;
 	float			yaw;
 	float			sensitivity;
 	t_vector		front;
+	t_vector		angle;
 	t_vector		last_cursor_position;
 	t_vector		position;
 	t_vector		to;
 	t_vector		up;
 	t_matrix		view;
 	t_matrix		projection;
+	int				flag;
 }					t_cam;
-t_cam 		*cam_construct();
-void		*cam_destruct(t_cam **cam);
-void		cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time);
-
+t_cam 			*cam_construct();
+void			*cam_destruct(t_cam **cam);
+void			cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time);
+t_vector		cam_get_front(float pitch, float yaw);
 /*						*/
 /*		  SCENE			*/
 /*						*/

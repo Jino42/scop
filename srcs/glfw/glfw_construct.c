@@ -2,6 +2,26 @@
 #include <stdlib.h>
 #include <strings.h>
 
+bool	key[500];
+
+void	glfw_key_callback(GLFWwindow* window, int inkey, int scancode, int action, int mods)
+{
+
+    if (action == GLFW_PRESS)
+	{
+		if (key[inkey])
+			key[inkey] = false;
+		else if (!key[inkey])
+			key[inkey] = true;
+		else
+		{
+			(void)window;
+			(void)scancode;
+			(void)mods;
+		}
+	}
+}
+
 t_glfw		*glfw_construct(char *name, int width, int height)
 {
 	t_glfw	*glfw;
@@ -23,7 +43,9 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 		return (glfw_destruct(&glfw));
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glfwSwapInterval(0);
-	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfw->key = key;
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
+	glfwSetKeyCallback(glfw->window, &glfw_key_callback);
 	return (glfw);
 }

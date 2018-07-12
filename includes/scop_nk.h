@@ -114,6 +114,9 @@ typedef struct		s_nk
 	struct nk_font_atlas	*atlas;
 	int						width;
 	int						height;
+	int						menu_state;
+	enum nk_collapse_states	state;
+	char					buffer[256];
 }					t_nk;
 
 t_nk				*nk_construct(GLFWwindow *win);
