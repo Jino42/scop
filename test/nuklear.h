@@ -2692,7 +2692,7 @@ NK_API void nk_group_scrolled_end(struct nk_context*);
  *
  *                                  TREE
  *
- * ============================================================================= 
+ * =============================================================================
 /// ### Tree
 /// Trees represent two different concept. First the concept of a collapsable
 /// UI section that can be either in a hidden or visibile state. They allow the UI
@@ -5532,7 +5532,7 @@ struct nk_context {
  * =============================================================== */
 #define NK_PI 3.141592654f
 #define NK_UTF_INVALID 0xFFFD
-#define NK_MAX_FLOAT_PRECISION 2
+#define NK_MAX_FLOAT_PRECISION 4
 
 #define NK_UNUSED(x) ((void)(x))
 #define NK_SATURATE(x) (NK_MAX(0, NK_MIN(1.0f, x)))
@@ -25537,4 +25537,3 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 /// in libraries and brought me to create some of my own. Finally Apoorva Joshi
 /// for his single header file packer.
 */
-
