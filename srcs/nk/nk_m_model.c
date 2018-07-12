@@ -11,7 +11,7 @@ void 				nk_m_model(t_nk *nk, t_m_model *m_model)
 		nk_layout_row_static(ctx, 25, 150, 1);
 		m_model->index_selected = nk_combo(ctx,
 								(const char **)m_model->model_name,
-								NK_LEN(m_model->model_name),
+								m_model->size,
 								m_model->index_selected,
 								25, nk_vec2(200,200));
 		nk_model(nk, m_model->model[m_model->index_selected]);

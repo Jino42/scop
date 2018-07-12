@@ -44,6 +44,10 @@ bool			m_model_add(t_m_model *m_model, t_model *model)
 	m_model->model[m_model->size] = model;
 	m_model->model_name[m_model->size] = model->name;
 	m_model->size++;
+	for (unsigned int i = 0; i < m_model->size; i++)
+	{
+		printf("%s\n", m_model->model_name[i]);
+	}
 	return (true);
 }
 
