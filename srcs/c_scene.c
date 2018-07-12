@@ -17,78 +17,82 @@ void		scene_render(t_scene *scene)
 	t_matrix temp, mvp;
 
 	shader = scene->m_shader->shader[0];
-	model = scene->m_model->model[0];
-	m_mesh = model->m_mesh;
-	glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
-
-	if (model->update)
-		model_update(model);
-
-	shader->use(shader);
-	temp = matrix_get_mult_matrix(&model->transform, &scene->cam->view);
-	mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
-	glUniform3fv(
-			glGetUniformLocation(shader->program, "light.ambient"),
-			1,
-			(GLfloat *)&lambient);
-	glUniform3fv(
-			glGetUniformLocation(shader->program, "light.diffuse"),
-			1,
-			(GLfloat *)&ldiffuse);
-	glUniform3fv(
-			glGetUniformLocation(shader->program, "light.specular"),
-			1,
-			(GLfloat *)&lspecular);
-	glUniform3fv(
-			glGetUniformLocation(shader->program, "light.position"),
-			1,
-			(GLfloat *)&lposition);
-	glUniform3f(
-			glGetUniformLocation(shader->program, "cameraPosition"),
-			scene->cam->position.x,
-			scene->cam->position.y,
-			scene->cam->position.z);
-	glUniform3f(
-			glGetUniformLocation(shader->program, "camDir"),
-			scene->cam->to.x,
-			scene->cam->to.y,
-			scene->cam->to.z);
-	glUniformMatrix4fv(
-			glGetUniformLocation(shader->program, "MVP"),
-			1, GL_FALSE, &mvp.matrix[0][0]);
-	glUniformMatrix4fv(
-			glGetUniformLocation(shader->program, "V"),
-			1, GL_FALSE, &scene->cam->view.matrix[0][0]);
-	glUniformMatrix4fv(
-			glGetUniformLocation(shader->program, "P"),
-			1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
-	glUniformMatrix4fv(
-			glGetUniformLocation(shader->program, "M"),
-			1, GL_FALSE, &model->transform.matrix[0][0]);
-	uint32_t i = 0;
-	while (i < m_mesh->size)
+	for (unsigned int i = 0; i < scene->m_model->size; i++)
 	{
+		model = scene->m_model->model[i];
+		m_mesh = model->m_mesh;
+		glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
+
+		if (model->update)
+			model_update(model);
+
+		shader->use(shader);
+		temp = matrix_get_mult_matrix(&model->transform, &scene->cam->view);
+		mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
 		glUniform3fv(
-				glGetUniformLocation(shader->program, "material.ambient"),
+				glGetUniformLocation(shader->program, "light.ambient"),
 				1,
-				(GLfloat *)&ambient);
+				(GLfloat *)&lambient);
 		glUniform3fv(
-				glGetUniformLocation(shader->program, "material.diffuse"),
+				glGetUniformLocation(shader->program, "light.diffuse"),
 				1,
-				(GLfloat *)&diffuse);
+				(GLfloat *)&ldiffuse);
 		glUniform3fv(
-				glGetUniformLocation(shader->program, "material.specular"),
+				glGetUniformLocation(shader->program, "light.specular"),
 				1,
-				(GLfloat *)&specular);
-		glUniform1f(
-				glGetUniformLocation(shader->program, "material.shininess"),
-				shininess);
-		glBindVertexArray(m_mesh->mesh[i]->VAO);
-		glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-		i++;
+				(GLfloat *)&lspecular);
+		glUniform3fv(
+				glGetUniformLocation(shader->program, "light.position"),
+				1,
+				(GLfloat *)&lposition);
+		glUniform3f(
+				glGetUniformLocation(shader->program, "cameraPosition"),
+				scene->cam->position.x,
+				scene->cam->position.y,
+				scene->cam->position.z);
+		glUniform3f(
+				glGetUniformLocation(shader->program, "camDir"),
+				scene->cam->to.x,
+				scene->cam->to.y,
+				scene->cam->to.z);
+		glUniformMatrix4fv(
+				glGetUniformLocation(shader->program, "MVP"),
+				1, GL_FALSE, &mvp.matrix[0][0]);
+		glUniformMatrix4fv(
+				glGetUniformLocation(shader->program, "V"),
+				1, GL_FALSE, &scene->cam->view.matrix[0][0]);
+		glUniformMatrix4fv(
+				glGetUniformLocation(shader->program, "P"),
+				1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
+		glUniformMatrix4fv(
+				glGetUniformLocation(shader->program, "M"),
+				1, GL_FALSE, &model->transform.matrix[0][0]);
+		uint32_t i = 0;
+		while (i < m_mesh->size)
+		{
+			glUniform3fv(
+					glGetUniformLocation(shader->program, "material.ambient"),
+					1,
+					(GLfloat *)&ambient);
+			glUniform3fv(
+					glGetUniformLocation(shader->program, "material.diffuse"),
+					1,
+					(GLfloat *)&diffuse);
+			glUniform3fv(
+					glGetUniformLocation(shader->program, "material.specular"),
+					1,
+					(GLfloat *)&specular);
+			glUniform1f(
+					glGetUniformLocation(shader->program, "material.shininess"),
+					shininess);
+			glBindVertexArray(m_mesh->mesh[i]->VAO);
+			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+			i++;
+		}
+		glUseProgram(0);
 	}
-	glUseProgram(0);
+
 }
 
 bool		scene_shader_add(t_scene *scene,

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/12 22:25:33 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/12 23:59:52 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct		s_model
 	GLenum			type_draw;
 	int				flag;
 	float			same_scaling;
+	float			inter_scaling;
 	t_vector		min;
 	t_vector		max;
 	t_vector		center;

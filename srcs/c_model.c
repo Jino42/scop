@@ -105,8 +105,9 @@ void	model_setup_scaling(t_model *model)
 		scaling = 1.f / diff.y;
 	else
 		scaling = 1.f / diff.z;
-	model->scaling = vector_construct(scaling, scaling, scaling);
-	model->same_scaling = scaling;
+	//model->scaling = vector_construct(scaling, scaling, scaling);
+	model->inter_scaling = scaling;
+	//model->same_scaling = scaling;
 	diff = vector_construct(0.f, -0.5f, 0.f);
 	vector_add(&model->position, &diff);
 	model->center = diff;
@@ -116,11 +117,20 @@ void	model_setup_scaling(t_model *model)
 
 void	model_compute_transform(t_model *model)
 {
+	t_vector	scaling;
+	float		same_scaling;
+
 	matrix_identity(&model->transform);
 	if (model->flag & MODEL_SAME_SCALING)
-		matrix_scaling(&model->transform, model->same_scaling);
+	{
+		same_scaling = model->inter_scaling * model->same_scaling;
+		matrix_scaling(&model->transform, same_scaling);
+	}
 	else
-		matrix_vector_scaling(&model->transform, &model->scaling);
+	{
+		scaling = vector_get_mult(&model->scaling, model->inter_scaling);
+		matrix_vector_scaling(&model->transform, &scaling);
+	}
 	matrixgl_rotation_x(&model->transform, model->rotation.x);
 	matrixgl_rotation_y(&model->transform, model->rotation.y);
 	matrixgl_rotation_z(&model->transform, model->rotation.z);
