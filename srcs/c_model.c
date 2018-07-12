@@ -2,7 +2,8 @@
 
 t_model		*model_construct(const char *name)
 {
-	t_model *model;
+	t_model		*model;
+	char		*last_slash;
 
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
@@ -10,8 +11,15 @@ t_model		*model_construct(const char *name)
 	model->type_draw = GL_FILL;
 	if (!(model->m_mesh = m_mesh_construct()))
 		return (model_destruct(&model));
-	if (!(model->name = strdup(name)))
-		return (model_destruct(&model));
+	if (!(last_slash = strrchr(name, '/')))
+	{
+		if (!(model->name = strdup(name)))
+			return (model_destruct(&model));
+	}
+	else
+		if (!(model->name = strdup(last_slash)))
+			return (model_destruct(&model));
+
 	model->scaling = vector_construct(1.f, 1.f, 1.f);
 	model->update = true;
 	model->same_scaling = 1;
@@ -24,6 +32,8 @@ void		*model_destruct(t_model **model)
 	{
 		if ((*model)->m_mesh)
 			m_mesh_destruct(&(*model)->m_mesh);
+		if ((*model)->name)
+			ft_memdel((void **)&(*model)->name);
 		ft_memdel((void **)model);
 	}
 	return (NULL);

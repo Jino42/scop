@@ -82,11 +82,21 @@ t_shader		*shader_construct(const char *vertex_shader_path,
 									const char *fragment_shader_path)
 {
 	t_shader	*shader;
+	char		*last_slash;
 
 	if (!(shader = ft_memalloc(sizeof(t_shader))))
 		return (NULL);
 	GLint	vertex_shader;
 	GLint	fragment_shader;
+
+	if (!(last_slash = strrchr(vertex_shader_path, '/')))
+	{
+		if (!(shader->name = strdup(vertex_shader_path)))
+			return (shader_destruct(&shader));
+	}
+	else
+		if (!(shader->name = strdup(last_slash)))
+			return (shader_destruct(&shader));
 
 	vertex_shader = 0;
 	fragment_shader = 0;
@@ -129,7 +139,13 @@ bool			m_shader_add(t_m_shader *m_shader,
 		m_shader->size = 0;
 		return (false);
 	}
+	if (!(m_shader->shader_name = realloc(m_shader->shader_name, sizeof(char **) * (m_shader->size + 1))))
+	{
+		m_shader->size = 0;
+		return (false);
+	}
 	m_shader->shader[m_shader->size] = new_shader;
+	m_shader->shader_name[m_shader->size] = new_shader->name;
 	m_shader->size++;
 	return (true);
 }
@@ -158,6 +174,7 @@ void			*m_shader_destruct(t_m_shader **m_shader)
 				shader_destruct(&(*m_shader)->shader[i]);
 				i++;
 			}
+			ft_memdel((void **)&(*m_shader)->shader_name);
 			ft_memdel((void **)&(*m_shader)->shader);
 		}
 		ft_memdel((void **)m_shader);

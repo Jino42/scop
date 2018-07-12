@@ -6,7 +6,7 @@ void 				nk_m_model(t_nk *nk, t_m_model *m_model)
 	struct nk_context		*ctx;
 
 	ctx = nk->ctx;
-	if (nk_tree_push(ctx, NK_TREE_TAB, "Model", NK_MINIMIZED))
+	if (nk_tree_push(ctx, NK_TREE_TAB, "Model", NK_MAXIMIZED))
 	{
 		nk_layout_row_static(ctx, 25, 150, 1);
 		m_model->index_selected = nk_combo(ctx,

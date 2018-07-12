@@ -6,13 +6,10 @@
 
 bool	load_model(t_scene *scene, const char *path_obj)
 {
-	char *last_slash;
+
 	t_model	*model;
 
-	if (!(last_slash = strrchr(path_obj, '/')))
-		model = model_construct(path_obj);
-	else
-		model = model_construct(last_slash);
+	model = model_construct(path_obj);
 	t_lm *lm = lm_construct(model, path_obj);
 	while (get_next_line(lm->fd, &lm->line) == 1)
 	{

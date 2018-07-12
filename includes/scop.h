@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/13 00:24:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/13 00:36:23 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void				fps_update(t_fps *fps, float *ptr);
 typedef struct		s_shader
 {
 	GLuint			program;
-
+	char			*name;
 	void			(*use)(struct s_shader *);
 }					t_shader;
 void				*shader_destruct(t_shader **shader);
@@ -77,6 +77,8 @@ typedef struct		s_m_shader
 {
 	unsigned int	size;
 	t_shader		**shader;
+	char			**shader_name;
+	int				index_selected;
 	bool			(*add)(struct s_m_shader *, const char *, const char *);
 }					t_m_shader;
 t_m_shader			*m_shader_construct();
