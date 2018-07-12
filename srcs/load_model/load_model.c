@@ -4,9 +4,15 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-bool	load_model(t_scene *scene, const char * path_obj)
+bool	load_model(t_scene *scene, const char *path_obj)
 {
-	t_model *model = model_construct();
+	char *last_slash;
+	t_model	*model;
+
+	if (!(last_slash = strrchr(path_obj, '/')))
+		model = model_construct(path_obj);
+	else
+		model = model_construct(last_slash);
 	t_lm *lm = lm_construct(model, path_obj);
 	while (get_next_line(lm->fd, &lm->line) == 1)
 	{

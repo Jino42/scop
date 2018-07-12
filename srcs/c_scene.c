@@ -21,6 +21,9 @@ void		scene_render(t_scene *scene)
 	m_mesh = model->m_mesh;
 	glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
 
+	if (model->update)
+		model_update(model);
+
 	shader->use(shader);
 	temp = matrix_get_mult_matrix(&model->transform, &scene->cam->view);
 	mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);

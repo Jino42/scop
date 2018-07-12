@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/12 18:46:05 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/12 22:25:33 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@
 # define SCOP_VN (1 << 3)
 # define F_TEXTURE (1 << 4)
 
+# define FLOAT_MIN -100000.f
+# define FLOAT_MAX 100000.f
+
 #define MAX_SOURCE_SIZE 8000
 #define BUFFER_LOG 2048
+
+#define MODEL_SAME_SCALING (1 << 0)
 
 
 typedef struct		s_fps
@@ -122,23 +127,34 @@ typedef struct		s_model
 {
 	//index_material
 	//index_shader
+	bool			update;
+	char			*name;
 	t_m_mesh		*m_mesh;
 	t_matrix		transform;
 	GLenum			type_draw;
-	long			flag;
+	int				flag;
+	float			same_scaling;
 	t_vector		min;
 	t_vector		max;
 	t_vector		center;
 	t_vector		negative_center;
+
+	t_vector		position;
+	t_vector		rotation;
+	t_vector		scaling;
 }					t_model;
 void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);
-t_model				*model_construct();
+t_model				*model_construct(const char *name);
+void				model_compute_transform(t_model *model);
+void				model_update(t_model *model);
 
 typedef struct		s_m_model
 {
+	int				index_selected;
 	unsigned int	size;
 	t_model			**model;
+	char			**model_name;
 	bool			(*add)(struct s_m_model *, t_model *);
 }					t_m_model;
 t_m_model			*m_model_construct();

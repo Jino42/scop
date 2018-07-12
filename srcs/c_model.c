@@ -1,6 +1,6 @@
 #include "scop.h"
 
-t_model		*model_construct()
+t_model		*model_construct(const char *name)
 {
 	t_model *model;
 
@@ -10,6 +10,11 @@ t_model		*model_construct()
 	model->type_draw = GL_FILL;
 	if (!(model->m_mesh = m_mesh_construct()))
 		return (model_destruct(&model));
+	if (!(model->name = strdup(name)))
+		return (model_destruct(&model));
+	model->scaling = vector_construct(1.f, 1.f, 1.f);
+	model->update = true;
+	model->same_scaling = 1;
 	return (model);
 }
 
@@ -31,7 +36,13 @@ bool			m_model_add(t_m_model *m_model, t_model *model)
 		m_model->size = 0;
 		return (false);
 	}
+	if (!(m_model->model_name = realloc(m_model->model_name, sizeof(char **) * (m_model->size + 1))))
+	{
+		m_model->size = 0;
+		return (false);
+	}
 	m_model->model[m_model->size] = model;
+	m_model->model_name[m_model->size] = model->name;
 	m_model->size++;
 	return (true);
 }
@@ -62,6 +73,7 @@ void		*m_model_destruct(t_m_model **m_model)
 				i++;
 			}
 			ft_memdel((void **)&(*m_model)->model);
+			ft_memdel((void **)&(*m_model)->model_name);
 		}
 		ft_memdel((void **)m_model);
 	}
@@ -93,9 +105,29 @@ void	model_setup_scaling(t_model *model)
 		scaling = 1.f / diff.y;
 	else
 		scaling = 1.f / diff.z;
-	matrix_scaling(&model->transform, scaling);
+	model->scaling = vector_construct(scaling, scaling, scaling);
+	model->same_scaling = scaling;
 	diff = vector_construct(0.f, -0.5f, 0.f);
-	matrixgl_translation(&model->transform, &diff);
+	vector_add(&model->position, &diff);
 	model->center = diff;
 	model->negative_center = vector_get_invert(&diff);
+	model_compute_transform(model);
+}
+
+void	model_compute_transform(t_model *model)
+{
+	matrix_identity(&model->transform);
+	if (model->flag & MODEL_SAME_SCALING)
+		matrix_scaling(&model->transform, model->same_scaling);
+	else
+		matrix_vector_scaling(&model->transform, &model->scaling);
+	matrixgl_rotation_x(&model->transform, model->rotation.x);
+	matrixgl_rotation_y(&model->transform, model->rotation.y);
+	matrixgl_rotation_z(&model->transform, model->rotation.z);
+	matrixgl_translation(&model->transform, &model->position);
+}
+void	model_update(t_model *model)
+{
+	model->update = false;
+	model_compute_transform(model);
 }

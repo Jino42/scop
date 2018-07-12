@@ -56,13 +56,32 @@ void				nk_position(t_nk *nk, t_vector *vector)
 
 	ctx = nk->ctx;
 	nk_layout_row_begin(ctx, NK_STATIC, 20, 4);
-	nk_layout_row_push(ctx, 70);
+	nk_layout_row_push(ctx, 60);
 	nk_label(ctx, "Position", NK_TEXT_LEFT);
 	nk_layout_row_push(ctx, 90);
-	nk_property_float(ctx, "X:", FLT_MIN, &vector->x, FLT_MAX, 0.1f, 0.2f);
+	nk_property_float(ctx, "X:", FLOAT_MIN, &vector->x, FLT_MAX, 0.1f, 0.2f);
 	nk_layout_row_push(ctx, 90);
-	nk_property_float(ctx, "Y:", FLT_MIN, &vector->y, FLT_MAX, 0.1f, 0.2f);
+	nk_property_float(ctx, "Y:", FLOAT_MIN, &vector->y, FLT_MAX, 0.1f, 0.2f);
 	nk_layout_row_push(ctx, 90);
-	nk_property_float(ctx, "Z:", FLT_MIN, &vector->z, FLT_MAX, 0.1f, 0.2f);
+	nk_property_float(ctx, "Z:", FLOAT_MIN, &vector->z, FLT_MAX, 0.1f, 0.2f);
 	nk_layout_row_end(ctx);
+}
+
+void				nk_combo_vector(t_nk *nk, t_vector *vector, const char *str)
+{
+	struct nk_context		*ctx;
+
+	ctx = nk->ctx;
+	if (str)
+		sprintf(nk->buffer, "[%s]: %.2f, %.2f, %.2f", str, vector->x, vector->y,vector->z);
+	else
+		sprintf(nk->buffer, "%.2f, %.2f, %.2f", vector->x, vector->y,vector->z);
+	if (nk_combo_begin_label(ctx, nk->buffer, nk_vec2(200,200)))
+	{
+		nk_layout_row_dynamic(ctx, 25, 1);
+		nk_property_float(ctx, "#X:", FLOAT_MIN, &vector->x, FLOAT_MAX, 0.1,0.2f);
+		nk_property_float(ctx, "#Y:", FLOAT_MIN, &vector->y, FLOAT_MAX, 0.1,0.2f);
+		nk_property_float(ctx, "#Z:", FLOAT_MIN, &vector->z, FLOAT_MAX, 0.1,0.2f);
+		nk_combo_end(ctx);
+	}
 }

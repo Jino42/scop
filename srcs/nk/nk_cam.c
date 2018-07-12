@@ -7,7 +7,7 @@ void				nk_cam_pitch_yaw(t_nk *nk, t_cam *cam)
 
 	ctx = nk->ctx;
 	nk_layout_row_static(ctx, 25, 150, 2);
-	nk_property_float(ctx, "Yaw", FLT_MIN, &cam->yaw, FLT_MAX, 0.1f, 0.05f);
+	nk_property_float(ctx, "Yaw", FLOAT_MIN, &cam->yaw, FLT_MAX, 0.1f, 0.05f);
 	nk_property_float(ctx, "Pitch", FLT_MIN, &cam->pitch, FLT_MAX, 0.1f, 0.05f);
 	cam->front = cam_get_front(cam->pitch, cam->yaw);
 }
