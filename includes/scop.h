@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/11 16:19:35 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/11 20:20:22 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void				model_gen_gl_buffers(t_model *model);
 typedef struct		s_cam
 {
 	bool			first_callback;
+	float			fov;
 	float			pitch;
 	float			yaw;
 	float			sensitivity;

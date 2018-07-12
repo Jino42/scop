@@ -5,12 +5,13 @@
 # include "glad.h"
 # include "scop_glfw.h"
 # include "libft.h"
+# include "scop.h"
 //# include "nuklear_glfw_gl3.h"
 //# include "nuk_glfw_gl3.h"
 
 #define NK_INCLUDE_FIXED_TYPES
 #define NK_INCLUDE_STANDARD_IO
-//#define NK_INCLUDE_STANDARD_VARARGS
+#define NK_INCLUDE_STANDARD_VARARGS
 #define NK_INCLUDE_DEFAULT_ALLOCATOR
 #define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
 #define NK_INCLUDE_FONT_BAKING
@@ -108,11 +109,11 @@ typedef struct		s_nk
 {
 	GLFWwindow				*win;
 	struct nk_context		*ctx;
+	struct nk_context		*ctx_camera;
 	struct nk_colorf		bg;
 	struct nk_font_atlas	*atlas;
 	int						width;
 	int						height;
-
 }					t_nk;
 
 t_nk				*nk_construct(GLFWwindow *win);
@@ -120,5 +121,6 @@ void				*nk_destruct(t_nk **nk);
 void				nk_example(t_nk *nk);
 void				nk_update(t_nk *nk);
 void				nk_render(t_nk *nk);
+void				nk_camera(t_nk *nk, t_cam *cam);
 
 #endif

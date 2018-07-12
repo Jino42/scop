@@ -24,7 +24,7 @@ bool			loop(t_env *e)
 
 		nk_update(nk);
 		nk_example(nk);
-
+		nk_camera(nk, e->scene->cam);
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
 		/*
 		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)

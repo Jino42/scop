@@ -1,4 +1,5 @@
 #include "scop_nk.h"
+#include "scop.h"
 
 /*struct nk_font *droid = nk_font_atlas_add_from_file(atlas, "../../../extra_font/DroidSans.ttf", 14, 0);*/
 /*struct nk_font *roboto = nk_font_atlas_add_from_file(atlas, "../../../extra_font/Roboto-Regular.ttf", 14, 0);*/
@@ -48,6 +49,20 @@ void				nk_render(t_nk *nk)
 {
 	(void)nk;
 	nk_glfw3_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
+}
+
+void				nk_camera(t_nk *nk, t_cam *cam)
+{
+	(void)cam;
+	if (nk_begin(nk->ctx, "Camera", nk_rect(10, 10, 400, 600),
+		NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
+		NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
+	{
+		nk_layout_row_static(nk->ctx, 30, 300, 1);
+		nk_labelf(nk->ctx, NK_TEXT_LEFT, "FOV [%.2f]", cam->fov);
+		nk_slider_float(nk->ctx, 20.f, &cam->fov, 90.f, 0.1f);
+	}
+	nk_end(nk->ctx);
 }
 
 void				nk_example(t_nk *nk)
