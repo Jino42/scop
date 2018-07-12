@@ -38,5 +38,6 @@ bool	load_model(t_scene *scene, const char * path_obj)
 	model_gen_gl_buffers(model);
 	model_setup_scaling(model);
 	scene->model_add(scene, model);
+	lm_destruct(&lm);
 	return (true);
 }
