@@ -20,24 +20,18 @@ void 	*env_destruct(void *ptr)
 	return (NULL);
 }
 
-t_env 	*env_construct()
+t_env 	*env_construct(int argc, char **argv)
 {
 	t_env *e;
 
+	(void)argc;
 	if (!(e = ft_memalloc(sizeof(t_env))))
 		return (NULL);
 	if (!(e->glfw = glfw_construct("scop", 1920, 1080)))
 		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
 	if (!(e->fps = fps_construct()))
 		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
-	if (!(e->scene = scene_construct()))
+	if (!(e->scene = scene_construct(argv[1])))
 		return (ft_error("Erreur: L'initialisation de t_scene a échoué", &env_destruct, e));
-
-	if (!m_model_load(e->scene->m_model, "old_ressources/multicube.obj", "1"))
-		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
-	if (!m_model_load(e->scene->m_model, "old_ressources/lowtri.obj", "2"))
-		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
-	if (!m_model_load(e->scene->m_model, "old_ressources/newdva.obj", "3"))
-		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
 	return (e);
 }

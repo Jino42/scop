@@ -20,6 +20,16 @@ bool		json_add_int(cJSON *json, char *key, int value)
 	return (true);
 }
 
+bool		json_add_float(cJSON *json, char *key, float value)
+{
+	cJSON			*item;
+
+	if (!(item = cJSON_CreateNumber(value)))
+		return (false);
+	cJSON_AddItemToObject(json, key, item);
+	return (true);
+}
+
 bool		json_add_vector(cJSON *json, char *key, t_vector *value)
 {
 	cJSON			*item;

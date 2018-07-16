@@ -94,6 +94,7 @@ t_model		*model_construct(const char *path, const char *name)
 {
 	t_model		*model;
 
+	printf("%s %s\n", path, name);
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
 	model->transform = matrix_get_identity();

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 21:40:14 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 22:00:03 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,10 +276,10 @@ typedef struct		s_scene
 	bool			(*model_add)(struct s_scene*, t_model *);
 }					t_scene;
 void				*scene_destruct(t_scene **scene);
-t_scene				*scene_construct();
+t_scene				*scene_construct(const char *path);
 bool				m_model_json_parse(t_scene *scene, t_m_model *m_model, cJSON *get, const char *key);
 bool				scene_require(t_scene *scene);
-bool		scene_write(t_scene *scene);
+bool			scene_write(t_scene *scene, const char *path);
 
 typedef struct		s_env
 {
@@ -291,7 +291,7 @@ typedef struct		s_env
 
 	int64_t			flag;
 }					t_env;
-t_env 				*env_construct();
+t_env 				*env_construct(int argc, char **argv);
 void 				*env_destruct(void *ptr);
 
 
@@ -379,6 +379,7 @@ cJSON			*json_load_src(const char *path, char *buffer);
 
 bool			json_add_vector(cJSON *json, char *key, t_vector *value);
 bool			json_add_int(cJSON *json, char *key, int value);
+bool			json_add_float(cJSON *json, char *key, float value);
 bool			json_add_string(cJSON *json, char *key, char *value);
 
 #endif

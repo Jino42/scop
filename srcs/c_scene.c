@@ -120,7 +120,6 @@ bool		scene_parse(t_scene *scene, const char *path)
 	bzero(buffer, MAX_SOURCE_SIZE);
 	if (!(json = json_load_src(path, buffer)))
 		return (false);
-	;
 	if (!(m_material_json_parse(scene->m_material, json, "material")))
 	{
 		cJSON_Delete(json);
@@ -145,7 +144,7 @@ bool		scene_parse(t_scene *scene, const char *path)
 	return (true);
 }
 
-t_scene		*scene_construct()
+t_scene		*scene_construct(const char *path)
 {
 	t_scene *scene;
 
@@ -166,7 +165,7 @@ t_scene		*scene_construct()
 		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
-	if (!(scene_parse(scene, "./json/scene.json")))
+	if (!(scene_parse(scene, path)))
 		return (scene_destruct(&scene));
 	if (!scene_require(scene))
 		return (scene_destruct(&scene));
@@ -262,7 +261,7 @@ bool		scene_write_model(t_scene *scene, cJSON *json_scene)
 	return (true);
 }
 
-bool		m_shader_write_shader(t_m_shader *m_shader, cJSON *json_scene)
+bool		m_shader_write(t_m_shader *m_shader, cJSON *json_scene)
 {
 	cJSON			*json_shader;
 	cJSON			*json_shaders;
@@ -289,7 +288,7 @@ bool		m_shader_write_shader(t_m_shader *m_shader, cJSON *json_scene)
 	return (true);
 }
 
-bool		m_light_write_light(t_m_light *m_light, cJSON *json_scene)
+bool		m_light_write(t_m_light *m_light, cJSON *json_scene)
 {
 	cJSON			*json_light;
 	cJSON			*json_lights;
@@ -309,30 +308,77 @@ bool		m_light_write_light(t_m_light *m_light, cJSON *json_scene)
 		cJSON_AddItemToArray(json_lights, json_light);
 		if (!json_add_string(json_light, "name", light->name))
 			return (false);
-		if (!json_add_vector(json_light, "specular", &light->ambient) ||
+		if (!json_add_vector(json_light, "ambient", &light->ambient) ||
 			!json_add_vector(json_light, "diffuse", &light->diffuse) ||
-			!json_add_vector(json_light, "position", &light->position) ||
-			!json_add_vector(json_light, "specular", &light->specular))
+			!json_add_vector(json_light, "specular", &light->specular) ||
+			!json_add_vector(json_light, "position", &light->position))
 			return (false);
 		i++;
 	}
 	return (true);
 }
 
-bool		scene_write(t_scene *scene)
+bool		m_material_write(t_m_material *m_material, cJSON *json_scene)
 {
-	cJSON *json_scene;
+	cJSON			*json_material;
+	cJSON			*json_materials;
+	t_material		*material;
+	unsigned int	i;
 
-	if (!(json_scene = cJSON_CreateObject()))
+	if (!(json_materials = cJSON_CreateArray()))
 		return (false);
-	if (!scene_write_model(scene, json_scene) ||
-		!m_shader_write_shader(scene->m_shader, json_scene) ||
-		!m_light_write_light(scene->m_light, json_scene))
+	cJSON_AddItemToObject(json_scene, "material", json_materials);
+
+	i = 0;
+	while (i < m_material->size)
 	{
+		material = m_material->material[i];
+		if (!(json_material = cJSON_CreateObject()))
+			return (false);
+		cJSON_AddItemToArray(json_materials, json_material);
+		if (!json_add_string(json_material, "name", material->name))
+			return (false);
+		if (!json_add_float(json_material, "shininess", material->shininess))
+			return (false);
+		if (!json_add_vector(json_material, "ambient", &material->ambient) ||
+			!json_add_vector(json_material, "diffuse", &material->diffuse) ||
+			!json_add_vector(json_material, "specular", &material->specular))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+bool		scene_write(t_scene *scene, const char *path)
+{
+	cJSON	*json_scene;
+	char	*str;
+	int		fd;
+
+	if (!(fd = open(path, O_RDWR|O_CREAT, 0666)))
+		return (false);
+	if (!(json_scene = cJSON_CreateObject()))
+	{
+		close(fd);
+		return (false);
+	}
+	if (!scene_write_model(scene, json_scene) ||
+		!m_shader_write(scene->m_shader, json_scene) ||
+		!m_light_write(scene->m_light, json_scene) ||
+		!m_material_write(scene->m_material, json_scene))
+	{
+		close(fd);
 		cJSON_Delete(json_scene);
 		return (false);
 	}
-	printf("%s\n", cJSON_Print(json_scene));
+	str = cJSON_Print(json_scene);
+	dprintf(fd, "%s\n", str);
+	close(fd);
+	free(str);
 	cJSON_Delete(json_scene);
 	return (true);
 }

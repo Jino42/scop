@@ -37,7 +37,7 @@ bool			loop(t_env *e)
 			matrix_scaling(&model->transform, 0.995f);
 		*/
 		if (glfwGetKey(glfw->window, GLFW_KEY_U))
-			scene_write(e->scene);
+			scene_write(e->scene, "./la.json");
 		if (glfwGetKey(glfw->window, GLFW_KEY_KP_ADD))
 			matrix_scaling(&e->scene->m_model->model[0]->transform, 1.005f);
 		if (glfwGetKey(glfw->window, GLFW_KEY_KP_SUBTRACT))
