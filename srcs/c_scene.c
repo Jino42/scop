@@ -137,6 +137,10 @@ t_scene		*scene_construct()
 		return (scene_destruct(&scene));
 	if (!(m_light_json_parse(scene->m_light, "./json/light.json")))
 		return (scene_destruct(&scene));
+	if (!(m_model_json_parse(scene, scene->m_model, "./json/model.json")))
+		return (scene_destruct(&scene));
+	if (!(scene_require(scene)))
+		return (scene_destruct(&scene));
 	return (scene);
 }
 
@@ -159,4 +163,35 @@ void		*scene_destruct(t_scene **scene)
 		ft_memdel((void **)scene);
 	}
 	return (NULL);
+}
+
+bool		scene_require_index_m_model(t_scene *scene)
+{
+	t_model *model;
+	unsigned int i;
+
+	i = 0;
+	while (i < scene->m_model->size)
+	{
+		model = scene->m_model->model[i];
+		if (model->index_shader > scene->m_model->size)
+			return (dprintf(2, "Votre model %s doit avoir un index ou un nom de shader valide.\n", model->name) && 0);
+		if (model->index_material > scene->m_material->size)
+			return (dprintf(2, "Votre model %s doit avoir un index ou un nom de materiaux valide.\n", model->name) && 0);
+		i++;
+	}
+	return (true);
+}
+
+bool		scene_require(t_scene *scene)
+{
+	if (!scene->m_model->size)
+		return (ft_bool_error("La Scene a besoin d'au moins d'un Model", NULL, NULL));
+	if (!scene->m_model->size)
+		return (ft_bool_error("La Scene a besoin d'au moins d'un Shader", NULL, NULL));
+	if (!scene->m_model->size)
+		return (ft_bool_error("La Scene a besoin d'au moins d'un Materiau", NULL, NULL));
+	if (!scene_require_index_m_model(scene))
+		return (false);
+	return (true);
 }

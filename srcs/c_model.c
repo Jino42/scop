@@ -1,5 +1,99 @@
 #include "scop.h"
 
+bool			m_model_json_parse_shader(cJSON *get, const char *key, t_scene *scene, t_model *model)
+{
+	cJSON *source;
+
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!source)
+		return (false);
+	if (cJSON_IsNumber(source))
+	{
+		model->index_shader = source->valueint;
+		return (true);
+	}
+	else if (cJSON_IsString(source) && source->valuestring)
+	{
+		model->index_shader = m_shader_get_index(scene->m_shader, source->valuestring);
+		return (true);
+	}
+	return (false);
+}
+
+bool			m_model_json_parse_material(cJSON *get, const char *key, t_scene *scene, t_model *model)
+{
+	cJSON *source;
+
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!source)
+		return (false);
+	if (cJSON_IsNumber(source))
+	{
+		model->index_material = source->valueint;
+		return (true);
+	}
+	else if (cJSON_IsString(source) && source->valuestring)
+	{
+		model->index_material = m_material_get_index(scene->m_material, source->valuestring);
+		return (true);
+	}
+	return (false);
+}
+
+bool			m_model_json_loop(t_scene *scene, t_m_model *m_model, cJSON *json_models)
+{
+	int				index;
+	char			*str;
+	cJSON			*json_model;
+	t_model			*model;
+	t_vector		tmp;
+
+	if (!json_models)
+		return (ft_bool_error("JSON models is undefined ", NULL, NULL));
+	json_model = json_models->child;
+	index = 0;
+	while (json_model)
+	{
+		str = NULL;
+		if (!json_parse_string(json_model, "path", &str))
+			return (dprintf(2, "JSON model[%i]: the path is Undefined\n", index) == 0);
+		if (!(model = m_model_load(m_model, str)))
+			return (dprintf(2, "JSON model[%i]: Load model Failed\n", index) == 0);
+		if (!json_parse_vector(json_model, "position", &model->position))
+			return (dprintf(2, "JSON model[%i] %s : position error\n", index, model->name) == 0);
+		if (json_parse_vector(json_model, "scaling", &tmp))
+		{
+			model->scaling = tmp;
+			model->same_scaling = tmp.x;
+		}
+		if (!json_parse_vector(json_model, "rotation", &model->rotation))
+			return (dprintf(2, "JSON model[%i] %s : rotation error\n", index, model->name) == 0);
+		if (!(m_model_json_parse_shader(json_model, "shader", scene, model)))
+			return (dprintf(2, "JSON model[%i] %s : shader error\n", index, model->name) == 0);
+		if (!(m_model_json_parse_material(json_model, "material", scene, model)))
+			return (dprintf(2, "JSON model[%i] %s : shader error\n", index, model->name) == 0);
+		json_model = json_model->next;
+		index++;
+	}
+	return (true);
+}
+
+bool			m_model_json_parse(t_scene *scene, t_m_model *m_model, const char *path_model)
+{
+	char			buffer[MAX_SOURCE_SIZE];
+	cJSON			*json;
+
+	bzero(buffer, MAX_SOURCE_SIZE);
+	json = json_load_src(path_model, buffer);
+	if (!(m_model_json_loop(scene, m_model, json)))
+	{
+		cJSON_Delete(json);
+		return (ft_bool_error("Erreur: Le parsing de t_m_model a échoué", NULL, NULL));
+	}
+	cJSON_Delete(json);
+	return (true);
+}
+
 t_model		*model_construct(const char *name)
 {
 	t_model		*model;
@@ -57,6 +151,27 @@ bool			m_model_add(t_m_model *m_model, t_model *model)
 	return (true);
 }
 
+t_model			*m_model_new(t_m_model *m_model, char *path)
+{
+	t_model *model;
+
+	if (!(model = model_construct(path)))
+		return (NULL);
+	if (!(m_model->model = realloc(m_model->model, sizeof(t_model **) * (m_model->size + 1))))
+	{
+		m_model->size = 0;
+		return (false);
+	}
+	if (!(m_model->model_name = realloc(m_model->model_name, sizeof(char **) * (m_model->size + 1))))
+	{
+		m_model->size = 0;
+		return (false);
+	}
+	m_model->model[m_model->size] = model;
+	m_model->model_name[m_model->size] = model->name;
+	m_model->size++;
+	return (model);
+}
 
 t_m_model		*m_model_construct()
 {
@@ -65,6 +180,7 @@ t_m_model		*m_model_construct()
 	if (!(m_model = ft_memalloc(sizeof(t_m_model))))
 		return (NULL);
 	m_model->add = &m_model_add;
+	m_model->new = &m_model_new;
 	return (m_model);
 }
 

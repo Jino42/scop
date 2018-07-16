@@ -59,8 +59,6 @@ bool			loop(t_env *e)
 		if (glfwGetKey(glfw->window, GLFW_KEY_I) == GLFW_PRESS)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		nk_render(nk);
-
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -69,6 +67,7 @@ bool			loop(t_env *e)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 		scene_render(e->scene);
+		nk_render(nk);
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
 	}

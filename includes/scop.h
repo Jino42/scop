@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 17:06:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 19:18:50 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct		s_m_shader
 }					t_m_shader;
 t_m_shader			*m_shader_construct();
 void				*m_shader_destruct(t_m_shader **m_shader);
+int					m_shader_get_index(t_m_shader *m_shader, char *str);
 /*bool				m_shader_add(t_m_shader *m_shader,
 								const char *vertex_shader_path,
 								const char *fragment_shader_path);*/
@@ -149,7 +150,8 @@ typedef struct		s_m_material
 }					t_m_material;
 t_m_material		*m_material_construct();
 void				*m_material_destruct(t_m_material **m_material);
-bool			m_material_json_parse(t_m_material *m_material, const char *path_material);
+bool				m_material_json_parse(t_m_material *m_material, const char *path_material);
+int					m_material_get_index(t_m_material *m_material, char *str);
 
 /*						*/
 /*		  MODEL			*/
@@ -176,7 +178,9 @@ typedef struct		s_model
 	t_vector		scaling;
 
 	unsigned int	index_shader;
+	//t_shader		*ptr_shader;
 	unsigned int	index_material;
+	//t_material		*ptr_material;
 }					t_model;
 void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);
@@ -191,9 +195,11 @@ typedef struct		s_m_model
 	t_model			**model;
 	char			**model_name;
 	bool			(*add)(struct s_m_model *, t_model *);
+	t_model			*(*new)(struct s_m_model *, char *);
 }					t_m_model;
 t_m_model			*m_model_construct();
 void				*m_model_destruct(t_m_model **m_model);
+t_model				*m_model_new(t_m_model *m_model, char *path);
 void				model_gen_gl_buffers(t_model *model);
 
 /*						*/
@@ -273,6 +279,8 @@ typedef struct		s_scene
 }					t_scene;
 void				*scene_destruct(t_scene **scene);
 t_scene				*scene_construct();
+bool				m_model_json_parse(t_scene *scene, t_m_model *m_model, const char *path_model);
+bool				scene_require(t_scene *scene);
 
 typedef struct		s_env
 {
@@ -359,8 +367,9 @@ t_matrix matrixgl_get_projection(const float fov,
 									const float far);
 
 
-bool		load_model(t_scene *scene, const char * path_obj);
-void		scene_render(t_scene *scene);
+t_model			*m_model_load(t_m_model *m_model, const char *path_obj);
+bool			load_model(t_scene *scene, const char * path_obj);
+void			scene_render(t_scene *scene);
 
 bool			json_error(void *ptr);
 bool			json_parse_vector_xyz(cJSON *vector_json, const char *key, t_vector *vector);

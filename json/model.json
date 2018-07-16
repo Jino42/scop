@@ -1,0 +1,10 @@
+[
+	{
+		"path": "./old_ressources/lowtri.obj",
+		"position": 0.3,
+		"rotation": 0,
+		"scaling": 1.6,
+		"shader": 1,
+		"material": "RED_PLASTIC"
+	}
+]
