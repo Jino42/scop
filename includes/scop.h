@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 21:00:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 21:05:24 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct		s_shader
 {
 	GLuint			program;
 	char			*name;
+	char			*path_vertex;
+	char			*path_fragment;
 	void			(*use)(struct s_shader *);
 }					t_shader;
 void				*shader_destruct(t_shader **shader);
@@ -351,7 +353,6 @@ void				event_mouse(GLFWwindow *window, double pos_x, double pos_y);
 
 float				get_degrees(const float radians);
 float				get_radians(const float degrees);
-
 
 
 t_matrix		matrixgl_view(t_cam *cam);

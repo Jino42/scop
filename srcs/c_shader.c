@@ -73,8 +73,14 @@ void			shader_use(t_shader *shader)
 
 void		*shader_destruct(t_shader **shader)
 {
-	glDeleteProgram((*shader)->program);
-	ft_memdel((void **)shader);
+	if (shader && *shader)
+	{
+		glDeleteProgram((*shader)->program);
+		ft_memdel((void **)&(*shader)->name);
+		ft_memdel((void **)&(*shader)->path_fragment);
+		ft_memdel((void **)&(*shader)->path_vertex);
+		ft_memdel((void **)shader);
+	}
 	return (NULL);
 }
 
@@ -115,6 +121,8 @@ t_shader		*shader_construct(const char *vertex_shader_path,
 	glDeleteShader(fragment_shader);
 	shader->use = &shader_use;
 	shader->name = strdup(name);
+	shader->path_vertex = strdup(vertex_shader_path);
+	shader->path_fragment = strdup(fragment_shader_path);
 	return (shader);
 }
 
