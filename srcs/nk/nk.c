@@ -1,20 +1,52 @@
 #include "scop_nk.h"
 #include "scop.h"
-/*struct nk_font *droid = nk_font_atlas_add_from_file(atlas, "../../../extra_font/DroidSans.ttf", 14, 0);*/
-/*struct nk_font *roboto = nk_font_atlas_add_from_file(atlas, "../../../extra_font/Roboto-Regular.ttf", 14, 0);*/
-/*struct nk_font *future = nk_font_atlas_add_from_file(atlas, "../../../extra_font/kenvector_future_thin.ttf", 13, 0);*/
-/*struct nk_font *clean = nk_font_atlas_add_from_file(atlas, "../../../extra_font/ProggyClean.ttf", 12, 0);*/
-/*struct nk_font *tiny = nk_font_atlas_add_from_file(atlas, "../../../extra_font/ProggyTiny.ttf", 10, 0);*/
-/*struct nk_font *cousine = nk_font_atlas_add_from_file(atlas, "../../../extra_font/Cousine-Regular.ttf", 13, 0);*/
-/*nk_style_load_all_cursors(nk->, atlas->cursors);*/
-/*nk_style_set_font(nk->, &droid->handle);*/
-/*set_style(nk->, THEME_WHITE);*/
-/*set_style(nk->, THEME_RED);*/
-/*set_style(nk->, THEME_BLUE);*/
-/*set_style(nk->, THEME_DARK);*/
 
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
+
+# define THEME_RED (1 << 0)
+
+static void set_style(struct nk_context *ctx, int theme)
+{
+    struct nk_color table[NK_COLOR_COUNT];
+	if (theme == THEME_RED)
+	{
+        table[NK_COLOR_TEXT] = nk_rgba(190, 190, 190, 255);
+        table[NK_COLOR_WINDOW] = nk_rgba(30, 33, 40, 215);
+        table[NK_COLOR_HEADER] = nk_rgba(181, 45, 69, 220);
+        table[NK_COLOR_BORDER] = nk_rgba(51, 55, 67, 255);
+        table[NK_COLOR_BUTTON] = nk_rgba(181, 45, 69, 255);
+        table[NK_COLOR_BUTTON_HOVER] = nk_rgba(190, 50, 70, 255);
+        table[NK_COLOR_BUTTON_ACTIVE] = nk_rgba(195, 55, 75, 255);
+        table[NK_COLOR_TOGGLE] = nk_rgba(51, 55, 67, 255);
+        table[NK_COLOR_TOGGLE_HOVER] = nk_rgba(45, 60, 60, 255);
+        table[NK_COLOR_TOGGLE_CURSOR] = nk_rgba(181, 45, 69, 255);
+        table[NK_COLOR_SELECT] = nk_rgba(51, 55, 67, 255);
+        table[NK_COLOR_SELECT_ACTIVE] = nk_rgba(181, 45, 69, 255);
+        table[NK_COLOR_SLIDER] = nk_rgba(51, 55, 67, 255);
+        table[NK_COLOR_SLIDER_CURSOR] = nk_rgba(181, 45, 69, 255);
+        table[NK_COLOR_SLIDER_CURSOR_HOVER] = nk_rgba(186, 50, 74, 255);
+        table[NK_COLOR_SLIDER_CURSOR_ACTIVE] = nk_rgba(191, 55, 79, 255);
+        table[NK_COLOR_PROPERTY] = nk_rgba(51, 55, 67, 255);
+        table[NK_COLOR_EDIT] = nk_rgba(51, 55, 67, 225);
+        table[NK_COLOR_EDIT_CURSOR] = nk_rgba(190, 190, 190, 255);
+        table[NK_COLOR_COMBO] = nk_rgba(51, 55, 67, 255);
+        table[NK_COLOR_CHART] = nk_rgba(51, 55, 67, 255);
+        table[NK_COLOR_CHART_COLOR] = nk_rgba(170, 40, 60, 255);
+        table[NK_COLOR_CHART_COLOR_HIGHLIGHT] = nk_rgba( 255, 0, 0, 255);
+        table[NK_COLOR_SCROLLBAR] = nk_rgba(30, 33, 40, 255);
+        table[NK_COLOR_SCROLLBAR_CURSOR] = nk_rgba(64, 84, 95, 255);
+        table[NK_COLOR_SCROLLBAR_CURSOR_HOVER] = nk_rgba(70, 90, 100, 255);
+        table[NK_COLOR_SCROLLBAR_CURSOR_ACTIVE] = nk_rgba(75, 95, 105, 255);
+        table[NK_COLOR_TAB_HEADER] = nk_rgba(181, 45, 69, 220);
+        nk_style_from_table(ctx, table);
+    }
+	else
+	{
+        nk_style_default(ctx);
+    }
+}
+
 
 t_nk				*nk_construct(GLFWwindow *win)
 {
@@ -26,6 +58,7 @@ t_nk				*nk_construct(GLFWwindow *win)
 	nk->ctx = nk_glfw3_init(nk->win, NK_GLFW3_INSTALL_CALLBACKS);
 	nk_glfw3_font_stash_begin(&nk->atlas);
 	nk_glfw3_font_stash_end();
+	set_style(nk->ctx, THEME_RED);
 	return (nk);
 }
 
