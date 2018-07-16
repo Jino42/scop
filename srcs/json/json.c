@@ -91,18 +91,3 @@ cJSON			*json_load_src(const char *path, char *buffer)
 		json_error(NULL);
 	return (ptr);
 }
-
-bool				temp_json(void)
-{
-	char			buffer[MAX_SOURCE_SIZE];
-	cJSON			*materials;
-
-	bzero(buffer, MAX_SOURCE_SIZE);
-	json_load_src("./json/materials.json", buffer);
-	printf("%s\n", buffer);
-	materials = cJSON_Parse(buffer);
-	if (materials == NULL)
-		return (ft_bool_error(NULL, &json_error, NULL));
-	printf("%s\n", buffer);
-	return (true);
-}
