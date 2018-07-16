@@ -109,6 +109,10 @@ struct nk_glfw {
 #define MENU_NONE (1 << 0)
 #define MENU_FILE (1 << 1)
 
+#define POPUP_NEW (1 << 2)
+#define POPUP_SAVE_AS (1 << 3)
+#define POPUP_OPEN (1 << 4)
+
 typedef struct		s_nk
 {
 	GLFWwindow				*win;
@@ -121,6 +125,10 @@ typedef struct		s_nk
 	int						menu_state;
 	enum nk_collapse_states	state;
 	char					buffer[256];
+	char					buffer_text[256];
+	int						len_text;
+	int						popup;
+	int						flag;
 }					t_nk;
 
 t_nk				*nk_construct(GLFWwindow *win);

@@ -59,6 +59,7 @@ t_nk				*nk_construct(GLFWwindow *win)
 	nk_glfw3_font_stash_begin(&nk->atlas);
 	nk_glfw3_font_stash_end();
 	set_style(nk->ctx, THEME_RED);
+	strcpy(nk->buffer_text, "./json/");
 	return (nk);
 }
 
