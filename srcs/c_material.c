@@ -33,19 +33,13 @@ bool			m_material_json_loop(t_m_material *m_material, cJSON *json_materials)
 	return (true);
 }
 
-bool			m_material_json_parse(t_m_material *m_material, const char *path_material)
+bool			m_material_json_parse(t_m_material *m_material, cJSON *get, const char *key)
 {
-	char			buffer[MAX_SOURCE_SIZE];
-	cJSON			*json;
+	cJSON	*source;
 
-	bzero(buffer, MAX_SOURCE_SIZE);
-	json = json_load_src(path_material, buffer);
-	if (!(m_material_json_loop(m_material, json)))
-	{
-		cJSON_Delete(json);
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!(m_material_json_loop(m_material, source)))
 		return (ft_bool_error("Erreur: Le parsing de t_m_material a échoué", NULL, NULL));
-	}
-	cJSON_Delete(json);
 	return (true);
 }
 

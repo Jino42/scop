@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 19:18:50 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 19:32:03 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ typedef struct		s_m_material
 }					t_m_material;
 t_m_material		*m_material_construct();
 void				*m_material_destruct(t_m_material **m_material);
-bool				m_material_json_parse(t_m_material *m_material, const char *path_material);
+bool				m_material_json_parse(t_m_material *m_material, cJSON *get, const char *key);
 int					m_material_get_index(t_m_material *m_material, char *str);
 
 /*						*/
@@ -258,7 +258,7 @@ typedef struct		s_m_light
 }					t_m_light;
 t_m_light			*m_light_construct();
 void				*m_light_destruct(t_m_light **m_model);
-bool				m_light_json_parse(t_m_light *m_light, const char *path_light);
+bool				m_light_json_parse(t_m_light *m_light, cJSON *get, const char *key);
 
 /*						*/
 /*		  SCENE			*/
@@ -279,7 +279,7 @@ typedef struct		s_scene
 }					t_scene;
 void				*scene_destruct(t_scene **scene);
 t_scene				*scene_construct();
-bool				m_model_json_parse(t_scene *scene, t_m_model *m_model, const char *path_model);
+bool				m_model_json_parse(t_scene *scene, t_m_model *m_model, cJSON *get, const char *key);
 bool				scene_require(t_scene *scene);
 
 typedef struct		s_env

@@ -111,6 +111,33 @@ bool		scene_model_add(t_scene *scene, t_model *model)
 	return (true);
 }
 
+bool		scene_parse(t_scene *scene, const char *path)
+{
+	char			buffer[MAX_SOURCE_SIZE];
+	cJSON			*json;
+
+	bzero(buffer, MAX_SOURCE_SIZE);
+	if (!(json = json_load_src(path, buffer)))
+		return (false);
+	;
+	if (!(m_material_json_parse(scene->m_material, json, "material")))
+	{
+		cJSON_Delete(json);
+		return (scene_destruct(&scene));
+	}
+	if (!(m_light_json_parse(scene->m_light, json, "light")))
+	{
+		cJSON_Delete(json);
+		return (scene_destruct(&scene));
+	}
+	if (!(m_model_json_parse(scene, scene->m_model, json, "model")))
+	{
+		cJSON_Delete(json);
+		return (scene_destruct(&scene));
+	}
+	cJSON_Delete(json);
+	return (true);
+}
 
 t_scene		*scene_construct()
 {
@@ -133,11 +160,7 @@ t_scene		*scene_construct()
 		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
-	if (!(m_material_json_parse(scene->m_material, "./json/materials.json")))
-		return (scene_destruct(&scene));
-	if (!(m_light_json_parse(scene->m_light, "./json/light.json")))
-		return (scene_destruct(&scene));
-	if (!(m_model_json_parse(scene, scene->m_model, "./json/model.json")))
+	if (!(scene_parse(scene, "./json/scene.json")))
 		return (scene_destruct(&scene));
 	if (!(scene_require(scene)))
 		return (scene_destruct(&scene));

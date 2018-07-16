@@ -33,19 +33,13 @@ bool			m_light_json_loop(t_m_light *m_light, cJSON *json_lights)
 	return (true);
 }
 
-bool			m_light_json_parse(t_m_light *m_light, const char *path_light)
+bool			m_light_json_parse(t_m_light *m_light, cJSON *get, const char *key)
 {
-	char			buffer[MAX_SOURCE_SIZE];
-	cJSON			*json;
+	cJSON	*source;
 
-	bzero(buffer, MAX_SOURCE_SIZE);
-	json = json_load_src(path_light, buffer);
-	if (!(m_light_json_loop(m_light, json)))
-	{
-		cJSON_Delete(json);
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!(m_light_json_loop(m_light, source)))
 		return (ft_bool_error("Erreur: Le parsing de t_m_light a échoué", NULL, NULL));
-	}
-	cJSON_Delete(json);
 	return (true);
 }
 

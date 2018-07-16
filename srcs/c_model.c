@@ -78,19 +78,13 @@ bool			m_model_json_loop(t_scene *scene, t_m_model *m_model, cJSON *json_models)
 	return (true);
 }
 
-bool			m_model_json_parse(t_scene *scene, t_m_model *m_model, const char *path_model)
+bool			m_model_json_parse(t_scene *scene, t_m_model *m_model, cJSON *get, const char *key)
 {
-	char			buffer[MAX_SOURCE_SIZE];
-	cJSON			*json;
+	cJSON	*source;
 
-	bzero(buffer, MAX_SOURCE_SIZE);
-	json = json_load_src(path_model, buffer);
-	if (!(m_model_json_loop(scene, m_model, json)))
-	{
-		cJSON_Delete(json);
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!(m_model_json_loop(scene, m_model, source)))
 		return (ft_bool_error("Erreur: Le parsing de t_m_model a échoué", NULL, NULL));
-	}
-	cJSON_Delete(json);
 	return (true);
 }
 
