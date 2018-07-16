@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/13 00:26:52 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/16 14:44:36 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS = -Wall -Werror -Wextra -g3
 
 INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h includes/nuk_head.h
 
-INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -I ~/.brew/include/
+INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -I ~/.brew/include/ -I ./cJSON/
 
 SANIT = -fsanitize=address
 
@@ -35,6 +35,8 @@ SRC = main.c \
 		c_cam.c \
 		c_fps.c \
 		c_shader.c \
+		json/json.c \
+		json/json_error.c \
 		load_model/c_lm.c \
 		load_model/load_model.c \
 		glfw/glfw_construct.c \
@@ -61,7 +63,7 @@ GLFW_DIR = ./glfw-3.2.1/construct
 GLFW_LIB = $(GLFW_DIR)/src/libglfw3.a
 GLFW_FLAG = $(GLFW_LIB) -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
-FRAMEWORK = -framework OpenGL -framework AppKit -framework Opencl -L ~/.brew/lib/ -lGLEW test/test.a
+FRAMEWORK = -framework OpenGL -framework AppKit -framework Opencl -L ~/.brew/lib/ -lGLEW test/test.a -L ./cJSON/build/ -lcjson
 
 DIR_LFT = libft/
 DIR_VEC = vector/
@@ -97,6 +99,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/tools
 	@mkdir $(OBJ_DIR)$/load_model
 	@mkdir $(OBJ_DIR)$/nk
+	@mkdir $(OBJ_DIR)$/json
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
