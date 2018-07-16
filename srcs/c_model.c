@@ -43,7 +43,7 @@ bool			m_model_json_parse_material(cJSON *get, const char *key, t_scene *scene, 
 bool			m_model_json_loop(t_scene *scene, t_m_model *m_model, cJSON *json_models)
 {
 	int				index;
-	char			*str;
+	char			*str[2];
 	cJSON			*json_model;
 	t_model			*model;
 	t_vector		tmp;
@@ -54,10 +54,12 @@ bool			m_model_json_loop(t_scene *scene, t_m_model *m_model, cJSON *json_models)
 	index = 0;
 	while (json_model)
 	{
-		str = NULL;
-		if (!json_parse_string(json_model, "path", &str))
+		bzero(str, sizeof(char *) * 2);
+		if (!json_parse_string(json_model, "path", &str[0]))
 			return (dprintf(2, "JSON model[%i]: the path is Undefined\n", index) == 0);
-		if (!(model = m_model_load(m_model, str)))
+		if (!json_parse_string(json_model, "name", &str[1]))
+			return (dprintf(2, "JSON model[%i]: the name is Undefined\n", index) == 0);
+		if (!(model = m_model_load(m_model, str[0], str[1])))
 			return (dprintf(2, "JSON model[%i]: Load model Failed\n", index) == 0);
 		if (!json_parse_vector(json_model, "position", &model->position))
 			return (dprintf(2, "JSON model[%i] %s : position error\n", index, model->name) == 0);
@@ -88,10 +90,9 @@ bool			m_model_json_parse(t_scene *scene, t_m_model *m_model, cJSON *get, const 
 	return (true);
 }
 
-t_model		*model_construct(const char *name)
+t_model		*model_construct(const char *path, const char *name)
 {
 	t_model		*model;
-	char		*last_slash;
 
 	if (!(model = ft_memalloc(sizeof(t_model))))
 		return (NULL);
@@ -99,15 +100,8 @@ t_model		*model_construct(const char *name)
 	model->type_draw = GL_FILL;
 	if (!(model->m_mesh = m_mesh_construct()))
 		return (model_destruct(&model));
-	if (!(last_slash = strrchr(name, '/')))
-	{
-		if (!(model->name = strdup(name)))
-			return (model_destruct(&model));
-	}
-	else
-		if (!(model->name = strdup(last_slash)))
-			return (model_destruct(&model));
-
+	model->name = strdup(name);
+	model->path = strdup(path);
 	model->scaling = vector_construct(1.f, 1.f, 1.f);
 	model->update = true;
 	model->same_scaling = 1;
@@ -145,11 +139,11 @@ bool			m_model_add(t_m_model *m_model, t_model *model)
 	return (true);
 }
 
-t_model			*m_model_new(t_m_model *m_model, char *path)
+t_model			*m_model_new(t_m_model *m_model, char *path, char *name)
 {
 	t_model *model;
 
-	if (!(model = model_construct(path)))
+	if (!(model = model_construct(path, name)))
 		return (NULL);
 	if (!(m_model->model = realloc(m_model->model, sizeof(t_model **) * (m_model->size + 1))))
 	{

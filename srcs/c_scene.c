@@ -224,3 +224,41 @@ bool		scene_require(t_scene *scene)
 		return (false);
 	return (true);
 }
+
+bool		scene_write_model(t_scene *scene, cJSON *json_scene)
+{
+	cJSON			*json_model;
+	cJSON			*item;
+	t_model			*model;
+	unsigned int	i;
+
+	if (!(item = cJSON_CreateArray()))
+		return (false);
+	cJSON_AddItemToObject(json_scene, "model", item);
+
+	i = 0;
+	while (i < scene->m_model->size)
+	{
+		model = scene->m_model->model[i];
+		if (!(json_model = cJSON_CreateObject()))
+			return (false);
+		item = cJSON_CreateString(model->path);
+		i++;
+	}
+	return (true);
+}
+
+bool		scene_write(t_scene *scene)
+{
+	cJSON *json_scene;
+
+	if (!(json_scene = cJSON_CreateObject()))
+		return (false);
+	if (!scene_write_model(scene, json_scene))
+	{
+		cJSON_Delete(json_scene);
+		return (false);
+	}
+	cJSON_Delete(json_scene);
+	return (true);
+}

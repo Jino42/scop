@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 19:52:00 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 20:42:12 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,10 +157,9 @@ int					m_material_get_index(t_m_material *m_material, char *str);
 /*						*/
 typedef struct		s_model
 {
-	//index_material
-	//index_shader
 	bool			update;
 	char			*name;
+	char			*path;
 	t_m_mesh		*m_mesh;
 	t_matrix		transform;
 	GLenum			type_draw;
@@ -177,13 +176,11 @@ typedef struct		s_model
 	t_vector		scaling;
 
 	unsigned int	index_shader;
-	//t_shader		*ptr_shader;
 	unsigned int	index_material;
-	//t_material		*ptr_material;
 }					t_model;
 void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);
-t_model				*model_construct(const char *name);
+t_model				*model_construct(const char *path, const char *name);
 void				model_compute_transform(t_model *model);
 void				model_update(t_model *model);
 
@@ -194,11 +191,11 @@ typedef struct		s_m_model
 	t_model			**model;
 	char			**model_name;
 	bool			(*add)(struct s_m_model *, t_model *);
-	t_model			*(*new)(struct s_m_model *, char *);
+	t_model			*(*new)(struct s_m_model *, char *, char *);
 }					t_m_model;
 t_m_model			*m_model_construct();
 void				*m_model_destruct(t_m_model **m_model);
-t_model				*m_model_new(t_m_model *m_model, char *path);
+t_model				*m_model_new(t_m_model *m_model, char *path, char *name);
 void				model_gen_gl_buffers(t_model *model);
 
 /*						*/
@@ -366,8 +363,7 @@ t_matrix matrixgl_get_projection(const float fov,
 									const float far);
 
 
-t_model			*m_model_load(t_m_model *m_model, const char *path_obj);
-bool			load_model(t_scene *scene, const char * path_obj);
+t_model			*m_model_load(t_m_model *m_model, const char *path_obj, const char *name);
 void			scene_render(t_scene *scene);
 
 bool			json_error(void *ptr);

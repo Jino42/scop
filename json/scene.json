@@ -1,6 +1,7 @@
 {
 	"model": [
 		{
+			"name": "olol",
 			"path": "./old_ressources/lowtri.obj",
 			"position": 0.3,
 			"rotation": 0,

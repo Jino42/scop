@@ -33,11 +33,11 @@ t_env 	*env_construct()
 	if (!(e->scene = scene_construct()))
 		return (ft_error("Erreur: L'initialisation de t_scene a échoué", &env_destruct, e));
 
-	if (!load_model(e->scene, "old_ressources/multicube.obj"))
+	if (!m_model_load(e->scene->m_model, "old_ressources/multicube.obj", "1"))
 		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
-	if (!load_model(e->scene, "old_ressources/lowtri.obj"))
+	if (!m_model_load(e->scene->m_model, "old_ressources/lowtri.obj", "2"))
 		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
-	if (!load_model(e->scene, "old_ressources/newdva.obj"))
+	if (!m_model_load(e->scene->m_model, "old_ressources/newdva.obj", "3"))
 		return (ft_error("Erreur: L'ajout de model a échoué", &env_destruct, e));
 	return (e);
 }
