@@ -40,7 +40,7 @@ void				nk_scene_menu(t_nk *nk)
 	}
 }
 
-void				nk_scene_menu_popup(t_nk *nk, t_scene *scene)
+bool				nk_scene_menu_popup(t_nk *nk, t_scene **scene)
 {
 	struct nk_context		*ctx;
 
@@ -70,14 +70,23 @@ void				nk_scene_menu_popup(t_nk *nk, t_scene *scene)
 				if (nk->flag & POPUP_SAVE_AS)
 				{
 					printf("%s\n", nk->buffer_text);
-					if (scene_write(scene, nk->buffer_text))
+					if (scene_write((*scene), nk->buffer_text))
 						strcpy(nk->buffer[1], "Fichier enregistré !");
-					else if (!scene_write(scene, nk->buffer_text))
+					else if (!scene_write((*scene), nk->buffer_text))
 						strcpy(nk->buffer[1], "Une erreur c'est produite.");
 					nk->popup_over = 1;
 				}
+				else if (nk->flag & POPUP_OPEN)
+				{
+					printf("%s\n", nk->buffer_text);
+					if (scene_reload(scene, nk->buffer_text))
+						printf("K\n");
+					else
+						return (false);
+				}
 				nk->popup = 0;
 				nk_popup_close(ctx);
+				bzero(nk->buffer_text, 254);
 			}
 			if (nk_button_label(ctx, "Cancel")) {
 				nk->popup = 0;
@@ -88,6 +97,7 @@ void				nk_scene_menu_popup(t_nk *nk, t_scene *scene)
 		else
 			nk->popup = nk_false;
 	}
+	return (true);
 }
 
 void				nk_scene_menu_popup_over(t_nk *nk)
@@ -112,7 +122,7 @@ void				nk_scene_menu_popup_over(t_nk *nk)
 	}
 }
 
-void				nk_scene(t_nk *nk, t_scene *scene)
+bool				nk_scene(t_nk *nk, t_scene **scene)
 {
 	struct nk_context		*ctx;
 
@@ -127,16 +137,18 @@ void				nk_scene(t_nk *nk, t_scene *scene)
 
 		nk_scene_menu(nk);
 
-		nk_scene_menu_popup(nk, scene);
+		if (!(nk_scene_menu_popup(nk, scene)))
+			return (false);
 		nk_scene_menu_popup_over(nk);
 
 
-		nk_cam(nk, scene->cam);
-		nk_m_model(nk, scene, scene->m_model);
-		nk_m_shader(nk, scene->m_shader);
-		nk_m_material(nk, scene->m_material);
-		nk_m_light(nk, scene, scene->m_light);
+		nk_cam(nk, (*scene)->cam);
+		nk_m_model(nk, (*scene), (*scene)->m_model);
+		nk_m_shader(nk, (*scene)->m_shader);
+		nk_m_material(nk, (*scene)->m_material);
+		nk_m_light(nk, (*scene), (*scene)->m_light);
 	}
 	nk_menubar_end(ctx);
 	nk_end(ctx);
+	return (true);
 }

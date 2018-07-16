@@ -23,7 +23,11 @@ bool			loop(t_env *e)
 		glfw_update(e->glfw);
 
 		nk_update(nk);
-		nk_scene(nk, e->scene);
+		if (!(nk_scene(nk, &e->scene)))
+		{
+			nk_destruct(&nk);
+			return (false);
+		}
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
 		/*
 		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)
@@ -73,5 +77,6 @@ bool			loop(t_env *e)
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
 	}
+	nk_destruct(&nk);
 	return (true);
 }

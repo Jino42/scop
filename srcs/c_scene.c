@@ -176,10 +176,10 @@ void		*scene_destruct(t_scene **scene)
 {
 	if (scene && *scene)
 	{
-		if ((*scene)->m_mesh)
-			m_mesh_destruct(&(*scene)->m_mesh);
 		if ((*scene)->m_model)
 			m_model_destruct(&(*scene)->m_model);
+		if ((*scene)->m_mesh)
+			m_mesh_destruct(&(*scene)->m_mesh);
 		if ((*scene)->m_shader)
 			m_shader_destruct(&(*scene)->m_shader);
 		if ((*scene)->m_material)
@@ -192,6 +192,17 @@ void		*scene_destruct(t_scene **scene)
 	}
 	return (NULL);
 }
+
+bool		scene_reload(t_scene **scene, const char *path)
+{
+	scene_destruct(scene);
+	if (!((*scene) = scene_construct(path)))
+		return (false);
+	if (!scene || !(*scene))
+		return (false);
+	return (true);
+}
+
 
 bool		scene_require_index_m_model(t_scene *scene)
 {
