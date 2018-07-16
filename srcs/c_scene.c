@@ -3,11 +3,10 @@
 void		scene_render(t_scene *scene)
 {
 	t_material *material;
+	t_light *light;
+	printf("%i\n", scene->index_light);
+	light = scene->m_light->light[scene->index_light];
 
-	t_vector lambient = vector_construct(0.9f, 0.9f, 0.9f);
-	t_vector ldiffuse = vector_construct(0.70f, 0.70f, 0.70f);;
-	t_vector lspecular = vector_construct(1.f, 1.f, 1.f);
-	t_vector lposition = vector_construct(0.3f, 0.3f, 0.3f);
 	t_m_mesh *m_mesh;
 	t_model	*model;
 	t_shader	*shader;
@@ -30,19 +29,19 @@ void		scene_render(t_scene *scene)
 		glUniform3fv(
 				glGetUniformLocation(shader->program, "light.ambient"),
 				1,
-				(GLfloat *)&lambient);
+				(GLfloat *)&light->ambient);
 		glUniform3fv(
 				glGetUniformLocation(shader->program, "light.diffuse"),
 				1,
-				(GLfloat *)&ldiffuse);
+				(GLfloat *)&light->diffuse);
 		glUniform3fv(
 				glGetUniformLocation(shader->program, "light.specular"),
 				1,
-				(GLfloat *)&lspecular);
+				(GLfloat *)&light->specular);
 		glUniform3fv(
 				glGetUniformLocation(shader->program, "light.position"),
 				1,
-				(GLfloat *)&lposition);
+				(GLfloat *)&light->position);
 		glUniform3f(
 				glGetUniformLocation(shader->program, "cameraPosition"),
 				scene->cam->position.x,
@@ -131,9 +130,13 @@ t_scene		*scene_construct()
 		return (scene_destruct(&scene));
 	if (!(scene->m_material = m_material_construct()))
 		return (scene_destruct(&scene));
+	if (!(scene->m_light = m_light_construct()))
+		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
 	if (!(m_material_json_parse(scene->m_material, "./json/materials.json")))
+		return (scene_destruct(&scene));
+	if (!(m_light_json_parse(scene->m_light, "./json/light.json")))
 		return (scene_destruct(&scene));
 	return (scene);
 }
@@ -150,6 +153,8 @@ void		*scene_destruct(t_scene **scene)
 			m_shader_destruct(&(*scene)->m_shader);
 		if ((*scene)->m_material)
 			m_material_destruct(&(*scene)->m_material);
+		if ((*scene)->m_light)
+			m_light_destruct(&(*scene)->m_light);
 		if ((*scene)->cam)
 			cam_destruct(&(*scene)->cam);
 		ft_memdel((void **)scene);

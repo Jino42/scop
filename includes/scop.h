@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 16:38:43 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 16:54:15 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,17 +224,49 @@ t_cam 			*cam_construct();
 void			*cam_destruct(t_cam **cam);
 void			cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time);
 t_vector		cam_get_front(float pitch, float yaw);
+
+
+/*						*/
+/*		  LIGHT			*/
+/*						*/
+typedef struct		s_light
+{
+	char			*name;
+	t_vector		ambient;
+	t_vector		diffuse;
+	t_vector		specular;
+	t_vector		position;
+	int				flag;
+}					t_light;
+void				*light_destruct(t_light **light);
+t_light				*light_construct(char *name);
+
+typedef struct		s_m_light
+{
+	int				index_selected;
+	unsigned int	size;
+	t_light			**light;
+	char			**light_name;
+	bool			(*add)(struct s_m_light *, t_light *);
+	t_light			*(*new)(struct s_m_light *, char *);
+}					t_m_light;
+t_m_light			*m_light_construct();
+void				*m_light_destruct(t_m_light **m_model);
+bool				m_light_json_parse(t_m_light *m_light, const char *path_light);
+
 /*						*/
 /*		  SCENE			*/
 /*						*/
 typedef struct		s_scene
 {
+	unsigned int	index_light;
 	t_cam			*cam;
 
 	t_m_shader		*m_shader;
 	t_m_mesh		*m_mesh;
 	t_m_model		*m_model;
 	t_m_material	*m_material;
+	t_m_light		*m_light;
 	bool			(*shader_add)(struct s_scene*, const char *, const char *);
 	bool			(*mesh_add)(struct s_scene*, t_mesh *);
 	bool			(*model_add)(struct s_scene*, t_model *);

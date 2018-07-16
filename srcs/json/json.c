@@ -79,13 +79,17 @@ bool			json_parse_string(cJSON *get, const char *key, char **dest)
 
 cJSON			*json_load_src(const char *path, char *buffer)
 {
+	cJSON	*ptr;
 	int		fd;
 
 	if (!(fd = open(path, O_RDONLY)))
 		return (NULL);
 	read(fd, buffer, MAX_SOURCE_SIZE);
 	close(fd);
-	return (cJSON_Parse(buffer));
+	ptr = cJSON_Parse(buffer);
+	if (!ptr)
+		json_error(NULL);
+	return (ptr);
 }
 
 bool				temp_json(void)

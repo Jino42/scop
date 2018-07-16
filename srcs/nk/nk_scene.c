@@ -6,7 +6,7 @@ void				nk_scene(t_nk *nk, t_scene *scene)
 	struct nk_context		*ctx;
 
 	ctx = nk->ctx;
-	if (nk_begin(ctx, "Scene", nk_rect(10, 10, 400, 600),
+	if (nk_begin(ctx, "Scene", nk_rect(10, 10, 400, 800),
 		NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
 		NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
 	{
@@ -34,6 +34,7 @@ void				nk_scene(t_nk *nk, t_scene *scene)
 		nk_m_model(nk, scene, scene->m_model);
 		nk_m_shader(nk, scene->m_shader);
 		nk_m_material(nk, scene->m_material);
+		nk_m_light(nk, scene, scene->m_light);
 	}
 	nk_menubar_end(ctx);
 	nk_end(ctx);

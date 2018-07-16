@@ -6,7 +6,7 @@ void 				nk_m_material(t_nk *nk, t_m_material *m_material)
 	struct nk_context		*ctx;
 
 	ctx = nk->ctx;
-	if (nk_tree_push(ctx, NK_TREE_TAB, "Material", NK_MAXIMIZED))
+	if (nk_tree_push(ctx, NK_TREE_TAB, "Light", NK_MAXIMIZED))
 	{
 		nk_layout_row_static(ctx, 25, 150, 1);
 
