@@ -4,7 +4,6 @@ void		scene_render(t_scene *scene)
 {
 	t_material *material;
 	t_light *light;
-	printf("%i\n", scene->index_light);
 	light = scene->m_light->light[scene->index_light];
 
 	t_m_mesh *m_mesh;
