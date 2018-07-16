@@ -79,24 +79,15 @@ void		*shader_destruct(t_shader **shader)
 }
 
 t_shader		*shader_construct(const char *vertex_shader_path,
-									const char *fragment_shader_path)
+									const char *fragment_shader_path,
+									const char *name)
 {
 	t_shader	*shader;
-	char		*last_slash;
 
 	if (!(shader = ft_memalloc(sizeof(t_shader))))
 		return (NULL);
 	GLint	vertex_shader;
 	GLint	fragment_shader;
-
-	if (!(last_slash = strrchr(vertex_shader_path, '/')))
-	{
-		if (!(shader->name = strdup(vertex_shader_path)))
-			return (shader_destruct(&shader));
-	}
-	else
-		if (!(shader->name = strdup(last_slash)))
-			return (shader_destruct(&shader));
 
 	vertex_shader = 0;
 	fragment_shader = 0;
@@ -123,16 +114,18 @@ t_shader		*shader_construct(const char *vertex_shader_path,
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
 	shader->use = &shader_use;
+	shader->name = strdup(name);
 	return (shader);
 }
 
 bool			m_shader_add(t_m_shader *m_shader,
 								const char *vertex_shader_path,
-								const char *fragment_shader_path)
+								const char *fragment_shader_path,
+								const char *name)
 {
 	t_shader *new_shader;
 
-	if (!(new_shader = shader_construct(vertex_shader_path, fragment_shader_path)))
+	if (!(new_shader = shader_construct(vertex_shader_path, fragment_shader_path, name)))
 		return (false);
 	if (!(m_shader->shader = realloc(m_shader->shader, sizeof(t_shader **) * (m_shader->size + 1))))
 	{
@@ -196,4 +189,42 @@ int				m_shader_get_index(t_m_shader *m_shader, char *str)
 		i++;
 	}
 	return (0);
+}
+
+
+bool			m_shader_json_loop(t_m_shader *m_shader, cJSON *json_shaders)
+{
+	int				index;
+	char			*str[3];
+	cJSON			*json_shader;
+
+	if (!json_shaders)
+		return (ft_bool_error("JSON shaders is undefined ", NULL, NULL));
+	json_shader = json_shaders->child;
+	index = 0;
+	while (json_shader)
+	{
+		bzero(str, sizeof(char **) * 3);
+		if (!json_parse_string(json_shader, "vertex", &str[0]))
+			return (dprintf(2, "JSON shader[%i]: the vertex shader is Undefined\n", index) == 0);
+		if (!json_parse_string(json_shader, "fragment", &str[1]))
+			return (dprintf(2, "JSON shader[%i]: the fragment shader is Undefined\n", index) == 0);
+		if (!json_parse_string(json_shader, "name", &str[2]))
+			return (dprintf(2, "JSON shader[%i]: the name is Undefined\n", index) == 0);
+		if (!(m_shader->add(m_shader, str[0], str[1], str[2])))
+			return (false);
+		json_shader = json_shader->next;
+		index++;
+	}
+	return (true);
+}
+
+bool			m_shader_json_parse(t_m_shader *m_shader, cJSON *get, const char *key)
+{
+	cJSON	*source;
+
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!(m_shader_json_loop(m_shader, source)))
+		return (ft_bool_error("Erreur: Le parsing de t_m_shader a échoué", NULL, NULL));
+	return (true);
 }

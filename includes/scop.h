@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 19:32:03 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 19:52:00 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ typedef struct		s_shader
 }					t_shader;
 void				*shader_destruct(t_shader **shader);
 t_shader			*shader_construct(const char *vertex_shader_path,
-									const char *fragment_shader_path);
+									const char *fragment_shader_path,
+									const char *name);
 
 typedef struct		s_m_shader
 {
@@ -80,14 +81,12 @@ typedef struct		s_m_shader
 	t_shader		**shader;
 	char			**shader_name;
 	int				index_selected;
-	bool			(*add)(struct s_m_shader *, const char *, const char *);
+	bool			(*add)(struct s_m_shader *, const char *, const char *, const char *);
 }					t_m_shader;
 t_m_shader			*m_shader_construct();
 void				*m_shader_destruct(t_m_shader **m_shader);
 int					m_shader_get_index(t_m_shader *m_shader, char *str);
-/*bool				m_shader_add(t_m_shader *m_shader,
-								const char *vertex_shader_path,
-								const char *fragment_shader_path);*/
+bool				m_shader_json_parse(t_m_shader *m_shader, cJSON *get, const char *key);
 
 /*						*/
 /*		  MESH			*/
@@ -273,7 +272,7 @@ typedef struct		s_scene
 	t_m_model		*m_model;
 	t_m_material	*m_material;
 	t_m_light		*m_light;
-	bool			(*shader_add)(struct s_scene*, const char *, const char *);
+	bool			(*shader_add)(struct s_scene*, const char *, const char *, const char *);
 	bool			(*mesh_add)(struct s_scene*, t_mesh *);
 	bool			(*model_add)(struct s_scene*, t_model *);
 }					t_scene;

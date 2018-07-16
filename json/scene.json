@@ -5,14 +5,15 @@
 			"position": 0.3,
 			"rotation": 0,
 			"scaling": 1.6,
-			"shader": 1,
+			"shader": 0,
 			"material": "RED_PLASTIC"
 		}
 	],
 	"shader": [
 		{
+			"name": "shader_1",
 			"vertex": "./shader/basic.vert",
-			"fargment": "./shader/basic.frag"
+			"fragment": "./shader/basic.frag"
 		}
 	],
 	"light": [
