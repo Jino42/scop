@@ -262,33 +262,57 @@ bool		scene_write_model(t_scene *scene, cJSON *json_scene)
 	return (true);
 }
 
-bool		scene_write_shader(t_scene *scene, cJSON *json_scene)
+bool		m_shader_write_shader(t_m_shader *m_shader, cJSON *json_scene)
 {
-	cJSON			*json_model;
-	cJSON			*json_models;
-	t_model			*model;
+	cJSON			*json_shader;
+	cJSON			*json_shaders;
+	t_shader		*shader;
 	unsigned int	i;
 
-	if (!(json_models = cJSON_CreateArray()))
+	if (!(json_shaders = cJSON_CreateArray()))
 		return (false);
-	cJSON_AddItemToObject(json_scene, "model", json_models);
+	cJSON_AddItemToObject(json_scene, "shader", json_shaders);
 
 	i = 0;
-	while (i < scene->m_model->size)
+	while (i < m_shader->size)
 	{
-		model = scene->m_model->model[i];
-		if (!(json_model = cJSON_CreateObject()))
+		shader = m_shader->shader[i];
+		if (!(json_shader = cJSON_CreateObject()))
 			return (false);
-		cJSON_AddItemToArray(json_models, json_model);
-		if (!json_add_string(json_model, "name", model->name) ||
-			!json_add_string(json_model, "path", model->path))
+		cJSON_AddItemToArray(json_shaders, json_shader);
+		if (!json_add_string(json_shader, "name", shader->name) ||
+			!json_add_string(json_shader, "vertex", shader->path_vertex) ||
+			!json_add_string(json_shader, "fragment", shader->path_fragment))
 			return (false);
-		if (!json_add_int(json_model, "material", model->index_material) ||
-			!json_add_int(json_model, "shader", model->index_shader))
+		i++;
+	}
+	return (true);
+}
+
+bool		m_light_write_light(t_m_light *m_light, cJSON *json_scene)
+{
+	cJSON			*json_light;
+	cJSON			*json_lights;
+	t_light		*light;
+	unsigned int	i;
+
+	if (!(json_lights = cJSON_CreateArray()))
+		return (false);
+	cJSON_AddItemToObject(json_scene, "light", json_lights);
+
+	i = 0;
+	while (i < m_light->size)
+	{
+		light = m_light->light[i];
+		if (!(json_light = cJSON_CreateObject()))
 			return (false);
-		if (!json_add_vector(json_model, "position", &model->position) ||
-			!json_add_vector(json_model, "rotation", &model->rotation) ||
-			!json_add_vector(json_model, "scaling", &model->scaling))
+		cJSON_AddItemToArray(json_lights, json_light);
+		if (!json_add_string(json_light, "name", light->name))
+			return (false);
+		if (!json_add_vector(json_light, "specular", &light->ambient) ||
+			!json_add_vector(json_light, "diffuse", &light->diffuse) ||
+			!json_add_vector(json_light, "position", &light->position) ||
+			!json_add_vector(json_light, "specular", &light->specular))
 			return (false);
 		i++;
 	}
@@ -301,7 +325,9 @@ bool		scene_write(t_scene *scene)
 
 	if (!(json_scene = cJSON_CreateObject()))
 		return (false);
-	if (!scene_write_model(scene, json_scene))
+	if (!scene_write_model(scene, json_scene) ||
+		!m_shader_write_shader(scene->m_shader, json_scene) ||
+		!m_light_write_light(scene->m_light, json_scene))
 	{
 		cJSON_Delete(json_scene);
 		return (false);
