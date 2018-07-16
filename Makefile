@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/16 14:44:36 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/16 15:29:44 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC = main.c \
 		c_model.c \
 		c_cam.c \
 		c_fps.c \
+		c_material.c \
 		c_shader.c \
 		json/json.c \
 		json/json_error.c \

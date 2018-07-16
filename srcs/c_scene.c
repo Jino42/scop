@@ -131,6 +131,8 @@ t_scene		*scene_construct()
 		return (scene_destruct(&scene));
 	if (!(scene->m_shader = m_shader_construct()))
 		return (scene_destruct(&scene));
+	if (!(scene->m_material = m_material_construct()))
+		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
 	return (scene);
@@ -146,6 +148,8 @@ void		*scene_destruct(t_scene **scene)
 			m_model_destruct(&(*scene)->m_model);
 		if ((*scene)->m_shader)
 			m_shader_destruct(&(*scene)->m_shader);
+		if ((*scene)->m_material)
+			m_material_destruct(&(*scene)->m_material);
 		if ((*scene)->cam)
 			cam_destruct(&(*scene)->cam);
 		ft_memdel((void **)scene);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 14:44:50 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 15:34:37 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,26 @@ t_m_mesh			*m_mesh_construct();
 void				*m_mesh_destruct(t_m_mesh **m_mesh);
 
 /*						*/
+/*		  MATERIAL		*/
+/*						*/
+typedef struct		s_material
+{
+	int				flag;
+}					t_material;
+void				*material_destruct(t_material **material);
+t_material			*material_construct();
+typedef struct		s_m_material
+{
+	unsigned int	size;
+	t_material		**material;
+	bool			(*add)(struct s_m_material *, t_material *);
+	t_material		*(*new)(struct s_m_material *);
+}					t_m_material;
+t_m_material		*m_material_construct();
+void				*m_material_destruct(t_m_material **m_material);
+
+
+/*						*/
 /*		  MODEL			*/
 /*						*/
 typedef struct		s_model
@@ -204,6 +224,7 @@ typedef struct		s_scene
 	t_m_shader		*m_shader;
 	t_m_mesh		*m_mesh;
 	t_m_model		*m_model;
+	t_m_material	*m_material;
 	bool			(*shader_add)(struct s_scene*, const char *, const char *);
 	bool			(*mesh_add)(struct s_scene*, t_mesh *);
 	bool			(*model_add)(struct s_scene*, t_model *);
