@@ -2,10 +2,7 @@
 
 void		scene_render(t_scene *scene)
 {
-	t_vector ambient = vector_construct(0.0215f, 0.1745f, 0.0215f);
-	t_vector diffuse = vector_construct(0.07568f, 0.61424f, 0.07568f);;
-	t_vector specular = vector_construct(0.633f, 0.727811f, 0.633f);
-	float	shininess = 76.8f;
+	t_material *material;
 
 	t_vector lambient = vector_construct(0.9f, 0.9f, 0.9f);
 	t_vector ldiffuse = vector_construct(0.70f, 0.70f, 0.70f);;
@@ -20,6 +17,7 @@ void		scene_render(t_scene *scene)
 	{
 		model = scene->m_model->model[i];
 		shader = scene->m_shader->shader[model->index_shader];
+		material = scene->m_material->material[model->index_material];
 		m_mesh = model->m_mesh;
 		glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
 
@@ -73,18 +71,18 @@ void		scene_render(t_scene *scene)
 			glUniform3fv(
 					glGetUniformLocation(shader->program, "material.ambient"),
 					1,
-					(GLfloat *)&ambient);
+					(GLfloat *)&material->ambient);
 			glUniform3fv(
 					glGetUniformLocation(shader->program, "material.diffuse"),
 					1,
-					(GLfloat *)&diffuse);
+					(GLfloat *)&material->diffuse);
 			glUniform3fv(
 					glGetUniformLocation(shader->program, "material.specular"),
 					1,
-					(GLfloat *)&specular);
+					(GLfloat *)&material->specular);
 			glUniform1f(
 					glGetUniformLocation(shader->program, "material.shininess"),
-					shininess);
+					material->shininess);
 			glBindVertexArray(m_mesh->mesh[i]->VAO);
 			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);

@@ -52,5 +52,10 @@ void 				nk_model(t_nk *nk, t_scene *scene, t_model *model)
 							scene->m_shader->size,
 							model->index_shader,
 							25, nk_vec2(200,200));
+	model->index_material = nk_combo(ctx,
+							(const char **)scene->m_material->material_name,
+							scene->m_material->size,
+							model->index_material,
+							25, nk_vec2(200,200));
 
 }

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 16:27:16 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 16:38:43 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ typedef struct		s_model
 	t_vector		scaling;
 
 	unsigned int	index_shader;
+	unsigned int	index_material;
 }					t_model;
 void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);
