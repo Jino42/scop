@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/16 15:29:44 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/16 16:18:01 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,8 @@ SRC = main.c \
 		glfw/glfw_callback_resize.c \
 		event/event_mouse.c \
 		nk/nk.c \
+		nk/nk_m_material.c \
+		nk/nk_material.c \
 		nk/nk_model.c \
 		nk/nk_shader.c \
 		nk/nk_m_shader.c \

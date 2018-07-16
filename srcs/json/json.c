@@ -5,21 +5,23 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-static bool			json_parse_vector(cJSON *vector_json, t_vector *vector)
+bool			json_parse_vector_xyz(cJSON *get, const char *key, t_vector *vector)
 {
 	cJSON	*current;
+	cJSON	*source;
 
-	if (!vector_json)
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!source)
 		return (false);
-	current = cJSON_GetObjectItemCaseSensitive(vector_json, "x");
+	current = cJSON_GetObjectItemCaseSensitive(source, "x");
 	if (!cJSON_IsNumber(current))
 		return (false);
 	vector->x = current->valuedouble;
-	current = cJSON_GetObjectItemCaseSensitive(vector_json, "y");
+	current = cJSON_GetObjectItemCaseSensitive(source, "y");
 	if (!cJSON_IsNumber(current))
 		return (false);
 	vector->y = current->valuedouble;
-	current = cJSON_GetObjectItemCaseSensitive(vector_json, "z");
+	current = cJSON_GetObjectItemCaseSensitive(source, "z");
 	if (!cJSON_IsNumber(current))
 		return (false);
 	vector->z = current->valuedouble;
@@ -27,20 +29,33 @@ static bool			json_parse_vector(cJSON *vector_json, t_vector *vector)
 	return (true);
 }
 
-static bool			json_parse_vector_single_float(cJSON *vector_json, t_vector *vector)
+bool			json_parse_vector_single_float(cJSON *get, const char *key, t_vector *vector)
 {
-	if (!vector_json)
+	cJSON *source;
+
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!source)
 		return (false);
-	if (!cJSON_IsNumber(vector_json))
+	if (!cJSON_IsNumber(source))
 		return (false);
-	vector->x = vector_json->valuedouble;
-	vector->y = vector_json->valuedouble;
-	vector->z = vector_json->valuedouble;
+	vector->x = source->valuedouble;
+	vector->y = source->valuedouble;
+	vector->z = source->valuedouble;
 	return (true);
 }
 
-bool			json_parse_float(cJSON *source, float *dest)
+bool			json_parse_vector(cJSON *get, const char *key, t_vector *vector)
 {
+	if (!json_parse_vector_xyz(get, key, vector) && !json_parse_vector_single_float(get, key, vector))
+		return (false);
+	return (true);
+}
+
+bool			json_parse_float(cJSON *get, const char *key, float *dest)
+{
+	cJSON *source;
+
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
 	if (!source)
 		return (false);
 	if (!cJSON_IsNumber(source))
@@ -49,43 +64,28 @@ bool			json_parse_float(cJSON *source, float *dest)
 	return (true);
 }
 
+bool			json_parse_string(cJSON *get, const char *key, char **dest)
+{
+	cJSON *source;
 
-static bool			json_load_src(const char *path, char *buffer)
+	source = cJSON_GetObjectItemCaseSensitive(get, key);
+	if (!source)
+		return (false);
+	if (!cJSON_IsString(source) || !source->valuestring)
+		return (false);
+	*dest  = source->valuestring;
+	return (true);
+}
+
+cJSON			*json_load_src(const char *path, char *buffer)
 {
 	int		fd;
 
 	if (!(fd = open(path, O_RDONLY)))
-		return (false);
+		return (NULL);
 	read(fd, buffer, MAX_SOURCE_SIZE);
 	close(fd);
-	return (true);
-}
-
-bool		json_verif_material(cJSON *json)
-{
-	cJSON *material;
-	t_vector vector;
-
-	vector = vector_construct(1.f, 1.f, 1.f);
-	cJSON *materials = cJSON_GetObjectItemCaseSensitive(json, "materials");
-
-	material = materials->child;
-	while (material)
-    {
-        cJSON *name = cJSON_GetObjectItemCaseSensitive(material, "name");
-
-        if (!cJSON_IsString(name) || name->valuestring == NULL)
-        {
-			printf("WTF 1\n");
-        }
-
-		if (!json_parse_vector(cJSON_GetObjectItemCaseSensitive(material, "diffuse"), &vector) &&
-			!json_parse_vector_single_float(cJSON_GetObjectItemCaseSensitive(material, "diffuse"), &vector))
-			return (false);
-		printf("Diffuse: %.2f %.2f %.2f\n", vector.x, vector.y, vector.z);
-		material = material->next;
-    }
-	return (true);
+	return (cJSON_Parse(buffer));
 }
 
 bool				temp_json(void)
@@ -100,6 +100,5 @@ bool				temp_json(void)
 	if (materials == NULL)
 		return (ft_bool_error(NULL, &json_error, NULL));
 	printf("%s\n", buffer);
-	json_verif_material(materials);
 	return (true);
 }

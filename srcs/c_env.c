@@ -14,6 +14,8 @@ void 	*env_destruct(void *ptr)
 		glfw_destruct(&e->glfw);
 	if (e->fps)
 		fps_destruct(&e->fps);
+	if (e->scene)
+		scene_destruct(&e->scene);
 	ft_memdel((void **)&e);
 	return (NULL);
 }

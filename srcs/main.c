@@ -8,7 +8,6 @@ int			main(int argc, char **argv)
 
 	temp_json();
 
-	return (0);
 	if (!(e = env_construct()))
 		return (ft_bool_error("Erreur: L'initialisation de t_env a échoué", NULL, NULL));
 	loop(e);

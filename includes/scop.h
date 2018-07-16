@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 15:34:37 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 16:27:16 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 # include "libft.h"
 # include "matrix.h"
 # include "material.h"
+# include "cJSON.h"
 
 # include <math.h>
 # include <sys/types.h>
 # include <sys/time.h>
 # include <stdint.h>
 # include <stdio.h>
-#include <stdlib.h>
+# include <stdlib.h>
 
 # define DEBUG 1
 
@@ -127,20 +128,28 @@ void				*m_mesh_destruct(t_m_mesh **m_mesh);
 /*						*/
 typedef struct		s_material
 {
+	t_vector		diffuse;
+	t_vector		ambient;
+	t_vector		specular;
+	float			shininess;
+	char			*name;
 	int				flag;
 }					t_material;
 void				*material_destruct(t_material **material);
-t_material			*material_construct();
+t_material			*material_construct(char *name);
 typedef struct		s_m_material
 {
 	unsigned int	size;
 	t_material		**material;
+	char			**material_name;
+
+	int				index_selected;
 	bool			(*add)(struct s_m_material *, t_material *);
-	t_material		*(*new)(struct s_m_material *);
+	t_material		*(*new)(struct s_m_material *, char *);
 }					t_m_material;
 t_m_material		*m_material_construct();
 void				*m_material_destruct(t_m_material **m_material);
-
+bool			m_material_json_parse(t_m_material *m_material, const char *path_material);
 
 /*						*/
 /*		  MODEL			*/
@@ -322,5 +331,10 @@ void		scene_render(t_scene *scene);
 
 bool		temp_json();
 bool		json_error(void *ptr);
-
+bool			json_parse_vector_xyz(cJSON *vector_json, const char *key, t_vector *vector);
+bool			json_parse_vector_single_float(cJSON *vector_json, const char *key, t_vector *vector);
+bool			json_parse_vector(cJSON *vector_json, const char *key, t_vector *vector);
+bool			json_parse_float(cJSON *source, const char *key, float *dest);
+bool			json_parse_string(cJSON *get, const char *key, char **dest);
+cJSON			*json_load_src(const char *path, char *buffer);
 #endif

@@ -33,6 +33,7 @@ void				nk_scene(t_nk *nk, t_scene *scene)
 		nk_cam(nk, scene->cam);
 		nk_m_model(nk, scene, scene->m_model);
 		nk_m_shader(nk, scene->m_shader);
+		nk_m_material(nk, scene->m_material);
 	}
 	nk_menubar_end(ctx);
 	nk_end(ctx);

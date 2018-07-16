@@ -136,6 +136,7 @@ void				nk_cam(t_nk *nk, t_cam *cam);
 void 				nk_m_model(t_nk *nk, t_scene *scene, t_m_model *m_model);
 void 				nk_model(t_nk *nk, t_scene *scene, t_model *model);
 void 				nk_m_shader(t_nk *nk, t_m_shader *m_shader);
+void 				nk_m_material(t_nk *nk, t_m_material *m_material);
 
 
 #endif

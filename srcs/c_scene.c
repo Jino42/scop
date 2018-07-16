@@ -135,6 +135,8 @@ t_scene		*scene_construct()
 		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
+	if (!(m_material_json_parse(scene->m_material, "./json/materials.json")))
+		return (scene_destruct(&scene));
 	return (scene);
 }
 
