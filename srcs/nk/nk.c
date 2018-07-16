@@ -107,10 +107,10 @@ void				nk_combo_vector(t_nk *nk, t_vector *vector, const char *str)
 
 	ctx = nk->ctx;
 	if (str)
-		sprintf(nk->buffer, "[%s]: %.2f, %.2f, %.2f", str, vector->x, vector->y,vector->z);
+		sprintf(nk->buffer[0], "[%s]: %.2f, %.2f, %.2f", str, vector->x, vector->y,vector->z);
 	else
-		sprintf(nk->buffer, "%.2f, %.2f, %.2f", vector->x, vector->y,vector->z);
-	if (nk_combo_begin_label(ctx, nk->buffer, nk_vec2(200,200)))
+		sprintf(nk->buffer[0], "%.2f, %.2f, %.2f", vector->x, vector->y,vector->z);
+	if (nk_combo_begin_label(ctx, nk->buffer[0], nk_vec2(200,200)))
 	{
 		nk_layout_row_dynamic(ctx, 25, 1);
 		nk_property_float(ctx, "#X:", FLOAT_MIN, &vector->x, FLOAT_MAX, 0.1,0.2f);

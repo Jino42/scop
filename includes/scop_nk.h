@@ -124,10 +124,11 @@ typedef struct		s_nk
 	int						height;
 	int						menu_state;
 	enum nk_collapse_states	state;
-	char					buffer[256];
+	char					buffer[5][256];
 	char					buffer_text[256];
 	int						len_text;
 	int						popup;
+	int						popup_over;
 	int						flag;
 }					t_nk;
 

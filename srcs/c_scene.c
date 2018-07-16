@@ -359,8 +359,9 @@ bool		scene_write(t_scene *scene, const char *path)
 	char	*str;
 	int		fd;
 
-	if (!(fd = open(path, O_RDWR|O_CREAT, 0666)))
+	if ((fd = open(path, O_RDWR|O_CREAT, 0666)) <= 0)
 		return (false);
+	printf("%i\n", fd);
 	if (!(json_scene = cJSON_CreateObject()))
 	{
 		close(fd);
