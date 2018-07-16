@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 20:42:12 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/16 21:00:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,6 +277,7 @@ void				*scene_destruct(t_scene **scene);
 t_scene				*scene_construct();
 bool				m_model_json_parse(t_scene *scene, t_m_model *m_model, cJSON *get, const char *key);
 bool				scene_require(t_scene *scene);
+bool		scene_write(t_scene *scene);
 
 typedef struct		s_env
 {
@@ -373,4 +374,10 @@ bool			json_parse_vector(cJSON *vector_json, const char *key, t_vector *vector);
 bool			json_parse_float(cJSON *source, const char *key, float *dest);
 bool			json_parse_string(cJSON *get, const char *key, char **dest);
 cJSON			*json_load_src(const char *path, char *buffer);
+
+
+bool			json_add_vector(cJSON *json, char *key, t_vector *value);
+bool			json_add_int(cJSON *json, char *key, int value);
+bool			json_add_string(cJSON *json, char *key, char *value);
+
 #endif

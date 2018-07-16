@@ -116,6 +116,8 @@ void		*model_destruct(t_model **model)
 			m_mesh_destruct(&(*model)->m_mesh);
 		if ((*model)->name)
 			ft_memdel((void **)&(*model)->name);
+		if ((*model)->path)
+			ft_memdel((void **)&(*model)->path);
 		ft_memdel((void **)model);
 	}
 	return (NULL);

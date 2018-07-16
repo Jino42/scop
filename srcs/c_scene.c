@@ -225,16 +225,20 @@ bool		scene_require(t_scene *scene)
 	return (true);
 }
 
+
+
+
+
 bool		scene_write_model(t_scene *scene, cJSON *json_scene)
 {
 	cJSON			*json_model;
-	cJSON			*item;
+	cJSON			*json_models;
 	t_model			*model;
 	unsigned int	i;
 
-	if (!(item = cJSON_CreateArray()))
+	if (!(json_models = cJSON_CreateArray()))
 		return (false);
-	cJSON_AddItemToObject(json_scene, "model", item);
+	cJSON_AddItemToObject(json_scene, "model", json_models);
 
 	i = 0;
 	while (i < scene->m_model->size)
@@ -242,7 +246,50 @@ bool		scene_write_model(t_scene *scene, cJSON *json_scene)
 		model = scene->m_model->model[i];
 		if (!(json_model = cJSON_CreateObject()))
 			return (false);
-		item = cJSON_CreateString(model->path);
+		cJSON_AddItemToArray(json_models, json_model);
+		if (!json_add_string(json_model, "name", model->name) ||
+			!json_add_string(json_model, "path", model->path))
+			return (false);
+		if (!json_add_int(json_model, "material", model->index_material) ||
+			!json_add_int(json_model, "shader", model->index_shader))
+			return (false);
+		if (!json_add_vector(json_model, "position", &model->position) ||
+			!json_add_vector(json_model, "rotation", &model->rotation) ||
+			!json_add_vector(json_model, "scaling", &model->scaling))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool		scene_write_shader(t_scene *scene, cJSON *json_scene)
+{
+	cJSON			*json_model;
+	cJSON			*json_models;
+	t_model			*model;
+	unsigned int	i;
+
+	if (!(json_models = cJSON_CreateArray()))
+		return (false);
+	cJSON_AddItemToObject(json_scene, "model", json_models);
+
+	i = 0;
+	while (i < scene->m_model->size)
+	{
+		model = scene->m_model->model[i];
+		if (!(json_model = cJSON_CreateObject()))
+			return (false);
+		cJSON_AddItemToArray(json_models, json_model);
+		if (!json_add_string(json_model, "name", model->name) ||
+			!json_add_string(json_model, "path", model->path))
+			return (false);
+		if (!json_add_int(json_model, "material", model->index_material) ||
+			!json_add_int(json_model, "shader", model->index_shader))
+			return (false);
+		if (!json_add_vector(json_model, "position", &model->position) ||
+			!json_add_vector(json_model, "rotation", &model->rotation) ||
+			!json_add_vector(json_model, "scaling", &model->scaling))
+			return (false);
 		i++;
 	}
 	return (true);
@@ -259,6 +306,7 @@ bool		scene_write(t_scene *scene)
 		cJSON_Delete(json_scene);
 		return (false);
 	}
+	printf("%s\n", cJSON_Print(json_scene));
 	cJSON_Delete(json_scene);
 	return (true);
 }

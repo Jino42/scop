@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/16 16:57:33 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/16 21:01:04 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC = main.c \
 		c_material.c \
 		c_shader.c \
 		json/json.c \
+		json/json_write.c \
 		json/json_error.c \
 		load_model/c_lm.c \
 		load_model/load_model.c \
