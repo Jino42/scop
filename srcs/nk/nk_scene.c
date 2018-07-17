@@ -86,7 +86,7 @@ bool				nk_scene_menu_popup(t_nk *nk, t_scene **scene)
 				}
 				nk->popup = 0;
 				nk_popup_close(ctx);
-				bzero(nk->buffer_text, 254);
+				bzero(&nk->buffer_text[7], 255-7);
 			}
 			if (nk_button_label(ctx, "Cancel")) {
 				nk->popup = 0;

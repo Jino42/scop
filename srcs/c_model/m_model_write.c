@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:46:35 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 16:55:26 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/17 17:15:42 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool		m_model_json_write(t_m_model *m_model, cJSON *json_scene)
 	i = 0;
 	while (i < m_model->size)
 	{
-		if (m_model_json_write_one(m_model->model[i], json_models))
+		if (!m_model_json_write_one(m_model->model[i], json_models))
 			return (false);
 		i++;
 	}
