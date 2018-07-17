@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/16 23:27:04 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/17 15:13:47 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
+
+# include "c_scene.h"
+# include "c_lm.h"
 
 # define DEBUG 1
 
@@ -46,6 +49,8 @@
 
 #define MODEL_SAME_SCALING (1 << 0)
 
+# define CURSOR_NORMAL (1 << 0)
+# define CURSOR_HIDDEN (1 << 0)
 
 typedef struct		s_fps
 {
@@ -59,228 +64,6 @@ typedef struct		s_fps
 t_fps 				*fps_construct();
 void 				*fps_destruct(t_fps **e);
 void				fps_update(t_fps *fps, float *ptr);
-
-
-/*						*/
-/*		  SHADER		*/
-/*						*/
-typedef struct		s_shader
-{
-	GLuint			program;
-	char			*name;
-	char			*path_vertex;
-	char			*path_fragment;
-	void			(*use)(struct s_shader *);
-}					t_shader;
-void				*shader_destruct(t_shader **shader);
-t_shader			*shader_construct(const char *vertex_shader_path,
-									const char *fragment_shader_path,
-									const char *name);
-
-typedef struct		s_m_shader
-{
-	unsigned int	size;
-	t_shader		**shader;
-	char			**shader_name;
-	int				index_selected;
-	bool			(*add)(struct s_m_shader *, const char *, const char *, const char *);
-}					t_m_shader;
-t_m_shader			*m_shader_construct();
-void				*m_shader_destruct(t_m_shader **m_shader);
-int					m_shader_get_index(t_m_shader *m_shader, char *str);
-bool				m_shader_json_parse(t_m_shader *m_shader, cJSON *get, const char *key);
-
-/*						*/
-/*		  MESH			*/
-/*						*/
-typedef struct		s_mesh
-{
-	GLuint			VBO;
-	GLuint			VNBO;
-	GLuint			VTBO;
-	GLuint			EBO;
-	GLuint			VAO;
-
-	//t_material		*material;
-
-	GLfloat			*indexed_v;
-	GLfloat			*indexed_vt;
-	GLfloat			*indexed_vn;
-	GLuint			*indices;
-
-	GLint			nb_faces;
-	GLint			nb_indices;
-	int				flag;
-}					t_mesh;
-void				*mesh_destruct(t_mesh **mesh);
-t_mesh				*mesh_construct();
-void				mesh_gen_gl_buffers(t_mesh *mesh);
-typedef struct		s_m_mesh
-{
-	unsigned int	size;
-	t_mesh			**mesh;
-	bool			(*add)(struct s_m_mesh *, t_mesh *);
-	t_mesh			*(*new)(struct s_m_mesh *);
-}					t_m_mesh;
-t_m_mesh			*m_mesh_construct();
-void				*m_mesh_destruct(t_m_mesh **m_mesh);
-
-/*						*/
-/*		  MATERIAL		*/
-/*						*/
-typedef struct		s_material
-{
-	t_vector		diffuse;
-	t_vector		ambient;
-	t_vector		specular;
-	float			shininess;
-	char			*name;
-	int				flag;
-}					t_material;
-void				*material_destruct(t_material **material);
-t_material			*material_construct(char *name);
-typedef struct		s_m_material
-{
-	unsigned int	size;
-	t_material		**material;
-	char			**material_name;
-
-	int				index_selected;
-	bool			(*add)(struct s_m_material *, t_material *);
-	t_material		*(*new)(struct s_m_material *, char *);
-}					t_m_material;
-t_m_material		*m_material_construct();
-void				*m_material_destruct(t_m_material **m_material);
-bool				m_material_json_parse(t_m_material *m_material, cJSON *get, const char *key);
-int					m_material_get_index(t_m_material *m_material, char *str);
-
-/*						*/
-/*		  MODEL			*/
-/*						*/
-typedef struct		s_model
-{
-	bool			update;
-	char			*name;
-	char			*path;
-	t_m_mesh		*m_mesh;
-	t_matrix		transform;
-	GLenum			type_draw;
-	int				flag;
-	float			same_scaling;
-	float			inter_scaling;
-	t_vector		min;
-	t_vector		max;
-	t_vector		center;
-	t_vector		negative_center;
-
-	t_vector		position;
-	t_vector		rotation;
-	t_vector		scaling;
-
-	unsigned int	index_shader;
-	unsigned int	index_material;
-}					t_model;
-void				model_setup_scaling(t_model *model);
-void				*model_destruct(t_model **model);
-t_model				*model_construct(const char *path, const char *name);
-void				model_compute_transform(t_model *model);
-void				model_update(t_model *model);
-
-typedef struct		s_m_model
-{
-	int				index_selected;
-	unsigned int	size;
-	t_model			**model;
-	char			**model_name;
-	bool			(*add)(struct s_m_model *, t_model *);
-	t_model			*(*new)(struct s_m_model *, char *, char *);
-}					t_m_model;
-t_m_model			*m_model_construct();
-void				*m_model_destruct(t_m_model **m_model);
-t_model				*m_model_new(t_m_model *m_model, char *path, char *name);
-void				model_gen_gl_buffers(t_model *model);
-
-/*						*/
-/*		  CAM			*/
-/*						*/
-
-# define CURSOR_NORMAL (1 << 0)
-# define CURSOR_HIDDEN (1 << 0)
-
-typedef struct		s_cam
-{
-	bool			fps;
-	bool			first_callback;
-	float			fov;
-	float			pitch;
-	float			yaw;
-	float			sensitivity;
-	t_vector		front;
-	t_vector		last_cursor_position;
-	t_vector		position;
-	t_vector		to;
-	t_vector		up;
-	t_matrix		view;
-	t_matrix		projection;
-	int				flag;
-}					t_cam;
-t_cam 			*cam_construct();
-void			*cam_destruct(t_cam **cam);
-void			cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time);
-t_vector		cam_get_front(float pitch, float yaw);
-
-
-/*						*/
-/*		  LIGHT			*/
-/*						*/
-typedef struct		s_light
-{
-	char			*name;
-	t_vector		ambient;
-	t_vector		diffuse;
-	t_vector		specular;
-	t_vector		position;
-	int				flag;
-}					t_light;
-void				*light_destruct(t_light **light);
-t_light				*light_construct(char *name);
-
-typedef struct		s_m_light
-{
-	int				index_selected;
-	unsigned int	size;
-	t_light			**light;
-	char			**light_name;
-	bool			(*add)(struct s_m_light *, t_light *);
-	t_light			*(*new)(struct s_m_light *, char *);
-}					t_m_light;
-t_m_light			*m_light_construct();
-void				*m_light_destruct(t_m_light **m_model);
-bool				m_light_json_parse(t_m_light *m_light, cJSON *get, const char *key);
-
-/*						*/
-/*		  SCENE			*/
-/*						*/
-typedef struct		s_scene
-{
-	unsigned int	index_light;
-	t_cam			*cam;
-
-	t_m_shader		*m_shader;
-	t_m_mesh		*m_mesh;
-	t_m_model		*m_model;
-	t_m_material	*m_material;
-	t_m_light		*m_light;
-	bool			(*shader_add)(struct s_scene*, const char *, const char *, const char *);
-	bool			(*mesh_add)(struct s_scene*, t_mesh *);
-	bool			(*model_add)(struct s_scene*, t_model *);
-}					t_scene;
-void				*scene_destruct(t_scene **scene);
-t_scene				*scene_construct(const char *path);
-bool				m_model_json_parse(t_scene *scene, t_m_model *m_model, cJSON *get, const char *key);
-bool				scene_require(t_scene *scene);
-bool				scene_write(t_scene *scene, const char *path);
-bool				scene_reload(t_scene **scene, const char *path);
 
 typedef struct		s_env
 {
@@ -296,54 +79,6 @@ t_env 				*env_construct(int argc, char **argv);
 void 				*env_destruct(void *ptr);
 
 
-typedef struct		s_lm
-{
-	t_model			*model;
-	t_mesh			*mesh;
-
-	GLint			nb_v;
-	GLint			nb_vt;
-	GLint			nb_vn;
-	GLfloat			*v;
-	GLfloat			*vt;
-	GLfloat			*vn;
-
-	const char		*path;
-	int				fd;
-
-	char			type[10];
-	int				buffer_index_v[4];
-	int				buffer_index_vt[4];
-	int				buffer_index_vn[4];
-	float			buffer_v[4];
-	float			buffer_vt[4];
-	float			buffer_vn[4];
-
-	uint32_t		mem_len_indices;
-
-	uint32_t		mem_len_v;
-	uint32_t		mem_len_vt;
-	uint32_t		mem_len_vn;
-	uint32_t		mem_len_indexed_v;
-	uint32_t		mem_len_indexed_vn;
-	uint32_t		mem_len_indexed_vt;
-
-	uint32_t		last_index_v;
-	uint32_t		last_index_vt;
-	uint32_t		last_index_vn;
-	uint32_t		last_index;
-	char			*line;
-}					t_lm;
-bool		lm_get_vertex(t_lm *lm);
-bool		lm_get_vnormal(t_lm *lm);
-bool		lm_get_vtexel(t_lm *lm);
-bool		lm_check_realloc(t_lm *lm);
-bool		lm_add_mesh(t_lm *lm);
-bool		lm_get_face(t_lm *lm);
-void		*lm_destruct(t_lm **c_lm);
-t_lm		*lm_construct(t_model *model, const char *path_obj);
-
-
 int					flag(int64_t *f, int argc, char **argv);
 bool				loop(t_env *e);
 
@@ -356,11 +91,11 @@ float				get_degrees(const float radians);
 float				get_radians(const float degrees);
 
 
-t_matrix		matrixgl_view(t_cam *cam);
-t_matrix		look_at_gl(const t_vector *position,
+t_matrix			matrixgl_view(t_cam *cam);
+t_matrix			look_at_gl(const t_vector *position,
 						const t_vector *to,
 						const t_vector *up);
-t_matrix matrixgl_get_projection(const float fov,
+t_matrix			matrixgl_get_projection(const float fov,
 									const float ratio,
 									const float near,
 									const float far);

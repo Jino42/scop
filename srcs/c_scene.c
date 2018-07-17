@@ -239,7 +239,7 @@ bool		scene_require(t_scene *scene)
 
 
 
-bool		scene_write_model(t_scene *scene, cJSON *json_scene)
+bool		m_model_write(t_m_model *m_model, cJSON *json_scene)
 {
 	cJSON			*json_model;
 	cJSON			*json_models;
@@ -251,9 +251,9 @@ bool		scene_write_model(t_scene *scene, cJSON *json_scene)
 	cJSON_AddItemToObject(json_scene, "model", json_models);
 
 	i = 0;
-	while (i < scene->m_model->size)
+	while (i < m_model->size)
 	{
-		model = scene->m_model->model[i];
+		model = m_model->model[i];
 		if (!(json_model = cJSON_CreateObject()))
 			return (false);
 		cJSON_AddItemToArray(json_models, json_model);
@@ -378,7 +378,7 @@ bool		scene_write(t_scene *scene, const char *path)
 		close(fd);
 		return (false);
 	}
-	if (!scene_write_model(scene, json_scene) ||
+	if (!m_model_write(scene->m_model, json_scene) ||
 		!m_shader_write(scene->m_shader, json_scene) ||
 		!m_light_write(scene->m_light, json_scene) ||
 		!m_material_write(scene->m_material, json_scene))
