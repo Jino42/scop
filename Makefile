@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/17 16:00:39 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/17 16:11:05 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,22 @@ SRC = main.c \
 		c_model.c \
 		c_cam.c \
 		c_fps.c \
-		c_material.c \
 		c_shader.c \
+		c_shader/shader.c \
+		c_shader/m_shader.c \
+		c_shader/m_shader_parse.c \
+		c_shader/m_shader_write.c \
+		c_model/model.c \
+		c_model/m_model.c \
+		c_model/m_model_parse.c \
+		c_model/m_model_write.c \
+		c_material/material.c \
+		c_material/m_material.c \
+		c_material/m_material_write.c \
+		c_material/m_material_parse.c \
+		c_material/m_material_get_index.c \
+		c_model/model.c \
+		c_model/m_model.c \
 		c_light/light.c \
 		c_light/m_light.c \
 		c_light/m_light_write.c \
