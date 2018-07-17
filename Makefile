@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/17 15:21:50 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/17 15:36:19 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = scop
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra -Wvla -g3
 
 INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h includes/nuk_head.h includes/c_scene.h includes/json.h includes/c_lm.h  includes/c_cam.h includes/c_light.h includes/c_material.h includes/c_mesh.h includes/c_model.h includes/c_shader.h
 
@@ -37,7 +37,8 @@ SRC = main.c \
 		c_fps.c \
 		c_material.c \
 		c_shader.c \
-		json/json.c \
+		json/json_tools.c \
+		json/json_parse.c \
 		json/json_write.c \
 		json/json_error.c \
 		load_model/c_lm.c \
