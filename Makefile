@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/17 16:56:45 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/17 17:08:42 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRC = main.c \
 		loop.c \
 		flag.c \
 		c_env.c \
-		c_mesh.c \
 		c_scene.c \
 		c_cam.c \
 		c_fps.c \
@@ -39,6 +38,9 @@ SRC = main.c \
 		c_shader/m_shader_parse.c \
 		c_shader/m_shader_write.c \
 		c_shader/m_shader_get_index.c \
+		c_mesh/mesh.c \
+		c_mesh/m_mesh.c \
+		c_mesh/mesh_gen_gl_buffers.c \
 		c_model/model.c \
 		c_model/model_tools.c \
 		c_model/m_model.c \
