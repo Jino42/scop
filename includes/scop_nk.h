@@ -151,6 +151,7 @@ void 				nk_material(t_nk *nk, t_material *material);
 void 				nk_m_shader(t_nk *nk, t_m_shader *m_shader);
 void 				nk_m_material(t_nk *nk, t_m_material *m_material);
 void 				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light);
+void 				nk_light(t_nk *nk, t_light *light);
 
 
 #endif

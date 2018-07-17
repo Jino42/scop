@@ -16,9 +16,7 @@ void 				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light)
 								m_light->index_selected,
 								25, nk_vec2(200,200));
 		scene->index_light = m_light->index_selected;
-		/*
-		nk_model(nk, m_model->model[m_model->index_selected]);
-		*/
+		nk_light(nk, m_light->light[m_light->index_selected]);
 		nk_tree_pop(ctx);
 	}
 }
