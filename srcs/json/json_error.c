@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <cJSON.h>
-#include <stdbool.h>
+#include "scop.h"
 
 bool json_error(void *ptr)
 {

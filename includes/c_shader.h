@@ -2,12 +2,10 @@
 # define C_SHADER_H
 
 # include "vector.h"
+# include "cJSON.h"
 # include <stdint.h>
-# include "scop_glfw.h"
+# include "glad.h"
 
-/*						*/
-/*		  SHADER		*/
-/*						*/
 typedef struct		s_shader
 {
 	GLuint			program;

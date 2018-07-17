@@ -1,9 +1,8 @@
 #include "scop.h"
-#include <cJSON.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
 
 bool			json_parse_vector_xyz(cJSON *get, const char *key, t_vector *vector)
 {

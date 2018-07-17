@@ -77,8 +77,8 @@ void		*shader_destruct(t_shader **shader)
 	{
 		glDeleteProgram((*shader)->program);
 		ft_memdel((void **)&(*shader)->name);
-		ft_memdel((void **)&(*shader)->path_fragment);
 		ft_memdel((void **)&(*shader)->path_vertex);
+		ft_memdel((void **)&(*shader)->path_fragment);
 		ft_memdel((void **)shader);
 	}
 	return (NULL);

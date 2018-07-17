@@ -1,13 +1,14 @@
 #ifndef SCOP_NK_H
 # define SCOP_NK_H
 
-# include <stdbool.h>
 # include "glad.h"
 # include "scop_glfw.h"
 # include "nuk_glfw_gl3.h"
 # include "libft.h"
-# include "scop.h"
-#include <float.h>
+# include "c_scene.h"
+# include "cJSON.h"
+# include <float.h>
+# include <stdbool.h>
 
 #define MENU_NONE (1 << 0)
 #define MENU_FILE (1 << 1)

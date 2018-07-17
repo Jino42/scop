@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 15:13:47 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/17 15:24:33 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "libft.h"
 # include "matrix.h"
 # include "material.h"
-# include "cJSON.h"
+# include "json.h"
 
 # include <math.h>
 # include <sys/types.h>
@@ -82,8 +82,6 @@ void 				*env_destruct(void *ptr);
 int					flag(int64_t *f, int argc, char **argv);
 bool				loop(t_env *e);
 
-
-
 t_vector			*singleton_mouse_position();
 void				event_mouse(GLFWwindow *window, double pos_x, double pos_y);
 
@@ -103,19 +101,5 @@ t_matrix			matrixgl_get_projection(const float fov,
 
 t_model			*m_model_load(t_m_model *m_model, const char *path_obj, const char *name);
 void			scene_render(t_scene *scene);
-
-bool			json_error(void *ptr);
-bool			json_parse_vector_xyz(cJSON *vector_json, const char *key, t_vector *vector);
-bool			json_parse_vector_single_float(cJSON *vector_json, const char *key, t_vector *vector);
-bool			json_parse_vector(cJSON *vector_json, const char *key, t_vector *vector);
-bool			json_parse_float(cJSON *source, const char *key, float *dest);
-bool			json_parse_string(cJSON *get, const char *key, char **dest);
-cJSON			*json_load_src(const char *path, char *buffer);
-
-
-bool			json_add_vector(cJSON *json, char *key, t_vector *value);
-bool			json_add_int(cJSON *json, char *key, int value);
-bool			json_add_float(cJSON *json, char *key, float value);
-bool			json_add_string(cJSON *json, char *key, char *value);
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef C_CAM_H
 # define C_CAM_H
 
-# include "vector.h"
+# include "matrix.h"
 # include <stdint.h>
 
 typedef struct		s_cam
