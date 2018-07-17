@@ -124,6 +124,7 @@ void				nk_combo_colorf(t_nk *nk, t_vector *vec, const char *str)
 {
 	struct nk_context		*ctx;
 	struct nk_colorf		*colorf;
+	float					hsva[4];
 
 	ctx = nk->ctx;
 	colorf = (struct nk_colorf *)vec;
@@ -149,18 +150,20 @@ void				nk_combo_colorf(t_nk *nk, t_vector *vec, const char *str)
 		}
 
 		nk_layout_row_dynamic(ctx, 25, 1);
-		if (nk->flag & COLOR_MODE_RGBA) {
-			colorf->r = nk_propertyf(ctx, "#R:", 0, colorf->r, 1.0f, 0.01f,0.005f);
-			colorf->g = nk_propertyf(ctx, "#G:", 0, colorf->g, 1.0f, 0.01f,0.005f);
-			colorf->b = nk_propertyf(ctx, "#B:", 0, colorf->b, 1.0f, 0.01f,0.005f);
-			colorf->a = nk_propertyf(ctx, "#A:", 0, colorf->a, 1.0f, 0.01f,0.005f);
-		} else {
-			float hsva[4];
+		if (nk->flag & COLOR_MODE_RGBA)
+		{
+			colorf->r = nk_propertyf(ctx, "#R:", 0, colorf->r, 1.0f, 0.01f, 0.005f);
+			colorf->g = nk_propertyf(ctx, "#G:", 0, colorf->g, 1.0f, 0.01f, 0.005f);
+			colorf->b = nk_propertyf(ctx, "#B:", 0, colorf->b, 1.0f, 0.01f, 0.005f);
+			colorf->a = nk_propertyf(ctx, "#A:", 0, colorf->a, 1.0f, 0.01f, 0.005f);
+		}
+		else
+		{
 			nk_colorf_hsva_fv(hsva, *colorf);
-			hsva[0] = nk_propertyf(ctx, "#H:", 0, hsva[0], 1.0f, 0.01f,0.05f);
-			hsva[1] = nk_propertyf(ctx, "#S:", 0, hsva[1], 1.0f, 0.01f,0.05f);
-			hsva[2] = nk_propertyf(ctx, "#V:", 0, hsva[2], 1.0f, 0.01f,0.05f);
-			hsva[3] = nk_propertyf(ctx, "#A:", 0, hsva[3], 1.0f, 0.01f,0.05f);
+			hsva[0] = nk_propertyf(ctx, "#H:", 0, hsva[0], 1.0f, 0.01f, 0.05f);
+			hsva[1] = nk_propertyf(ctx, "#S:", 0, hsva[1], 1.0f, 0.01f, 0.05f);
+			hsva[2] = nk_propertyf(ctx, "#V:", 0, hsva[2], 1.0f, 0.01f, 0.05f);
+			hsva[3] = nk_propertyf(ctx, "#A:", 0, hsva[3], 1.0f, 0.01f, 0.05f);
 			*colorf = nk_hsva_colorfv(hsva);
 		}
 		nk_combo_end(ctx);

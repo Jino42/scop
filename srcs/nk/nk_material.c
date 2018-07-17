@@ -11,4 +11,6 @@ void 				nk_material(t_nk *nk, t_material *material)
 	nk_combo_colorf(nk, &material->diffuse, "Diffuse");
 	nk_combo_colorf(nk, &material->ambient, "Ambient");
 	nk_combo_colorf(nk, &material->specular, "Specular");
+	nk_layout_row_static(ctx, 25, 300, 1);
+	nk_property_float(ctx, "Shiniess", 0.1f, &material->shininess, FLT_MAX, 0.5f, 0.2f);
 }
