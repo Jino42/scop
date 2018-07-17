@@ -1,7 +1,6 @@
 #ifndef C_MODEL_H
 # define C_MODEL_H
 
-# include "vector.h"
 # include <stdint.h>
 # include "scop_glfw.h"
 
@@ -33,6 +32,7 @@ void				*model_destruct(t_model **model);
 t_model				*model_construct(const char *path, const char *name);
 void				model_compute_transform(t_model *model);
 void				model_update(t_model *model);
+void				model_gen_gl_buffers(t_model *model);
 
 typedef struct		s_m_model
 {
@@ -46,7 +46,6 @@ typedef struct		s_m_model
 t_m_model			*m_model_construct();
 void				*m_model_destruct(t_m_model **m_model);
 t_model				*m_model_new(t_m_model *m_model, char *path, char *name);
-void				model_gen_gl_buffers(t_model *model);
-
+bool				m_model_json_write(t_m_model *m_model, cJSON *json_scene);
 
 #endif

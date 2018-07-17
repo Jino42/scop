@@ -29,5 +29,7 @@ bool				scene_require(t_scene *scene);
 bool				scene_write(t_scene *scene, const char *path);
 bool				scene_reload(t_scene **scene, const char *path);
 
+bool				m_model_json_parse_material(cJSON *get, const char *key, t_scene *scene, t_model *model);
+bool				m_model_json_parse_shader(cJSON *get, const char *key, t_scene *scene, t_model *model);
 
 #endif
