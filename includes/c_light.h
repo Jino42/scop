@@ -28,5 +28,6 @@ typedef struct		s_m_light
 t_m_light			*m_light_construct();
 void				*m_light_destruct(t_m_light **m_model);
 bool				m_light_json_parse(t_m_light *m_light, cJSON *get, const char *key);
+bool				m_light_json_write(t_m_light *m_light, cJSON *json_scene);
 
 #endif

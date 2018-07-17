@@ -239,7 +239,7 @@ bool		scene_require(t_scene *scene)
 
 
 
-bool		m_model_write(t_m_model *m_model, cJSON *json_scene)
+bool		m_model_json_write(t_m_model *m_model, cJSON *json_scene)
 {
 	cJSON			*json_model;
 	cJSON			*json_models;
@@ -272,7 +272,7 @@ bool		m_model_write(t_m_model *m_model, cJSON *json_scene)
 	return (true);
 }
 
-bool		m_shader_write(t_m_shader *m_shader, cJSON *json_scene)
+bool		m_shader_json_write(t_m_shader *m_shader, cJSON *json_scene)
 {
 	cJSON			*json_shader;
 	cJSON			*json_shaders;
@@ -299,37 +299,7 @@ bool		m_shader_write(t_m_shader *m_shader, cJSON *json_scene)
 	return (true);
 }
 
-bool		m_light_write(t_m_light *m_light, cJSON *json_scene)
-{
-	cJSON			*json_light;
-	cJSON			*json_lights;
-	t_light		*light;
-	unsigned int	i;
-
-	if (!(json_lights = cJSON_CreateArray()))
-		return (false);
-	cJSON_AddItemToObject(json_scene, "light", json_lights);
-
-	i = 0;
-	while (i < m_light->size)
-	{
-		light = m_light->light[i];
-		if (!(json_light = cJSON_CreateObject()))
-			return (false);
-		cJSON_AddItemToArray(json_lights, json_light);
-		if (!json_add_string(json_light, "name", light->name))
-			return (false);
-		if (!json_add_vector(json_light, "ambient", &light->ambient) ||
-			!json_add_vector(json_light, "diffuse", &light->diffuse) ||
-			!json_add_vector(json_light, "specular", &light->specular) ||
-			!json_add_vector(json_light, "position", &light->position))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-bool		m_material_write(t_m_material *m_material, cJSON *json_scene)
+bool		m_material_json_write(t_m_material *m_material, cJSON *json_scene)
 {
 	cJSON			*json_material;
 	cJSON			*json_materials;
@@ -378,10 +348,10 @@ bool		scene_write(t_scene *scene, const char *path)
 		close(fd);
 		return (false);
 	}
-	if (!m_model_write(scene->m_model, json_scene) ||
-		!m_shader_write(scene->m_shader, json_scene) ||
-		!m_light_write(scene->m_light, json_scene) ||
-		!m_material_write(scene->m_material, json_scene))
+	if (!m_model_json_write(scene->m_model, json_scene) ||
+		!m_shader_json_write(scene->m_shader, json_scene) ||
+		!m_light_json_write(scene->m_light, json_scene) ||
+		!m_material_json_write(scene->m_material, json_scene))
 	{
 		close(fd);
 		cJSON_Delete(json_scene);

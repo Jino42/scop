@@ -1,16 +1,27 @@
-#include "scop_nk.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   m_light_write.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/17 15:48:49 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/07/17 15:49:33 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-bool		m_light_write(t_m_light *m_light, cJSON *json_scene)
+#include "scop.h"
+
+bool		m_light_json_write(t_m_light *m_light, cJSON *json_scene)
 {
 	cJSON			*json_light;
 	cJSON			*json_lights;
-	t_light		*light;
+	t_light			*light;
 	unsigned int	i;
 
 	if (!(json_lights = cJSON_CreateArray()))
 		return (false);
 	cJSON_AddItemToObject(json_scene, "light", json_lights);
-
 	i = 0;
 	while (i < m_light->size)
 	{

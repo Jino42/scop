@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/17 15:36:19 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/17 16:00:39 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,13 @@ SRC = main.c \
 		c_scene.c \
 		c_model.c \
 		c_cam.c \
-		c_light.c \
 		c_fps.c \
 		c_material.c \
 		c_shader.c \
+		c_light/light.c \
+		c_light/m_light.c \
+		c_light/m_light_write.c \
+		c_light/m_light_parse.c \
 		json/json_tools.c \
 		json/json_parse.c \
 		json/json_write.c \
