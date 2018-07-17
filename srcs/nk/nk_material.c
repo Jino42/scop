@@ -1,23 +1,14 @@
-#include "scop_nk.h"
 #include "scop.h"
+#include "scop_nk.h"
 
-void 				nk_m_material(t_nk *nk, t_m_material *m_material)
+
+void 				nk_material(t_nk *nk, t_material *material)
 {
 	struct nk_context		*ctx;
 
 	ctx = nk->ctx;
-	if (nk_tree_push(ctx, NK_TREE_TAB, "Light", NK_MAXIMIZED))
-	{
-		nk_layout_row_static(ctx, 25, 150, 1);
-
-		m_material->index_selected = nk_combo(ctx,
-								(const char **)m_material->material_name,
-								m_material->size,
-								m_material->index_selected,
-								25, nk_vec2(200,200));
-		/*
-		nk_model(nk, m_model->model[m_model->index_selected]);
-		*/
-		nk_tree_pop(ctx);
-	}
+	nk_layout_row_static(ctx, 30, 150, 2);
+	nk_combo_colorf(nk, &material->diffuse, "Diffuse");
+	nk_combo_colorf(nk, &material->ambient, "Ambient");
+	nk_combo_colorf(nk, &material->specular, "Specular");
 }

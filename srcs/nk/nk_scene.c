@@ -141,7 +141,6 @@ bool				nk_scene(t_nk *nk, t_scene **scene)
 			return (false);
 		nk_scene_menu_popup_over(nk);
 
-
 		nk_cam(nk, (*scene)->cam);
 		nk_m_model(nk, (*scene), (*scene)->m_model);
 		nk_m_shader(nk, (*scene)->m_shader);

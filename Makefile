@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/16 21:01:04 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/17 13:34:56 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC = main.c \
 		nk/nk_m_material.c \
 		nk/nk_material.c \
 		nk/nk_light.c \
+		nk/nk_m_light.c \
 		nk/nk_model.c \
 		nk/nk_shader.c \
 		nk/nk_m_shader.c \
