@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:46:40 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/18 19:48:46 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/18 19:51:20 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_model		*model_construct(const char *path, const char *name)
 	last_slash = strrchr(path, '/');
 	if (last_slash)
 	{
-		if (!(model->path = ft_strnew(-(path - last_slash))))
+		if (!(model->path = ft_strnew(-(path - last_slash) + 2)))
 			return (model_destruct(&model));
 		strncpy(model->path, path, -(path - last_slash) + 1);
 	}
