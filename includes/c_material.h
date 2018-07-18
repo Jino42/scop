@@ -12,6 +12,7 @@ typedef struct		s_material
 	t_vector		ambient;
 	t_vector		specular;
 	float			shininess;
+	float			transparency;
 	char			*name;
 	int				flag;
 }					t_material;

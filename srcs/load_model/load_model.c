@@ -47,9 +47,9 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 			sscanf(line, "%s %f %f %f\n", type, &material->specular.x, &material->specular.y, &material->specular.z);
 		else if (!strcmp(type, "Ns"))
 			sscanf(line, "%s %f", type, &material->shininess);
-		/*
 		else if (!strcmp(type, "d"))
 			sscanf(line, "%s %f", type, &material->transparency);
+		/*
 		else if (!strcmp(type, "map_Ka"))
 		{
 			sscanf(line, "%s %s", type, path);
