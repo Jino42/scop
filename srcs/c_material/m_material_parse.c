@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 16:23:21 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/18 19:59:46 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static bool		m_material_json_loop_parse(t_m_material *m_material,
 		return (dprintf(2, "JSON material[%i]: the name is Undefined\n",
 				index) == 0);
 	}
-	if (!(material = m_material->new(m_material, str)))
+	if (!(material = m_material->new(m_material, str, 0)))
 		return (false);
 	if (!m_material_json_loop_parse_2(material, json_material, index))
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:11:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 16:15:45 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/18 19:59:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ bool				m_material_add(t_m_material *m_material,
 	return (true);
 }
 
-t_material			*m_material_new(t_m_material *m_material, char *name)
+t_material			*m_material_new(t_m_material *m_material,
+									char *name,
+									const int material_type)
 {
 	t_material *new;
 
-	if (!(new = material_construct(name)))
+	if (!(new = material_construct(name, material_type)))
 		return (NULL);
 	if (!(m_material->material = realloc(m_material->material,
 				sizeof(t_material **) * (m_material->size + 1))))
