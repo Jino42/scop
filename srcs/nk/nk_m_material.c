@@ -15,7 +15,8 @@ void 				nk_m_material(t_nk *nk, t_m_material *m_material)
 								m_material->size,
 								m_material->index_selected,
 								25, nk_vec2(200,200));
-		nk_material(nk, m_material->material[m_material->index_selected]);
+		if (!(m_material->material[m_material->index_selected]->flag & MATERIAL_MTLLIB))
+			nk_material(nk, m_material->material[m_material->index_selected]);
 		nk_tree_pop(ctx);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:46:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 17:05:02 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/18 20:11:51 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static bool			m_model_json_loop_parse(t_scene *scene,
 		return (dprintf(2, "JSON model[%i]: the name is Undefined\n",
 				index) == 0);
 	}
-	if (!(model = m_model_load(m_model, str[0], str[1])))
+	if (!(model = m_model_load(m_model, scene->m_material, str[0], str[1])))
 	{
 		return (dprintf(2, "JSON model[%i]: Load model Failed\n",
 				index) == 0);

@@ -21,6 +21,7 @@ typedef struct		s_lm
 	int				fd;
 
 	char			type[10];
+	char			buffer255[255];
 	int				buffer_index_v[4];
 	int				buffer_index_vt[4];
 	int				buffer_index_vn[4];
