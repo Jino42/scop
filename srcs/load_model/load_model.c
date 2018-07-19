@@ -15,6 +15,7 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 	GLuint		map_id;
 	char		type[10];
 	t_material	*material;
+	t_texture	*texture;
 
 	sscanf(lm->line, "%s %s\n", lm->type, lm->buffer255);
 	if (!(path_mtl = ft_strjoin(model->path, lm->buffer255)))
@@ -26,6 +27,7 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 	if (!fd || fd < 0)
 		return (false);
 
+	bzero(lm->buffer255, 255);
 	material = NULL;
 	while (get_next_line(fd, &line))
 	{
@@ -49,16 +51,16 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 			sscanf(line, "%s %f", type, &material->shininess);
 		else if (!strcmp(type, "d"))
 			sscanf(line, "%s %f", type, &material->transparency);
-		/*
 		else if (!strcmp(type, "map_Ka"))
 		{
-			sscanf(line, "%s %s", type, path);
-			char *path_tex = ft_strjoin((const char *)model->path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
+			sscanf(line, "%s %s", type, lm->buffer255);
+			char *path_tex = ft_strjoin((const char *)model->path, lm->buffer255);
+			if (!(texture = lm->scene->m_texture->new(lm->scene->m_texture, MATERIAL_MAP_AMBIENT, path_tex)))
 				return (false);
-			material->set_map(material, MATERIAL_MAP_AMBIENT, map_id);
+			//material->set_texture(material, texture);
 			ft_printf("map_Ka set %s\n", path_tex);
 		}
+		/*
 		else if (!strcmp(type, "map_Kd"))
 		{
 			sscanf(line, "%s %s", type, path);
@@ -97,6 +99,7 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 		}
 
 		*/
+		bzero(lm->buffer255, 255);
 		ft_memdel((void *)&line);
 	}
 	if (material)
@@ -186,8 +189,7 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 }
 
 
-t_model		*m_model_load(t_m_model *m_model,
-							t_m_material *m_material,
+t_model		*m_model_load(t_scene *scene,
 							const char *path_obj,
 							const char *name)
 {
@@ -195,7 +197,7 @@ t_model		*m_model_load(t_m_model *m_model,
 	t_model	*model;
 
 	model = model_construct(path_obj, name);
-	t_lm *lm = lm_construct(model, path_obj);
+	t_lm *lm = lm_construct(scene, model, path_obj);
 	while (get_next_line(lm->fd, &lm->line) == 1)
 	{
 		sscanf(lm->line, "%s ", lm->type);
@@ -214,7 +216,7 @@ t_model		*m_model_load(t_m_model *m_model,
 		}
 		else if(!strcmp("mtllib", lm->type))
 		{
-			if (!(parsing_mtl(lm, m_material, model)))
+			if (!(parsing_mtl(lm, scene->m_material, model)))
 				return (false);
 		}
 		else if (!strcmp("usemtl", lm->type))
@@ -227,7 +229,7 @@ t_model		*m_model_load(t_m_model *m_model,
 	}
 	model_gen_gl_buffers(model);
 	model_setup_scaling(model);
-	m_model->add(m_model, model);
+	scene->m_model->add(scene->m_model, model);
 	lm_destruct(&lm);
 	return (model);
 }

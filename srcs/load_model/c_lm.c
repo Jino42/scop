@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-t_lm		*lm_construct(t_model *model, const char *path_obj)
+t_lm		*lm_construct(t_scene *scene, t_model *model, const char *path_obj)
 {
 	t_lm	*lm;
 	int		fd;
@@ -15,6 +15,7 @@ t_lm		*lm_construct(t_model *model, const char *path_obj)
 	if (!(lm = ft_memalloc(sizeof(t_lm))))
 		return (NULL);
 	lm->model = model;
+	lm->scene = scene;
 	if (!(lm->mesh = lm->model->m_mesh->new(lm->model->m_mesh)))
 		return (lm_destruct(&lm));
 	if (!(lm->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))

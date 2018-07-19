@@ -20,11 +20,32 @@ bool			m_texture_add(t_m_texture *m_texture, t_texture *texture)
 	return (true);
 }
 
-t_texture			*m_texture_new(t_m_texture *m_texture, char *name)
+int32_t	texture_exist(t_m_texture *m_texture,
+							const char *texture_path)
 {
+	uint32_t i;
+
+	i = 0;
+	while (i < m_texture->size)
+	{
+		if (!strcmp(texture_path, m_texture->texture[i]->name))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+t_texture			*m_texture_new(t_m_texture *m_texture,
+									const int type,
+									const char *texture_path)
+{
+
+	int32_t index;
 	t_texture *new;
 
-	if (!(new = texture_construct(name)))
+	if ((index = texture_exist(m_texture, texture_path)) != -1)
+		return (m_texture->texture[index]);
+	if (!(new = texture_construct(texture_path, type)))
 		return (NULL);
 	if (!(m_texture->texture = realloc(m_texture->texture,
 				sizeof(t_texture **) * (m_texture->size + 1))))

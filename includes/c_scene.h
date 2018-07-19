@@ -26,7 +26,7 @@ typedef struct		s_scene
 }					t_scene;
 void				*scene_destruct(t_scene **scene);
 t_scene				*scene_construct(const char *path);
-bool				m_model_json_parse(t_scene *scene, t_m_model *m_model, cJSON *get, const char *key);
+bool				m_model_json_parse(t_scene *scene, cJSON *get, const char *key);
 bool				scene_require(t_scene *scene);
 bool				scene_write(t_scene *scene, const char *path);
 bool				scene_reload(t_scene **scene, const char *path);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:46:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/18 20:11:51 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/19 20:28:36 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static bool			m_model_json_loop_parse_2(t_scene *scene,
 }
 
 static bool			m_model_json_loop_parse(t_scene *scene,
-												t_m_model *m_model,
 												cJSON *json_model,
 												int index)
 {
@@ -61,7 +60,7 @@ static bool			m_model_json_loop_parse(t_scene *scene,
 		return (dprintf(2, "JSON model[%i]: the name is Undefined\n",
 				index) == 0);
 	}
-	if (!(model = m_model_load(m_model, scene->m_material, str[0], str[1])))
+	if (!(model = m_model_load(scene, str[0], str[1])))
 	{
 		return (dprintf(2, "JSON model[%i]: Load model Failed\n",
 				index) == 0);
@@ -75,7 +74,6 @@ static bool			m_model_json_loop_parse(t_scene *scene,
 }
 
 static bool			m_model_json_loop(t_scene *scene,
-										t_m_model *m_model,
 										cJSON *json_models)
 {
 	int				index;
@@ -87,7 +85,7 @@ static bool			m_model_json_loop(t_scene *scene,
 	index = 0;
 	while (json_model)
 	{
-		if (!m_model_json_loop_parse(scene, m_model, json_model, index))
+		if (!m_model_json_loop_parse(scene, json_model, index))
 			return (false);
 		json_model = json_model->next;
 		index++;
@@ -96,14 +94,13 @@ static bool			m_model_json_loop(t_scene *scene,
 }
 
 bool				m_model_json_parse(t_scene *scene,
-									t_m_model *m_model,
-									cJSON *get,
-									const char *key)
+										cJSON *get,
+										const char *key)
 {
 	cJSON	*source;
 
 	source = cJSON_GetObjectItemCaseSensitive(get, key);
-	if (!(m_model_json_loop(scene, m_model, source)))
+	if (!(m_model_json_loop(scene, source)))
 	{
 		return (ft_bool_error("Erreur: Le parsing de t_m_model a échoué",
 				NULL, NULL));

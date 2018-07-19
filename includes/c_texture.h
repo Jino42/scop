@@ -7,14 +7,13 @@
 typedef struct		s_texture
 {
 	char			*name;
-	t_vector		ambient;
-	t_vector		diffuse;
-	t_vector		specular;
-	t_vector		position;
+	GLuint			id;
+	unsigned int	width;
+	unsigned int	height;
 	int				flag;
 }					t_texture;
 void				*texture_destruct(t_texture **texture);
-t_texture			*texture_construct(char *name);
+t_texture			*texture_construct(const char *name, const int type);
 
 typedef struct		s_m_texture
 {
@@ -23,7 +22,7 @@ typedef struct		s_m_texture
 	t_texture		**texture;
 	char			**texture_name;
 	bool			(*add)(struct s_m_texture *, t_texture *);
-	t_texture		*(*new)(struct s_m_texture *, char *);
+	t_texture		*(*new)(struct s_m_texture *, const int type, const char *);
 }					t_m_texture;
 t_m_texture			*m_texture_construct();
 void				*m_texture_destruct(t_m_texture **m_model);

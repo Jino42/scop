@@ -135,7 +135,7 @@ bool		scene_parse(t_scene *scene, const char *path)
 		cJSON_Delete(json);
 		return (false);
 	}
-	if (!(m_model_json_parse(scene, scene->m_model, json, "model")))
+	if (!(m_model_json_parse(scene, json, "model")))
 	{
 		cJSON_Delete(json);
 		return (false);
