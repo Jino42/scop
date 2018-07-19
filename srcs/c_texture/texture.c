@@ -37,6 +37,7 @@ unsigned char *LoadTGAFile(t_texture *texture, const char *filename)
     // or 3 (uncompressed black-and-white images).
     if (tgaFile->imageTypeCode != 2 && tgaFile->imageTypeCode != 3)
     {
+		printf("%s\n", filename);
 		ft_printf("Image type : %i\n", tgaFile->imageTypeCode );
         fclose(filePtr);
         return (NULL);

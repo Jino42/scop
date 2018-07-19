@@ -30,6 +30,7 @@ typedef struct		s_lm
 	float			buffer_vt[4];
 	float			buffer_vn[4];
 
+	uint32_t		nb_mesh;
 	uint32_t		mem_len_indices;
 
 	uint32_t		mem_len_v;

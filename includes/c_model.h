@@ -9,6 +9,7 @@ typedef struct		s_model
 	bool			update;
 	char			*name;
 	char			*path;
+	char			*access_path;
 	t_m_mesh		*m_mesh;
 	t_matrix		transform;
 	GLenum			type_draw;

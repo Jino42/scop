@@ -58,7 +58,7 @@ bool		lm_add_mesh(t_lm *lm)
 	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
+	/*lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
 	ft_memdel((void **)&lm->v);
@@ -69,7 +69,7 @@ bool		lm_add_mesh(t_lm *lm)
 	if (!(lm->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
 		return (lm_destruct(&lm));
 	if (!(lm->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));
+		return (lm_destruct(&lm));*/
 	return (true);
 }
 
