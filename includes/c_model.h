@@ -27,6 +27,7 @@ typedef struct		s_model
 
 	unsigned int	index_shader;
 	unsigned int	index_material;
+	unsigned int	index_material_personnal;
 }					t_model;
 void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);

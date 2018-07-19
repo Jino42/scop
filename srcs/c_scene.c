@@ -167,6 +167,8 @@ t_scene		*scene_construct(const char *path)
 		return (scene_destruct(&scene));
 	if (!(scene->m_material = m_material_construct()))
 		return (scene_destruct(&scene));
+	if (!(scene->m_material_personnal = m_material_construct()))
+		return (scene_destruct(&scene));
 	if (!(scene->m_light = m_light_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene->m_texture = m_texture_construct()))
@@ -192,6 +194,8 @@ void		*scene_destruct(t_scene **scene)
 			m_shader_destruct(&(*scene)->m_shader);
 		if ((*scene)->m_material)
 			m_material_destruct(&(*scene)->m_material);
+		if ((*scene)->m_material_personnal)
+			m_material_destruct(&(*scene)->m_material_personnal);
 		if ((*scene)->m_light)
 			m_light_destruct(&(*scene)->m_light);
 		if ((*scene)->cam)

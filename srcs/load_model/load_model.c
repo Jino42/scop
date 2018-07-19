@@ -251,20 +251,16 @@ t_model		*m_model_load(t_scene *scene,
 		}
 		else if(!strcmp("mtllib", lm->type))
 		{
-			if (!(parsing_mtl(lm, scene->m_material, model)))
+			if (!(parsing_mtl(lm, scene->m_material_personnal, model)))
 				return (false);
 		}
 		else if (!strcmp("usemtl", lm->type))
 		{
 			int index_material;
 			sscanf(lm->line, "%s %s\n", lm->type, lm->buffer255);
-			if (!(index_material = m_material_get_index(lm->scene->m_material, lm->buffer255)))
-			{
-				printf("material does not find\n");
-				exit(0);
-			}
+			index_material = m_material_get_index(lm->scene->m_material_personnal, lm->buffer255);
 			printf("{{{{{{{{{{}}}}}}}}}}%i \n", index_material);
-			lm->mesh->index_material = index_material;
+			lm->mesh->index_material_personnal = index_material;
 		}
 		else if (!strcmp("o", lm->type) && lm->mesh->nb_indices)
 		{

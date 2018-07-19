@@ -18,6 +18,7 @@ typedef struct		s_scene
 	t_m_mesh		*m_mesh;
 	t_m_model		*m_model;
 	t_m_material	*m_material;
+	t_m_material	*m_material_personnal;
 	t_m_light		*m_light;
 	t_m_texture		*m_texture;
 	bool			(*shader_add)(struct s_scene*, const char *, const char *, const char *);
