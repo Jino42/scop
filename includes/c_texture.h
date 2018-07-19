@@ -27,5 +27,4 @@ typedef struct		s_m_texture
 t_m_texture			*m_texture_construct();
 void				*m_texture_destruct(t_m_texture **m_model);
 
-
 #endif

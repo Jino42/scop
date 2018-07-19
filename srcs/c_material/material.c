@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:14 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/19 20:01:11 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/19 21:01:28 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ bool				material_set_map(t_material *material,
 	return (true);
 }
 
+bool				material_set_texture(t_material *material, const t_texture *texture)
+{
+	material->flag |= texture->flag;
+	if (material->flag & MATERIAL_MAP_SHININESS)
+		material->texture_shininess = texture->id;
+	if (material->flag & MATERIAL_MAP_NORMAL)
+		material->texture_normal = texture->id;
+	if (material->flag & MATERIAL_MAP_SPECULAR)
+		material->texture_specular = texture->id;
+	if (material->flag & MATERIAL_MAP_DIFFUSE)
+		material->texture_diffuse = texture->id;
+	if (material->flag & MATERIAL_MAP_AMBIENT)
+		material->texture_ambient = texture->id;
+	return (true);
+}
 
 t_material		*material_construct(char *name, const int material_type)
 {

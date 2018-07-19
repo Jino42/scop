@@ -31,6 +31,7 @@ t_material			*material_construct(char *name, const int material_type);
 bool				material_set_map(t_material *material, uint32_t flag,
 														const GLuint map_id);
 
+bool				material_set_texture(t_material *material, const t_texture *texture);
 
 typedef struct		s_m_material
 {
