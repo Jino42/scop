@@ -4,7 +4,12 @@
 # include "vector.h"
 # include <stdint.h>
 
-# define MATERIAL_MTLLIB (1 << 0)
+# define MATERIAL_MTLLIB			(1 << 0)
+# define MATERIAL_MAP_SHININESS		(1 << 1)
+# define MATERIAL_MAP_NORMAL		(1 << 2)
+# define MATERIAL_MAP_SPECULAR		(1 << 3)
+# define MATERIAL_MAP_DIFFUSE		(1 << 4)
+# define MATERIAL_MAP_AMBIENT		(1 << 5)
 
 typedef struct		s_material
 {
@@ -15,9 +20,17 @@ typedef struct		s_material
 	float			transparency;
 	char			*name;
 	int				flag;
+	GLuint			texture_shininess;
+	GLuint			texture_normal;
+	GLuint			texture_specular;
+	GLuint			texture_diffuse;
+	GLuint			texture_ambient;
 }					t_material;
 void				*material_destruct(t_material **material);
 t_material			*material_construct(char *name, const int material_type);
+bool				material_set_map(t_material *material, uint32_t flag,
+														const GLuint map_id);
+
 
 typedef struct		s_m_material
 {

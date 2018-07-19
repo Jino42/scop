@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/17 17:08:42 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/19 19:54:04 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -Wvla -g3
 
-INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h includes/nuk_head.h includes/c_scene.h includes/json.h includes/c_lm.h  includes/c_cam.h includes/c_light.h includes/c_material.h includes/c_mesh.h includes/c_model.h includes/c_shader.h
+INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h includes/nuk_head.h includes/c_scene.h includes/c_texture.h includes/json.h includes/c_lm.h  includes/c_cam.h includes/c_light.h includes/c_material.h includes/c_mesh.h includes/c_model.h includes/c_shader.h
 
 INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -I ~/.brew/include/ -I ./cJSON/
 
@@ -32,6 +32,8 @@ SRC = main.c \
 		c_scene.c \
 		c_cam.c \
 		c_fps.c \
+		c_texture/texture.c \
+		c_texture/m_texture.c \
 		c_shader/shader.c \
 		c_shader/shader_build.c \
 		c_shader/m_shader.c \
@@ -133,6 +135,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/c_light
 	@mkdir $(OBJ_DIR)$/c_model
 	@mkdir $(OBJ_DIR)$/c_material
+	@mkdir $(OBJ_DIR)$/c_texture
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<

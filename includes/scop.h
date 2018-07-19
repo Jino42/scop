@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/18 20:10:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/19 20:01:41 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "scop_glfw.h"
 # include "libft.h"
 # include "matrix.h"
-# include "material.h"
 # include "json.h"
 
 # include <math.h>

@@ -163,6 +163,8 @@ t_scene		*scene_construct(const char *path)
 		return (scene_destruct(&scene));
 	if (!(scene->m_light = m_light_construct()))
 		return (scene_destruct(&scene));
+	if (!(scene->m_texture = m_texture_construct()))
+		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene_parse(scene, path)))
@@ -188,6 +190,8 @@ void		*scene_destruct(t_scene **scene)
 			m_light_destruct(&(*scene)->m_light);
 		if ((*scene)->cam)
 			cam_destruct(&(*scene)->cam);
+		if ((*scene)->m_texture)
+			m_texture_destruct(&(*scene)->m_texture);
 		ft_memdel((void **)scene);
 	}
 	return (NULL);
