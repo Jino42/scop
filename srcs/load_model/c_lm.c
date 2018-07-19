@@ -58,7 +58,8 @@ bool		lm_add_mesh(t_lm *lm)
 	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
-	/*lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
+	/*
+	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
 	ft_memdel((void **)&lm->v);
@@ -69,7 +70,8 @@ bool		lm_add_mesh(t_lm *lm)
 	if (!(lm->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
 		return (lm_destruct(&lm));
 	if (!(lm->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));*/
+		return (lm_destruct(&lm));
+	*/
 	return (true);
 }
 
@@ -145,11 +147,10 @@ bool	lm_get_vtexel(t_lm *lm)
 
 	mesh = lm->mesh;
 	mesh->flag |= SCOP_VT;
-	if (sscanf(lm->line, "%s %f %f %f\n", lm->type, &lm->buffer_vt[0], &lm->buffer_vt[1], &lm->buffer_vt[2]) != 4)
+	if (sscanf(lm->line, "%s %f %f\n", lm->type, &lm->buffer_vt[0], &lm->buffer_vt[1]) != 3)
 		return (false);
-	lm->vt[3 * lm->nb_vt + 0] = lm->buffer_vt[0];
-	lm->vt[3 * lm->nb_vt + 1] = lm->buffer_vt[1];
-	lm->vt[3 * lm->nb_vt + 2] = lm->buffer_vt[2];
+	lm->vt[2 * lm->nb_vt + 0] = lm->buffer_vt[0];
+	lm->vt[2 * lm->nb_vt + 1] = lm->buffer_vt[1];
 	lm->nb_vt++;
 	return (true);
 }

@@ -21,6 +21,7 @@ typedef struct		s_mesh
 	GLint			nb_faces;
 	GLint			nb_indices;
 	int				flag;
+	unsigned int	index_material;
 }					t_mesh;
 void				*mesh_destruct(t_mesh **mesh);
 t_mesh				*mesh_construct();

@@ -32,8 +32,6 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 	{
 		map_id = 0;
 		sscanf(line, "%s ", lm->type);
-		printf("%s\n", line);
-		printf("Type: %s\n", lm->type);
 		if (!strcmp(lm->type, "newmtl"))
 		{
 			if (material)
@@ -189,6 +187,40 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 	*/
 }
 
+bool	obj_pars_debug(t_lm *lm)
+{
+	int index;
+	int fd;
+
+	fd = open("debug", O_RDWR | O_TRUNC | S_IRWXU);
+	index = 0;
+	while (index < lm->nb_v)
+	{
+		dprintf(fd, "v %.6f %.6f %.6f\n", lm->v[3 * index + 0],
+										lm->v[3 * index + 1],
+										lm->v[3 * index + 2]);
+		index++;
+	}
+	index = 0;
+	while (index < lm->nb_vt)
+	{
+		dprintf(fd, "vt %.6f %.6f\n", lm->vt[2 * index + 0],
+										lm->vt[2 * index + 1]);
+		index++;
+	}
+	index = 0;
+	while (index < lm->nb_vn)
+	{
+		dprintf(fd, "vn %.6f %.6f %.6f\n", lm->vn[3 * index + 0],
+										lm->vn[3 * index + 1],
+										lm->vn[3 * index + 2]);
+		index++;
+	}
+	close(fd);
+	printf("K\n");
+	return (true);
+}
+
 
 t_model		*m_model_load(t_scene *scene,
 							const char *path_obj,
@@ -198,7 +230,9 @@ t_model		*m_model_load(t_scene *scene,
 	t_model	*model;
 
 	model = model_construct(path_obj, name);
-	t_lm *lm = lm_construct(scene, model, path_obj);
+	t_lm *lm;
+	if (!(lm = lm_construct(scene, model, path_obj)))
+		return (false);
 	while (get_next_line(lm->fd, &lm->line) == 1)
 	{
 		sscanf(lm->line, "%s ", lm->type);
@@ -222,6 +256,15 @@ t_model		*m_model_load(t_scene *scene,
 		}
 		else if (!strcmp("usemtl", lm->type))
 		{
+			int index_material;
+			sscanf(lm->line, "%s %s\n", lm->type, lm->buffer255);
+			if (!(index_material = m_material_get_index(lm->scene->m_material, lm->buffer255)))
+			{
+				printf("material does not find\n");
+				exit(0);
+			}
+			printf("{{{{{{{{{{}}}}}}}}}}%i \n", index_material);
+			lm->mesh->index_material = index_material;
 		}
 		else if (!strcmp("o", lm->type) && lm->mesh->nb_indices)
 		{
@@ -241,6 +284,7 @@ t_model		*m_model_load(t_scene *scene,
 		bzero(lm->buffer_vt, 4 * sizeof(int));
 		bzero(lm->buffer_vn, 4 * sizeof(int));
 	}
+	//obj_pars_debug(lm);
 	model_gen_gl_buffers(model);
 	model_setup_scaling(model);
 	scene->m_model->add(scene->m_model, model);

@@ -66,11 +66,11 @@ void		scene_render(t_scene *scene)
 		uint32_t i = 0;
 		while (i < m_mesh->size)
 		{
-			if (material->flag & MATERIAL_MAP_DIFFUSE)
+			if (scene->m_material->material[m_mesh->mesh[i]->index_material]->flag & MATERIAL_MAP_DIFFUSE)
 			{
 				glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, material->texture_diffuse);
+				glBindTexture(GL_TEXTURE_2D, scene->m_material->material[m_mesh->mesh[i]->index_material]->texture_diffuse);
 			}
 			glUniform3fv(
 					glGetUniformLocation(shader->program, "material.ambient"),
