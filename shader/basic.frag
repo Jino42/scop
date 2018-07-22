@@ -2,6 +2,13 @@
 
 #define EPSILON 0.00005f
 
+# define MATERIAL_MTLLIB			(1 << 0)
+# define MATERIAL_MAP_SHININESS		(1 << 1)
+# define MATERIAL_MAP_NORMAL		(1 << 2)
+# define MATERIAL_MAP_SPECULAR		(1 << 3)
+# define MATERIAL_MAP_DIFFUSE		(1 << 4)
+# define MATERIAL_MAP_AMBIENT		(1 << 5)
+
 struct t_material
 {
 	vec3	ambient;
@@ -51,13 +58,10 @@ t_material newMaterial;
 void main()
 {
 	newMaterial = material;
-	// newMaterial.ambient = texture(testTexture, uv).rgb;
+	if (newMaterial.texture_diffuse == 1)
+		newMaterial.diffuse = texture(testTexture, uv).rgb;
 
-	newMaterial.diffuse = texture(testTexture, uv).rgb;
-
-	//newMaterial.specular = vec3(1.f, 0.689344f, 0.154515f);
-
-	ambient = newMaterial.ambient * light.ambient;
+	//ambient = newMaterial.ambient * light.ambient;
 
 	norm = normalize(normal);
 	lightDir = normalize(position - light.position);

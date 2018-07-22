@@ -76,7 +76,6 @@ bool			loop(t_env *e)
 		nk_render(nk);
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
-	//	printf("%s : %s\n", e->scene->m_model->model[4]->name, e->scene->m_material_personnal->material[e->scene->m_model->model[4]->index_material_personnal]->name);
 	}
 	nk_destruct(&nk);
 	return (true);

@@ -64,7 +64,7 @@ void		scene_render(t_scene *scene)
 				glGetUniformLocation(shader->program, "M"),
 				1, GL_FALSE, &model->transform.matrix[0][0]);
 		uint32_t i = 0;
-		while (i < m_mesh->size)
+		while (i < m_mesh->size && i < 1)
 		{
 			if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
 			{
@@ -73,8 +73,27 @@ void		scene_render(t_scene *scene)
 					glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
+					glUniform1i(glGetUniformLocation(shader->program, "material.texture_diffuse"), 1);
 				}
+				else
+					glUniform1i(glGetUniformLocation(shader->program, "material.texture_diffuse"), 0);
+
 				material = scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal];
+				if (!strcmp(model->name, "plant"))
+				{
+					printf("%s\n", material->name);
+					printf("Ka %.2f %.2f %.2f\n", material->ambient.x, material->ambient.y, material->ambient.z);
+					printf("Kd %.2f %.2f %.2f\n", material->diffuse.x, material->diffuse.y, material->diffuse.z);
+					printf("Ks %.2f %.2f %.2f\n", material->specular.x, material->specular.y, material->specular.z);
+					printf(" S %.2f\n", material->shininess);
+				}
+			}
+			else
+			{
+				glUniform1i(glGetUniformLocation(shader->program, "material.texture_diffuse"), 0);
+				glUniform1i(glGetUniformLocation(shader->program, "material.texture_specular"), 0);
+				glUniform1i(glGetUniformLocation(shader->program, "material.texture_shininess"), 0);
+				glUniform1i(glGetUniformLocation(shader->program, "material.texture_normal"), 0);
 			}
 			glUniform3fv(
 					glGetUniformLocation(shader->program, "material.ambient"),
@@ -91,6 +110,9 @@ void		scene_render(t_scene *scene)
 			glUniform1f(
 					glGetUniformLocation(shader->program, "material.shininess"),
 					material->shininess);
+			glUniform1f(
+					glGetUniformLocation(shader->program, "material.flag"),
+					material->flag);
 			glBindVertexArray(m_mesh->mesh[i]->VAO);
 			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
