@@ -44,6 +44,7 @@ typedef struct		s_m_material
 }					t_m_material;
 t_m_material		*m_material_construct();
 void				*m_material_destruct(t_m_material **m_material);
+bool				m_material_add_default(t_m_material *m_material);
 bool				m_material_json_parse(t_m_material *m_material, cJSON *get, const char *key);
 bool				m_material_json_write(t_m_material *m_material, cJSON *json_scene);
 int					m_material_get_index(t_m_material *m_material, char *str);

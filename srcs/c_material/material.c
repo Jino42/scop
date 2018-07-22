@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:14 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/19 21:01:28 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/22 21:36:59 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool				material_set_texture(t_material *material, const t_texture *texture)
 	if (material->flag & MATERIAL_MAP_AMBIENT)
 		material->texture_ambient = texture->id;
 	return (true);
-}
+}	
 
 t_material		*material_construct(char *name, const int material_type)
 {

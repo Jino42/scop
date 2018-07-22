@@ -66,11 +66,15 @@ void		scene_render(t_scene *scene)
 		uint32_t i = 0;
 		while (i < m_mesh->size)
 		{
-			if (scene->m_material->material[m_mesh->mesh[i]->index_material]->flag & MATERIAL_MAP_DIFFUSE)
+			if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
 			{
-				glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, scene->m_material->material[m_mesh->mesh[i]->index_material]->texture_diffuse);
+				if (scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->flag & MATERIAL_MAP_DIFFUSE)
+				{
+					glUniform1i(glGetUniformLocation(shader->program, "testTexture"), 0);
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
+				}
+				material = scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal];
 			}
 			glUniform3fv(
 					glGetUniformLocation(shader->program, "material.ambient"),
@@ -168,6 +172,8 @@ t_scene		*scene_construct(const char *path)
 	if (!(scene->m_material = m_material_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene->m_material_personnal = m_material_construct()))
+		return (scene_destruct(&scene));
+	if (!(m_material_add_default(scene->m_material_personnal)))
 		return (scene_destruct(&scene));
 	if (!(scene->m_light = m_light_construct()))
 		return (scene_destruct(&scene));

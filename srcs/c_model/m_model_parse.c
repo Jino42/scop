@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:46:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/19 23:57:30 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/22 21:52:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ static bool			m_model_json_loop_parse_2(t_scene *scene,
 				index, model->name) == 0);
 	}
 	if (!(m_model_json_parse_material(json_model, "material", scene, model)))
-	{
-		return (dprintf(2, "JSON model[%i] %s : material error\n",
-				index, model->name) == 0);
-	}
+		model->flag |= MODEL_USE_MATERIAL_PERSONNAL;
 	return (true);
 }
 

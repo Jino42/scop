@@ -6,11 +6,24 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:11:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/18 19:59:06 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/22 21:42:14 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
+
+bool				m_material_add_default(t_m_material *m_material)
+{
+	t_material *material;
+
+	if (!(material = material_construct("default", 0)))
+		return (false);
+	material->shininess = 76.8f;
+	material->ambient = vector_construct(0.0215f, 0.1745f, 0.0215f);
+	material->diffuse = vector_construct(0.0756f, 0.61423f, 0.07568f);
+	material->specular = vector_construct(0.633f, 0.7278f, 0.633f);
+	return (m_material->add(m_material, material));
+}
 
 bool				m_material_add(t_m_material *m_material,
 										t_material *material)

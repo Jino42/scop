@@ -4,6 +4,9 @@
 # include <stdint.h>
 # include "scop_glfw.h"
 
+# define MODEL_USE_MATERIAL_PERSONNAL		(1 << 0)
+
+
 typedef struct		s_model
 {
 	bool			update;
