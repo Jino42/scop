@@ -61,7 +61,7 @@ void main()
 	if (newMaterial.texture_diffuse == 1)
 		newMaterial.diffuse = texture(testTexture, uv).rgb;
 
-	//ambient = newMaterial.ambient * light.ambient;
+	ambient = newMaterial.ambient * light.ambient;
 
 	norm = normalize(normal);
 	lightDir = normalize(position - light.position);
