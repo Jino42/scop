@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/07/19 19:54:04 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/07/23 21:27:09 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC = main.c \
 		c_mesh/m_mesh.c \
 		c_mesh/mesh_gen_gl_buffers.c \
 		c_model/model.c \
+		c_model/m_model_hidden.c \
 		c_model/model_tools.c \
 		c_model/m_model.c \
 		c_model/m_model_parse.c \
@@ -55,7 +56,9 @@ SRC = main.c \
 		c_material/m_material_parse.c \
 		c_material/m_material_get_index.c \
 		c_light/light.c \
+		c_light/light_update.c \
 		c_light/m_light.c \
+		c_light/m_light_render.c \
 		c_light/m_light_write.c \
 		c_light/m_light_parse.c \
 		json/json_tools.c \
