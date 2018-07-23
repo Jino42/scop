@@ -6,11 +6,22 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:49 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 16:17:24 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 18:03:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
+
+static bool	light_json_add_type(t_light *light, cJSON *json_light)
+{
+	if (light->flag & LIGHT_BASIC && json_add_string(json_light, "type", "basic"))
+		return (true);
+	else if (light->flag & LIGHT_DIRECTIONNAL && json_add_string(json_light, "type", "directionnal"))
+		return (true);
+	else if (light->flag & LIGHT_POINT && json_add_string(json_light, "type", "point"))
+		return (true);
+	return (true);
+}
 
 bool		m_light_json_write(t_m_light *m_light, cJSON *json_scene)
 {
@@ -34,7 +45,10 @@ bool		m_light_json_write(t_m_light *m_light, cJSON *json_scene)
 		if (!json_add_vector(json_light, "ambient", &light->ambient)
 			|| !json_add_vector(json_light, "diffuse", &light->diffuse)
 			|| !json_add_vector(json_light, "specular", &light->specular)
+			|| !json_add_vector(json_light, "direction", &light->direction)
 			|| !json_add_vector(json_light, "position", &light->position))
+			return (false);
+		if (!light_json_add_type(light, json_light))
 			return (false);
 		i++;
 	}

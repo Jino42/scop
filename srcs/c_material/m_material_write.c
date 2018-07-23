@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:10 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/18 20:00:29 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 18:07:25 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool		m_material_json_write(t_m_material *m_material, cJSON *json_scene)
 	while (i < m_material->size)
 	{
 		material = m_material->material[i];
-		if (material->flag & MATERIAL_MTLLIB)
+		if (!(material->flag & MATERIAL_MTLLIB))
 		{
 			if (!(json_material = cJSON_CreateObject()))
 				return (false);
