@@ -120,6 +120,24 @@ void				nk_combo_vector(t_nk *nk, t_vector *vector, const char *str)
 	}
 }
 
+void				nk_check(t_nk *nk, int *flag, const int define, const char *str)
+{
+	int check;
+	struct nk_context		*ctx;
+
+	ctx = nk->ctx;
+	check = (*flag & define);
+	nk_checkbox_label(ctx, str, &check);
+
+	if (!check)
+	{
+		if ((*flag) & define)
+			(*flag) ^= define;
+	}
+	else
+		(*flag) |= define;
+}
+
 void				nk_combo_colorf(t_nk *nk, t_vector *vec, const char *str)
 {
 	struct nk_context		*ctx;

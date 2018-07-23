@@ -5,6 +5,7 @@
 # include "scop_glfw.h"
 
 # define MODEL_USE_MATERIAL_PERSONNAL		(1 << 0)
+# define MODEL_SAME_SCALING					(1 << 1)
 
 
 typedef struct		s_model

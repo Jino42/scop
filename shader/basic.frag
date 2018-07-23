@@ -27,9 +27,11 @@ struct t_material
 struct t_light
 {
 	vec3	position;
+	vec3	direction;
 	vec3	ambient;
 	vec3	diffuse;
 	vec3	specular;
+	vec3	type;
 };
 
 out vec4 FragColor;

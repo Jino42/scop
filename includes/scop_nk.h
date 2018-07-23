@@ -46,6 +46,7 @@ void				nk_render(t_nk *nk);
 void				nk_position(t_nk *nk, t_vector *vector);
 void				nk_combo_vector(t_nk *nk, t_vector *vector, const char *str);
 void				nk_combo_colorf(t_nk *nk, t_vector *vec, const char *str);
+void				nk_check(t_nk *nk, int *flag, const int define, const char *str);
 
 bool				nk_scene(t_nk *nk, t_scene **scene);
 void				nk_cam(t_nk *nk, t_cam *cam);

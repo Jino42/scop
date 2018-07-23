@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/19 20:25:26 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 17:53:29 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@
 #define MAX_SOURCE_SIZE 8000
 #define BUFFER_LOG 2048
 
-#define MODEL_SAME_SCALING (1 << 0)
 
 # define CURSOR_NORMAL (1 << 0)
 # define CURSOR_HIDDEN (1 << 0)

@@ -1,7 +1,7 @@
 {
 	"model":	[{
 			"name":	"olol",
-			"path":	"./old_ressources/lowtri.obj",
+			"path":	"./ressources/lowtri.obj",
 			"material":	4,
 			"shader":	0,
 			"position":	{
@@ -19,30 +19,9 @@
 				"y":	1.6000000238418579,
 				"z":	1.6000000238418579
 			}
-		},
-		{
-				"name":	"maya",
-				"path":	"./old_ressources/maya/mmaya.obj",
-				"material":	4,
-				"shader":	0,
-				"position":	{
-					"x":	-1.2999999523162842,
-					"y":	0.30000001192092896,
-					"z":	0.30000001192092896
-				},
-				"rotation":	{
-					"x":	4.9999995231628418,
-					"y":	2.6000003814697266,
-					"z":	5.7999987602233887
-				},
-				"scaling":	{
-					"x":	2.6000001430511475,
-					"y":	1.6000000238418579,
-					"z":	1.6000000238418579
-				}
-			}, {
+		},{
 			"name":	"1",
-			"path":	"old_ressources/multicube.obj",
+			"path":	"ressources/multicube.obj",
 			"material":	0,
 			"shader":	0,
 			"position":	{
@@ -62,7 +41,7 @@
 			}
 		}, {
 			"name":	"2",
-			"path":	"old_ressources/lowtri.obj",
+			"path":	"ressources/lowtri.obj",
 			"material":	0,
 			"shader":	0,
 			"position":	{
@@ -82,7 +61,7 @@
 			}
 		}, {
 			"name":	"3",
-			"path":	"old_ressources/newdva.obj",
+			"path":	"./ressources/newdva.obj",
 			"material":	0,
 			"shader":	0,
 			"position":	{
@@ -100,7 +79,72 @@
 				"y":	1,
 				"z":	1
 			}
-		}],
+		},
+		{
+				"name":	"plant",
+				"path":	"./ressources/leviet/leviet0.obj",
+				"shader":	0,
+				"position":	{
+					"x":	-1.2999999523162842,
+					"y":	0.30000001192092896,
+					"z":	0.30000001192092896
+				},
+				"rotation":	{
+					"x":	4.9999995231628418,
+					"y":	2.6000003814697266,
+					"z":	5.7999987602233887
+				},
+				"scaling":	1
+			},
+		{
+				"name":	"maya",
+				"path":	"./ressources/maya/nmaya.obj",
+				"shader":	0,
+				"position":	{
+					"x":	-1.2999999523162842,
+					"y":	0.30000001192092896,
+					"z":	0.30000001192092896
+				},
+				"rotation":	{
+					"x":	4.9999995231628418,
+					"y":	2.6000003814697266,
+					"z":	5.7999987602233887
+				},
+				"scaling":	1
+			},
+			{
+					"name":	"lotus",
+					"path":	"./ressources/lotus_OBJ_high.obj",
+					"shader":	0,
+					"material": 4,
+					"position":	{
+						"x":	1.2999999523162842,
+						"y":	0.30000001192092896,
+						"z":	0.30000001192092896
+					},
+					"rotation":	{
+						"x":	4.9999995231628418,
+						"y":	2.6000003814697266,
+						"z":	5.7999987602233887
+					},
+					"scaling":	1
+				},
+				{
+						"name":	"sword",
+						"path":	"./ressources/Sword_obj/Sword.obj",
+						"shader":	0,
+						"position":	{
+							"x":	0.2999999523162842,
+							"y":	-0.90000001192092896,
+							"z":	0.30000001192092896
+						},
+						"rotation":	{
+							"x":	4.9999995231628418,
+							"y":	2.6000003814697266,
+							"z":	5.7999987602233887
+						},
+						"scaling":	1
+					}],
 	"shader":	[{
 			"name":	"shader_1",
 			"vertex":	"./shader/basic.vert",
@@ -108,15 +152,16 @@
 		}],
 	"light":	[{
 			"name":	"1st light",
+			"type": "directionnal",
 			"ambient":	{
-				"x":	0.20000000298023224,
-				"y":	0.20000000298023224,
-				"z":	0.20000000298023224
+				"x":	0.15,
+				"y":	0.15,
+				"z":	0.15
 			},
 			"diffuse":	{
-				"x":	0.699999988079071,
-				"y":	0.699999988079071,
-				"z":	0.699999988079071
+				"x":	0.5,
+				"y":	0.5,
+				"z":	0.5
 			},
 			"specular":	{
 				"x":	1,
@@ -127,6 +172,11 @@
 				"x":	0.30000001192092896,
 				"y":	0.30000001192092896,
 				"z":	0.30000001192092896
+			},
+			"direction": {
+				"x":	0.0,
+				"y":	0.0,
+				"z":	1.0
 			}
 		}, {
 			"name":	"1st light2",
@@ -153,7 +203,7 @@
 		}],
 	"material":	[{
 			"name":	"EMERALD",
-			"shininess":	76.800003051757812,
+			"shininess":	76.470588,
 			"ambient":	{
 				"x":	0.0215000007301569,
 				"y":	0.1745000034570694,
