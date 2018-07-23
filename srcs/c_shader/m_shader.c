@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:26:18 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 16:32:14 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 18:54:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ bool			m_shader_add(t_m_shader *m_shader,
 	m_shader->shader_name[m_shader->size] = new_shader->name;
 	m_shader->size++;
 	return (true);
+}
+
+t_m_shader		*m_shader_construct_hidden(void)
+{
+	t_m_shader *m_shader;
+
+	if (!(m_shader = ft_memalloc(sizeof(t_m_shader))))
+		return (NULL);
+	m_shader->add = &m_shader_add;
+	if (!(m_shader->add(m_shader, "./shader/light.vert", "./shader/light.frag", "light")))
+		return (m_shader_destruct(&m_shader));
+	return (m_shader);
 }
 
 t_m_shader		*m_shader_construct(void)

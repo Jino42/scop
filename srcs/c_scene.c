@@ -25,43 +25,29 @@ void		scene_render(t_scene *scene)
 		shader->use(shader);
 		temp = matrix_get_mult_matrix(&model->transform, &scene->cam->view);
 		mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
-		glUniform3fv(
-				glGetUniformLocation(shader->program, "light.ambient"),
-				1,
-				(GLfloat *)&light->ambient);
-		glUniform3fv(
-				glGetUniformLocation(shader->program, "light.diffuse"),
-				1,
-				(GLfloat *)&light->diffuse);
-		glUniform3fv(
-				glGetUniformLocation(shader->program, "light.specular"),
-				1,
-				(GLfloat *)&light->specular);
-		glUniform3fv(
-				glGetUniformLocation(shader->program, "light.position"),
-				1,
-				(GLfloat *)&light->position);
-		glUniform3f(
-				glGetUniformLocation(shader->program, "cameraPosition"),
-				scene->cam->position.x,
-				scene->cam->position.y,
-				scene->cam->position.z);
-		glUniform3f(
-				glGetUniformLocation(shader->program, "camDir"),
-				scene->cam->to.x,
-				scene->cam->to.y,
-				scene->cam->to.z);
-		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "MVP"),
+		glUniform3fv( glGetUniformLocation(shader->program, "light.ambient"),
+				1, (GLfloat *)&light->ambient);
+		glUniform3fv( glGetUniformLocation(shader->program, "light.diffuse"),
+				1, (GLfloat *)&light->diffuse);
+		glUniform3fv( glGetUniformLocation(shader->program, "light.specular"),
+				1, (GLfloat *)&light->specular);
+		glUniform3fv( glGetUniformLocation(shader->program, "light.position"),
+				1, (GLfloat *)&light->position);
+		glUniform3fv( glGetUniformLocation(shader->program, "light.direction"),
+				1, (GLfloat *)&light->direction);
+		glUniform1i(glGetUniformLocation(shader->program, "light.type"), light->flag & 0xFF);
+
+		glUniform3f( glGetUniformLocation(shader->program, "cameraPosition"),
+				scene->cam->position.x, scene->cam->position.y, scene->cam->position.z);
+		glUniform3f( glGetUniformLocation(shader->program, "camDir"),
+				scene->cam->to.x, scene->cam->to.y, scene->cam->to.z);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "MVP"),
 				1, GL_FALSE, &mvp.matrix[0][0]);
-		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "V"),
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "V"),
 				1, GL_FALSE, &scene->cam->view.matrix[0][0]);
-		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "P"),
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "P"),
 				1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
-		glUniformMatrix4fv(
-				glGetUniformLocation(shader->program, "M"),
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "M"),
 				1, GL_FALSE, &model->transform.matrix[0][0]);
 		uint32_t i = 0;
 		while (i < m_mesh->size)
@@ -122,6 +108,70 @@ void		scene_render(t_scene *scene)
 		}
 		glUseProgram(0);
 	}
+
+
+	for (unsigned int i = 0; i < scene->m_light->size - 1; i++)
+	{
+		light = scene->m_light->light[i];
+
+		if (light->flag & LIGHT_BASIC)
+			model = scene->m_model_hidden->model[MODEL_INDEX_LIGHT_BASIC];
+		else if (light->flag & LIGHT_DIRECTIONNAL)
+			model = scene->m_model_hidden->model[MODEL_INDEX_LIGHT_DIRECTIONNAL];
+		else if (light->flag & LIGHT_POINT)
+			model = scene->m_model_hidden->model[LIGHT_POINT];
+
+		shader = scene->m_shader_hidden->shader[SHADER_INDEX_LIGHT];
+
+		m_mesh = model->m_mesh;
+		glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
+		shader->use(shader);
+
+
+		t_matrix transform;
+		matrix_identity(&transform);
+		float same_scaling;
+		t_vector	scaling;
+		if (light->flag & MODEL_SAME_SCALING)
+		{
+			same_scaling = model->inter_scaling * model->same_scaling;
+			matrix_scaling(&transform, same_scaling);
+		}
+		else
+		{
+			scaling = vector_get_mult(&model->scaling, model->inter_scaling);
+			matrix_vector_scaling(&transform, &scaling);
+		}
+		light->direction = vector_construct(0, 1, 0);
+		light->direction = vector_get_rotate(&light->direction, &light->rotation);
+		matrixgl_rotation_x(&transform, light->rotation.x);
+		matrixgl_rotation_y(&transform, light->rotation.y);
+		matrixgl_rotation_z(&transform, light->rotation.z);
+		matrixgl_translation(&transform, &light->position);
+		temp = matrix_get_mult_matrix(&transform, &scene->cam->view);
+		mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
+
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "MVP"),
+				1, GL_FALSE, &mvp.matrix[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "V"),
+				1, GL_FALSE, &scene->cam->view.matrix[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "P"),
+				1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "M"),
+				1, GL_FALSE, &model->transform.matrix[0][0]);
+		uint32_t i = 0;
+		while (i < m_mesh->size)
+		{
+			glBindVertexArray(m_mesh->mesh[i]->VAO);
+			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+			i++;
+		}
+		glUseProgram(0);
+	}
+
+
+
 
 }
 
@@ -187,9 +237,13 @@ t_scene		*scene_construct(const char *path)
 	scene->shader_add = &scene_shader_add;
 	scene->model_add = &scene_model_add;
 	scene->mesh_add = &scene_mesh_add;
+	if (!(scene->m_model_hidden = m_model_construct()))
+		return (scene_destruct(&scene));
 	if (!(scene->m_model = m_model_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene->m_mesh = m_mesh_construct()))
+		return (scene_destruct(&scene));
+	if (!(scene->m_shader_hidden = m_shader_construct_hidden()))
 		return (scene_destruct(&scene));
 	if (!(scene->m_shader = m_shader_construct()))
 		return (scene_destruct(&scene));
@@ -209,6 +263,8 @@ t_scene		*scene_construct(const char *path)
 		return (scene_destruct(&scene));
 	if (!scene_require(scene))
 		return (scene_destruct(&scene));
+	if (!m_model_hidden_setup(scene))
+		return (scene_destruct(&scene));
 	return (scene);
 }
 
@@ -216,10 +272,14 @@ void		*scene_destruct(t_scene **scene)
 {
 	if (scene && *scene)
 	{
+		if ((*scene)->m_model_hidden)
+			m_model_destruct(&(*scene)->m_model_hidden);
 		if ((*scene)->m_model)
 			m_model_destruct(&(*scene)->m_model);
 		if ((*scene)->m_mesh)
 			m_mesh_destruct(&(*scene)->m_mesh);
+		if ((*scene)->m_shader_hidden)
+			m_shader_destruct(&(*scene)->m_shader_hidden);
 		if ((*scene)->m_shader)
 			m_shader_destruct(&(*scene)->m_shader);
 		if ((*scene)->m_material)

@@ -6,6 +6,8 @@
 # include <stdint.h>
 # include "glad.h"
 
+# define SHADER_INDEX_LIGHT		0
+
 typedef struct		s_shader
 {
 	GLuint			program;
@@ -31,6 +33,7 @@ typedef struct		s_m_shader
 	int				index_selected;
 	bool			(*add)(struct s_m_shader *, const char *, const char *, const char *);
 }					t_m_shader;
+t_m_shader			*m_shader_construct_hidden(void);
 t_m_shader			*m_shader_construct();
 void				*m_shader_destruct(t_m_shader **m_shader);
 bool				m_shader_json_parse(t_m_shader *m_shader, cJSON *get, const char *key);

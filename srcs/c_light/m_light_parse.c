@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:44 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/23 18:04:36 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 21:02:19 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static bool			m_light_json_loop_parse_2(cJSON *json_light,
 	if (!json_parse_vector(json_light, "position", &light->position))
 		light->position = vector_construct(0.f, 0.f, 0.f);
 	if (!json_parse_vector(json_light, "direction", &light->direction))
-		light->direction = vector_construct(0.f, 0.f, -1.f);
+		light->rotation = vector_construct(0.f, 0.f, 0.f);
+	light->direction = vector_construct(0.f, 0.f, -1.f);
 	vector_normalize(&light->direction);
 	m_light_json_loop_parse_3(json_light, light, index);
 	return (true);

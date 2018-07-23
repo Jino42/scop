@@ -7,6 +7,9 @@
 # define MODEL_USE_MATERIAL_PERSONNAL		(1 << 0)
 # define MODEL_SAME_SCALING					(1 << 1)
 
+# define MODEL_INDEX_LIGHT_BASIC			1
+# define MODEL_INDEX_LIGHT_DIRECTIONNAL		0
+# define MODEL_INDEX_LIGHT_POINT			1
 
 typedef struct		s_model
 {
@@ -51,6 +54,7 @@ typedef struct		s_m_model
 }					t_m_model;
 t_m_model			*m_model_construct();
 void				*m_model_destruct(t_m_model **m_model);
+bool				m_model_add(t_m_model *m_model, t_model *model);
 t_model				*m_model_new(t_m_model *m_model, char *path, char *name);
 bool				m_model_json_write(t_m_model *m_model, cJSON *json_scene);
 

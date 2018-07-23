@@ -15,7 +15,9 @@ typedef struct		s_scene
 	t_cam			*cam;
 
 	t_m_shader		*m_shader;
+	t_m_shader		*m_shader_hidden;
 	t_m_mesh		*m_mesh;
+	t_m_model		*m_model_hidden;
 	t_m_model		*m_model;
 	t_m_material	*m_material;
 	t_m_material	*m_material_personnal;

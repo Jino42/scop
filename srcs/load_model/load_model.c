@@ -224,6 +224,7 @@ bool	obj_pars_debug(t_lm *lm)
 
 
 t_model		*m_model_load(t_scene *scene,
+							t_m_model *m_model,
 							const char *path_obj,
 							const char *name)
 {
@@ -284,7 +285,7 @@ t_model		*m_model_load(t_scene *scene,
 	//obj_pars_debug(lm);
 	model_gen_gl_buffers(model);
 	model_setup_scaling(model);
-	scene->m_model->add(scene->m_model, model);
+	m_model->add(m_model, model);
 	lm_destruct(&lm);
 	return (model);
 }

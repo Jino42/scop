@@ -9,6 +9,10 @@
 # define MATERIAL_MAP_DIFFUSE		(1 << 4)
 # define MATERIAL_MAP_AMBIENT		(1 << 5)
 
+# define LIGHT_BASIC				(1 << 0)
+# define LIGHT_DIRECTIONNAL			(1 << 1)
+# define LIGHT_POINT				(1 << 2)
+
 struct t_material
 {
 	vec3	ambient;
@@ -31,7 +35,7 @@ struct t_light
 	vec3	ambient;
 	vec3	diffuse;
 	vec3	specular;
-	vec3	type;
+	int		type;
 };
 
 out vec4 FragColor;
@@ -66,7 +70,10 @@ void main()
 	ambient = newMaterial.ambient * light.ambient;
 
 	norm = normalize(normal);
-	lightDir = normalize(position - light.position);
+	if (light.type == LIGHT_DIRECTIONNAL)
+		lightDir = normalize(light.direction);
+	else
+		lightDir = normalize(position - light.position);
 
 	diffuse = max(dot(norm, -lightDir), 0) * newMaterial.diffuse * light.diffuse;
 

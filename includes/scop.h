@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/23 17:53:29 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 19:22:15 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ t_matrix			matrixgl_get_projection(const float fov,
 									const float far);
 
 
-t_model			*m_model_load(t_scene *scene, const char *path_obj, const char *name);
+t_model			*m_model_load(t_scene *scene, t_m_model *m_model, const char *path_obj, const char *name);
 void			scene_render(t_scene *scene);
+bool				m_model_hidden_setup(t_scene *scene);
 
 #endif
