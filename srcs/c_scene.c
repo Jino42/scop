@@ -35,6 +35,7 @@ void		scene_render(t_scene *scene)
 				1, (GLfloat *)&light->position);
 		glUniform3fv( glGetUniformLocation(shader->program, "light.direction"),
 				1, (GLfloat *)&light->direction);
+		glUniform1f(glGetUniformLocation(shader->program, "light.constent"), light->constent);
 		glUniform1f(glGetUniformLocation(shader->program, "light.linear"), light->linear);
 		glUniform1f(glGetUniformLocation(shader->program, "light.quadratic"), light->quadratic);
 		glUniform1i(glGetUniformLocation(shader->program, "light.type"), light->flag & 0xFF);

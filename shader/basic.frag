@@ -35,6 +35,9 @@ struct t_light
 	vec3	ambient;
 	vec3	diffuse;
 	vec3	specular;
+	float	constent;
+	float	linear;
+	float	quadratic;
 	int		type;
 };
 
@@ -84,6 +87,15 @@ void main()
 	specular = (pow(angleReflection, newMaterial.shininess) * newMaterial.specular) * light.specular;
 
 	resultColor = (ambient + diffuse + specular);
+
+	if (light.type == LIGHT_POINT)
+	{
+		float distance    = length(light.position - position);
+		float attenuation = 1.0 / (light.constent + light.linear * distance +
+    		    			light.quadratic * (distance * distance));
+		resultColor *= attenuation;
+	}
+
 	FragColor = vec4(resultColor, 1.f);
 	//FragColor = texture(testTexture, uv);
 }

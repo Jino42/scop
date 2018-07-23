@@ -127,7 +127,7 @@ bool				nk_scene(t_nk *nk, t_scene **scene)
 	struct nk_context		*ctx;
 
 	ctx = nk->ctx;
-	if (nk_begin(ctx, "Scene", nk_rect(10, 10, 400, 800),
+	if (nk_begin(ctx, "Scene", nk_rect(10, 10, 400, 1200),
 		NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
 		NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
 	{
