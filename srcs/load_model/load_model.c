@@ -32,6 +32,7 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 	{
 		map_id = 0;
 		sscanf(line, "%s ", lm->type);
+		//printf("%s\n", line);
 		if (!strcmp(lm->type, "newmtl"))
 		{
 			if (material)

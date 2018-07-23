@@ -6,11 +6,29 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:44 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/17 16:00:23 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 17:40:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
+
+static bool			m_light_json_loop_parse_3(cJSON *json_light,
+											t_light *light,
+											int index)
+{
+	char			*str;
+
+	(void)index;
+	light->flag |= LIGHT_BASIC;
+	if (json_parse_string(json_light, "name", &str))
+	{
+		if (!strcmp("directionnal", str))
+			light->flag |= LIGHT_DIRECTIONNAL;
+		if (!strcmp("point", str))
+			light->flag |= LIGHT_POINT;
+	}
+	return (true);
+}
 
 static bool			m_light_json_loop_parse_2(cJSON *json_light,
 											t_light *light,
@@ -32,10 +50,11 @@ static bool			m_light_json_loop_parse_2(cJSON *json_light,
 				index, light->name) == 0);
 	}
 	if (!json_parse_vector(json_light, "position", &light->position))
-	{
-		return (dprintf(2, "JSON light[%i] %s : position error\n",
-				index, light->name) == 0);
-	}
+		light->position = vector_construct(0.f, 0.f, 0.f);
+	if (!json_parse_vector(json_light, "direction", &light->direction))
+		light->position = vector_construct(0.f, 0.f, -1.f);
+	vector_normalize(&light->direction);
+	m_light_json_loop_parse_3(json_light, light, index);
 	return (true);
 }
 

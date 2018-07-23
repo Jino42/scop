@@ -96,43 +96,43 @@ bool	lm_check_realloc(t_lm *lm)
 	t_mesh *mesh;
 
 	mesh = lm->mesh;
-	if ((mesh->nb_indices + 8) * sizeof(GLuint) >= lm->mem_len_indices)
+	if ((mesh->nb_indices + 18) * sizeof(GLuint) >= lm->mem_len_indices)
 	{
 		lm->mem_len_indices += BUFFER_OBJ * sizeof(GLuint);
 		if (!(mesh->indices = realloc(mesh->indices, lm->mem_len_indices)))
 			return (false);
 	}
-	if ((mesh->nb_indices + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_v)
+	if ((mesh->nb_indices + 6) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_v)
 	{
 		lm->mem_len_indexed_v += BUFFER_OBJ * sizeof(GLfloat);
 		if (!(mesh->indexed_v = realloc(mesh->indexed_v, lm->mem_len_indexed_v)))
 			return (false);
 	}
-	if ((mesh->nb_indices + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_vn)
-	{
-		lm->mem_len_indexed_vn += BUFFER_OBJ * sizeof(GLfloat);
-		if (!(mesh->indexed_vn = realloc(mesh->indexed_vn, lm->mem_len_indexed_vn)))
-			return (false);
-	}
-	if ((mesh->nb_indices + 2) * sizeof(GLfloat) * 2 >= lm->mem_len_indexed_vt)
+	if ((mesh->nb_indices + 6) * sizeof(GLfloat) * 2 >= lm->mem_len_indexed_vt)
 	{
 		lm->mem_len_indexed_vt += BUFFER_OBJ * sizeof(GLfloat);
 		if (!(mesh->indexed_vt = realloc(mesh->indexed_vt, lm->mem_len_indexed_vt)))
 			return (false);
 	}
-	if ((lm->nb_v + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_v)
+	if ((mesh->nb_indices + 6) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_vn)
+	{
+		lm->mem_len_indexed_vn += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(mesh->indexed_vn = realloc(mesh->indexed_vn, lm->mem_len_indexed_vn)))
+			return (false);
+	}
+	if ((lm->nb_v + 6) * sizeof(GLfloat) * 3 >= lm->mem_len_v)
 	{
 		lm->mem_len_v += BUFFER_OBJ * sizeof(GLfloat);
 		if (!(lm->v = realloc(lm->v, lm->mem_len_v)))
 			return (false);
 	}
-	if ((lm->nb_vt + 2) * sizeof(GLfloat) * 2 >= lm->mem_len_vt)
+	if ((lm->nb_vt + 6) * sizeof(GLfloat) * 2 >= lm->mem_len_vt)
 	{
 		lm->mem_len_vt += BUFFER_OBJ * sizeof(GLfloat);
 		if (!(lm->vt = realloc(lm->vt, lm->mem_len_vt)))
 			return (false);
 	}
-	if ((lm->nb_vn + 3) * sizeof(GLfloat) * 3 >= lm->mem_len_vn)
+	if ((lm->nb_vn + 6) * sizeof(GLfloat) * 3 >= lm->mem_len_vn)
 	{
 		lm->mem_len_vn += BUFFER_OBJ * sizeof(GLfloat);
 		if (!(lm->vn = realloc(lm->vn, lm->mem_len_vn)))
@@ -232,7 +232,9 @@ static int	lm_get_face_v_vn_vt(t_lm *lm)
 	&lm->buffer_index_v[3], &lm->buffer_index_vt[3], &lm->buffer_index_vn[3]);
 	if (ret != 10 && ret != 13)
 		return (0);
-	return ((ret - 1) >> 2);
+	if (ret == 10)
+		return (3);
+	return (4);
 }
 
 static int	lm_get_index_face(t_lm *lm)
@@ -280,6 +282,7 @@ static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 		sommet++;
 	}
 	lm->mesh->nb_faces++;
+
 	if (sommet4 == 4)
 	{
 		sommet = 0;

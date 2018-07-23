@@ -4,6 +4,10 @@
 # include "vector.h"
 # include <stdint.h>
 
+# define LIGHT_BASIC (1 << 0)
+# define LIGHT_DIRECTIONNAL (1 << 1)
+# define LIGHT_POINT (1 << 2)
+
 typedef struct		s_light
 {
 	char			*name;
@@ -11,6 +15,7 @@ typedef struct		s_light
 	t_vector		diffuse;
 	t_vector		specular;
 	t_vector		position;
+	t_vector		direction;
 	int				flag;
 }					t_light;
 void				*light_destruct(t_light **light);
