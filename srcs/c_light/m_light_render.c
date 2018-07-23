@@ -18,7 +18,7 @@ bool		m_light_render(t_scene *scene)
 		else if (light->flag & LIGHT_DIRECTIONNAL)
 			model = scene->m_model_hidden->model[MODEL_INDEX_LIGHT_DIRECTIONNAL];
 		else if (light->flag & LIGHT_POINT)
-			model = scene->m_model_hidden->model[LIGHT_POINT];
+			model = scene->m_model_hidden->model[MODEL_INDEX_LIGHT_DIRECTIONNAL];
 
 		shader = scene->m_shader_hidden->shader[SHADER_INDEX_LIGHT];
 

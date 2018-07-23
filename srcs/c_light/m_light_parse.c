@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:44 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/23 21:02:19 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/07/23 22:54:31 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,23 @@ static bool			m_light_json_loop_parse_3(cJSON *json_light,
 	char			*str;
 
 	(void)index;
-	light->flag |= LIGHT_BASIC;
-	if (json_parse_string(json_light, "name", &str))
+	if (json_parse_string(json_light, "type", &str))
 	{
 		if (!strcmp("directionnal", str))
 			light->flag |= LIGHT_DIRECTIONNAL;
-		if (!strcmp("point", str))
+		else if (!strcmp("point", str))
 			light->flag |= LIGHT_POINT;
+		else
+			light->flag |= LIGHT_BASIC;
 	}
+	else
+		light->flag |= LIGHT_BASIC;
+	if (!json_parse_float(json_light, "constent", &light->constent))
+		light->constent = 1.f;
+	if (!json_parse_float(json_light, "linear", &light->linear))
+		light->linear = 0.045f;
+	if (!json_parse_float(json_light, "quadratic", &light->quadratic))
+		light->quadratic = 0.0075f;
 	return (true);
 }
 

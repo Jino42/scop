@@ -21,6 +21,9 @@ typedef struct		s_light
 	t_vector		direction;
 	t_vector		rotation;
 	t_matrix		transform;
+	float			constent;
+	float			linear;
+	float			quadratic;
 	int				flag;
 }					t_light;
 void				*light_destruct(t_light **light);
