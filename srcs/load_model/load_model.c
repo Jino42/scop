@@ -238,6 +238,7 @@ t_model		*m_model_load(t_scene *scene,
 	while (get_next_line(lm->fd, &lm->line) == 1)
 	{
 		sscanf(lm->line, "%s ", lm->type);
+		//printf("%s\n", lm->line);
 		if (!strcmp("#", lm->type))
 			;
 		else if (!strcmp("vn", lm->type))

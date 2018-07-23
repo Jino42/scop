@@ -191,7 +191,7 @@ static int	lm_get_face_v(t_lm *lm)
 	int ret = 0;
 
 	ret = sscanf(lm->line, "%s %i %i %i %i\n", lm->type, &lm->buffer_index_v[0], &lm->buffer_index_v[1], &lm->buffer_index_v[2], &lm->buffer_index_v[3]);
-	if (ret != 4)
+	if (ret != 4 && ret != 5)
 		return (0);
 	return (ret - 1);
 }

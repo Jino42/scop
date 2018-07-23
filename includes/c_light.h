@@ -8,6 +8,7 @@
 # define LIGHT_BASIC				(1 << 0)
 # define LIGHT_DIRECTIONNAL			(1 << 1)
 # define LIGHT_POINT				(1 << 2)
+# define LIGHT_SPOT					(1 << 3)
 // 8 premier bit => type
 
 typedef struct		s_light
@@ -24,6 +25,8 @@ typedef struct		s_light
 	float			constent;
 	float			linear;
 	float			quadratic;
+	float			spot_little_radius;
+	float			spot_big_radius;
 	int				flag;
 }					t_light;
 void				*light_destruct(t_light **light);

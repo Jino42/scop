@@ -38,6 +38,8 @@ void		scene_render(t_scene *scene)
 		glUniform1f(glGetUniformLocation(shader->program, "light.constent"), light->constent);
 		glUniform1f(glGetUniformLocation(shader->program, "light.linear"), light->linear);
 		glUniform1f(glGetUniformLocation(shader->program, "light.quadratic"), light->quadratic);
+		glUniform1f(glGetUniformLocation(shader->program, "light.spot_little_radius"), light->spot_little_radius);
+		glUniform1f(glGetUniformLocation(shader->program, "light.spot_big_radius"), light->spot_big_radius);
 		glUniform1i(glGetUniformLocation(shader->program, "light.type"), light->flag & 0xFF);
 
 		glUniform3f( glGetUniformLocation(shader->program, "cameraPosition"),

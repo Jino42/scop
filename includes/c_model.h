@@ -10,6 +10,7 @@
 # define MODEL_INDEX_LIGHT_BASIC			1
 # define MODEL_INDEX_LIGHT_DIRECTIONNAL		0
 # define MODEL_INDEX_LIGHT_POINT			1
+# define MODEL_INDEX_LIGHT_SPOT				0
 
 typedef struct		s_model
 {

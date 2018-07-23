@@ -1,6 +1,7 @@
 #version 330 core
 
 #define EPSILON 0.00005f
+#define M_PI 3.141592653f
 
 # define MATERIAL_MTLLIB			(1 << 0)
 # define MATERIAL_MAP_SHININESS		(1 << 1)
@@ -12,6 +13,7 @@
 # define LIGHT_BASIC				(1 << 0)
 # define LIGHT_DIRECTIONNAL			(1 << 1)
 # define LIGHT_POINT				(1 << 2)
+# define LIGHT_SPOT					(1 << 3)
 
 struct t_material
 {
@@ -38,6 +40,8 @@ struct t_light
 	float	constent;
 	float	linear;
 	float	quadratic;
+	float	spot_little_radius;
+	float	spot_big_radius;
 	int		type;
 };
 
@@ -85,6 +89,16 @@ void main()
 
 	float angleReflection = max(dot(-cam_to_obj, reflection), 0);
 	specular = (pow(angleReflection, newMaterial.shininess) * newMaterial.specular) * light.specular;
+
+	if (light.type == LIGHT_SPOT)
+	{
+
+		float theta = dot(lightDir, normalize(light.direction)) * 180 / M_PI;
+		float epsilon = (light.spot_little_radius - light.spot_big_radius);
+		float intensity = clamp((theta - light.spot_big_radius) / epsilon, 0.0, 1.0);
+		diffuse  *= intensity;
+		specular *= intensity;
+	}
 
 	resultColor = (ambient + diffuse + specular);
 
