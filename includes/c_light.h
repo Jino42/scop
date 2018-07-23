@@ -2,6 +2,7 @@
 # define C_LIGHT_H
 
 # include "vector.h"
+# include "c_model.h"
 # include <stdint.h>
 
 # define LIGHT_BASIC				(1 << 0)
@@ -12,16 +13,19 @@
 typedef struct		s_light
 {
 	char			*name;
+	bool			update;
 	t_vector		ambient;
 	t_vector		diffuse;
 	t_vector		specular;
 	t_vector		position;
 	t_vector		direction;
 	t_vector		rotation;
+	t_matrix		transform;
 	int				flag;
 }					t_light;
 void				*light_destruct(t_light **light);
 t_light				*light_construct(char *name);
+void				light_compute_transform(t_light *light, t_model *model);
 
 typedef struct		s_m_light
 {

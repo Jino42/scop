@@ -128,27 +128,9 @@ void		scene_render(t_scene *scene)
 		shader->use(shader);
 
 
-		t_matrix transform;
-		matrix_identity(&transform);
-		float same_scaling;
-		t_vector	scaling;
-		if (light->flag & MODEL_SAME_SCALING)
-		{
-			same_scaling = model->inter_scaling * model->same_scaling;
-			matrix_scaling(&transform, same_scaling);
-		}
-		else
-		{
-			scaling = vector_get_mult(&model->scaling, model->inter_scaling);
-			matrix_vector_scaling(&transform, &scaling);
-		}
-		light->direction = vector_construct(0, 1, 0);
-		light->direction = vector_get_rotate(&light->direction, &light->rotation);
-		matrixgl_rotation_x(&transform, light->rotation.x);
-		matrixgl_rotation_y(&transform, light->rotation.y);
-		matrixgl_rotation_z(&transform, light->rotation.z);
-		matrixgl_translation(&transform, &light->position);
-		temp = matrix_get_mult_matrix(&transform, &scene->cam->view);
+		if (light->update)
+			light_compute_transform(light, model);
+		temp = matrix_get_mult_matrix(&light->transform, &scene->cam->view);
 		mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
 
 		glUniformMatrix4fv(glGetUniformLocation(shader->program, "MVP"),

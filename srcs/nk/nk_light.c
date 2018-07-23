@@ -20,5 +20,5 @@ void 				nk_light(t_nk *nk, t_light *light)
 	light->flag = nk_option_label(ctx, "Basic", light->flag & LIGHT_BASIC)           ? LIGHT_BASIC         : light->flag;
 	light->flag = nk_option_label(ctx, "Direc.",  light->flag & LIGHT_DIRECTIONNAL)  ? LIGHT_DIRECTIONNAL  : light->flag;
 	light->flag = nk_option_label(ctx, "Point",  light->flag & LIGHT_POINT)          ? LIGHT_POINT         : light->flag;
-	//vector_normalize(&light->direction);
+	light->update = true;
 }
