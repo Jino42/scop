@@ -15,6 +15,6 @@ void main()
 {
 	normal = mat3(transpose(inverse(M))) * vn;
 	position = vec3(M * vec4(vertexPos, 1.f));
-	gl_Position =  MVP * vec4(vertexPos, 1.0f);
+	gl_Position =  MVP * vec4(vec3((vertexPos + (normalize(vn) * 0.2))), 1.0f);
 	uv = vt;
 }

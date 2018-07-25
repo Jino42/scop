@@ -68,6 +68,8 @@ bool			loop(t_env *e)
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glEnable (GL_STENCIL_TEST);
+		glEnable (GL_CULL_FACE);
+		glFrontFace (GL_CCW);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
@@ -79,7 +81,8 @@ bool			loop(t_env *e)
 		glStencilMask (0xFF);
 		glDepthFunc (GL_LESS);
 
-		scene_render(e->scene);
+
+		scene_render(e->scene, e->fps->time);
 
 
 		nk_render(nk);

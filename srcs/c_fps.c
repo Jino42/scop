@@ -40,4 +40,5 @@ void		fps_update(t_fps *fps, float *ptr)
 	fps->fps++;
 	if (ptr)
 		*ptr = fps->delta_time;
+	fps->time += fps->delta_time;
 }

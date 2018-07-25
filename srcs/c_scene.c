@@ -9,7 +9,7 @@ t_matrix		model_compute_transform_outline(t_model *model)
 	matrix_identity(&transform);
 	if (model->flag & MODEL_SAME_SCALING)
 	{
-		same_scaling = model->inter_scaling * (model->same_scaling + 0.1f);
+		same_scaling = model->inter_scaling * (model->same_scaling * 1.01f);
 		matrix_scaling(&transform, same_scaling);
 	}
 	else
@@ -24,9 +24,6 @@ t_matrix		model_compute_transform_outline(t_model *model)
 	matrixgl_rotation_y(&transform, model->rotation.y);
 	matrixgl_rotation_z(&transform, model->rotation.z);
 	matrixgl_translation(&transform, &model->position);
-	t_vector more;
-	more = vector_get_mult(&model->position, -0.1f);
-	//matrixgl_translation(&transform, &more);
 	return (transform);
 }
 
@@ -35,7 +32,8 @@ void	ftemp(t_scene *scene, t_model *model)
 	t_matrix temp, mvp;
 	t_m_mesh *m_mesh;
 
-	temp = model_compute_transform_outline(model);
+	//temp = model_compute_transform_outline(model);
+	temp = model->transform;
 	temp = matrix_get_mult_matrix(&temp, &scene->cam->view);
 	mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
 
@@ -63,7 +61,7 @@ void	ftemp(t_scene *scene, t_model *model)
 	glEnable(GL_DEPTH_TEST);
 }
 
-void		scene_render(t_scene *scene)
+void		scene_render(t_scene *scene, float time)
 {
 	t_material *material;
 	t_light *light;
@@ -123,6 +121,7 @@ void		scene_render(t_scene *scene)
 			location[26] = glGetUniformLocation(shader->program, "material.flag");
 			location[27] = glGetUniformLocation(shader->program, "far");
 			location[28] = glGetUniformLocation(shader->program, "near");
+			location[29] = glGetUniformLocation(shader->program, "time");
 
 			a = 1;
 		}
@@ -133,6 +132,7 @@ void		scene_render(t_scene *scene)
 
 		glUniform1f(location[27], scene->cam->far);
 		glUniform1f(location[28], scene->cam->near);
+		glUniform1f(location[29], time);
 
 
 		glUniform3fv(location[0], 1, (GLfloat *)&light->ambient);
@@ -160,6 +160,7 @@ void		scene_render(t_scene *scene)
 			{
 				if (scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->flag & MATERIAL_MAP_DIFFUSE)
 				{
+				//	printf("%s %s\n", model->name, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->name);
 					glUniform1i(location[17], 0);
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
@@ -211,7 +212,7 @@ void		scene_render(t_scene *scene)
 			i++;
 		}
 		glUseProgram(0);
-		ftemp(scene, model);
+		//ftemp(scene, model);
 	}
 
 	glStencilFunc(GL_ALWAYS, 1, 0xFF);

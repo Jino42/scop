@@ -58,6 +58,7 @@ uniform t_material	material;
 uniform sampler2D	testTexture;
 uniform float		far;
 uniform float		near;
+uniform float		time;
 
 float intensityAmbient = 0.15;
 vec3 ambient;
@@ -68,7 +69,8 @@ vec3 lightDir;
 vec3 cam_to_obj;
 vec3 norm;
 vec3 resultColor;
-
+float textureTransparency;
+vec4 textureAmbient;
 t_material newMaterial;
 
 float LinearizeDepth(float depth)
@@ -79,9 +81,16 @@ float LinearizeDepth(float depth)
 
 void main()
 {
+	textureTransparency = 1.f;
 	newMaterial = material;
 	if (newMaterial.texture_diffuse == 1)
-		newMaterial.diffuse = texture(testTexture, uv).rgb;
+	{
+		textureAmbient = texture(testTexture, uv);
+		newMaterial.diffuse = textureAmbient.rgb;
+		if (textureAmbient.a < 0.1)
+			discard ;
+		textureTransparency = texture(testTexture, uv).a;
+	}
 
 	ambient = newMaterial.ambient * light.ambient;
 
@@ -119,7 +128,7 @@ void main()
 		resultColor *= attenuation;
 	}
 
-	FragColor = vec4(resultColor, 1.f);
+	FragColor = vec4(resultColor, textureTransparency);
 /*
 	float depth = LinearizeDepth(gl_FragCoord.z) / far;
 	FragColor = vec4(vec3(depth), 1.f);
