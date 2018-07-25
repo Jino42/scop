@@ -21,8 +21,7 @@
 			}
 		}, {
 			"name":	"1",
-			"path":	"ressources/multicube.obj",
-			"material":	0,
+			"path":	"ressources/newmulti.obj",
 			"shader":	0,
 			"position":	{
 				"x":	0,
@@ -100,17 +99,17 @@
 			}
 		}, {
 			"name":	"maya",
-			"path":	"./ressources/maya/nmaya.obj",
+			"path":	"./ressources/maya/newmaya.obj",
 			"shader":	0,
 			"position":	{
 				"x":	-1.2999999523162842,
 				"y":	0.30000001192092896,
-				"z":	0.30000001192092896
+				"z":	2.1000001430511475
 			},
 			"rotation":	{
 				"x":	4.9999995231628418,
 				"y":	2.6000003814697266,
-				"z":	5.7999987602233887
+				"z":	5.3999991416931152
 			},
 			"scaling":	{
 				"x":	1,
@@ -175,8 +174,7 @@
 				"y":	1,
 				"z":	1
 			}
-		},
-		{
+		}, {
 			"name":	"plan",
 			"path":	"./ressources/plan.obj",
 			"material":	1,
@@ -353,4 +351,6 @@
 				"z":	0.60000002384185791
 			}
 		}]
+}
+
 }
