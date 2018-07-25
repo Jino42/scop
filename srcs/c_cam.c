@@ -7,7 +7,9 @@ t_cam 		*cam_construct()
 	if (!(cam = ft_memalloc(sizeof(t_cam))))
 		return (NULL);
 	cam->fov = 66.f;
-	cam->projection = matrixgl_get_projection(cam->fov, (float)WIDTH / (float)HEIGHT, 0.01f, 100.f);
+	cam->near = 0.01f;
+	cam->far = 100.f;
+	cam->projection = matrixgl_get_projection(cam->fov, (float)WIDTH / (float)HEIGHT, cam->near, cam->far);
 	cam->sensitivity = 0.03f;
 	cam->up = vector_construct(0.f, 1.f, 0.f);
 	cam->to = vector_construct(0.f, 0.f, 1.f);

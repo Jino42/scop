@@ -259,16 +259,20 @@ t_model		*m_model_load(t_scene *scene,
 		}
 		else if (!strcmp("usemtl", lm->type))
 		{
+			if (lm->mesh->index_material_personnal)
+			{
+				lm->nb_mesh++;
+				lm_add_mesh(lm, lm->mesh->flag);
+			}
 			int index_material;
 			sscanf(lm->line, "%s %s\n", lm->type, lm->buffer255);
 			index_material = m_material_get_index(lm->scene->m_material_personnal, lm->buffer255);
-			printf("{{{{{{{{{{}}}}}}}}}}%i \n", index_material);
 			lm->mesh->index_material_personnal = index_material;
 		}
 		else if (!strcmp("o", lm->type) && lm->mesh->nb_indices)
 		{
 			lm->nb_mesh++;
-			lm_add_mesh(lm);
+			lm_add_mesh(lm, 0);
 		}
 		else if (!strcmp("exit", lm->type))
 			break ;

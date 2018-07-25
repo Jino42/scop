@@ -7,6 +7,7 @@
 # include "glad.h"
 
 # define SHADER_INDEX_LIGHT		0
+# define SHADER_INDEX_OUTLINE	1
 
 typedef struct		s_shader
 {
@@ -25,6 +26,7 @@ GLboolean			shader_build_shader_program(t_shader *shader,
 									const GLint fragment_shader);
 GLboolean			shader_build_shader(GLint *shader, const GLenum shader_type,
 									const char *shader_path);
+void				shader_use(t_shader *shader);
 typedef struct		s_m_shader
 {
 	unsigned int	size;

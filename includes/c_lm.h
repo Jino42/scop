@@ -50,7 +50,7 @@ bool		lm_get_vertex(t_lm *lm);
 bool		lm_get_vnormal(t_lm *lm);
 bool		lm_get_vtexel(t_lm *lm);
 bool		lm_check_realloc(t_lm *lm);
-bool		lm_add_mesh(t_lm *lm);
+bool		lm_add_mesh(t_lm *lm, int flag);
 bool		lm_get_face(t_lm *lm);
 void		*lm_destruct(t_lm **c_lm);
 t_lm		*lm_construct(t_scene *scene, t_model *model, const char *path_obj);

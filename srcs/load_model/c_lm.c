@@ -3,7 +3,19 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+/*s
+glStencilFunc(GL_ALWAYS, 1, 0xFF);
+glStencilMask(0xFF);
+DrawTwoContainers();
 
+glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+glStencilMask(0x00);
+glDisable(GL_DEPTH_TEST);
+shaderSingleColor.use();
+DrawTwoScaledUpContainers();
+glStencilMask(0xFF);
+glEnable(GL_DEPTH_TEST);
+*/
 t_lm		*lm_construct(t_scene *scene, t_model *model, const char *path_obj)
 {
 	t_lm	*lm;
@@ -50,7 +62,7 @@ void		*lm_destruct(t_lm **c_lm)
 	return (NULL);
 }
 
-bool		lm_add_mesh(t_lm *lm)
+bool		lm_add_mesh(t_lm *lm, int flag)
 {
 	if (!(lm->mesh = lm->model->m_mesh->new(lm->model->m_mesh)))
 		return (lm_destruct(&lm));
@@ -58,6 +70,7 @@ bool		lm_add_mesh(t_lm *lm)
 	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mesh->flag = flag;
 	/*
 	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);

@@ -50,11 +50,14 @@ out vec4 FragColor;
 in vec3 position;
 in vec2 uv;
 in vec3 normal;
+in vec4 gl_FragCoord;
 
 uniform t_light		light;
 uniform vec3		cameraPosition;
 uniform t_material	material;
 uniform sampler2D	testTexture;
+uniform float		far;
+uniform float		near;
 
 float intensityAmbient = 0.15;
 vec3 ambient;
@@ -67,6 +70,12 @@ vec3 norm;
 vec3 resultColor;
 
 t_material newMaterial;
+
+float LinearizeDepth(float depth)
+{
+    float z = depth * 2.0 - 1.0; // back to NDC
+    return (2.0 * near * far) / (far + near - z * (far - near));
+}
 
 void main()
 {
@@ -111,5 +120,9 @@ void main()
 	}
 
 	FragColor = vec4(resultColor, 1.f);
+/*
+	float depth = LinearizeDepth(gl_FragCoord.z) / far;
+	FragColor = vec4(vec3(depth), 1.f);
+*/
 	//FragColor = texture(testTexture, uv);
 }

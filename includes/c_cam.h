@@ -9,6 +9,8 @@ typedef struct		s_cam
 	bool			fps;
 	bool			first_callback;
 	float			fov;
+	float			near;
+	float			far;
 	float			pitch;
 	float			yaw;
 	float			sensitivity;

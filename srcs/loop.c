@@ -12,6 +12,7 @@ bool			loop(t_env *e)
 
 	glfw = e->glfw;
 	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_DEPTH_TEST);
@@ -61,21 +62,31 @@ bool			loop(t_env *e)
 			vector_sub(&e->scene->m_model->model[0]->negative_center, &move);
 			matrixgl_translation(&e->scene->m_model->model[0]->transform, &move);
 		}
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if (glfwGetKey(glfw->window, GLFW_KEY_I) == GLFW_PRESS)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 		glEnable(GL_DEPTH_TEST);
+		glEnable (GL_STENCIL_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
 		glPointSize(5.0);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+		// glDepthMask (GL_FALSE); Lecture seulement du test de profondeur + Elimination des fragment shader a la mano
+		glStencilMask (0xFF);
+		glDepthFunc (GL_LESS);
 
 		scene_render(e->scene);
+
+
 		nk_render(nk);
+
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
+
 	}
 	nk_destruct(&nk);
 	return (true);
