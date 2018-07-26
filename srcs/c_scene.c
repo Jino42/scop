@@ -156,13 +156,20 @@ void		scene_render(t_scene *scene, float time)
 		uint32_t i = 0;
 		while (i < m_mesh->size)
 		{
-			if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
+			if (!strcmp(model->name, "dplan"))
+			{
+				glUniform1i(location[17], 0);
+				//glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, scene->texture_color_buffer);
+				glUniform1i(location[18], 1);
+			}
+			else if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
 			{
 				if (scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->flag & MATERIAL_MAP_DIFFUSE)
 				{
 				//	printf("%s %s\n", model->name, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->name);
 					glUniform1i(location[17], 0);
-					glActiveTexture(GL_TEXTURE0);
+					//glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
 					glUniform1i(location[18], 1);
 				}

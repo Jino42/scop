@@ -6,8 +6,9 @@
 # include <stdint.h>
 # include "glad.h"
 
-# define SHADER_INDEX_LIGHT		0
-# define SHADER_INDEX_OUTLINE	1
+# define SHADER_INDEX_LIGHT				0
+# define SHADER_INDEX_OUTLINE			1
+# define SHADER_INDEX_DYNAMIQUE_TEXTURE	2
 
 typedef struct		s_shader
 {

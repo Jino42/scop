@@ -87,9 +87,9 @@ void main()
 	{
 		textureAmbient = texture(testTexture, uv);
 		newMaterial.diffuse = textureAmbient.rgb;
-		if (textureAmbient.a < 0.1)
+		/*if (textureAmbient.a < 0.1)
 			discard ;
-		textureTransparency = texture(testTexture, uv).a;
+		textureTransparency = texture(testTexture, uv).a;*/
 	}
 
 	ambient = newMaterial.ambient * light.ambient;

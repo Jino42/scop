@@ -11,6 +11,12 @@
 
 typedef struct		s_scene
 {
+	unsigned int	framebuffer;
+	unsigned int	texture_color_buffer;
+	unsigned int	rbo;
+
+
+
 	unsigned int	index_light;
 	t_cam			*cam;
 
