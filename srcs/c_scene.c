@@ -156,7 +156,7 @@ void		scene_render(t_scene *scene, float time)
 		uint32_t i = 0;
 		while (i < m_mesh->size)
 		{
-			if (!strcmp(model->name, "dplan"))
+			if (model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
 			{
 				glUniform1i(location[17], 0);
 				//glActiveTexture(GL_TEXTURE0);

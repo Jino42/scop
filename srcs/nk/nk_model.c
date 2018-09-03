@@ -54,4 +54,5 @@ void 				nk_model(t_nk *nk, t_scene *scene, t_model *model)
 								25, nk_vec2(200,200));
 	}
 
+	nk_check(nk, &model->flag, MODEL_USE_DYNAMIQUE_TEXTURE, "Dynamique texture");
 }

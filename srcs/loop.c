@@ -65,7 +65,10 @@ bool			loop(t_env *e)
 		if (glfwGetKey(glfw->window, GLFW_KEY_I) == GLFW_PRESS)
 			glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		render_dynamique_texture(e->scene, e->fps->time);
+		rbo_render(e->scene->rbo,
+					e->scene->m_shader_hidden->shader[SHADER_INDEX_DYNAMIQUE_TEXTURE],
+					e->scene->m_model_hidden->model[MODEL_INDEX_PLAN],
+					e->fps->time);
 
 
 		glEnable(GL_BLEND);
@@ -82,7 +85,6 @@ bool			loop(t_env *e)
 		glDepthFunc (GL_LESS);
 
 		scene_render(e->scene, e->fps->time);
-		render_dynamique_texture(e->scene, e->fps->time);
 		nk_render(nk);
 
 		glfwSwapBuffers(glfw->window);
