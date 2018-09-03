@@ -277,6 +277,12 @@ bool		scene_parse(t_scene *scene, const char *path)
 		cJSON_Delete(json);
 		return (false);
 	}
+	if (!(m_texture_json_parse(scene->m_texture_hidden, json, "textures")))
+	{
+		printf("ABC\n");
+		cJSON_Delete(json);
+		return (false);
+	}
 	cJSON_Delete(json);
 	return (true);
 }
@@ -309,6 +315,8 @@ t_scene		*scene_construct(const char *path)
 	if (!(scene->m_light = m_light_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene->m_texture = m_texture_construct()))
+		return (scene_destruct(&scene));
+	if (!(scene->m_texture_hidden = m_texture_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
@@ -345,6 +353,8 @@ void		*scene_destruct(t_scene **scene)
 			cam_destruct(&(*scene)->cam);
 		if ((*scene)->m_texture)
 			m_texture_destruct(&(*scene)->m_texture);
+		if ((*scene)->m_texture_hidden)
+			m_texture_destruct(&(*scene)->m_texture_hidden);
 		ft_memdel((void **)scene);
 	}
 	return (NULL);

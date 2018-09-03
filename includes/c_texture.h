@@ -26,5 +26,6 @@ typedef struct		s_m_texture
 }					t_m_texture;
 t_m_texture			*m_texture_construct();
 void				*m_texture_destruct(t_m_texture **m_model);
+bool				m_texture_json_parse(t_m_texture *m_texture, cJSON *get, const char *key);
 
 #endif

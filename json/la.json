@@ -176,7 +176,7 @@
 			}
 		}, {
 			"name":	"dplan",
-			"path":	"./ressources/plan.obj",
+			"path":	"./ressources/plan2.obj",
 			"material":	1,
 			"shader":	0,
 			"position":	{
@@ -350,5 +350,8 @@
 				"y":	0.60000002384185791,
 				"z":	0.60000002384185791
 			}
-		}]
+		}],
+		"textures":	[
+			{ "path": "ressources/grass.tga" },
+		{ "path": "ressources/grass.tga" }]
 }
