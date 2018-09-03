@@ -8,12 +8,11 @@
 # include "c_texture.h"
 # include "c_material.h"
 # include "c_light.h"
+# include "c_rbo.h"
 
 typedef struct		s_scene
 {
-	unsigned int	framebuffer;
-	unsigned int	texture_color_buffer;
-	unsigned int	rbo;
+	t_rbo			*rbo;
 
 
 

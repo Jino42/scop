@@ -160,7 +160,7 @@ void		scene_render(t_scene *scene, float time)
 			{
 				glUniform1i(location[17], 0);
 				//glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, scene->texture_color_buffer);
+				glBindTexture(GL_TEXTURE_2D, scene->rbo->texture_color_buffer);
 				glUniform1i(location[18], 1);
 			}
 			else if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
@@ -326,6 +326,8 @@ t_scene		*scene_construct(const char *path)
 		return (scene_destruct(&scene));
 	if (!m_model_hidden_setup(scene))
 		return (scene_destruct(&scene));
+	if (!(scene->rbo = rbo_construct(WIDTH, HEIGHT)))
+		return (scene_destruct(&scene));
 	return (scene);
 }
 
@@ -355,6 +357,8 @@ void		*scene_destruct(t_scene **scene)
 			m_texture_destruct(&(*scene)->m_texture);
 		if ((*scene)->m_texture_hidden)
 			m_texture_destruct(&(*scene)->m_texture_hidden);
+		if ((*scene)->rbo)
+			rbo_destruct(&(*scene)->rbo);
 		ft_memdel((void **)scene);
 	}
 	return (NULL);
