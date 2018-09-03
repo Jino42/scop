@@ -4,6 +4,14 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+/*
+	Set Vector U to (Triangle.p2 minus Triangle.p1)
+	Set Vector V to (Triangle.p3 minus Triangle.p1)
+
+	Set Normal.x to (multiply U.y by V.z) minus (multiply U.z by V.y)
+	Set Normal.y to (multiply U.z by V.x) minus (multiply U.x by V.z)
+	Set Normal.z to (multiply U.x by V.y) minus (multiply U.y by V.x)
+*/
 
 bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 {

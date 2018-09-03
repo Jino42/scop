@@ -6,7 +6,6 @@ bool	key[500];
 
 void	glfw_key_callback(GLFWwindow* window, int inkey, int scancode, int action, int mods)
 {
-
     if (action == GLFW_PRESS)
 	{
 		if (key[inkey])
@@ -26,7 +25,7 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 {
 	t_glfw	*glfw;
 
-	if (!(glfw = malloc(sizeof(t_glfw))))
+	if (!(glfw = ft_memalloc(sizeof(t_glfw))))
 		return (NULL);
 	bzero(glfw, sizeof(t_glfw));
 	glfwInit();
@@ -38,14 +37,14 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 	if (glfw->window == NULL)
 		return (glfw_destruct(&glfw));
 	glfwMakeContextCurrent(glfw->window);
-	glfwSetFramebufferSizeCallback(glfw->window, &glfw_callback_resize);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		return (glfw_destruct(&glfw));
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glfwSwapInterval(0);
-	glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfw->key = key;
+	//glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
 	glfwSetKeyCallback(glfw->window, &glfw_key_callback);
+	glfwSetFramebufferSizeCallback(glfw->window, &glfw_callback_resize);
 	return (glfw);
 }

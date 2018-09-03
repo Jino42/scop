@@ -31,7 +31,7 @@ bool			loop(t_env *e)
 		}
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
 		/*
-		if (glfwGetKey(glfw->window, GLFW_KEY_F) == GLFW_PRESS)
+		if (glfwGetKey(glfw->window, GLFW_KEY_F) ``==`` GLFW_PRESS)
 		{
 			(model->type_draw == GL_FILL) ? (model->type_draw = GL_LINE) : (model->type_draw = GL_FILL);
 			glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);

@@ -71,6 +71,7 @@ bool		lm_add_mesh(t_lm *lm, int flag)
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mesh->flag = flag;
+
 	/*
 	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
@@ -286,6 +287,38 @@ static void	lm_indexing(t_lm *lm, const int sommet)
 	lm->mesh->nb_indices++;
 }
 
+t_vector		vector_calculate_normal(t_vector *a, t_vector *b, t_vector *c)
+{
+	t_vector normal;
+	t_vector u;
+	t_vector v;
+
+	u = vector_get_sub(b, a);
+	v = vector_get_sub(c, a);
+
+	normal.x = u.y * v.z - u.z * v.y;
+	normal.y = u.z * v.x - u.x * v.z;
+	normal.z = u.x * v.y - u.y * v.x;
+
+	return (vector_get_normalize(&normal));
+}
+
+static void	lm_indexing_calculate_normal(t_lm *lm)
+{
+	t_vector	calc_normal;
+	t_vector	a;
+	t_vector	b;
+	t_vector	c;
+
+	*((t_vector3f*)&a) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 1];
+	*((t_vector3f*)&b) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 2];
+	*((t_vector3f*)&c) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 3];
+	calc_normal = vector_calculate_normal(&c, &b, &a);
+	((t_vector3f*)lm->mesh->indexed_vn)[(lm->mesh->nb_indices - 1)] = *((t_vector3f *)&calc_normal);
+	((t_vector3f*)lm->mesh->indexed_vn)[(lm->mesh->nb_indices - 2)] = *((t_vector3f *)&calc_normal);
+	((t_vector3f*)lm->mesh->indexed_vn)[(lm->mesh->nb_indices - 3)] = *((t_vector3f *)&calc_normal);
+}
+
 static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 {
 	int sommet = 0;
@@ -294,6 +327,8 @@ static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 		lm_indexing(lm, sommet);
 		sommet++;
 	}
+	if (!(lm->mesh->flag & SCOP_VN))
+		lm_indexing_calculate_normal(lm);
 	lm->mesh->nb_faces++;
 
 	if (sommet4 == 4)
@@ -306,6 +341,9 @@ static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 			lm_indexing(lm, sommet);
 			sommet++;
 		}
+		if (!(lm->mesh->flag & SCOP_VN))
+			lm_indexing_calculate_normal(lm);
+
 		lm->mesh->nb_faces++;
 	}
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:49:51 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/25 15:55:00 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/03 22:46:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void		model_gen_gl_buffers(t_model *model)
 	unsigned int	i;
 
 	i = 0;
+	model->flag |= SCOP_VN;
 	while (i < model->m_mesh->size)
 	{
 		mesh_gen_gl_buffers(model->m_mesh->mesh[i]);

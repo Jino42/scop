@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/03 16:44:53 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/03 23:22:14 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@
 
 # define CURSOR_NORMAL (1 << 0)
 # define CURSOR_HIDDEN (1 << 0)
+
+typedef struct		s_vector3f
+{
+	float			x;
+	float			y;
+	float			z;
+}					t_vector3f;
 
 typedef struct		s_fps
 {
