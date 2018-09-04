@@ -122,6 +122,7 @@ void		scene_render(t_scene *scene, float time)
 			location[27] = glGetUniformLocation(shader->program, "far");
 			location[28] = glGetUniformLocation(shader->program, "near");
 			location[29] = glGetUniformLocation(shader->program, "time");
+			location[30] = glGetUniformLocation(shader->program, "obj_flag");
 
 			a = 1;
 		}
@@ -153,6 +154,7 @@ void		scene_render(t_scene *scene, float time)
 		glUniformMatrix4fv(location[14], 1, GL_FALSE, &scene->cam->view.matrix[0][0]);
 		glUniformMatrix4fv(location[15], 1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
 		glUniformMatrix4fv(location[16], 1, GL_FALSE, &model->transform.matrix[0][0]);
+		glUniform1i(location[30], model->flag);
 		uint32_t i = 0;
 		while (i < m_mesh->size)
 		{

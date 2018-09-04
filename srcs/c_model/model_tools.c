@@ -6,17 +6,19 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:49:51 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/03 22:46:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/04 22:03:11 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
+
 
 void		model_gen_gl_buffers(t_model *model)
 {
 	unsigned int	i;
 
 	i = 0;
+	model->flag = model->m_mesh->mesh[i]->flag;
 	model->flag |= SCOP_VN;
 	while (i < model->m_mesh->size)
 	{

@@ -4,9 +4,9 @@
 # include <stdint.h>
 # include "scop_glfw.h"
 
-# define MODEL_USE_MATERIAL_PERSONNAL		(1 << 0)
-# define MODEL_SAME_SCALING					(1 << 1)
-# define MODEL_USE_DYNAMIQUE_TEXTURE		(1 << 2)
+# define MODEL_USE_MATERIAL_PERSONNAL		(1 << 12)
+# define MODEL_SAME_SCALING					(1 << 13)
+# define MODEL_USE_DYNAMIQUE_TEXTURE		(1 << 14)
 
 # define MODEL_INDEX_LIGHT_BASIC			1
 # define MODEL_INDEX_LIGHT_DIRECTIONNAL		0

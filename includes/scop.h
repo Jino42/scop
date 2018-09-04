@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/03 23:22:14 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/04 18:20:13 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ typedef struct		s_vector3f
 	float			y;
 	float			z;
 }					t_vector3f;
+
+typedef struct		s_vector2f
+{
+	float			x;
+	float			y;
+}					t_vector2f;
 
 typedef struct		s_fps
 {

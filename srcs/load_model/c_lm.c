@@ -274,6 +274,8 @@ static int	lm_get_index_face(t_lm *lm)
 
 static void	lm_indexing(t_lm *lm, const int sommet)
 {
+	float nb;
+
 	lm->mesh->indices[lm->mesh->nb_indices] = lm->mesh->nb_indices;
 	if (lm->mesh->flag & SCOP_V)
 	{
@@ -290,7 +292,6 @@ static void	lm_indexing(t_lm *lm, const int sommet)
 		memcpy(&lm->mesh->indexed_vn[lm->mesh->nb_indices * 3],
 			&lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3], 3 * sizeof(GLfloat));
 	}
-	float nb;
 	nb = (float)rand() / (float)RAND_MAX;
 	lm->mesh->indexed_color[lm->mesh->nb_indices] = nb - (((int)(nb * 100.f)) % 10 / 100.f);
 	lm->mesh->nb_indices++;
@@ -350,7 +351,6 @@ static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 		}
 		if (!(lm->mesh->flag & SCOP_VN))
 			lm_indexing_calculate_normal(lm);
-
 		lm->mesh->nb_faces++;
 	}
 	return (true);
