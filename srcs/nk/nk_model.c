@@ -55,4 +55,5 @@ void 				nk_model(t_nk *nk, t_scene *scene, t_model *model)
 	}
 
 	nk_check(nk, &model->flag, MODEL_USE_DYNAMIQUE_TEXTURE, "Dynamique texture");
+	nk_check(nk, &model->flag, MODEL_ROTATE, "Rotate");
 }

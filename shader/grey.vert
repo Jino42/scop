@@ -16,7 +16,7 @@ flat out float vertex_id;
 
 void main()
 {
-	gl_Position =  MVP * vec4(vertexPos, 1.0f);
+	gl_Position = MVP * vec4(vertexPos, 1.0f);
 	normal = mat3(transpose(inverse(M))) * vn;
 	position = vec3(M * vec4(vertexPos, 1.f));
 	uv = vt;

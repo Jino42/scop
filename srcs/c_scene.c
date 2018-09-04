@@ -77,6 +77,7 @@ void		scene_render(t_scene *scene, float time)
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilMask(0xFF);
 		model = scene->m_model->model[i];
+
 		shader = scene->m_shader->shader[model->index_shader];
 		material = scene->m_material->material[model->index_material];
 		m_mesh = model->m_mesh;

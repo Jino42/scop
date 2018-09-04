@@ -15,6 +15,22 @@
 # define LIGHT_POINT				(1 << 2)
 # define LIGHT_SPOT					(1 << 3)
 
+# define SCOP_V (1 << 1)
+# define SCOP_VT (1 << 2)
+# define SCOP_VN (1 << 3)
+# define F_TEXTURE (1 << 4)
+
+# define MODEL_USE_MATERIAL_PERSONNAL		(1 << 12)
+# define MODEL_SAME_SCALING					(1 << 13)
+# define MODEL_USE_DYNAMIQUE_TEXTURE		(1 << 14)
+
+# define MODEL_INDEX_LIGHT_BASIC			1
+# define MODEL_INDEX_LIGHT_DIRECTIONNAL		0
+# define MODEL_INDEX_LIGHT_POINT			1
+# define MODEL_INDEX_LIGHT_SPOT				0
+# define MODEL_INDEX_PLAN					2
+
+
 struct t_material
 {
 	vec3	ambient;
@@ -59,6 +75,7 @@ uniform sampler2D	testTexture;
 uniform float		far;
 uniform float		near;
 uniform float		time;
+uniform int			obj_flag;
 
 float intensityAmbient = 0.15;
 vec3 ambient;
@@ -85,7 +102,10 @@ void main()
 	newMaterial = material;
 	if (newMaterial.texture_diffuse == 1)
 	{
-		textureAmbient = texture(testTexture, uv);
+		if ((obj_flag & SCOP_VT) == 0)
+			textureAmbient = texture(testTexture, vec2(position.x, position.y));
+		else
+			textureAmbient = texture(testTexture, uv);
 		newMaterial.diffuse = textureAmbient.rgb;
 		newMaterial.ambient = textureAmbient.rgb * 0.1;
 		newMaterial.specular = textureAmbient.rgb;

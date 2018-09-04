@@ -1,6 +1,25 @@
 #include "scop.h"
 #include "scop_nk.h"
 
+
+void m_model_update(t_m_model *m_model)
+{
+	t_model *model;
+	size_t	i;
+
+	i = 0;
+	while (i < m_model->size)
+	{
+		model = m_model->model[i];
+		if (model->flag & MODEL_ROTATE)
+		{
+			model->update = true;
+			model->rotation.y += 0.01f;
+		}
+		i++;
+	}
+}
+
 bool			loop(t_env *e)
 {
 	t_nk *nk;
@@ -22,7 +41,7 @@ bool			loop(t_env *e)
 	{
 		fps_update(e->fps, &e->delta_time);
 		glfw_update(e->glfw);
-
+		m_model_update(e->scene->m_model);
 		nk_update(nk);
 		if (!(nk_scene(nk, &e->scene)))
 		{
