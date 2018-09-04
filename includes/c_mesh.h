@@ -10,12 +10,14 @@ typedef struct		s_mesh
 	GLuint			VBO;
 	GLuint			VNBO;
 	GLuint			VTBO;
+	GLuint			COLORBO;
 	GLuint			EBO;
 	GLuint			VAO;
 
 	GLfloat			*indexed_v;
 	GLfloat			*indexed_vt;
 	GLfloat			*indexed_vn;
+	GLfloat			*indexed_color;
 	GLuint			*indices;
 
 	GLint			nb_faces;

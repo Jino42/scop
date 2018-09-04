@@ -39,6 +39,7 @@ typedef struct		s_lm
 	uint32_t		mem_len_indexed_v;
 	uint32_t		mem_len_indexed_vn;
 	uint32_t		mem_len_indexed_vt;
+	uint32_t		mem_len_indexed_color;
 
 	uint32_t		last_index_v;
 	uint32_t		last_index_vt;

@@ -50,7 +50,9 @@ out vec4 FragColor;
 in vec3 position;
 in vec2 uv;
 in vec3 normal;
+in vec3 vn_out;
 in vec4 gl_FragCoord;
+flat in float vertex_id;
 
 uniform t_light		light;
 uniform vec3		cameraPosition;
@@ -79,15 +81,29 @@ float LinearizeDepth(float depth)
     return (2.0 * near * far) / (far + near - z * (far - near));
 }
 
+float rand(float number){
+    return fract(number /255.f);
+}
+vec2 random2( vec2 p ) {
+    return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);
+}
+
 void main()
 {
 	textureTransparency = 1.f;
 	newMaterial = material;
+	vec2 abc = random2(vec2(vn_out.z + vn_out.x, vn_out.y));
+	//abc.x = rand(vec2 (vn_out.z, vn_out.y));
+	abc.x = vertex_id;
+	//abc.x = fract(length(vertex_id) * 8750.4568f / 255.f);
+	newMaterial.diffuse = vec3(vertex_id);
+	newMaterial.ambient = vec3(vertex_id);
+
 	if (newMaterial.texture_diffuse == 1)
 	{
 		textureAmbient = texture(testTexture, uv);
 		newMaterial.diffuse = textureAmbient.rgb;
-		newMaterial.ambient = textureAmbient.rgb * 0.1;
+		newMaterial.ambient = textureAmbient.rgb;
 		newMaterial.specular = textureAmbient.rgb;
 		/*if (textureAmbient.a < 0.1)
 			discard ;

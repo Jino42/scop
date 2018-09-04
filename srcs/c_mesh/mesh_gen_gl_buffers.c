@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:07:54 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/03 22:46:05 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/04 17:07:38 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,17 @@ static void		mesh_gen_gl_buffers_vt(t_mesh *mesh)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+static void		mesh_gen_gl_buffers_color(t_mesh *mesh)
+{
+	glGenBuffers(1, &mesh->COLORBO);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->COLORBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLint) * (mesh->nb_indices),
+		mesh->indexed_color, GL_STATIC_DRAW);
+	glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 void			mesh_gen_gl_buffers(t_mesh *mesh)
 {
 	glGenBuffers(1, &mesh->EBO);
@@ -59,6 +70,7 @@ void			mesh_gen_gl_buffers(t_mesh *mesh)
 		mesh_gen_gl_buffers_vn(mesh);
 	if (mesh->flag & SCOP_VT)
 		mesh_gen_gl_buffers_vt(mesh);
+	mesh_gen_gl_buffers_color(mesh);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * mesh->nb_indices,
 		mesh->indices, GL_STATIC_DRAW);

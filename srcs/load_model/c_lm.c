@@ -40,6 +40,7 @@ t_lm		*lm_construct(t_scene *scene, t_model *model, const char *path_obj)
 	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_indexed_color = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
@@ -70,6 +71,7 @@ bool		lm_add_mesh(t_lm *lm, int flag)
 	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_indexed_color = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mesh->flag = flag;
 
 	/*
@@ -126,6 +128,12 @@ bool	lm_check_realloc(t_lm *lm)
 	{
 		lm->mem_len_indexed_vt += BUFFER_OBJ * sizeof(GLfloat);
 		if (!(mesh->indexed_vt = realloc(mesh->indexed_vt, lm->mem_len_indexed_vt)))
+			return (false);
+	}
+	if ((mesh->nb_indices + 6) * sizeof(GLfloat) >= lm->mem_len_indexed_color)
+	{
+		lm->mem_len_indexed_color += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(mesh->indexed_color = realloc(mesh->indexed_color, lm->mem_len_indexed_color)))
 			return (false);
 	}
 	if ((mesh->nb_indices + 6) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_vn)
@@ -269,21 +277,22 @@ static void	lm_indexing(t_lm *lm, const int sommet)
 	lm->mesh->indices[lm->mesh->nb_indices] = lm->mesh->nb_indices;
 	if (lm->mesh->flag & SCOP_V)
 	{
-		lm->mesh->indexed_v[lm->mesh->nb_indices * 3 + 0] = lm->v[(lm->buffer_index_v[sommet] - 1) * 3 + 0];
-		lm->mesh->indexed_v[lm->mesh->nb_indices * 3 + 1] = lm->v[(lm->buffer_index_v[sommet] - 1) * 3 + 1];
-		lm->mesh->indexed_v[lm->mesh->nb_indices * 3 + 2] = lm->v[(lm->buffer_index_v[sommet] - 1) * 3 + 2];
+		memcpy(&lm->mesh->indexed_v[lm->mesh->nb_indices * 3],
+			&lm->v[(lm->buffer_index_v[sommet] - 1) * 3], 3 * sizeof(GLfloat));
 	}
 	if (lm->mesh->flag & SCOP_VT)
 	{
-		lm->mesh->indexed_vt[lm->mesh->nb_indices * 2 + 0] = lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2 + 0];
-		lm->mesh->indexed_vt[lm->mesh->nb_indices * 2 + 1] = lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2 + 1];
+		memcpy(&lm->mesh->indexed_vt[lm->mesh->nb_indices * 2],
+			&lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2], 2 * sizeof(GLfloat));
 	}
 	if (lm->mesh->flag & SCOP_VN)
 	{
-		lm->mesh->indexed_vn[lm->mesh->nb_indices * 3 + 0] = lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3 + 0];
-		lm->mesh->indexed_vn[lm->mesh->nb_indices * 3 + 1] = lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3 + 1];
-		lm->mesh->indexed_vn[lm->mesh->nb_indices * 3 + 2] = lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3 + 2];
+		memcpy(&lm->mesh->indexed_vn[lm->mesh->nb_indices * 3],
+			&lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3], 3 * sizeof(GLfloat));
 	}
+	float nb;
+	nb = (float)rand() / (float)RAND_MAX;
+	lm->mesh->indexed_color[lm->mesh->nb_indices] = nb - (((int)(nb * 100.f)) % 10 / 100.f);
 	lm->mesh->nb_indices++;
 }
 
@@ -296,9 +305,7 @@ t_vector		vector_calculate_normal(t_vector *a, t_vector *b, t_vector *c)
 	u = vector_get_sub(b, a);
 	v = vector_get_sub(c, a);
 
-	normal.x = u.y * v.z - u.z * v.y;
-	normal.y = u.z * v.x - u.x * v.z;
-	normal.z = u.x * v.y - u.y * v.x;
+	normal = vector_get_cross_product(&u, &v);
 
 	return (vector_get_normalize(&normal));
 }
