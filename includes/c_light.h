@@ -28,6 +28,7 @@ typedef struct		s_light
 	float			spot_little_radius;
 	float			spot_big_radius;
 	int				flag;
+	float			intensity;
 }					t_light;
 void				*light_destruct(t_light **light);
 t_light				*light_construct(char *name);

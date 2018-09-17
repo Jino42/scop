@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:22 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 00:15:36 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 00:19:53 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_light		*light_construct(char *name)
 		return (NULL);
 	light->update = true;
 	light->name = strdup(name);
+	light->intensity = 1.f;
 	return (light);
 }
 

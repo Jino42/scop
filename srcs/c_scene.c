@@ -35,9 +35,6 @@ void	ftemp(t_scene *scene, t_model *model)
 void		scene_render(t_scene *scene, float time)
 {
 	t_material *material;
-	t_light *light;
-	light = scene->m_light->light[scene->index_light];
-
 	t_m_mesh *m_mesh;
 	t_model	*model;
 	t_shader	*shader;
@@ -89,6 +86,8 @@ void		scene_render(t_scene *scene, float time)
 			glUniform1f(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->spot_big_radius);
 			sprintf(buffer, "u_light[%i].type", i);
 			glUniform1i(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->flag & 0xFF);
+			sprintf(buffer, "u_light[%i].intensity", i);
+			glUniform1f(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->intensity);
 		}
 		glUniform3f(glGetUniformLocation(shader->program, "u_cameraPosition"), scene->cam->position.x, scene->cam->position.y, scene->cam->position.z);
 		glUniform3f(glGetUniformLocation(shader->program, "camDir"), scene->cam->to.x, scene->cam->to.y, scene->cam->to.z);
@@ -102,7 +101,7 @@ void		scene_render(t_scene *scene, float time)
 		{
 			if (model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
 			{
-				glUniform1i(glGetUniformLocation(shader->program, "u_testTexture"), 0);
+				glUniform1i(glGetUniformLocation(shader->program, "u_texture"), 0);
 				glBindTexture(GL_TEXTURE_2D, scene->rbo->texture_color_buffer);
 				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
 			}
@@ -110,7 +109,7 @@ void		scene_render(t_scene *scene, float time)
 			{
 				if (scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->flag & MATERIAL_MAP_DIFFUSE)
 				{
-					glUniform1i(glGetUniformLocation(shader->program, "u_testTexture"), 0);
+					glUniform1i(glGetUniformLocation(shader->program, "u_texture"), 0);
 					glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
 					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
 				}
