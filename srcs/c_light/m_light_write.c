@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:49 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/23 22:51:10 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 00:38:24 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static bool	light_json_add_type(t_light *light, cJSON *json_light)
 		if (!json_add_string(json_light, "type", "point")
 			|| !json_add_float(json_light, "constent", light->constent)
 			|| !json_add_float(json_light, "linear", light->linear)
-			|| !json_add_float(json_light, "quadratic", light->quadratic))
+			|| !json_add_float(json_light, "quadratic", light->quadratic)
+			|| !json_add_float(json_light, "intensity", light->intensity))
 			return (false);
 	}
 	return (true);

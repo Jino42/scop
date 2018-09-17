@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:44 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 00:16:20 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 00:37:08 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static bool			m_light_json_loop_parse_3(cJSON *json_light,
 		light->linear = 0.045f;
 	if (!json_parse_float(json_light, "quadratic", &light->quadratic))
 		light->quadratic = 0.0075f;
+	if (!json_parse_float(json_light, "intensity", &light->intensity))
+		light->quadratic = 1.f;
 	return (true);
 }
 
