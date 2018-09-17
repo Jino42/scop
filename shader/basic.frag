@@ -20,6 +20,8 @@
 # define SCOP_VN (1 << 3)
 # define F_TEXTURE (1 << 4)
 
+# define SCOP_MAX_LIGHTS 8
+
 # define MODEL_USE_MATERIAL_PERSONNAL		(1 << 12)
 # define MODEL_SAME_SCALING					(1 << 13)
 # define MODEL_USE_DYNAMIQUE_TEXTURE		(1 << 14)
@@ -68,72 +70,47 @@ in vec2 uv;
 in vec3 normal;
 in vec4 gl_FragCoord;
 
-uniform t_light		light;
-uniform vec3		cameraPosition;
-uniform t_material	material;
-uniform sampler2D	testTexture;
-uniform float		far;
-uniform float		near;
-uniform float		time;
-uniform int			obj_flag;
+uniform t_light		u_light[SCOP_MAX_LIGHTS];
+uniform vec3		u_cameraPosition;
+uniform t_material	u_material;
+uniform sampler2D	u_testTexture;
+uniform float		u_time;
+uniform int			u_obj_flag;
 
 float intensityAmbient = 0.15;
 vec3 ambient;
 vec3 diffuse;
 vec3 specular;
 vec3 lightColor = vec3(1.f, 1.f, 1.f);
-vec3 lightDir;
-vec3 cam_to_obj;
+vec3 dir_light;
+vec3 dir_view;
 vec3 norm;
 vec3 resultColor;
-float textureTransparency;
 vec4 textureAmbient;
-t_material newMaterial;
+t_material material;
 
-float LinearizeDepth(float depth)
+vec3	phong(t_light light)
 {
-    float z = depth * 2.0 - 1.0; // back to NDC
-    return (2.0 * near * far) / (far + near - z * (far - near));
-}
-
-void main()
-{
-	textureTransparency = 1.f;
-	newMaterial = material;
-	if (newMaterial.texture_diffuse == 1)
-	{
-		if ((obj_flag & SCOP_VT) == 0)
-			textureAmbient = texture(testTexture, vec2(position.x, position.y));
-		else
-			textureAmbient = texture(testTexture, uv);
-		newMaterial.diffuse = textureAmbient.rgb;
-		newMaterial.ambient = textureAmbient.rgb * 0.1;
-		newMaterial.specular = textureAmbient.rgb;
-		/*if (textureAmbient.a < 0.1)
-			discard ;
-		textureTransparency = texture(testTexture, uv).a;*/
-	}
-
-	ambient = newMaterial.ambient * light.ambient;
+	ambient = material.ambient * light.ambient;
 
 	norm = normalize(normal);
 	if (light.type == LIGHT_DIRECTIONNAL)
-		lightDir = normalize(light.direction);
+		dir_light = normalize(-light.direction);
 	else
-		lightDir = normalize(position - light.position);
+		dir_light = normalize(light.position - position);
 
-	diffuse = max(dot(norm, -lightDir), 0) * newMaterial.diffuse * light.diffuse;
+	diffuse = max(dot(norm, dir_light), 0) * material.diffuse * light.diffuse;
 
-	vec3 reflection = reflect(-lightDir, norm);
-	cam_to_obj = normalize(position - cameraPosition);
+	vec3 reflection = reflect(dir_light, norm);
+	dir_view = normalize(u_cameraPosition - position);
 
-	float angleReflection = max(dot(-cam_to_obj, reflection), 0.f);
-	specular = (pow(angleReflection, newMaterial.shininess) * newMaterial.specular) * light.specular;
+	float angleReflection = max(dot(dir_view, reflection), 0.f);
+	specular = (pow(angleReflection, material.shininess) * material.specular) * light.specular;
 
 	if (light.type == LIGHT_SPOT)
 	{
 
-		float theta = dot(lightDir, normalize(light.direction)) * 180 / M_PI;
+		float theta = dot(-dir_light, normalize(light.direction)) * 180 / M_PI;
 		float epsilon = (light.spot_little_radius - light.spot_big_radius);
 		float intensity = clamp((theta - light.spot_big_radius) / epsilon, 0.0, 1.0);
 		diffuse  *= intensity;
@@ -146,14 +123,28 @@ void main()
 	{
 		float distance    = length(light.position - position);
 		float attenuation = 1.0 / (light.constent + light.linear * distance +
-    		    			light.quadratic * (distance * distance));
+							light.quadratic * (distance * distance));
 		resultColor *= attenuation;
 	}
+	return (resultColor);
+}
 
-	FragColor = vec4(resultColor, textureTransparency);
-/*
-	float depth = LinearizeDepth(gl_FragCoord.z) / far;
-	FragColor = vec4(vec3(depth), 1.f);
-*/
-	//FragColor = texture(testTexture, uv);
+void main()
+{
+	material = u_material;
+	if (material.texture_diffuse == 1)
+	{
+		if ((u_obj_flag & SCOP_VT) == 0)
+			textureAmbient = texture(u_testTexture, vec2(position.x, position.y));
+		else
+			textureAmbient = texture(u_testTexture, uv);
+		material.diffuse = textureAmbient.rgb;
+		material.ambient = textureAmbient.rgb * 0.1;
+		material.specular = textureAmbient.rgb;
+	}
+
+	for (int i = 0; i < 2; i++)
+		resultColor += phong(u_light[i]);
+
+	FragColor = vec4(resultColor, 1.f);
 }

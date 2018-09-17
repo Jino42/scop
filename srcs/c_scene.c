@@ -1,45 +1,16 @@
 #include "scop.h"
 
-t_matrix		model_compute_transform_outline(t_model *model)
-{
-	t_matrix	transform;
-	t_vector	scaling;
-	float		same_scaling;
-
-	matrix_identity(&transform);
-	if (model->flag & MODEL_SAME_SCALING)
-	{
-		same_scaling = model->inter_scaling * (model->same_scaling * 1.01f);
-		matrix_scaling(&transform, same_scaling);
-	}
-	else
-	{
-		t_vector sc = model->scaling;
-		vector_mult(&model->scaling, 1.1f);
-		scaling = vector_get_mult(&model->scaling, model->inter_scaling);
-		matrix_vector_scaling(&transform, &scaling);
-		model->scaling = sc;
-	}
-	matrixgl_rotation_x(&transform, model->rotation.x);
-	matrixgl_rotation_y(&transform, model->rotation.y);
-	matrixgl_rotation_z(&transform, model->rotation.z);
-	matrixgl_translation(&transform, &model->position);
-	return (transform);
-}
-
 void	ftemp(t_scene *scene, t_model *model)
 {
 	t_matrix temp, mvp;
 	t_m_mesh *m_mesh;
 
-	//temp = model_compute_transform_outline(model);
 	temp = model->transform;
 	temp = matrix_get_mult_matrix(&temp, &scene->cam->view);
 	mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
 
 	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	glStencilMask(0x00);
-	// /glDisable(GL_DEPTH_TEST);
 	shader_use(scene->m_shader_hidden->shader[SHADER_INDEX_OUTLINE]);
 
 	glUniformMatrix4fv(glGetUniformLocation(scene->m_shader_hidden->shader[SHADER_INDEX_OUTLINE]->program, "MVP"), 1, GL_FALSE, &mvp.matrix[0][0]);
@@ -87,134 +58,91 @@ void		scene_render(t_scene *scene, float time)
 			model_update(model);
 
 		shader->use(shader);
-		static GLint location[80];
-		static int a = 0;
-		if (!a)
-		{
-			location[0] = glGetUniformLocation(shader->program, "light.ambient");
-			location[1] = glGetUniformLocation(shader->program, "light.diffuse");
-			location[2] = glGetUniformLocation(shader->program, "light.specular");
-			location[3] = glGetUniformLocation(shader->program, "light.position");
-			location[4] = glGetUniformLocation(shader->program, "light.direction");
-			location[5] = glGetUniformLocation(shader->program, "light.constent");
-			location[6] = glGetUniformLocation(shader->program, "light.linear");
-			location[7] = glGetUniformLocation(shader->program, "light.quadratic");
-			location[8] = glGetUniformLocation(shader->program, "light.spot_little_radius");
-			location[9] = glGetUniformLocation(shader->program, "light.spot_big_radius");
-			location[10] = glGetUniformLocation(shader->program, "light.type");
-
-			location[11] = glGetUniformLocation(shader->program, "cameraPosition");
-			location[12] = glGetUniformLocation(shader->program, "camDir");
-			location[13] = glGetUniformLocation(shader->program, "MVP");
-			location[14] = glGetUniformLocation(shader->program, "V");
-			location[15] = glGetUniformLocation(shader->program, "P");
-			location[16] = glGetUniformLocation(shader->program, "M");
-
-			location[17] = glGetUniformLocation(shader->program, "testTexture");
-			location[18] = glGetUniformLocation(shader->program, "material.texture_diffuse");
-			location[19] = glGetUniformLocation(shader->program, "material.texture_specular");
-			location[20] = glGetUniformLocation(shader->program, "material.texture_shininess");
-			location[21] = glGetUniformLocation(shader->program, "material.texture_normal");
-			location[22] = glGetUniformLocation(shader->program, "material.ambient");
-			location[23] = glGetUniformLocation(shader->program, "material.diffuse");
-			location[24] = glGetUniformLocation(shader->program, "material.specular");
-			location[25] = glGetUniformLocation(shader->program, "material.shininess");
-			location[26] = glGetUniformLocation(shader->program, "material.flag");
-			location[27] = glGetUniformLocation(shader->program, "far");
-			location[28] = glGetUniformLocation(shader->program, "near");
-			location[29] = glGetUniformLocation(shader->program, "time");
-			location[30] = glGetUniformLocation(shader->program, "obj_flag");
-
-			a = 1;
-		}
-
 
 		temp = matrix_get_mult_matrix(&model->transform, &scene->cam->view);
 		mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
 
-		glUniform1f(location[27], scene->cam->far);
-		glUniform1f(location[28], scene->cam->near);
-		glUniform1f(location[29], time);
+		glUniform1f(glGetUniformLocation(shader->program, "time"), time);
 
-
-		glUniform3fv(location[0], 1, (GLfloat *)&light->ambient);
-		glUniform3fv(location[1], 1, (GLfloat *)&light->diffuse);
-		glUniform3fv(location[2], 1, (GLfloat *)&light->specular);
-		glUniform3fv(location[3], 1, (GLfloat *)&light->position);
-		glUniform3fv(location[4], 1, (GLfloat *)&light->direction);
-		glUniform1f(location[5], light->constent);
-		glUniform1f(location[6], light->linear);
-		glUniform1f(location[7], light->quadratic);
-		glUniform1f(location[8], light->spot_little_radius);
-		glUniform1f(location[9], light->spot_big_radius);
-		glUniform1i(location[10], light->flag & 0xFF);
-
-		glUniform3f(location[11], scene->cam->position.x, scene->cam->position.y, scene->cam->position.z);
-		glUniform3f(location[12], scene->cam->to.x, scene->cam->to.y, scene->cam->to.z);
-		glUniformMatrix4fv(location[13], 1, GL_FALSE, &mvp.matrix[0][0]);
-		glUniformMatrix4fv(location[14], 1, GL_FALSE, &scene->cam->view.matrix[0][0]);
-		glUniformMatrix4fv(location[15], 1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
-		glUniformMatrix4fv(location[16], 1, GL_FALSE, &model->transform.matrix[0][0]);
-		glUniform1i(location[30], model->flag);
+		for (unsigned int i = 0; i < scene->m_light->size; i++)
+		{
+		 	char buffer[255];
+			sprintf(buffer, "u_light[%i].ambient", i);
+			glUniform3fv(glGetUniformLocation(shader->program, buffer), 1, (GLfloat *)&scene->m_light->light[i]->ambient);
+			sprintf(buffer, "u_light[%i].diffuse", i);
+			glUniform3fv(glGetUniformLocation(shader->program, buffer), 1, (GLfloat *)&scene->m_light->light[i]->diffuse);
+			sprintf(buffer, "u_light[%i].specular", i);
+			glUniform3fv(glGetUniformLocation(shader->program, buffer), 1, (GLfloat *)&scene->m_light->light[i]->specular);
+			sprintf(buffer, "u_light[%i].position", i);
+			glUniform3fv(glGetUniformLocation(shader->program, buffer), 1, (GLfloat *)&scene->m_light->light[i]->position);
+			sprintf(buffer, "u_light[%i].direction", i);
+			glUniform3fv(glGetUniformLocation(shader->program, buffer), 1, (GLfloat *)&scene->m_light->light[i]->direction);
+			sprintf(buffer, "u_light[%i].constent", i);
+			glUniform1f(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->constent);
+			sprintf(buffer, "u_light[%i].linear", i);
+			glUniform1f(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->linear);
+			sprintf(buffer, "u_light[%i].quadratic", i);
+			glUniform1f(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->quadratic);
+			sprintf(buffer, "u_light[%i].spot_little_radius", i);
+			glUniform1f(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->spot_little_radius);
+			sprintf(buffer, "u_light[%i].spot_big_radius", i);
+			glUniform1f(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->spot_big_radius);
+			sprintf(buffer, "u_light[%i].type", i);
+			glUniform1i(glGetUniformLocation(shader->program, buffer), scene->m_light->light[i]->flag & 0xFF);
+		}
+		glUniform3f(glGetUniformLocation(shader->program, "u_cameraPosition"), scene->cam->position.x, scene->cam->position.y, scene->cam->position.z);
+		glUniform3f(glGetUniformLocation(shader->program, "camDir"), scene->cam->to.x, scene->cam->to.y, scene->cam->to.z);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "MVP"), 1, GL_FALSE, &mvp.matrix[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "V"), 1, GL_FALSE, &scene->cam->view.matrix[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "P"), 1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, "M"), 1, GL_FALSE, &model->transform.matrix[0][0]);
+		glUniform1i(glGetUniformLocation(shader->program, "u_obj_flag"), model->flag);
 		uint32_t i = 0;
 		while (i < m_mesh->size)
 		{
 			if (model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
 			{
-				glUniform1i(location[17], 0);
-				//glActiveTexture(GL_TEXTURE0);
+				glUniform1i(glGetUniformLocation(shader->program, "u_testTexture"), 0);
 				glBindTexture(GL_TEXTURE_2D, scene->rbo->texture_color_buffer);
-				glUniform1i(location[18], 1);
+				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
 			}
 			else if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
 			{
 				if (scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->flag & MATERIAL_MAP_DIFFUSE)
 				{
-				//	printf("%s %s\n", model->name, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->name);
-					glUniform1i(location[17], 0);
-					//glActiveTexture(GL_TEXTURE0);
+					glUniform1i(glGetUniformLocation(shader->program, "u_testTexture"), 0);
 					glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
-					glUniform1i(location[18], 1);
+					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
 				}
 				else
-					glUniform1i(location[18], 0);
+					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 0);
 
 				material = scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal];
-				/*
-				if (!strcmp(model->name, "plant"))
-				{
-					printf("%s\n", material->name);
-					printf("Ka %.2f %.2f %.2f\n", material->ambient.x, material->ambient.y, material->ambient.z);
-					printf("Kd %.2f %.2f %.2f\n", material->diffuse.x, material->diffuse.y, material->diffuse.z);
-					printf("Ks %.2f %.2f %.2f\n", material->specular.x, material->specular.y, material->specular.z);
-					printf(" S %.2f\n", material->shininess);
-				}
-				*/
 			}
 			else
 			{
-				glUniform1i(location[18], 0);
-				glUniform1i(location[19], 0);
-				glUniform1i(location[20], 0);
-				glUniform1i(location[21], 0);
+				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 0);
+				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_specular"), 0);
+				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_shininess"), 0);
+				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_normal"), 0);
 			}
 			glUniform3fv(
-					location[22],
+					glGetUniformLocation(shader->program, "u_material.ambient"),
 					1,
 					(GLfloat *)&material->ambient);
 			glUniform3fv(
-					location[23],
+					glGetUniformLocation(shader->program, "u_material.diffuse"),
 					1,
 					(GLfloat *)&material->diffuse);
 			glUniform3fv(
-					location[24],
+					glGetUniformLocation(shader->program, "u_material.specular"),
 					1,
 					(GLfloat *)&material->specular);
 			glUniform1f(
-					location[25],
+					glGetUniformLocation(shader->program, "u_material.shininess"),
 					material->shininess);
 			glUniform1f(
-					location[26],
+					glGetUniformLocation(shader->program, "u_material.flag"),
 					material->flag);
 			glBindVertexArray(m_mesh->mesh[i]->VAO);
 			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
@@ -222,7 +150,6 @@ void		scene_render(t_scene *scene, float time)
 			i++;
 		}
 		glUseProgram(0);
-		//ftemp(scene, model);
 	}
 
 	glStencilFunc(GL_ALWAYS, 1, 0xFF);

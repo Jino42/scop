@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/04 18:20:13 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/17 20:34:52 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@
 # define SCOP_VT (1 << 2)
 # define SCOP_VN (1 << 3)
 # define F_TEXTURE (1 << 4)
+# define SCOP_MAX_LIGHTS 8
 
 # define FLOAT_MIN -100000.f
 # define FLOAT_MAX 100000.f
 
 #define MAX_SOURCE_SIZE 8000
 #define BUFFER_LOG 2048
-
 
 # define CURSOR_NORMAL (1 << 0)
 # define CURSOR_HIDDEN (1 << 0)
