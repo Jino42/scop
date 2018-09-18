@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:07:54 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/04 19:25:05 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 18:42:10 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ void			mesh_gen_gl_buffers(t_mesh *mesh)
 	glGenBuffers(1, &mesh->EBO);
 	glGenVertexArrays(1, &mesh->VAO);
 	glBindVertexArray(mesh->VAO);
-
 	mesh->flag |= SCOP_VN;
-
 	if (mesh->flag & SCOP_V)
 		mesh_gen_gl_buffers_v(mesh);
 	if (mesh->flag & SCOP_VN)
