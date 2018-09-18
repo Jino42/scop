@@ -1,22 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   glfw_construct.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/18 21:49:19 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/18 21:55:07 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scop.h"
 #include <stdlib.h>
 #include <strings.h>
 
-bool	key[500];
+bool		g_key[500];
 
-void	glfw_key_callback(GLFWwindow* window, int inkey, int scancode, int action, int mods)
+void		glfw_key_callback(GLFWwindow *window, int inkey,
+								int scancode, int action)
 {
-    if (action == GLFW_PRESS)
+	if (action == GLFW_PRESS)
 	{
-		if (key[inkey])
-			key[inkey] = false;
-		else if (!key[inkey])
-			key[inkey] = true;
+		if (g_key[inkey])
+			g_key[inkey] = false;
+		else if (!g_key[inkey])
+			g_key[inkey] = true;
 		else
 		{
 			(void)window;
 			(void)scancode;
-			(void)mods;
 		}
 	}
 }
@@ -41,9 +53,9 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 		return (glfw_destruct(&glfw));
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glfwSwapInterval(0);
-	glfw->key = key;
+	glfw->key = g_key;
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
-	glfwSetKeyCallback(glfw->window, &glfw_key_callback);
-	glfwSetFramebufferSizeCallback(glfw->window, &glfw_callback_resize);
+	glfwSetKeyCallback(glfw->window,
+			(void(*)(GLFWwindow *, int, int, int, int))&glfw_key_callback);
 	return (glfw);
 }
