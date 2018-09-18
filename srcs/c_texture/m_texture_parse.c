@@ -1,14 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   m_texture_parse.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/18 21:33:29 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/18 21:34:27 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "scop.h"
 
 static bool		m_texture_json_loop(t_m_texture *m_texture,
 									cJSON *json_textures)
 {
-	(void)m_texture;(void)json_textures;
-	t_texture		*texture;(void)texture;
-	int				index;(void)index;
-	cJSON			*json_texture;(void)json_texture;
-	char			*path_tex;(void)path_tex;
+	t_texture		*texture;
+	int				index;
+	cJSON			*json_texture;
+	char			*path_tex;
 
 	path_tex = NULL;
 	index = 0;
@@ -22,7 +32,8 @@ static bool		m_texture_json_loop(t_m_texture *m_texture,
 			return (dprintf(2, "JSON texture[%i]: the path is Undefined\n",
 					index) == 0);
 		}
-		if (!(texture = m_texture->new(m_texture, MATERIAL_MAP_AMBIENT, path_tex)))
+		if (!(texture = m_texture->new(m_texture,
+					MATERIAL_MAP_AMBIENT, path_tex)))
 			return (false);
 		json_texture = json_texture->next;
 		index++;
@@ -41,8 +52,8 @@ bool			m_texture_json_parse(t_m_texture *m_texture,
 	{
 		if (!(m_texture_json_loop(m_texture, source)))
 		{
-			return (ft_bool_error("Erreur: Le parsing de m_texture_hidden a échoué",
-					NULL, NULL));
+			return (ft_bool_error("Erreur: Le parsing de \
+				m_texture_hidden a échoué", NULL, NULL));
 		}
 	}
 	return (true);

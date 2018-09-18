@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   m_texture.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/18 21:28:00 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/18 21:29:02 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scop.h"
 
-bool			m_texture_add(t_m_texture *m_texture, t_texture *texture)
+bool				m_texture_add(t_m_texture *m_texture, t_texture *texture)
 {
 	if (!(m_texture->texture = realloc(m_texture->texture,
 				sizeof(t_texture **) * (m_texture->size + 1))))
@@ -20,7 +32,7 @@ bool			m_texture_add(t_m_texture *m_texture, t_texture *texture)
 	return (true);
 }
 
-int32_t	texture_exist(t_m_texture *m_texture,
+int32_t				texture_exist(t_m_texture *m_texture,
 							const char *texture_path)
 {
 	uint32_t i;
@@ -39,9 +51,8 @@ t_texture			*m_texture_new(t_m_texture *m_texture,
 									const int type,
 									const char *texture_path)
 {
-
-	int32_t index;
-	t_texture *new;
+	int32_t		index;
+	t_texture	*new;
 
 	if ((index = texture_exist(m_texture, texture_path)) != -1)
 		return (m_texture->texture[index]);
@@ -65,7 +76,7 @@ t_texture			*m_texture_new(t_m_texture *m_texture,
 	return (new);
 }
 
-t_m_texture		*m_texture_construct(void)
+t_m_texture			*m_texture_construct(void)
 {
 	t_m_texture *m_texture;
 
@@ -76,7 +87,7 @@ t_m_texture		*m_texture_construct(void)
 	return (m_texture);
 }
 
-void			*m_texture_destruct(t_m_texture **m_texture)
+void				*m_texture_destruct(t_m_texture **m_texture)
 {
 	unsigned int i;
 
