@@ -6,13 +6,13 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:10 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 18:40:46 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 18:46:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-static bool		material_json_add(t_material *material, JSON *json_material)
+static bool		material_json_add(t_material *material, cJSON *json_material)
 {
 	if (!json_add_string(json_material, "name", material->name))
 		return (false);
