@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 22:54:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/03 18:56:49 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 21:48:39 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct		s_glfw
 
 t_glfw				*glfw_construct(char *name, int width, int height);
 void				*glfw_destruct(t_glfw **glfw);
-void				glfw_callback_resize(GLFWwindow* window, int width, int height);
 void				glfw_update(t_glfw *glfw);
 
 #endif

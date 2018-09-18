@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nk_cam.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/18 22:28:35 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/18 22:28:47 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scop_nk.h"
 #include "scop.h"
 
@@ -12,7 +24,7 @@ void				nk_cam_pitch_yaw(t_nk *nk, t_cam *cam)
 	cam->front = cam_get_front(cam->pitch, cam->yaw);
 }
 
-void 				nk_cam(t_nk *nk, t_cam *cam)
+void				nk_cam(t_nk *nk, t_cam *cam)
 {
 	struct nk_context		*ctx;
 
@@ -21,7 +33,6 @@ void 				nk_cam(t_nk *nk, t_cam *cam)
 	{
 		nk_position(nk, &cam->position);
 		nk_cam_pitch_yaw(nk, cam);
-
 		nk_tree_pop(ctx);
 	}
 }
