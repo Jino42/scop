@@ -1,11 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_env.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 00:27:05 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 00:27:51 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scop.h"
 
-/*
-** env_destruct est différente des autres destructeur.
-** Pour garder la forme generique de ft_error
-*/
-
-void 	*env_destruct(void *ptr)
+void	*env_destruct(void *ptr)
 {
 	t_env *e;
 
@@ -20,7 +27,7 @@ void 	*env_destruct(void *ptr)
 	return (NULL);
 }
 
-t_env 	*env_construct(int argc, char **argv)
+t_env	*env_construct(int argc, char **argv)
 {
 	t_env *e;
 
@@ -28,10 +35,19 @@ t_env 	*env_construct(int argc, char **argv)
 	if (!(e = ft_memalloc(sizeof(t_env))))
 		return (NULL);
 	if (!(e->fps = fps_construct()))
-		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
+	{
+		return (ft_error("Erreur: L'initialisation de t_glfw a échoué",
+					&env_destruct, e));
+	}
 	if (!(e->glfw = glfw_construct("scop", 1920, 1080)))
-		return (ft_error("Erreur: L'initialisation de t_glfw a échoué", &env_destruct, e));
+	{
+		return (ft_error("Erreur: L'initialisation de t_glfw a échoué",
+					&env_destruct, e));
+	}
 	if (!(e->scene = scene_construct(argv[1])))
-		return (ft_error("Erreur: L'initialisation de t_scene a échoué", &env_destruct, e));
+	{
+		return (ft_error("Erreur: L'initialisation de t_scene a échoué",
+					&env_destruct, e));
+	}
 	return (e);
 }

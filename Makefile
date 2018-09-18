@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/19 00:21:48 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/19 00:31:03 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SANIT = -fsanitize=address
 SRC_DIR = srcs/
 
 SRC = main.c \
-		glad.c \
+		../glfw-3.2.1/glad.c \
 		loop.c \
 		c_rbo.c \
 		flag.c \

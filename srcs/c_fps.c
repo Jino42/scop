@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_fps.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 00:28:06 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 00:28:38 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scop.h"
 
-void 	*fps_destruct(t_fps **fps)
+void		*fps_destruct(t_fps **fps)
 {
 	ft_memdel((void **)fps);
 	return (NULL);
 }
 
-t_fps 	*fps_construct()
+t_fps		*fps_construct(void)
 {
 	t_fps *fps;
 
@@ -14,7 +26,6 @@ t_fps 	*fps_construct()
 		return (NULL);
 	return (fps);
 }
-
 
 void		fps_update(t_fps *fps, float *ptr)
 {
