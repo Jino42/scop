@@ -6,13 +6,26 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:10 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/23 18:07:25 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 18:40:46 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-bool		m_material_json_write(t_m_material *m_material, cJSON *json_scene)
+static bool		material_json_add(t_material *material, JSON *json_material)
+{
+	if (!json_add_string(json_material, "name", material->name))
+		return (false);
+	if (!json_add_float(json_material, "shininess", material->shininess)
+		|| !json_add_vector(json_material, "ambient", &material->ambient)
+		|| !json_add_vector(json_material, "diffuse", &material->diffuse)
+		|| !json_add_vector(json_material, "specular", &material->specular))
+		return (false);
+	return (true);
+}
+
+bool			m_material_json_write(t_m_material *m_material,
+										cJSON *json_scene)
 {
 	cJSON			*json_material;
 	cJSON			*json_materials;
@@ -31,12 +44,7 @@ bool		m_material_json_write(t_m_material *m_material, cJSON *json_scene)
 			if (!(json_material = cJSON_CreateObject()))
 				return (false);
 			cJSON_AddItemToArray(json_materials, json_material);
-			if (!json_add_string(json_material, "name", material->name))
-				return (false);
-			if (!json_add_float(json_material, "shininess", material->shininess)
-				|| !json_add_vector(json_material, "ambient", &material->ambient)
-				|| !json_add_vector(json_material, "diffuse", &material->diffuse)
-				|| !json_add_vector(json_material, "specular", &material->specular))
+			if (!material_json_add(material, json_material))
 				return (false);
 		}
 		i++;
