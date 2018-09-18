@@ -49,17 +49,6 @@ bool			loop(t_env *e)
 			return (false);
 		}
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
-		/*
-		if (glfwGetKey(glfw->window, GLFW_KEY_F) ``==`` GLFW_PRESS)
-		{
-			(model->type_draw == GL_FILL) ? (model->type_draw = GL_LINE) : (model->type_draw = GL_FILL);
-			glPolygonMode(GL_FRONT_AND_BACK, model->type_draw);
-		}
-		if (glfwGetKey(glfw->window, GLFW_KEY_KP_ADD))
-			matrix_scaling(&model->transform, 1.005f);
-		if (glfwGetKey(glfw->window, GLFW_KEY_KP_SUBTRACT))
-			matrix_scaling(&model->transform, 0.995f);
-		*/
 		if (glfwGetKey(glfw->window, GLFW_KEY_U))
 			scene_write(e->scene, "./la.json");
 		if (glfwGetKey(glfw->window, GLFW_KEY_KP_ADD))

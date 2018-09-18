@@ -42,7 +42,6 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glfwSwapInterval(0);
 	glfw->key = key;
-	//glfwSetInputMode(glfw->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwSetCursorPosCallback(glfw->window, &event_mouse);
 	glfwSetKeyCallback(glfw->window, &glfw_key_callback);
 	glfwSetFramebufferSizeCallback(glfw->window, &glfw_callback_resize);

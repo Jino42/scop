@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:48:49 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 00:38:24 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/18 18:37:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,34 @@
 
 static bool	light_json_add_type(t_light *light, cJSON *json_light)
 {
-	if (light->flag & LIGHT_BASIC && json_add_string(json_light, "type", "basic"))
+	if (light->flag & LIGHT_BASIC
+			&& json_add_string(json_light, "type", "basic"))
 		return (true);
-	else if (light->flag & LIGHT_DIRECTIONNAL && json_add_string(json_light, "type", "directionnal"))
+	else if (light->flag & LIGHT_DIRECTIONNAL
+			&& json_add_string(json_light, "type", "directionnal"))
 		return (true);
 	else if (light->flag & LIGHT_POINT)
 	{
 		if (!json_add_string(json_light, "type", "point")
 			|| !json_add_float(json_light, "constent", light->constent)
 			|| !json_add_float(json_light, "linear", light->linear)
-			|| !json_add_float(json_light, "quadratic", light->quadratic)
-			|| !json_add_float(json_light, "intensity", light->intensity))
+			|| !json_add_float(json_light, "quadratic", light->quadratic))
 			return (false);
 	}
+	return (true);
+}
+
+static bool	light_json_add_basic_information(t_light *light, cJSON *json_light)
+{
+	if (!json_add_string(json_light, "name", light->name))
+		return (false);
+	if (!json_add_vector(json_light, "ambient", &light->ambient)
+		|| !json_add_vector(json_light, "diffuse", &light->diffuse)
+		|| !json_add_vector(json_light, "specular", &light->specular)
+		|| !json_add_vector(json_light, "direction", &light->direction)
+		|| !json_add_vector(json_light, "position", &light->position)
+		|| !json_add_float(json_light, "intensity", light->intensity))
+		return (false);
 	return (true);
 }
 
@@ -47,15 +62,8 @@ bool		m_light_json_write(t_m_light *m_light, cJSON *json_scene)
 		if (!(json_light = cJSON_CreateObject()))
 			return (false);
 		cJSON_AddItemToArray(json_lights, json_light);
-		if (!json_add_string(json_light, "name", light->name))
-			return (false);
-		if (!json_add_vector(json_light, "ambient", &light->ambient)
-			|| !json_add_vector(json_light, "diffuse", &light->diffuse)
-			|| !json_add_vector(json_light, "specular", &light->specular)
-			|| !json_add_vector(json_light, "direction", &light->direction)
-			|| !json_add_vector(json_light, "position", &light->position))
-			return (false);
-		if (!light_json_add_type(light, json_light))
+		if (!light_json_add_type(light, json_light)
+			|| !light_json_add_basic_information(light, json_light))
 			return (false);
 		i++;
 	}
