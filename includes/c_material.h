@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_material.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 00:43:24 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 00:43:45 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef C_MATERIAL_H
 # define C_MATERIAL_H
 
@@ -29,9 +41,9 @@ typedef struct		s_material
 void				*material_destruct(t_material **material);
 t_material			*material_construct(char *name, const int material_type);
 bool				material_set_map(t_material *material, uint32_t flag,
-														const GLuint map_id);
-
-bool				material_set_texture(t_material *material, const t_texture *texture);
+													const GLuint map_id);
+bool				material_set_texture(t_material *material,
+													const t_texture *texture);
 
 typedef struct		s_m_material
 {
@@ -45,8 +57,10 @@ typedef struct		s_m_material
 t_m_material		*m_material_construct();
 void				*m_material_destruct(t_m_material **m_material);
 bool				m_material_add_default(t_m_material *m_material);
-bool				m_material_json_parse(t_m_material *m_material, cJSON *get, const char *key);
-bool				m_material_json_write(t_m_material *m_material, cJSON *json_scene);
+bool				m_material_json_parse(t_m_material *m_material, cJSON *get,
+												const char *key);
+bool				m_material_json_write(t_m_material *m_material,
+												cJSON *json_scene);
 int					m_material_get_index(t_m_material *m_material, char *str);
 
 #endif

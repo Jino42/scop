@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_light.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 00:42:33 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 00:42:53 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef C_LIGHT_H
 # define C_LIGHT_H
 
@@ -9,7 +21,6 @@
 # define LIGHT_DIRECTIONNAL			(1 << 1)
 # define LIGHT_POINT				(1 << 2)
 # define LIGHT_SPOT					(1 << 3)
-// 8 premier bit => type
 
 typedef struct		s_light
 {
@@ -45,7 +56,8 @@ typedef struct		s_m_light
 }					t_m_light;
 t_m_light			*m_light_construct();
 void				*m_light_destruct(t_m_light **m_model);
-bool				m_light_json_parse(t_m_light *m_light, cJSON *get, const char *key);
+bool				m_light_json_parse(t_m_light *m_light,
+											cJSON *get, const char *key);
 bool				m_light_json_write(t_m_light *m_light, cJSON *json_scene);
 
 #endif

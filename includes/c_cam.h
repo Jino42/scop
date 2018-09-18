@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_cam.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 00:41:49 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 00:42:26 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef C_CAM_H
 # define C_CAM_H
 
@@ -23,10 +35,10 @@ typedef struct		s_cam
 	t_matrix		projection;
 	int				flag;
 }					t_cam;
-t_cam 			*cam_construct();
-void			*cam_destruct(t_cam **cam);
-void			cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time);
-t_vector		cam_get_front(float pitch, float yaw);
-
+t_cam				*cam_construct();
+void				*cam_destruct(t_cam **cam);
+void				cam_update(t_cam *cam, const t_glfw *glfw,
+								const float delta_time);
+t_vector			cam_get_front(float pitch, float yaw);
 
 #endif

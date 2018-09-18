@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_mesh.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 00:43:52 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 00:46:40 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef C_MESH_H
 # define C_MESH_H
 
@@ -7,12 +19,12 @@
 
 typedef struct		s_mesh
 {
-	GLuint			VBO;
-	GLuint			VNBO;
-	GLuint			VTBO;
-	GLuint			COLORBO;
-	GLuint			EBO;
-	GLuint			VAO;
+	GLuint			vbo;
+	GLuint			vnbo;
+	GLuint			vtbo;
+	GLuint			colorbo;
+	GLuint			ebo;
+	GLuint			vao;
 
 	GLfloat			*indexed_v;
 	GLfloat			*indexed_vt;

@@ -22,7 +22,7 @@ void	ftemp(t_scene *scene, t_model *model)
 	unsigned int i = 0;
 	while (i < m_mesh->size)
 	{
-		glBindVertexArray(m_mesh->mesh[i]->VAO);
+		glBindVertexArray(m_mesh->mesh[i]->vao);
 		glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		i++;
@@ -143,7 +143,7 @@ void		scene_render(t_scene *scene, float time)
 			glUniform1f(
 					glGetUniformLocation(shader->program, "u_material.flag"),
 					material->flag);
-			glBindVertexArray(m_mesh->mesh[i]->VAO);
+			glBindVertexArray(m_mesh->mesh[i]->vao);
 			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 			i++;

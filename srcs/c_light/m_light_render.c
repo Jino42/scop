@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 18:11:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 18:34:01 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/19 00:47:09 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void			light_render(t_model *model, t_shader *shader)
 	i = 0;
 	while (i < m_mesh->size)
 	{
-		glBindVertexArray(m_mesh->mesh[i]->VAO);
+		glBindVertexArray(m_mesh->mesh[i]->vao);
 		glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices,
 						GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);

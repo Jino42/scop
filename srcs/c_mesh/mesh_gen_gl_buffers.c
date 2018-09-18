@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:07:54 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 18:42:10 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/19 00:46:23 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void		mesh_gen_gl_buffers_v(t_mesh *mesh)
 {
-	glGenBuffers(1, &mesh->VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
+	glGenBuffers(1, &mesh->vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (mesh->nb_indices) * 3,
 		mesh->indexed_v, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
@@ -25,8 +25,8 @@ static void		mesh_gen_gl_buffers_v(t_mesh *mesh)
 
 static void		mesh_gen_gl_buffers_vn(t_mesh *mesh)
 {
-	glGenBuffers(1, &mesh->VNBO);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->VNBO);
+	glGenBuffers(1, &mesh->vnbo);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vnbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (mesh->nb_indices) * 3,
 		mesh->indexed_vn, GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
@@ -36,8 +36,8 @@ static void		mesh_gen_gl_buffers_vn(t_mesh *mesh)
 
 static void		mesh_gen_gl_buffers_vt(t_mesh *mesh)
 {
-	glGenBuffers(1, &mesh->VTBO);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->VTBO);
+	glGenBuffers(1, &mesh->vtbo);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vtbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (mesh->nb_indices) * 2,
 		mesh->indexed_vt, GL_STATIC_DRAW);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
@@ -47,8 +47,8 @@ static void		mesh_gen_gl_buffers_vt(t_mesh *mesh)
 
 static void		mesh_gen_gl_buffers_color(t_mesh *mesh)
 {
-	glGenBuffers(1, &mesh->COLORBO);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->COLORBO);
+	glGenBuffers(1, &mesh->colorbo);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->colorbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLint) * (mesh->nb_indices),
 		mesh->indexed_color, GL_STATIC_DRAW);
 	glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 0, (void*)0);
@@ -58,9 +58,9 @@ static void		mesh_gen_gl_buffers_color(t_mesh *mesh)
 
 void			mesh_gen_gl_buffers(t_mesh *mesh)
 {
-	glGenBuffers(1, &mesh->EBO);
-	glGenVertexArrays(1, &mesh->VAO);
-	glBindVertexArray(mesh->VAO);
+	glGenBuffers(1, &mesh->ebo);
+	glGenVertexArrays(1, &mesh->vao);
+	glBindVertexArray(mesh->vao);
 	mesh->flag |= SCOP_VN;
 	if (mesh->flag & SCOP_V)
 		mesh_gen_gl_buffers_v(mesh);
@@ -69,7 +69,7 @@ void			mesh_gen_gl_buffers(t_mesh *mesh)
 	if (mesh->flag & SCOP_VT)
 		mesh_gen_gl_buffers_vt(mesh);
 	mesh_gen_gl_buffers_color(mesh);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * mesh->nb_indices,
 		mesh->indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
