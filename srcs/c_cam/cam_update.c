@@ -1,35 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cam_update.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 00:22:07 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 00:26:12 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scop.h"
 
-t_cam 		*cam_construct()
-{
-	t_cam *cam;
-
-	if (!(cam = ft_memalloc(sizeof(t_cam))))
-		return (NULL);
-	cam->fov = 66.f;
-	cam->near = 0.01f;
-	cam->far = 100.f;
-	cam->projection = matrixgl_get_projection(cam->fov, (float)WIDTH / (float)HEIGHT, cam->near, cam->far);
-	cam->sensitivity = 0.03f;
-	cam->up = vector_construct(0.f, 1.f, 0.f);
-	cam->to = vector_construct(0.f, 0.f, 1.f);
-	cam->yaw = 90.f;
-	cam->position = vector_construct(0.f, 0.f, 1.f);
-	cam->front.x = cosf(get_radians(cam->pitch)) * cosf(get_radians(cam->yaw));
-	cam->front.y = sinf(get_radians(cam->pitch));
-	cam->front.z = sinf(get_radians(cam->yaw));
-	vector_normalize(&cam->front);
-	cam->flag |= CURSOR_NORMAL;
-	return (cam);
-}
-
-void		*cam_destruct(t_cam **cam)
-{
-	ft_memdel((void **)cam);
-	return (NULL);
-}
-
-static void	cam_update_position(t_cam *cam, const t_glfw *glfw, const float delta_time)
+static void			cam_update_position_2(t_cam *cam,
+										const t_glfw *glfw,
+										const float delta_time)
 {
 	t_vector	dir;
 	float		speed;
@@ -47,6 +32,16 @@ static void	cam_update_position(t_cam *cam, const t_glfw *glfw, const float delt
 		dir = vector_get_mult(&cam->to, speed);
 		vector_add(&cam->position, &dir);
 	}
+}
+
+static void			cam_update_position_1(t_cam *cam,
+										const t_glfw *glfw,
+										const float delta_time)
+{
+	t_vector	dir;
+	float		speed;
+
+	speed = 1 * delta_time;
 	if (glfwGetKey(glfw->window, GLFW_KEY_LEFT) == GLFW_PRESS
 			|| glfwGetKey(glfw->window, GLFW_KEY_A) == GLFW_PRESS)
 	{
@@ -63,23 +58,12 @@ static void	cam_update_position(t_cam *cam, const t_glfw *glfw, const float delt
 	}
 }
 
-t_vector		cam_get_front(float pitch, float yaw)
-{
-	t_vector	vec;
-
-	vec = vector_construct(cosf(get_radians(pitch)) * cosf(get_radians(yaw)),
-							sinf(get_radians(pitch)),
-							sinf(get_radians(yaw)));
-	return (vec);
-}
-
-static void	cam_update_direction(t_cam *cam)
+static void			cam_update_direction(t_cam *cam)
 {
 	t_vector offset;
 	t_vector *cursor_position;
 
 	cursor_position = singleton_mouse_position();
-
 	if (cursor_position->x != cam->last_cursor_position.x
 		|| cursor_position->y != cam->last_cursor_position.y)
 	{
@@ -94,18 +78,21 @@ static void	cam_update_direction(t_cam *cam)
 		cam->last_cursor_position = *cursor_position;
 		offset.x *= cam->sensitivity;
 		offset.y *= cam->sensitivity;
-
-		cam->yaw   += offset.x;
+		cam->yaw += offset.x;
 		cam->pitch += offset.y;
-		cam->front.x = cosf(get_radians(cam->pitch)) * cosf(get_radians(cam->yaw));
+		cam->front.x = cosf(get_radians(cam->pitch))
+			* cosf(get_radians(cam->yaw));
 		cam->front.y = sinf(get_radians(cam->pitch));
 		cam->front.z = sinf(get_radians(cam->yaw));
 	}
 }
 
-void		cam_update(t_cam *cam, const t_glfw *glfw, const float delta_time)
+void				cam_update(t_cam *cam,
+								const t_glfw *glfw,
+								const float delta_time)
 {
-	cam_update_position(cam, glfw, delta_time);
+	cam_update_position_1(cam, glfw, delta_time);
+	cam_update_position_2(cam, glfw, delta_time);
 	if (cam->fps)
 		cam_update_direction(cam);
 	cam->view = matrixgl_view(cam);
