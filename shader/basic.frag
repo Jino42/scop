@@ -61,6 +61,7 @@ struct t_light
 	float	spot_little_radius;
 	float	spot_big_radius;
 	int		type;
+	float	intensity;
 };
 
 out vec4 FragColor;
@@ -73,24 +74,23 @@ in vec4 gl_FragCoord;
 uniform t_light		u_light[SCOP_MAX_LIGHTS];
 uniform vec3		u_cameraPosition;
 uniform t_material	u_material;
-uniform sampler2D	u_testTexture;
+uniform sampler2D	u_texture;
 uniform float		u_time;
 uniform int			u_obj_flag;
 
-float intensityAmbient = 0.15;
 vec3 ambient;
 vec3 diffuse;
 vec3 specular;
-vec3 lightColor = vec3(1.f, 1.f, 1.f);
 vec3 dir_light;
 vec3 dir_view;
 vec3 norm;
-vec3 resultColor;
+vec3 result_color;
 vec4 textureAmbient;
 t_material material;
 
 vec3	phong(t_light light)
 {
+	vec3 recult_phong;
 	ambient = material.ambient * light.ambient;
 
 	norm = normalize(normal);
@@ -117,16 +117,16 @@ vec3	phong(t_light light)
 		specular *= intensity;
 	}
 
-	resultColor = (ambient + diffuse + specular);
+	recult_phong = (ambient + diffuse + specular) * light.intensity;
 
 	if (light.type == LIGHT_POINT)
 	{
 		float distance    = length(light.position - position);
 		float attenuation = 1.0 / (light.constent + light.linear * distance +
 							light.quadratic * (distance * distance));
-		resultColor *= attenuation;
+		recult_phong *= attenuation;
 	}
-	return (resultColor);
+	return (recult_phong);
 }
 
 void main()
@@ -135,16 +135,16 @@ void main()
 	if (material.texture_diffuse == 1)
 	{
 		if ((u_obj_flag & SCOP_VT) == 0)
-			textureAmbient = texture(u_testTexture, vec2(position.x, position.y));
+			textureAmbient = texture(u_texture, vec2(position.x, position.y));
 		else
-			textureAmbient = texture(u_testTexture, uv);
+			textureAmbient = texture(u_texture, uv);
 		material.diffuse = textureAmbient.rgb;
 		material.ambient = textureAmbient.rgb * 0.1;
 		material.specular = textureAmbient.rgb;
 	}
 
-	for (int i = 0; i < 2; i++)
-		resultColor += phong(u_light[i]);
+	for (int i = 0; i < SCOP_MAX_LIGHTS; i++)
+		result_color += phong(u_light[i]);
 
-	FragColor = vec4(resultColor, 1.f);
+	FragColor = vec4(result_color, 1.f);
 }
