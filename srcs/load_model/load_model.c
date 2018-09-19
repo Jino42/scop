@@ -286,6 +286,7 @@ t_model		*m_model_load(t_scene *scene,
 		bzero(lm->buffer_vt, 4 * sizeof(int));
 		bzero(lm->buffer_vn, 4 * sizeof(int));
 	}
+	glfwPollEvents();
 	//obj_pars_debug(lm);
 	model_gen_gl_buffers(model);
 	model_setup_scaling(model);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 00:17:00 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/19 18:02:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,18 @@ bool				m_model_hidden_setup(t_scene *scene);
 
 void			rbo_render(t_rbo *rbo, t_shader *shader, t_model *model, const float time);
 
+void				cam_update(t_cam *cam, const t_glfw *glfw,
+								const float delta_time);
 
+								bool				nk_scene(t_nk *nk, t_scene **scene);
+								bool				nk_scene_menu(t_nk *nk, t_scene **scene);
+								bool				nk_scene_menu_popup(t_nk *nk, t_scene **scene,
+																					struct nk_context *ctx);
+								void				nk_cam(t_nk *nk, t_cam *cam);
+								void 				nk_m_model(t_nk *nk, t_scene *scene, t_m_model *m_model);
+								void 				nk_model(t_nk *nk, t_scene *scene, t_model *model);
+								void 				nk_material(t_nk *nk, t_material *material);
+								void 				nk_m_material(t_nk *nk, t_m_material *m_material);
+								void 				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light);
+								void 				nk_light(t_nk *nk, t_light *light);
 #endif

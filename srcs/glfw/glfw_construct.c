@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 21:49:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 21:55:07 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:23:31 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,20 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 
 	if (!(glfw = ft_memalloc(sizeof(t_glfw))))
 		return (NULL);
-	bzero(glfw, sizeof(t_glfw));
-	glfwInit();
+	if (!glfwInit())
+		return (glfw_destruct(&glfw));
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfw->window = glfwCreateWindow(width, height, name, NULL, NULL);
 	if (glfw->window == NULL)
 		return (glfw_destruct(&glfw));
 	glfwMakeContextCurrent(glfw->window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		return (glfw_destruct(&glfw));
+	glViewport(0, 0, WIDTH, HEIGHT);
+	if (!(glfw->nk = nk_construct(glfw->window)))
 		return (glfw_destruct(&glfw));
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glfwSwapInterval(0);

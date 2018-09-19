@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_shader.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 14:07:51 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 14:08:12 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef C_SHADER_H
 # define C_SHADER_H
 
@@ -34,14 +46,16 @@ typedef struct		s_m_shader
 	t_shader		**shader;
 	char			**shader_name;
 	int				index_selected;
-	bool			(*add)(struct s_m_shader *, const char *, const char *, const char *);
+	bool			(*add)(struct s_m_shader *, const char *, const char *,
+						const char *);
 }					t_m_shader;
 t_m_shader			*m_shader_construct_hidden(void);
 t_m_shader			*m_shader_construct();
 void				*m_shader_destruct(t_m_shader **m_shader);
-bool				m_shader_json_parse(t_m_shader *m_shader, cJSON *get, const char *key);
-bool				m_shader_json_write(t_m_shader *m_shader, cJSON *json_scene);
+bool				m_shader_json_parse(t_m_shader *m_shader, cJSON *get,
+						const char *key);
+bool				m_shader_json_write(t_m_shader *m_shader,
+						cJSON *json_scene);
 int					m_shader_get_index(t_m_shader *m_shader, char *str);
-
 
 #endif

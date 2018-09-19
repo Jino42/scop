@@ -2,13 +2,12 @@
 # define SCOP_NK_H
 
 # include "glad.h"
-# include "scop_glfw.h"
 # include "nuk_glfw_gl3.h"
 # include "libft.h"
-# include "c_scene.h"
 # include "cJSON.h"
-# include <float.h>
 # include <stdbool.h>
+# include "vector.h"
+# include <float.h>
 
 # define MAX_VERTEX_BUFFER 512 * 1024
 # define MAX_ELEMENT_BUFFER 128 * 1024
@@ -53,18 +52,5 @@ void				nk_position(t_nk *nk, t_vector *vector);
 void				nk_combo_vector(t_nk *nk, t_vector *vector, const char *str);
 void				nk_combo_colorf(t_nk *nk, t_vector *vec, const char *str);
 void				nk_check(t_nk *nk, int *flag, const int define, const char *str);
-
-bool				nk_scene(t_nk *nk, t_scene **scene);
-bool				nk_scene_menu(t_nk *nk, t_scene **scene);
-bool				nk_scene_menu_popup(t_nk *nk, t_scene **scene,
-													struct nk_context *ctx);
-void				nk_cam(t_nk *nk, t_cam *cam);
-void 				nk_m_model(t_nk *nk, t_scene *scene, t_m_model *m_model);
-void 				nk_model(t_nk *nk, t_scene *scene, t_model *model);
-void 				nk_material(t_nk *nk, t_material *material);
-void 				nk_m_material(t_nk *nk, t_m_material *m_material);
-void 				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light);
-void 				nk_light(t_nk *nk, t_light *light);
-
 
 #endif

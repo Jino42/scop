@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_texture.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 14:08:20 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/19 14:08:45 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef C_TEXTURE_H
 # define C_TEXTURE_H
 
@@ -29,17 +41,18 @@ typedef struct		s_m_texture
 
 typedef struct		s_tga
 {
-    unsigned char	type_code;
-    short int		width;
-    short int		height;
-    unsigned char	bit_count;
-    unsigned char	*data;
+	unsigned char	type_code;
+	short int		width;
+	short int		height;
+	unsigned char	bit_count;
+	unsigned char	*data;
 	int				fd;
 	char			buffer[255];
 }					t_tga;
 
 t_m_texture			*m_texture_construct();
 void				*m_texture_destruct(t_m_texture **m_model);
-bool				m_texture_json_parse(t_m_texture *m_texture, cJSON *get, const char *key);
+bool				m_texture_json_parse(t_m_texture *m_texture,
+						cJSON *get, const char *key);
 
 #endif

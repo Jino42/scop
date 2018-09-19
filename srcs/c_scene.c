@@ -186,6 +186,7 @@ bool		scene_parse(t_scene *scene, const char *path)
 	bzero(buffer, MAX_SOURCE_SIZE);
 	if (!(json = json_load_src(path, buffer)))
 		return (false);
+	(void)scene;
 	if (!(m_material_json_parse(scene->m_material, json, "material")))
 	{
 		cJSON_Delete(json);
@@ -208,7 +209,6 @@ bool		scene_parse(t_scene *scene, const char *path)
 	}
 	if (!(m_texture_json_parse(scene->m_texture_hidden, json, "textures")))
 	{
-		printf("ABC\n");
 		cJSON_Delete(json);
 		return (false);
 	}
@@ -220,6 +220,7 @@ t_scene		*scene_construct(const char *path)
 {
 	t_scene *scene;
 
+	(void)path;
 	if (!(scene = ft_memalloc(sizeof(t_scene))))
 		return (NULL);
 	scene->shader_add = &scene_shader_add;

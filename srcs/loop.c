@@ -22,11 +22,6 @@ void m_model_update(t_m_model *m_model)
 
 bool			loop(t_env *e)
 {
-	t_nk *nk;
-
-	if (!(nk = nk_construct(e->glfw->window)))
-		return (false);
-
 	t_glfw		*glfw;
 
 	glfw = e->glfw;
@@ -42,10 +37,10 @@ bool			loop(t_env *e)
 		fps_update(e->fps, &e->delta_time);
 		glfw_update(e->glfw);
 		m_model_update(e->scene->m_model);
-		nk_update(nk);
-		if (!(nk_scene(nk, &e->scene)))
+		nk_update(glfw->nk);
+		if (!(nk_scene(glfw->nk, &e->scene)))
 		{
-			nk_destruct(&nk);
+			nk_destruct(&glfw->nk);
 			return (false);
 		}
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
@@ -93,12 +88,11 @@ bool			loop(t_env *e)
 		glDepthFunc (GL_LESS);
 
 		scene_render(e->scene, e->fps->time);
-		nk_render(nk);
+		nk_render(glfw->nk);
 
 		glfwSwapBuffers(glfw->window);
 		glfwPollEvents();
 
 	}
-	nk_destruct(&nk);
 	return (true);
 }
