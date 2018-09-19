@@ -1,0 +1,2 @@
+cc -I ./ -I ../glfw-3.2.1/include/GLFW/ -std=c99 -pedantic -O2 -o nuklear.o -c nuklear.c
+ar rc nuklear.a nuklear.o && ranlib nuklear.a
