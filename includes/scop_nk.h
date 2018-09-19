@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scop_nk.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/20 00:03:07 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/20 00:03:14 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SCOP_NK_H
 # define SCOP_NK_H
 
@@ -48,8 +60,10 @@ void				nk_example(t_nk *nk);
 void				nk_update(t_nk *nk);
 void				nk_render(t_nk *nk);
 void				nk_position(t_nk *nk, t_vector *vector);
-void				nk_combo_vector(t_nk *nk, t_vector *vector, const char *str);
+void				nk_combo_vector(t_nk *nk, t_vector *vector,
+						const char *str);
 void				nk_combo_colorf(t_nk *nk, t_vector *vec, const char *str);
-void				nk_check(t_nk *nk, int *flag, const int define, const char *str);
+void				nk_check(t_nk *nk, int *flag, const int define,
+						const char *str);
 
 #endif

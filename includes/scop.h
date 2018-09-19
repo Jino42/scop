@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 18:02:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/20 00:02:57 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@
 # define FLOAT_MIN -100000.f
 # define FLOAT_MAX 100000.f
 
-#define MAX_SOURCE_SIZE 8000
-#define BUFFER_LOG 2048
+# define MAX_SOURCE_SIZE 8000
+# define BUFFER_LOG 2048
 
 # define CURSOR_NORMAL (1 << 0)
 # define CURSOR_HIDDEN (1 << 0)
@@ -74,8 +74,8 @@ typedef struct		s_fps
 	unsigned int	fps;
 	unsigned int	ret_fps;
 }					t_fps;
-t_fps 				*fps_construct();
-void 				*fps_destruct(t_fps **e);
+t_fps				*fps_construct();
+void				*fps_destruct(t_fps **e);
 void				fps_update(t_fps *fps, float *ptr);
 
 typedef struct		s_env
@@ -88,48 +88,38 @@ typedef struct		s_env
 
 	int64_t			flag;
 }					t_env;
-t_env 				*env_construct(int argc, char **argv);
-void 				*env_destruct(void *ptr);
 
-
+t_env				*env_construct(int argc, char **argv);
+void				*env_destruct(void *ptr);
 int					flag(int64_t *f, int argc, char **argv);
 bool				loop(t_env *e);
-
 t_vector			*singleton_mouse_position();
 void				event_mouse(GLFWwindow *window, double pos_x, double pos_y);
-
 float				get_degrees(const float radians);
 float				get_radians(const float degrees);
-
-
 t_matrix			matrixgl_view(t_cam *cam);
 t_matrix			look_at_gl(const t_vector *position,
-						const t_vector *to,
-						const t_vector *up);
+						const t_vector *to, const t_vector *up);
 t_matrix			matrixgl_get_projection(const float fov,
-									const float ratio,
-									const float near,
-									const float far);
-
-
-t_model			*m_model_load(t_scene *scene, t_m_model *m_model, const char *path_obj, const char *name);
-void			scene_render(t_scene *scene, float time);
+						const float ratio, const float near, const float far);
+t_model				*m_model_load(t_scene *scene, t_m_model *m_model,
+						const char *path_obj, const char *name);
+void				scene_render(t_scene *scene, float time);
 bool				m_model_hidden_setup(t_scene *scene);
-
-void			rbo_render(t_rbo *rbo, t_shader *shader, t_model *model, const float time);
-
+void				rbo_render(t_rbo *rbo, t_shader *shader, t_model *model,
+						const float time);
 void				cam_update(t_cam *cam, const t_glfw *glfw,
-								const float delta_time);
+						const float delta_time);
+bool				nk_scene(t_nk *nk, t_scene **scene);
+bool				nk_scene_menu(t_nk *nk, t_scene **scene);
+bool				nk_scene_menu_popup(t_nk *nk, t_scene **scene,
+						struct nk_context *ctx);
+void				nk_cam(t_nk *nk, t_cam *cam);
+void				nk_m_model(t_nk *nk, t_scene *scene, t_m_model *m_model);
+void				nk_model(t_nk *nk, t_scene *scene, t_model *model);
+void				nk_material(t_nk *nk, t_material *material);
+void				nk_m_material(t_nk *nk, t_m_material *m_material);
+void				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light);
+void				nk_light(t_nk *nk, t_light *light);
 
-								bool				nk_scene(t_nk *nk, t_scene **scene);
-								bool				nk_scene_menu(t_nk *nk, t_scene **scene);
-								bool				nk_scene_menu_popup(t_nk *nk, t_scene **scene,
-																					struct nk_context *ctx);
-								void				nk_cam(t_nk *nk, t_cam *cam);
-								void 				nk_m_model(t_nk *nk, t_scene *scene, t_m_model *m_model);
-								void 				nk_model(t_nk *nk, t_scene *scene, t_model *model);
-								void 				nk_material(t_nk *nk, t_material *material);
-								void 				nk_m_material(t_nk *nk, t_m_material *m_material);
-								void 				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light);
-								void 				nk_light(t_nk *nk, t_light *light);
 #endif
