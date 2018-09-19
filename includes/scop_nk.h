@@ -2,7 +2,7 @@
 # define SCOP_NK_H
 
 # include "glad.h"
-# include "nuk_glfw_gl3.h"
+# include "nuklear_glfw_gl3.h"
 # include "libft.h"
 # include "cJSON.h"
 # include <stdbool.h>
@@ -11,7 +11,6 @@
 
 # define MAX_VERTEX_BUFFER 512 * 1024
 # define MAX_ELEMENT_BUFFER 128 * 1024
-
 # define THEME_RED (1 << 0)
 
 # define MENU_NONE (1 << 0)

@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/19 14:17:21 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/19 21:32:58 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -Wvla -g3
 
-INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h includes/nuk_head.h includes/c_scene.h includes/c_texture.h includes/json.h includes/c_lm.h  includes/c_cam.h includes/c_light.h includes/c_material.h includes/c_mesh.h includes/c_model.h includes/c_shader.h includes/c_rbo.h
+INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h includes/c_scene.h includes/c_texture.h includes/json.h includes/c_lm.h  includes/c_cam.h includes/c_light.h includes/c_material.h includes/c_mesh.h includes/c_model.h includes/c_shader.h includes/c_rbo.h
 
-INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -I ~/.brew/include/ -I ./cJSON/ -I glfw-3.2.1/
+INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -I ~/.brew/include/ -I ./cJSON/ -I glfw-3.2.1/ -I nuklear/src/
 
 SANIT = -fsanitize=address
 
@@ -101,7 +101,7 @@ GLFW_DIR = ./glfw-3.2.1/construct
 GLFW_LIB = $(GLFW_DIR)/src/libglfw3.a
 GLFW_FLAG = $(GLFW_LIB) -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
-FRAMEWORK = -framework OpenGL -framework AppKit -framework Opencl -L ~/.brew/lib/ -lGLEW test/test.a -L ./cJSON/build/ -lcjson
+FRAMEWORK = -framework OpenGL -framework AppKit -framework Opencl -L ~/.brew/lib/ -lGLEW nuklear/src/nuklear.a -L ./cJSON/build/ -lcjson
 
 DIR_LFT = libft/
 DIR_VEC = vector/

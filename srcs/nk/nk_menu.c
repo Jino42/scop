@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 23:39:24 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 23:52:28 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/19 21:25:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void			nk_scene_menu_popup_over(t_nk *nk)
 			nk_rect(WIDTH / 2 - 160, HEIGHT / 2 - 45, 330, 90)))
 		{
 			nk_layout_row_dynamic(ctx, 30, 1);
-			nk_labelf(ctx, NK_TEXT_LEFT, "%s", nk->buffer[1]);
+			nk_label(ctx, nk->buffer[1], NK_TEXT_LEFT);
 			if (nk_button_label(ctx, "Ok"))
 			{
 				nk->popup_over = 0;

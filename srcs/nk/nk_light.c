@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:28:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 22:33:49 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/19 21:26:37 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void				nk_light(t_nk *nk, t_light *light)
 
 	ctx = nk->ctx;
 	nk_layout_row_dynamic(ctx, 30, 2);
-	nk_labelf(ctx, NK_TEXT_LEFT, "Intensity [%.2f]", light->intensity);
+	nk_label(ctx, "Intensity", NK_TEXT_LEFT);
 	nk_slider_float(ctx, 0.f, &light->intensity, 1.f, 0.01f);
 	nk_layout_row_static(ctx, 30, 300, 1);
 	nk_combo_vector(nk, &light->position, "Position");
