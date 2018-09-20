@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:07:54 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 00:46:23 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/20 22:32:31 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void			mesh_gen_gl_buffers(t_mesh *mesh)
 		mesh_gen_gl_buffers_vt(mesh);
 	mesh_gen_gl_buffers_color(mesh);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * mesh->nb_indices,
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (mesh->nb_indices + mesh->same_indices),
 		mesh->indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

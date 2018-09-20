@@ -1,37 +1,5 @@
 #include "scop.h"
 
-void	ftemp(t_scene *scene, t_model *model)
-{
-	t_matrix temp, mvp;
-	t_m_mesh *m_mesh;
-
-	temp = model->transform;
-	temp = matrix_get_mult_matrix(&temp, &scene->cam->view);
-	mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
-
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilMask(0x00);
-	shader_use(scene->m_shader_hidden->shader[SHADER_INDEX_OUTLINE]);
-
-	glUniformMatrix4fv(glGetUniformLocation(scene->m_shader_hidden->shader[SHADER_INDEX_OUTLINE]->program, "MVP"), 1, GL_FALSE, &mvp.matrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(scene->m_shader_hidden->shader[SHADER_INDEX_OUTLINE]->program, "V"), 1, GL_FALSE, &scene->cam->view.matrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(scene->m_shader_hidden->shader[SHADER_INDEX_OUTLINE]->program, "P"), 1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(scene->m_shader_hidden->shader[SHADER_INDEX_OUTLINE]->program, "M"), 1, GL_FALSE, &model->transform.matrix[0][0]);
-
-	m_mesh = model->m_mesh;
-	unsigned int i = 0;
-	while (i < m_mesh->size)
-	{
-		glBindVertexArray(m_mesh->mesh[i]->vao);
-		glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-		i++;
-	}
-	glUseProgram(0);
-	glStencilMask(0xFF);
-	glEnable(GL_DEPTH_TEST);
-}
-
 void		scene_render(t_scene *scene, float time)
 {
 	t_material *material;
@@ -144,7 +112,8 @@ void		scene_render(t_scene *scene, float time)
 					glGetUniformLocation(shader->program, "u_material.flag"),
 					material->flag);
 			glBindVertexArray(m_mesh->mesh[i]->vao);
-			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices, GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices + m_mesh->mesh[i]->same_indices, GL_UNSIGNED_INT, 0);
+			//glDrawArrays(GL_TRIANGLES, 0, m_mesh->mesh[i]->nb_indices);
 			glBindVertexArray(0);
 			i++;
 		}
@@ -216,13 +185,15 @@ bool		scene_parse(t_scene *scene, const char *path)
 	return (true);
 }
 
-t_scene		*scene_construct(const char *path)
+t_scene		*scene_construct(const char *path, const int flag)
 {
 	t_scene *scene;
 
 	(void)path;
 	if (!(scene = ft_memalloc(sizeof(t_scene))))
 		return (NULL);
+	if (flag)
+		scene->flag |= SCOP_INDEXING;
 	scene->shader_add = &scene_shader_add;
 	scene->model_add = &scene_model_add;
 	scene->mesh_add = &scene_mesh_add;
@@ -296,8 +267,11 @@ void		*scene_destruct(t_scene **scene)
 
 bool		scene_reload(t_scene **scene, const char *path)
 {
+	int flag;
+
+	flag = (*scene)->flag;
 	scene_destruct(scene);
-	if (!((*scene) = scene_construct(path)))
+	if (!((*scene) = scene_construct(path, flag)))
 		return (false);
 	if (!scene || !(*scene))
 		return (false);

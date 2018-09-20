@@ -31,7 +31,6 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 	{
 		map_id = 0;
 		sscanf(line, "%s ", lm->type);
-		//printf("%s\n", line);
 		if (!strcmp(lm->type, "newmtl"))
 		{
 			if (material)
@@ -67,36 +66,6 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 			material_set_texture(material, texture);
 			ft_printf("map_Kd set %s\n", path_tex);
 		}
-		/*
-		else if (!strcmp(lm->type, "map_Ks"))
-		{
-			sscanf(line, "%s %s", lm->type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_SPECULAR, map_id);
-			ft_printf("Map_s set\n");
-		}
-		else if (!strcmp(lm->type, "map_Ns"))
-		{
-			sscanf(line, "%s %s", lm->type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_SHININESS, map_id);
-			ft_printf("Map_shininess set %s\n", path_tex);
-		}
-		else if (!strcmp(lm->type, "norm"))
-		{
-			sscanf(line, "%s %s", lm->type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_NORMAL, map_id);
-			ft_printf("Map_normal set %s\n", path_tex);
-		}
-
-		*/
 		bzero(lm->type, 10);
 		bzero(lm->buffer255, 255);
 		ft_memdel((void *)&line);
@@ -104,87 +73,6 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 	if (material)
 		m_material->add(m_material, material);
 	return (true);
-	/*
-
-(void)model;
-	line = NULL;
-	t_material *material;
-
-	//if (!(material = material_construct()))
-	//	return (false);
-	while (get_next_line(fd, &line))
-	{
-		map_id = 0;
-		sscanf(line, "%s ", type);
-	//	printf("%s\n", line);
-		if (!strcmp(type, "newmtl"))
-		{
-			if (material)
-				model->materials->add(model->materials, material);
-			sscanf(line, "%s %s\n", type, name);
-			material = material_construct(name);
-		}
-		else if (!strcmp(type, "Ka"))
-			sscanf(line, "%s %f %f %f\n", type, &material->ambient.x, &material->ambient.y, &material->ambient.z);
-		else if (!strcmp(type, "Kd"))
-			sscanf(line, "%s %f %f %f\n", type, &material->diffuse.x, &material->diffuse.y, &material->diffuse.z);
-		else if (!strcmp(type, "Ks"))
-			sscanf(line, "%s %f %f %f\n", type, &material->specular.x, &material->specular.y, &material->specular.z);
-		else if (!strcmp(type, "Ns"))
-			sscanf(line, "%s %f", type, &material->shininess);
-		else if (!strcmp(type, "d"))
-			sscanf(line, "%s %f", type, &material->transparency);
-		else if (!strcmp(type, "map_Ka"))
-		{
-			sscanf(line, "%s %s", type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_AMBIENT, map_id);
-			ft_printf("map_Ka set %s\n", path_tex);
-		}
-		else if (!strcmp(type, "map_Kd"))
-		{
-			sscanf(line, "%s %s", type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_DIFFUSE, map_id);
-			ft_printf("Map_diffuse set  %s\n", path_tex);
-		}
-		else if (!strcmp(type, "map_Ks"))
-		{
-			sscanf(line, "%s %s", type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_SPECULAR, map_id);
-			ft_printf("Map_s set\n");
-		}
-		else if (!strcmp(type, "map_Ns"))
-		{
-			sscanf(line, "%s %s", type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_SHININESS, map_id);
-			ft_printf("Map_shininess set %s\n", path_tex);
-		}
-		else if (!strcmp(type, "norm"))
-		{
-			sscanf(line, "%s %s", type, path);
-			char *path_tex = ft_strjoin((const char *)model->access_path, path);
-			if (!(map_id = model->textures->add(model->textures, path_tex)))
-				return (false);
-			material->set_map(material, MATERIAL_MAP_NORMAL, map_id);
-			ft_printf("Map_normal set %s\n", path_tex);
-		}
-		if (material)
-			model->materials->add(model->materials, material);
-		ft_memdel((void *)&line);
-	}
-	return (true);
-	*/
 }
 
 bool	obj_pars_debug(t_lm *lm)
@@ -237,7 +125,6 @@ t_model		*m_model_load(t_scene *scene,
 	while (get_next_line(lm->fd, &lm->line) == 1)
 	{
 		sscanf(lm->line, "%s ", lm->type);
-		//printf("%s\n", lm->line);
 		if (!strcmp("#", lm->type))
 			;
 		else if (!strcmp("vn", lm->type))

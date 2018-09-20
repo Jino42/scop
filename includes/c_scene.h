@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:07:03 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 14:07:44 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/20 23:38:37 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@
 # include "c_light.h"
 # include "c_rbo.h"
 
+# define SCOP_INDEXING (1 << 0)
+
 typedef struct		s_scene
 {
+	int				flag;
 	t_rbo			*rbo;
 	unsigned int	index_light;
 	t_cam			*cam;
@@ -44,7 +47,7 @@ typedef struct		s_scene
 	bool			(*model_add)(struct s_scene*, t_model *);
 }					t_scene;
 void				*scene_destruct(t_scene **scene);
-t_scene				*scene_construct(const char *path);
+t_scene				*scene_construct(const char *path, const int flag);
 bool				m_model_json_parse(t_scene *scene, cJSON *get,
 						const char *key);
 bool				scene_require(t_scene *scene);

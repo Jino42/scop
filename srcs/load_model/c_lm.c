@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_lm.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/20 00:04:31 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/20 23:29:46 by ntoniolo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scop.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-/*s
-glStencilFunc(GL_ALWAYS, 1, 0xFF);
-glStencilMask(0xFF);
-DrawTwoContainers();
 
-glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-glStencilMask(0x00);
-glDisable(GL_DEPTH_TEST);
-shaderSingleColor.use();
-DrawTwoScaledUpContainers();
-glStencilMask(0xFF);
-glEnable(GL_DEPTH_TEST);
-*/
+static void	lm_construct_set_mem_len(t_lm *lm)
+{
+	lm->mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
+	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_indexed_color = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
+}
+
 t_lm		*lm_construct(t_scene *scene, t_model *model, const char *path_obj)
 {
 	t_lm	*lm;
@@ -36,14 +48,7 @@ t_lm		*lm_construct(t_scene *scene, t_model *model, const char *path_obj)
 		return (lm_destruct(&lm));
 	if (!(lm->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
 		return (lm_destruct(&lm));
-	lm->mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
-	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_indexed_color = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
+	lm_construct_set_mem_len(lm);
 	lm->fd = fd;
 	return (lm);
 }
@@ -73,21 +78,6 @@ bool		lm_add_mesh(t_lm *lm, int flag)
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_color = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mesh->flag = flag;
-
-	/*
-	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
-	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
-	ft_memdel((void **)&lm->v);
-	ft_memdel((void **)&lm->vt);
-	ft_memdel((void **)&lm->vn);
-	if (!(lm->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));
-	if (!(lm->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));
-	if (!(lm->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));
-	*/
 	return (true);
 }
 
@@ -112,7 +102,7 @@ bool	lm_check_realloc(t_lm *lm)
 	t_mesh *mesh;
 
 	mesh = lm->mesh;
-	if ((mesh->nb_indices + 18) * sizeof(GLuint) >= lm->mem_len_indices)
+	if ((mesh->nb_indices + mesh->same_indices + 18) * sizeof(GLuint) >= lm->mem_len_indices)
 	{
 		lm->mem_len_indices += BUFFER_OBJ * sizeof(GLuint);
 		if (!(mesh->indices = realloc(mesh->indices, lm->mem_len_indices)))
@@ -272,11 +262,61 @@ static int	lm_get_index_face(t_lm *lm)
 	return (0);
 }
 
+bool	equalf(const float a, const float b)
+{
+	if (fabs(a - b) < 0.00005f)
+		return (true);
+	return (false);
+}
+
+bool	equal3f(const float *a, const float *b)
+{
+	if (equalf(a[0], b[0]) && equalf(a[1], b[1]) && equalf(a[2], b[2]))
+		return (true);
+	return (false);
+}
+
+bool	equal2f(const float *a, const float *b)
+{
+	if (equalf(a[0], b[0]) && equalf(a[1], b[1]))
+		return (true);
+	return (false);
+}
+
+static int lm_indexing_same(t_lm *lm, const int sommet)
+{
+	int		i;
+
+	i = lm->mesh->nb_indices - 100;
+	if (i < 0)
+		i = 0;
+	while (i < lm->mesh->nb_indices)
+	{
+		if (equal3f(&lm->mesh->indexed_v[i * 3], &lm->v[(lm->buffer_index_v[sommet] - 1) * 3])
+			&& equal2f(&lm->mesh->indexed_vt[i * 2], &lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2])
+			&& equal3f(&lm->mesh->indexed_vn[i * 3], &lm->vn[(lm->buffer_index_vn[sommet] - 1) * 3]))
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
 static void	lm_indexing(t_lm *lm, const int sommet)
 {
-	float nb;
+	float	nb;
+	int		indice;
 
-	lm->mesh->indices[lm->mesh->nb_indices] = lm->mesh->nb_indices;
+	if (lm->scene->flag & SCOP_INDEXING
+		&& lm->mesh->flag & (SCOP_V | SCOP_VT | SCOP_VN))
+	{
+		if ((indice = lm_indexing_same(lm, sommet)))
+		{
+			lm->mesh->indices[lm->mesh->nb_indices + lm->mesh->same_indices] = indice;
+			lm->mesh->same_indices++;
+			return ;
+		}
+	}
+	lm->mesh->indices[lm->mesh->nb_indices + lm->mesh->same_indices] = lm->mesh->nb_indices;
 	if (lm->mesh->flag & SCOP_V)
 	{
 		memcpy(&lm->mesh->indexed_v[lm->mesh->nb_indices * 3],

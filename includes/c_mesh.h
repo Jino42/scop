@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:43:52 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 00:46:40 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/20 00:39:09 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct		s_mesh
 
 	GLint			nb_faces;
 	GLint			nb_indices;
+	GLint			same_indices;
 	int				flag;
 	unsigned int	index_material;
 	unsigned int	index_material_personnal;

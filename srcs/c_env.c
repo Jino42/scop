@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:27:05 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 18:33:11 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/20 23:38:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_env	*env_construct(int argc, char **argv)
 		return (ft_error("Erreur: L'initialisation de t_glfw a échoué",
 					&env_destruct, e));
 	}
-	if (!(e->scene = scene_construct(argv[1])))
+	if (!(e->scene = scene_construct(argv[1], argc >= 3)))
 	{
 		return (ft_error("Erreur: L'initialisation de t_scene a échoué",
 					&env_destruct, e));
