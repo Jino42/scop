@@ -15,6 +15,24 @@
 # define LIGHT_POINT				(1 << 2)
 # define LIGHT_SPOT					(1 << 3)
 
+# define SCOP_V (1 << 1)
+# define SCOP_VT (1 << 2)
+# define SCOP_VN (1 << 3)
+# define F_TEXTURE (1 << 4)
+
+# define SCOP_MAX_LIGHTS 8
+
+# define MODEL_USE_MATERIAL_PERSONNAL		(1 << 12)
+# define MODEL_SAME_SCALING					(1 << 13)
+# define MODEL_USE_DYNAMIQUE_TEXTURE		(1 << 14)
+
+# define MODEL_INDEX_LIGHT_BASIC			1
+# define MODEL_INDEX_LIGHT_DIRECTIONNAL		0
+# define MODEL_INDEX_LIGHT_POINT			1
+# define MODEL_INDEX_LIGHT_SPOT				0
+# define MODEL_INDEX_PLAN					2
+
+
 struct t_material
 {
 	vec3	ambient;
@@ -43,6 +61,7 @@ struct t_light
 	float	spot_little_radius;
 	float	spot_big_radius;
 	int		type;
+	float	intensity;
 };
 
 out vec4 FragColor;
@@ -54,102 +73,83 @@ in vec3 vn_out;
 in vec4 gl_FragCoord;
 flat in float vertex_id;
 
-uniform t_light		light;
-uniform vec3		cameraPosition;
-uniform t_material	material;
-uniform sampler2D	testTexture;
-uniform float		far;
-uniform float		near;
-uniform float		time;
+uniform t_light		u_light[SCOP_MAX_LIGHTS];
+uniform vec3		u_cameraPosition;
+uniform t_material	u_material;
+uniform sampler2D	u_texture;
+uniform float		u_time;
+uniform int			u_obj_flag;
 
-float intensityAmbient = 0.15;
 vec3 ambient;
 vec3 diffuse;
 vec3 specular;
-vec3 lightColor = vec3(1.f, 1.f, 1.f);
-vec3 lightDir;
-vec3 cam_to_obj;
+vec3 dir_light;
+vec3 dir_view;
 vec3 norm;
-vec3 resultColor;
-float textureTransparency;
+vec3 result_color;
 vec4 textureAmbient;
-t_material newMaterial;
+t_material material;
 
-float LinearizeDepth(float depth)
+vec3	phong(t_light light)
 {
-    float z = depth * 2.0 - 1.0; // back to NDC
-    return (2.0 * near * far) / (far + near - z * (far - near));
-}
-
-float rand(float number){
-    return fract(number /255.f);
-}
-vec2 random2( vec2 p ) {
-    return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);
-}
-
-void main()
-{
-	textureTransparency = 1.f;
-	newMaterial = material;
-	vec2 abc = random2(vec2(vn_out.z + vn_out.x, vn_out.y));
-	//abc.x = rand(vec2 (vn_out.z, vn_out.y));
-	abc.x = vertex_id;
-	//abc.x = fract(length(vertex_id) * 8750.4568f / 255.f);
-	newMaterial.diffuse = vec3(vertex_id);
-	newMaterial.ambient = vec3(vertex_id);
-
-	if (newMaterial.texture_diffuse == 1)
-	{
-		textureAmbient = texture(testTexture, uv);
-		newMaterial.diffuse = textureAmbient.rgb;
-		newMaterial.ambient = textureAmbient.rgb;
-		newMaterial.specular = textureAmbient.rgb;
-		/*if (textureAmbient.a < 0.1)
-			discard ;
-		textureTransparency = texture(testTexture, uv).a;*/
-	}
-
-	ambient = newMaterial.ambient * light.ambient;
+	vec3 recult_phong;
+	ambient = material.ambient * light.ambient;
 
 	norm = normalize(normal);
 	if (light.type == LIGHT_DIRECTIONNAL)
-		lightDir = normalize(light.direction);
+		dir_light = normalize(-light.direction);
 	else
-		lightDir = normalize(position - light.position);
+		dir_light = normalize(light.position - position);
 
-	diffuse = max(dot(norm, -lightDir), 0) * newMaterial.diffuse * light.diffuse;
+	diffuse = max(dot(norm, dir_light), 0) * material.diffuse * light.diffuse;
 
-	vec3 reflection = reflect(-lightDir, norm);
-	cam_to_obj = normalize(position - cameraPosition);
+	vec3 reflection = reflect(dir_light, norm);
+	dir_view = normalize(u_cameraPosition - position);
 
-	float angleReflection = max(dot(-cam_to_obj, reflection), 0.f);
-	specular = (pow(angleReflection, newMaterial.shininess) * newMaterial.specular) * light.specular;
+	float angleReflection = max(dot(dir_view, reflection), 0.f);
+	specular = (pow(angleReflection, material.shininess) * material.specular) * light.specular;
 
 	if (light.type == LIGHT_SPOT)
 	{
 
-		float theta = dot(lightDir, normalize(light.direction)) * 180 / M_PI;
+		float theta = dot(-dir_light, normalize(light.direction)) * 180 / M_PI;
 		float epsilon = (light.spot_little_radius - light.spot_big_radius);
 		float intensity = clamp((theta - light.spot_big_radius) / epsilon, 0.0, 1.0);
 		diffuse  *= intensity;
 		specular *= intensity;
 	}
 
-	resultColor = (ambient + diffuse + specular);
+	recult_phong = (ambient + diffuse + specular) * light.intensity;
 
 	if (light.type == LIGHT_POINT)
 	{
 		float distance    = length(light.position - position);
 		float attenuation = 1.0 / (light.constent + light.linear * distance +
-    		    			light.quadratic * (distance * distance));
-		resultColor *= attenuation;
+							light.quadratic * (distance * distance));
+		recult_phong *= attenuation;
+	}
+	return (recult_phong);
+}
+
+void main()
+{
+	material = u_material;
+	material.ambient = vec3(vertex_id);
+	material.diffuse = vec3(vertex_id);
+	if (material.texture_diffuse == 1)
+	{
+		if ((u_obj_flag & SCOP_VT) == 0)
+			textureAmbient = texture(u_texture, vec2(position.x, position.y));
+		else
+			textureAmbient = texture(u_texture, uv);
+		textureAmbient = texture(u_texture, uv);
+		material.diffuse = textureAmbient.rgb;
+		material.ambient = textureAmbient.rgb * 0.1;
+		material.specular = textureAmbient.rgb;
 	}
 
-	FragColor = vec4(resultColor, textureTransparency);
-/*
-	float depth = LinearizeDepth(gl_FragCoord.z) / far;
-	FragColor = vec4(vec3(depth), 1.f);
-*/
-	//FragColor = texture(testTexture, uv);
+	for (int i = 0; i < SCOP_MAX_LIGHTS; i++)
+		result_color += phong(u_light[i]);
+
+	FragColor = vec4(result_color, 1.f);
 }

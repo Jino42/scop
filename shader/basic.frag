@@ -138,6 +138,7 @@ void main()
 			textureAmbient = texture(u_texture, vec2(position.x, position.y));
 		else
 			textureAmbient = texture(u_texture, uv);
+		textureAmbient = texture(u_texture, uv);
 		material.diffuse = textureAmbient.rgb;
 		material.ambient = textureAmbient.rgb * 0.1;
 		material.specular = textureAmbient.rgb;
