@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:42:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 00:43:18 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:21:58 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ typedef struct		s_lm
 	uint32_t		mem_len_v;
 	uint32_t		mem_len_vt;
 	uint32_t		mem_len_vn;
+	uint32_t		mem_len_u;
 	uint32_t		mem_len_indexed_v;
 	uint32_t		mem_len_indexed_vn;
 	uint32_t		mem_len_indexed_vt;
 	uint32_t		mem_len_indexed_color;
+	uint32_t		mem_len_indexed_u;
 
 	uint32_t		last_index_v;
 	uint32_t		last_index_vt;

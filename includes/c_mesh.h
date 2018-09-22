@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:43:52 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/20 00:39:09 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:15:48 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ typedef struct		s_mesh
 	GLuint			vtbo;
 	GLuint			colorbo;
 	GLuint			ebo;
+	GLuint			ubo;
 	GLuint			vao;
 
 	GLfloat			*indexed_v;
 	GLfloat			*indexed_vt;
 	GLfloat			*indexed_vn;
 	GLfloat			*indexed_color;
+	GLfloat			*indexed_u;
 	GLuint			*indices;
 
 	GLint			nb_faces;

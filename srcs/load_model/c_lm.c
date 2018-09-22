@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 00:04:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/20 23:29:46 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/22 22:36:15 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	lm_construct_set_mem_len(t_lm *lm)
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_color = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_u = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_vn = BUFFER_OBJ * sizeof(GLfloat);
@@ -77,6 +78,7 @@ bool		lm_add_mesh(t_lm *lm, int flag)
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vt = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_color = BUFFER_OBJ * sizeof(GLfloat);
+	lm->mem_len_u = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mesh->flag = flag;
 	return (true);
 }
@@ -124,6 +126,12 @@ bool	lm_check_realloc(t_lm *lm)
 	{
 		lm->mem_len_indexed_color += BUFFER_OBJ * sizeof(GLfloat);
 		if (!(mesh->indexed_color = realloc(mesh->indexed_color, lm->mem_len_indexed_color)))
+			return (false);
+	}
+	if ((mesh->nb_indices + 6) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_u)
+	{
+		lm->mem_len_indexed_u += BUFFER_OBJ * sizeof(GLfloat);
+		if (!(mesh->indexed_u = realloc(mesh->indexed_u, lm->mem_len_indexed_u)))
 			return (false);
 	}
 	if ((mesh->nb_indices + 6) * sizeof(GLfloat) * 3 >= lm->mem_len_indexed_vn)
@@ -327,6 +335,19 @@ static void	lm_indexing(t_lm *lm, const int sommet)
 		memcpy(&lm->mesh->indexed_vt[lm->mesh->nb_indices * 2],
 			&lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2], 2 * sizeof(GLfloat));
 	}
+	/*else if (lm->mesh->nb_indices && !((lm->mesh->nb_indices + 1) % 3))
+	{
+		t_vector	a;(void)a;
+		t_vector	b;(void)b;
+		t_vector	c;(void)c;
+		*((t_vector3f*)&a) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 1];
+		*((t_vector3f*)&b) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 2];
+		*((t_vector3f*)&c) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 3];
+		t_vector u = vector_get_sub(&b, &c);
+		((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices - 2] = *((t_vector3f *)&u);
+		((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices - 1] = *((t_vector3f *)&u);
+		((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices] = *((t_vector3f *)&u);
+	}*/
 	if (lm->mesh->flag & SCOP_VN)
 	{
 		memcpy(&lm->mesh->indexed_vn[lm->mesh->nb_indices * 3],
@@ -367,6 +388,21 @@ static void	lm_indexing_calculate_normal(t_lm *lm)
 	((t_vector3f*)lm->mesh->indexed_vn)[(lm->mesh->nb_indices - 3)] = *((t_vector3f *)&calc_normal);
 }
 
+static void	lm_indexing_vt(t_lm *lm)
+{
+	t_vector	a;(void)a;
+	t_vector	b;(void)b;
+	t_vector	c;(void)c;
+	*((t_vector3f*)&a) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 1];
+	*((t_vector3f*)&b) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 2];
+	*((t_vector3f*)&c) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 3];
+	t_vector u = vector_get_sub(&b, &c);
+	vector_normalize(&u);
+	((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices - 3] = *((t_vector3f *)&u);
+	((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices - 2] = *((t_vector3f *)&u);
+	((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices - 1] = *((t_vector3f *)&u);
+}
+
 static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 {
 	int sommet = 0;
@@ -377,6 +413,8 @@ static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 	}
 	if (!(lm->mesh->flag & SCOP_VN))
 		lm_indexing_calculate_normal(lm);
+	if (!(lm->mesh->flag & SCOP_VT))
+		lm_indexing_vt(lm);
 	lm->mesh->nb_faces++;
 
 	if (sommet4 == 4)
@@ -391,6 +429,8 @@ static bool	lm_indexing_face(t_lm *lm, const int sommet4)
 		}
 		if (!(lm->mesh->flag & SCOP_VN))
 			lm_indexing_calculate_normal(lm);
+		if (!(lm->mesh->flag & SCOP_VT))
+			lm_indexing_vt(lm);
 		lm->mesh->nb_faces++;
 	}
 	return (true);
