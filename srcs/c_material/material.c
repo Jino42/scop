@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:14 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 16:19:05 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 23:57:49 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ bool				material_set_texture(t_material *material,
 {
 	material->flag |= texture->flag;
 	if (material->flag & MATERIAL_MAP_DIFFUSE)
+	{
 		material->texture_diffuse = texture->id;
+		material->texture = texture;
+	}
 	return (true);
 }
 

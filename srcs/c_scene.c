@@ -183,6 +183,7 @@ t_scene		*scene_construct(const char *path, const int flag)
 		return (NULL);
 	if (flag)
 		scene->flag |= SCOP_INDEXING;
+	scene->path = path;
 	scene->shader_add = &scene_shader_add;
 	scene->model_add = &scene_model_add;
 	scene->mesh_add = &scene_mesh_add;

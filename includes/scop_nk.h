@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 00:03:07 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/20 00:03:14 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/24 00:06:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@
 # define POPUP_NEW (1 << 2)
 # define POPUP_SAVE_AS (1 << 3)
 # define POPUP_OPEN (1 << 4)
-# define COLOR_MODE_RGBA (1 << 5)
-# define COLOR_MODE_HSV (1 << 6)
+# define POPUP_SAVE (1 <<  5)
+# define COLOR_MODE_RGBA (1 << 6)
+# define COLOR_MODE_HSV (1 << 7)
 
 typedef struct		s_nk
 {

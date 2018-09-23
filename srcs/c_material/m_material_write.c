@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:10 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 18:46:02 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 23:58:32 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static bool		material_json_add(t_material *material, cJSON *json_material)
 		|| !json_add_vector(json_material, "diffuse", &material->diffuse)
 		|| !json_add_vector(json_material, "specular", &material->specular))
 		return (false);
+	if (material->texture)
+	{
+		if (!json_add_string(json_material, "name", material->texture->name))
+			return (false);
+	}
 	return (true);
 }
 

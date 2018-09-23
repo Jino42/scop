@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:43:24 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 16:19:19 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 23:59:13 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define C_MATERIAL_H
 
 # include "vector.h"
+# include "c_texture.h"
 # include <stdint.h>
 
 # define MATERIAL_MTLLIB			(1 << 0)
@@ -31,6 +32,7 @@ typedef struct		s_material
 	char			*name;
 	int				flag;
 	GLuint			texture_diffuse;
+	const t_texture	*texture;
 }					t_material;
 void				*material_destruct(t_material **material);
 t_material			*material_construct(char *name, const int material_type);

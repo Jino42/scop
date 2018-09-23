@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:07:03 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 18:11:21 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/24 00:15:51 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 typedef struct		s_scene
 {
+	const char		*path;
 	unsigned int	timestamp;
 	int				flag;
 	t_rbo			*rbo;
