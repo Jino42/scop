@@ -26,7 +26,7 @@ bool			loop(t_env *e)
 					e->scene->m_model_hidden->model[MODEL_INDEX_PLAN],
 					e->fps->time);
 
-		scene_render(e->scene, e->fps->time, fps_timestamp(e->fps));
+		scene_render(e->scene, e->fps->time);
 		nk_render(glfw->nk);
 
 		glfwSwapBuffers(glfw->window);
