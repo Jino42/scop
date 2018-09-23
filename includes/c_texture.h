@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:08:20 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 15:47:45 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 20:08:27 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdint.h>
 
 # define TEXTURE_PONY			0
+# define TEXTURE_TRANSITION		2500
 
 typedef struct		s_texture
 {

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:06:41 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 14:06:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 22:33:10 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdint.h>
 # include "scop_glfw.h"
 
+# define MODEL_USE_BASIC					(1 << 10)
+# define MODEL_USE_TEXTURE					(1 << 11)
 # define MODEL_USE_MATERIAL_PERSONNAL		(1 << 12)
 # define MODEL_SAME_SCALING					(1 << 13)
 # define MODEL_USE_DYNAMIQUE_TEXTURE		(1 << 14)
@@ -37,6 +39,8 @@ typedef struct		s_model
 	t_matrix		transform;
 	GLenum			type_draw;
 	int				flag;
+	int				last_flag;
+	int				temp_flag;
 	float			same_scaling;
 	float			inter_scaling;
 	t_vector		min;
@@ -51,6 +55,7 @@ typedef struct		s_model
 	unsigned int	index_shader;
 	unsigned int	index_material;
 	unsigned int	index_material_personnal;
+	int				timestamp;
 }					t_model;
 void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);
@@ -73,5 +78,6 @@ void				*m_model_destruct(t_m_model **m_model);
 bool				m_model_add(t_m_model *m_model, t_model *model);
 t_model				*m_model_new(t_m_model *m_model, char *path, char *name);
 bool				m_model_json_write(t_m_model *m_model, cJSON *json_scene);
+void				m_model_setup(t_m_model *m_model);
 
 #endif

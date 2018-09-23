@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:07:03 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 15:55:44 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 18:11:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
 
 typedef struct		s_scene
 {
+	unsigned int	timestamp;
 	int				flag;
 	t_rbo			*rbo;
-	unsigned int	index_light;
+	int				index_light;
 	t_cam			*cam;
 
 	t_m_shader		*m_shader;

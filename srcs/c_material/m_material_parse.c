@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 16:01:17 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 18:08:36 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static bool		m_material_json_loop_parse(t_m_texture *m_texture,
 			MATERIAL_MAP_DIFFUSE, str)))
 			return (false);
 		material_set_texture(material, texture);
-		printf("Ok\n");
 	}
 	return (true);
 }

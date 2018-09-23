@@ -5,7 +5,7 @@ out vec4 FragColor;
 in vec2	uv;
 vec2	scaled_uv;
 
-uniform float time;
+uniform float u_time;
 
 
 
@@ -31,7 +31,7 @@ void main()
         {
             vec2 neighbor = vec2(float(x), float(y));
             vec2 point = random2(i_uv + neighbor);
-            point = 0.5f + 0.5f * sin(time + 6.2831f * point);
+            point = 0.5f + 0.5f * sin(u_time + 6.2831f * point);
 
             vec2 diff = neighbor + point - f_uv;
 

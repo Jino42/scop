@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:28:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 00:28:38 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 18:12:03 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ t_fps		*fps_construct(void)
 	if (!(fps = ft_memalloc(sizeof(t_fps))))
 		return (NULL);
 	return (fps);
+}
+
+int			fps_timestamp(t_fps *fps)
+{
+	return (fps->cur.tv_sec * 1000 + fps->cur.tv_usec / 1000);
 }
 
 void		fps_update(t_fps *fps, float *ptr)

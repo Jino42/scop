@@ -1,8 +1,9 @@
 #include "scop.h"
 
-void		scene_render(t_scene *scene, float time)
+void		scene_render(t_scene *scene, float time, unsigned int timestamp)
 {
 	t_material *material;
+	t_material *material_personnal;
 	t_m_mesh *m_mesh;
 	t_model	*model;
 	t_shader	*shader;
@@ -27,7 +28,9 @@ void		scene_render(t_scene *scene, float time)
 		temp = matrix_get_mult_matrix(&model->transform, &scene->cam->view);
 		mvp = matrix_get_mult_matrix(&temp, &scene->cam->projection);
 
-		glUniform1f(glGetUniformLocation(shader->program, "time"), time);
+		glUniform1f(glGetUniformLocation(shader->program, "u_time"), time);
+		glUniform1i(glGetUniformLocation(shader->program, "u_timestamp"), timestamp);
+		glUniform1i(glGetUniformLocation(shader->program, "u_model_timestamp"), model->timestamp);
 
 		for (unsigned int i = 0; i < scene->m_light->size; i++)
 		{
@@ -64,56 +67,44 @@ void		scene_render(t_scene *scene, float time)
 		glUniformMatrix4fv(glGetUniformLocation(shader->program, "P"), 1, GL_FALSE, &scene->cam->projection.matrix[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(shader->program, "M"), 1, GL_FALSE, &model->transform.matrix[0][0]);
 		glUniform1i(glGetUniformLocation(shader->program, "u_obj_flag"), model->flag);
+		glUniform1i(glGetUniformLocation(shader->program, "u_obj_last_flag"), model->last_flag);
 		uint32_t i = 0;
 		while (i < m_mesh->size)
 		{
-			if (model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
-			{
-				glUniform1i(glGetUniformLocation(shader->program, "u_texture"), 0);
-				glBindTexture(GL_TEXTURE_2D, scene->rbo->texture_color_buffer);
-				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
-			}
-			else if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
-			{
-				if (scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->flag & MATERIAL_MAP_DIFFUSE)
-				{
-					glUniform1i(glGetUniformLocation(shader->program, "u_texture"), 0);
-					glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
-					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
-				}
-				else
-					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, scene->rbo->texture_color_buffer);
+			glUniform1i(glGetUniformLocation(shader->program, "u_texture_dynamique"), 0);
+			material_personnal = scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal];
 
-				material = scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal];
+			if (scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->flag & MATERIAL_MAP_DIFFUSE)
+			{
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, scene->m_material_personnal->material[m_mesh->mesh[i]->index_material_personnal]->texture_diffuse);
+				glUniform1i(glGetUniformLocation(shader->program, "u_texture_personnal"), 1);
+				glUniform1i(glGetUniformLocation(shader->program, "u_material_personnal.texture_diffuse"), 1);
 			}
 			else
+				glUniform1i(glGetUniformLocation(shader->program, "u_material_personnal.texture_diffuse"), 0);
+
+			if (model->flag & MODEL_USE_TEXTURE && material->flag & MATERIAL_MAP_DIFFUSE)
 			{
-				if (material->flag & MATERIAL_MAP_DIFFUSE)
-				{
-					glBindTexture(GL_TEXTURE_2D, material->texture_diffuse);
-					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
-				}
-				else
-					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 0);
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, material->texture_diffuse);
+				glUniform1i(glGetUniformLocation(shader->program, "u_texture"), 2);
 			}
-			glUniform3fv(
-					glGetUniformLocation(shader->program, "u_material.ambient"),
-					1,
-					(GLfloat *)&material->ambient);
-			glUniform3fv(
-					glGetUniformLocation(shader->program, "u_material.diffuse"),
-					1,
-					(GLfloat *)&material->diffuse);
-			glUniform3fv(
-					glGetUniformLocation(shader->program, "u_material.specular"),
-					1,
-					(GLfloat *)&material->specular);
-			glUniform1f(
-					glGetUniformLocation(shader->program, "u_material.shininess"),
-					material->shininess);
-			glUniform1f(
-					glGetUniformLocation(shader->program, "u_material.flag"),
-					material->flag);
+
+
+			glUniform3fv(glGetUniformLocation(shader->program, "u_material.ambient"), 1, (GLfloat *)&material->ambient);
+			glUniform3fv(glGetUniformLocation(shader->program, "u_material.diffuse"), 1, (GLfloat *)&material->diffuse);
+			glUniform3fv(glGetUniformLocation(shader->program, "u_material.specular"), 1, (GLfloat *)&material->specular);
+			glUniform1f(glGetUniformLocation(shader->program, "u_material.shininess"), material->shininess);
+			glUniform1f(glGetUniformLocation(shader->program, "u_material.flag"), material->flag);
+
+			glUniform3fv(glGetUniformLocation(shader->program, "u_material_personnal.ambient"), 1, (GLfloat *)&material_personnal->ambient);
+			glUniform3fv(glGetUniformLocation(shader->program, "u_material_personnal.diffuse"), 1, (GLfloat *)&material_personnal->diffuse);
+			glUniform3fv(glGetUniformLocation(shader->program, "u_material_personnal.specular"), 1, (GLfloat *)&material_personnal->specular);
+			glUniform1f(glGetUniformLocation(shader->program, "u_material_personnal.shininess"), material_personnal->shininess);
+			glUniform1f(glGetUniformLocation(shader->program, "u_material_personnal.flag"), material_personnal->flag);
 			glBindVertexArray(m_mesh->mesh[i]->vao);
 			glDrawElements(GL_TRIANGLES, m_mesh->mesh[i]->nb_indices + m_mesh->mesh[i]->same_indices, GL_UNSIGNED_INT, 0);
 			//glDrawArrays(GL_TRIANGLES, 0, m_mesh->mesh[i]->nb_indices);

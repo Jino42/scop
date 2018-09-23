@@ -32,9 +32,11 @@ bool			loop(t_env *e)
 	glEnable(GL_DEPTH_TEST);
 	glPointSize(5.0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	m_model_setup(e->scene->m_model);
 	while(!glfwWindowShouldClose(glfw->window))
 	{
 		fps_update(e->fps, &e->delta_time);
+		e->scene->timestamp = fps_timestamp(e->fps);
 		glfw_update(e->glfw);
 		m_model_update(e->scene->m_model);
 		nk_update(glfw->nk);
@@ -87,7 +89,7 @@ bool			loop(t_env *e)
 		glStencilMask (0xFF);
 		glDepthFunc (GL_LESS);
 
-		scene_render(e->scene, e->fps->time);
+		scene_render(e->scene, e->fps->time, fps_timestamp(e->fps));
 		nk_render(glfw->nk);
 
 		glfwSwapBuffers(glfw->window);
