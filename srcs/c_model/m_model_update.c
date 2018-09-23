@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glfw_destruct.c                                    :+:      :+:    :+:   */
+/*   m_model_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/18 21:55:30 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/24 00:30:52 by ntoniolo         ###   ########.fr       */
+/*   Created: 2018/09/24 00:24:08 by ntoniolo          #+#    #+#             */
+/*   Updated: 2018/09/24 00:24:16 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scop_glfw.h"
-#include <stdlib.h>
+#include "scop.h"
 
-void			*glfw_destruct(t_glfw **glfw)
+void m_model_update(t_m_model *m_model)
 {
-	glfwTerminate();
-	if (glfw && *glfw)
+	t_model *model;
+	size_t	i;
+
+	i = 0;
+	while (i < m_model->size)
 	{
-		if ((*glfw)->nk)
-			nk_destruct(&(*glfw)->nk);
-		ft_memdel((void **)glfw);
+		model = m_model->model[i];
+		if (model->flag & MODEL_ROTATE)
+		{
+			model->update = true;
+			model->rotation.y += 0.01f;
+		}
+		i++;
 	}
-	return (NULL);
 }

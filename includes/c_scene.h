@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:07:03 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/24 00:15:51 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/24 00:36:12 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void				*scene_destruct(t_scene **scene);
 t_scene				*scene_construct(const char *path, const int flag);
 bool				m_model_json_parse(t_scene *scene, cJSON *get,
 						const char *key);
+bool				scene_parse(t_scene *scene, const char *path);
 bool				scene_require(t_scene *scene);
 bool				scene_write(t_scene *scene, const char *path);
 bool				scene_reload(t_scene **scene, const char *path);
@@ -60,6 +61,11 @@ bool				m_model_json_parse_material(cJSON *get, const char *key,
 bool				m_model_json_parse_shader(cJSON *get, const char *key,
 						t_scene *scene, t_model *model);
 
+bool				scene_model_add(t_scene *scene, t_model *model);
+bool				scene_mesh_add(t_scene *scene, t_mesh *mesh);
 bool				m_light_render(t_scene *scene);
-
+bool				scene_shader_add(t_scene *scene,
+						const char *vertex_shader_path,
+						const char *fragment_shader_path,
+						const char *name);
 #endif

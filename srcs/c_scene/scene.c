@@ -9,6 +9,19 @@ void		scene_render(t_scene *scene, float time, unsigned int timestamp)
 	t_shader	*shader;
 	t_matrix temp, mvp;
 
+	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glEnable (GL_STENCIL_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+	glPointSize(5.0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+	glStencilMask (0xFF);
+	glDepthFunc (GL_LESS);
+
 	for (unsigned int i = 0; i < scene->m_model->size; i++)
 	{
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
@@ -120,59 +133,7 @@ void		scene_render(t_scene *scene, float time, unsigned int timestamp)
 	m_light_render(scene);
 }
 
-bool		scene_shader_add(t_scene *scene,
-						const char *vertex_shader_path,
-						const char *fragment_shader_path,
-						const char *name)
-{
-	scene->m_shader->add(scene->m_shader, vertex_shader_path, fragment_shader_path, name);
-	return (true);
-}
 
-bool		scene_mesh_add(t_scene *scene, t_mesh *mesh)
-{
-	scene->m_mesh->add(scene->m_mesh, mesh);
-	return (true);
-}
-
-bool		scene_model_add(t_scene *scene, t_model *model)
-{
-	scene->m_model->add(scene->m_model, model);
-	return (true);
-}
-
-bool		scene_parse(t_scene *scene, const char *path)
-{
-	char			buffer[MAX_SOURCE_SIZE];
-	cJSON			*json;
-
-	bzero(buffer, MAX_SOURCE_SIZE);
-	if (!(json = json_load_src(path, buffer)))
-		return (false);
-	(void)scene;
-	if (!(m_material_json_parse(scene->m_texture, scene->m_material, json, "material")))
-	{
-		cJSON_Delete(json);
-		return (false);
-	}
-	if (!(m_light_json_parse(scene->m_light, json, "light")))
-	{
-		cJSON_Delete(json);
-		return (false);
-	}
-	if (!(m_shader_json_parse(scene->m_shader, json, "shader")))
-	{
-		cJSON_Delete(json);
-		return (false);
-	}
-	if (!(m_model_json_parse(scene, json, "model")))
-	{
-		cJSON_Delete(json);
-		return (false);
-	}
-	cJSON_Delete(json);
-	return (true);
-}
 
 t_scene		*scene_construct(const char *path, const int flag)
 {
@@ -249,86 +210,4 @@ void		*scene_destruct(t_scene **scene)
 		ft_memdel((void **)scene);
 	}
 	return (NULL);
-}
-
-bool		scene_reload(t_scene **scene, const char *path)
-{
-	int flag;
-
-	flag = (*scene)->flag;
-	scene_destruct(scene);
-	if (!((*scene) = scene_construct(path, flag)))
-		return (false);
-	if (!scene || !(*scene))
-		return (false);
-	return (true);
-}
-
-
-bool		scene_require_index_m_model(t_scene *scene)
-{
-	t_model *model;
-	unsigned int i;
-
-	i = 0;
-	while (i < scene->m_model->size)
-	{
-		model = scene->m_model->model[i];
-		if (model->index_shader >= scene->m_model->size)
-			return (dprintf(2, "Votre model %s doit avoir un index ou un nom de shader valide.\n", model->name) && 0);
-		if (model->index_material >= scene->m_material->size)
-			return (dprintf(2, "Votre model %s doit avoir un index ou un nom de materiaux valide.\n", model->name) && 0);
-		i++;
-	}
-	return (true);
-}
-
-bool		scene_require(t_scene *scene)
-{
-	if (!scene->m_model->size)
-		return (ft_bool_error("La Scene a besoin d'au moins d'un Model", NULL, NULL));
-	if (!scene->m_shader->size)
-		return (ft_bool_error("La Scene a besoin d'au moins d'un Shader", NULL, NULL));
-	if (!scene->m_material->size)
-		return (ft_bool_error("La Scene a besoin d'au moins d'un Materiau", NULL, NULL));
-	if (!scene_require_index_m_model(scene))
-		return (false);
-	return (true);
-}
-
-
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-bool		scene_write(t_scene *scene, const char *path)
-{
-	cJSON	*json_scene;
-	char	*str;
-	int		fd;
-
-	if ((fd = open(path, O_RDWR|O_CREAT, 0666)) <= 0)
-		return (false);
-	printf("%i\n", fd);
-	if (!(json_scene = cJSON_CreateObject()))
-	{
-		close(fd);
-		return (false);
-	}
-	if (!m_model_json_write(scene->m_model, json_scene) ||
-		!m_shader_json_write(scene->m_shader, json_scene) ||
-		!m_light_json_write(scene->m_light, json_scene) ||
-		!m_material_json_write(scene->m_material, json_scene))
-	{
-		close(fd);
-		cJSON_Delete(json_scene);
-		return (false);
-	}
-	str = cJSON_Print(json_scene);
-	dprintf(fd, "%s\n", str);
-	close(fd);
-	free(str);
-	cJSON_Delete(json_scene);
-	return (true);
 }

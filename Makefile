@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/23 15:55:20 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/24 00:36:59 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,12 @@ SRC = main.c \
 		c_rbo.c \
 		flag.c \
 		c_env.c \
-		c_scene.c \
 		c_fps.c \
+		c_scene/scene.c \
+		c_scene/scene_parse.c \
+		c_scene/scene_tools.c \
+		c_scene/scene_write.c \
+		c_scene/scene_require.c \
 		c_cam/cam.c \
 		c_cam/cam_update.c \
 		c_texture/texture.c \
@@ -48,6 +52,7 @@ SRC = main.c \
 		c_mesh/mesh_gen_gl_buffers.c \
 		c_model/model.c \
 		c_model/m_model_hidden.c \
+		c_model/m_model_update.c \
 		c_model/model_tools.c \
 		c_model/m_model.c \
 		c_model/m_model_parse.c \
@@ -76,7 +81,6 @@ SRC = main.c \
 		event/event_mouse.c \
 		nk/nk.c \
 		nk/nk_menu.c \
-		nk/nk_menu_popup.c \
 		nk/nk_style.c \
 		nk/nk_widget_color.c \
 		nk/nk_widget.c \
@@ -144,6 +148,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/c_model
 	@mkdir $(OBJ_DIR)$/c_material
 	@mkdir $(OBJ_DIR)$/c_texture
+	@mkdir $(OBJ_DIR)$/c_scene
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:06:41 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 22:33:10 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/24 00:23:30 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ bool				m_model_add(t_m_model *m_model, t_model *model);
 t_model				*m_model_new(t_m_model *m_model, char *path, char *name);
 bool				m_model_json_write(t_m_model *m_model, cJSON *json_scene);
 void				m_model_setup(t_m_model *m_model);
+void				m_model_update(t_m_model *m_model);
 
 #endif
