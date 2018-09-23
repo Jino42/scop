@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:14 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 18:41:25 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 16:19:05 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,8 @@ bool				material_set_map(t_material *material,
 										const GLuint map_id)
 {
 	material->flag |= flag;
-	if (flag & MATERIAL_MAP_SHININESS)
-		material->texture_shininess = map_id;
-	if (flag & MATERIAL_MAP_NORMAL)
-		material->texture_normal = map_id;
-	if (flag & MATERIAL_MAP_SPECULAR)
-		material->texture_specular = map_id;
 	if (flag & MATERIAL_MAP_DIFFUSE)
 		material->texture_diffuse = map_id;
-	if (flag & MATERIAL_MAP_AMBIENT)
-		material->texture_ambient = map_id;
 	return (true);
 }
 
@@ -34,16 +26,19 @@ bool				material_set_texture(t_material *material,
 											const t_texture *texture)
 {
 	material->flag |= texture->flag;
-	if (material->flag & MATERIAL_MAP_SHININESS)
-		material->texture_shininess = texture->id;
-	if (material->flag & MATERIAL_MAP_NORMAL)
-		material->texture_normal = texture->id;
-	if (material->flag & MATERIAL_MAP_SPECULAR)
-		material->texture_specular = texture->id;
 	if (material->flag & MATERIAL_MAP_DIFFUSE)
 		material->texture_diffuse = texture->id;
-	if (material->flag & MATERIAL_MAP_AMBIENT)
-		material->texture_ambient = texture->id;
+	return (true);
+}
+
+bool				material_unset_texture(t_material *material,
+											const t_texture *texture)
+{
+	if (material->flag & MATERIAL_MAP_DIFFUSE)
+	{
+		material->texture_diffuse = texture->id;
+		material->flag ^= MATERIAL_MAP_DIFFUSE;
+	}
 	return (true);
 }
 

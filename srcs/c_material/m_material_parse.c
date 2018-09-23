@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/03 14:13:48 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 16:01:17 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ static bool		m_material_json_loop_parse_2(t_material *material,
 	return (true);
 }
 
-static bool		m_material_json_loop_parse(t_m_material *m_material,
+static bool		m_material_json_loop_parse(t_m_texture *m_texture,
+											t_m_material *m_material,
 											cJSON *json_material,
 											int index)
 {
 	char			*str;
 	t_material		*material;
+	t_texture		*texture;
 
 	str = NULL;
 	if (!json_parse_string(json_material, "name", &str))
@@ -56,10 +58,19 @@ static bool		m_material_json_loop_parse(t_m_material *m_material,
 		return (false);
 	if (!m_material_json_loop_parse_2(material, json_material, index))
 		return (false);
+	if (json_parse_string(json_material, "Kd", &str))
+	{
+		if (!(texture = m_texture->new(m_texture,
+			MATERIAL_MAP_DIFFUSE, str)))
+			return (false);
+		material_set_texture(material, texture);
+		printf("Ok\n");
+	}
 	return (true);
 }
 
-static bool		m_material_json_loop(t_m_material *m_material,
+static bool		m_material_json_loop(t_m_texture *m_texture,
+									t_m_material *m_material,
 										cJSON *json_materials)
 {
 	int				index;
@@ -71,7 +82,7 @@ static bool		m_material_json_loop(t_m_material *m_material,
 	index = 0;
 	while (json_material)
 	{
-		if (!m_material_json_loop_parse(m_material, json_material, index))
+		if (!m_material_json_loop_parse(m_texture, m_material, json_material, index))
 			return (false);
 		json_material = json_material->next;
 		index++;
@@ -79,14 +90,15 @@ static bool		m_material_json_loop(t_m_material *m_material,
 	return (true);
 }
 
-bool			m_material_json_parse(t_m_material *m_material,
+bool			m_material_json_parse(t_m_texture *m_texture,
+										t_m_material *m_material,
 										cJSON *get,
 										const char *key)
 {
 	cJSON	*source;
 
 	source = cJSON_GetObjectItemCaseSensitive(get, key);
-	if (!(m_material_json_loop(m_material, source)))
+	if (!(m_material_json_loop(m_texture, m_material, source)))
 	{
 		return (ft_bool_error("Erreur: Le parsing de t_m_material a échoué",
 				NULL, NULL));

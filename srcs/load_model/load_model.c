@@ -49,14 +49,7 @@ bool		parsing_mtl(t_lm *lm, t_m_material *m_material, t_model *model)
 		else if (!strcmp(lm->type, "d"))
 			sscanf(line, "%s %f", lm->type, &material->transparency);
 		else if (!strcmp(lm->type, "map_Ka"))
-		{
 			sscanf(line, "%s %s", lm->type, lm->buffer255);
-			char *path_tex = ft_strjoin((const char *)model->access_path, lm->buffer255);
-			if (!(texture = lm->scene->m_texture->new(lm->scene->m_texture, MATERIAL_MAP_AMBIENT, path_tex)))
-				return (false);
-			material_set_texture(material, texture);
-			ft_printf("map_Ka set %s\n", path_tex);
-		}
 		else if (!strcmp(lm->type, "map_Kd"))
 		{
 			sscanf(line, "%s %s", lm->type, lm->buffer255);

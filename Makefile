@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/20 00:00:29 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/23 15:55:20 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRC = main.c \
 		c_texture/texture.c \
 		c_texture/texture_load_tga.c \
 		c_texture/m_texture.c \
-		c_texture/m_texture_parse.c \
 		c_shader/shader.c \
 		c_shader/shader_build.c \
 		c_shader/m_shader.c \

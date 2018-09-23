@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:08:20 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 14:08:45 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 15:47:45 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "vector.h"
 # include <stdint.h>
+
+# define TEXTURE_PONY			0
 
 typedef struct		s_texture
 {

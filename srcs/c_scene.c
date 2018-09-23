@@ -88,10 +88,13 @@ void		scene_render(t_scene *scene, float time)
 			}
 			else
 			{
-				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 0);
-				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_specular"), 0);
-				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_shininess"), 0);
-				glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_normal"), 0);
+				if (material->flag & MATERIAL_MAP_DIFFUSE)
+				{
+					glBindTexture(GL_TEXTURE_2D, material->texture_diffuse);
+					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 1);
+				}
+				else
+					glUniform1i(glGetUniformLocation(shader->program, "u_material.texture_diffuse"), 0);
 			}
 			glUniform3fv(
 					glGetUniformLocation(shader->program, "u_material.ambient"),
@@ -156,7 +159,7 @@ bool		scene_parse(t_scene *scene, const char *path)
 	if (!(json = json_load_src(path, buffer)))
 		return (false);
 	(void)scene;
-	if (!(m_material_json_parse(scene->m_material, json, "material")))
+	if (!(m_material_json_parse(scene->m_texture, scene->m_material, json, "material")))
 	{
 		cJSON_Delete(json);
 		return (false);
@@ -172,11 +175,6 @@ bool		scene_parse(t_scene *scene, const char *path)
 		return (false);
 	}
 	if (!(m_model_json_parse(scene, json, "model")))
-	{
-		cJSON_Delete(json);
-		return (false);
-	}
-	if (!(m_texture_json_parse(scene->m_texture_hidden, json, "textures")))
 	{
 		cJSON_Delete(json);
 		return (false);
@@ -217,8 +215,6 @@ t_scene		*scene_construct(const char *path, const int flag)
 		return (scene_destruct(&scene));
 	if (!(scene->m_texture = m_texture_construct()))
 		return (scene_destruct(&scene));
-	if (!(scene->m_texture_hidden = m_texture_construct()))
-		return (scene_destruct(&scene));
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene_parse(scene, path)))
@@ -256,8 +252,6 @@ void		*scene_destruct(t_scene **scene)
 			cam_destruct(&(*scene)->cam);
 		if ((*scene)->m_texture)
 			m_texture_destruct(&(*scene)->m_texture);
-		if ((*scene)->m_texture_hidden)
-			m_texture_destruct(&(*scene)->m_texture_hidden);
 		if ((*scene)->rbo)
 			rbo_destruct(&(*scene)->rbo);
 		ft_memdel((void **)scene);

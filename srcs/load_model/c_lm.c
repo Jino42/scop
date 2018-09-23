@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 00:04:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/22 22:36:15 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 00:27:49 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,19 +335,6 @@ static void	lm_indexing(t_lm *lm, const int sommet)
 		memcpy(&lm->mesh->indexed_vt[lm->mesh->nb_indices * 2],
 			&lm->vt[(lm->buffer_index_vt[sommet] - 1) * 2], 2 * sizeof(GLfloat));
 	}
-	/*else if (lm->mesh->nb_indices && !((lm->mesh->nb_indices + 1) % 3))
-	{
-		t_vector	a;(void)a;
-		t_vector	b;(void)b;
-		t_vector	c;(void)c;
-		*((t_vector3f*)&a) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 1];
-		*((t_vector3f*)&b) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 2];
-		*((t_vector3f*)&c) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 3];
-		t_vector u = vector_get_sub(&b, &c);
-		((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices - 2] = *((t_vector3f *)&u);
-		((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices - 1] = *((t_vector3f *)&u);
-		((t_vector3f *)lm->mesh->indexed_u)[lm->mesh->nb_indices] = *((t_vector3f *)&u);
-	}*/
 	if (lm->mesh->flag & SCOP_VN)
 	{
 		memcpy(&lm->mesh->indexed_vn[lm->mesh->nb_indices * 3],
@@ -390,10 +377,8 @@ static void	lm_indexing_calculate_normal(t_lm *lm)
 
 static void	lm_indexing_vt(t_lm *lm)
 {
-	t_vector	a;(void)a;
 	t_vector	b;(void)b;
 	t_vector	c;(void)c;
-	*((t_vector3f*)&a) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 1];
 	*((t_vector3f*)&b) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 2];
 	*((t_vector3f*)&c) = ((t_vector3f*)lm->mesh->indexed_v)[lm->mesh->nb_indices - 3];
 	t_vector u = vector_get_sub(&b, &c);

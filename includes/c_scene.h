@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:07:03 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/20 23:38:37 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 15:55:44 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct		s_scene
 	t_m_material	*m_material_personnal;
 	t_m_light		*m_light;
 	t_m_texture		*m_texture;
-	t_m_texture		*m_texture_hidden;
 	bool			(*shader_add)(struct s_scene*, const char *,
 						const char *, const char *);
 	bool			(*mesh_add)(struct s_scene*, t_mesh *);

@@ -3,17 +3,17 @@
 #define EPSILON 0.00005f
 #define M_PI 3.141592653f
 
-# define MATERIAL_MTLLIB			(1 << 0)
-# define MATERIAL_MAP_SHININESS		(1 << 1)
-# define MATERIAL_MAP_NORMAL		(1 << 2)
-# define MATERIAL_MAP_SPECULAR		(1 << 3)
-# define MATERIAL_MAP_DIFFUSE		(1 << 4)
-# define MATERIAL_MAP_AMBIENT		(1 << 5)
+# define MATERIAL_MTLLIB					(1 << 0)
+# define MATERIAL_MAP_SHININESS				(1 << 1)
+# define MATERIAL_MAP_NORMAL				(1 << 2)
+# define MATERIAL_MAP_SPECULAR				(1 << 3)
+# define MATERIAL_MAP_DIFFUSE				(1 << 4)
+# define MATERIAL_MAP_AMBIENT				(1 << 5)
 
-# define LIGHT_BASIC				(1 << 0)
-# define LIGHT_DIRECTIONNAL			(1 << 1)
-# define LIGHT_POINT				(1 << 2)
-# define LIGHT_SPOT					(1 << 3)
+# define LIGHT_BASIC						(1 << 0)
+# define LIGHT_DIRECTIONNAL					(1 << 1)
+# define LIGHT_POINT						(1 << 2)
+# define LIGHT_SPOT							(1 << 3)
 
 # define SCOP_V (1 << 1)
 # define SCOP_VT (1 << 2)

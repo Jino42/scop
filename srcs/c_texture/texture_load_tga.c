@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 21:30:46 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 21:32:49 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/23 01:03:52 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@
 bool			tga_destruct_failed(t_tga *tga)
 {
 	if (tga)
-	{
 		close(tga->fd);
-		if (tga->data)
-			ft_memdel((void **)&tga->data);
-	}
 	return (false);
 }
 
@@ -66,11 +62,17 @@ bool			texture_load_tga(t_texture *texture, const char *filename)
 
 	tga.fd = open(filename, O_RDONLY);
 	if (tga.fd <= 0)
+	{
+		dprintf(0, "Chemin ou fichier invalide\n");
 		return (tga_destruct_failed(&tga));
+	}
 	read(tga.fd, &tga.buffer, sizeof(unsigned char) * 2);
 	read(tga.fd, &tga.type_code, sizeof(unsigned char));
 	if (tga.type_code != 2)
+	{
+		dprintf(0, "Fichier invalide\n");
 		return (tga_destruct_failed(&tga));
+	}
 	read(tga.fd, &tga.buffer, sizeof(short int) * 4 + sizeof(unsigned char));
 	read(tga.fd, &tga.width, sizeof(short int));
 	read(tga.fd, &tga.height, sizeof(short int));
