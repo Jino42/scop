@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:28:54 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/20 22:01:50 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/24 00:22:42 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void			rbo_render(t_rbo *rbo,
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	shader->use(shader);
-	glUniform1f(glGetUniformLocation(shader->program, "time"), time);
+	glUniform1f(glGetUniformLocation(shader->program, "u_time"), time);
 	glBindVertexArray(m_mesh->mesh[0]->vao);
 	glDrawElements(GL_TRIANGLES, m_mesh->mesh[0]->nb_indices + m_mesh->mesh[0]->same_indices,
 			GL_UNSIGNED_INT, 0);
