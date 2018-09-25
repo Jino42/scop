@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:43:24 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 23:59:13 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:16:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct		s_m_material
 t_m_material		*m_material_construct();
 void				*m_material_destruct(t_m_material **m_material);
 bool				m_material_add_default(t_m_material *m_material);
-bool				m_material_json_parse(t_m_texture *m_texture, t_m_material *m_material, cJSON *get,
+bool				m_material_json_parse(t_m_texture *m_texture,
+						t_m_material *m_material, cJSON *get,
 						const char *key);
 bool				m_material_json_write(t_m_material *m_material,
 						cJSON *json_scene);

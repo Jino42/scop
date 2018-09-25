@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:06:41 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:38:07 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:18:20 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@
 # define MODEL_INDEX_LIGHT_POINT			1
 # define MODEL_INDEX_LIGHT_SPOT				0
 # define MODEL_INDEX_PLAN					2
-# define MODEL_USE_FLAG						(MODEL_USE_TEXTURE \
-											| MODEL_USE_MATERIAL_PERSONNAL \
-											| MODEL_USE_DYNAMIQUE_TEXTURE \
-											| MODEL_USE_BASIC)
+# define MODEL_USE_FLAG_TMP1 (MODEL_USE_TEXTURE | MODEL_USE_MATERIAL_PERSONNAL)
+# define MODEL_USE_FLAG_TMP2 (MODEL_USE_DYNAMIQUE_TEXTURE | MODEL_USE_BASIC)
+# define MODEL_USE_FLAG	(MODEL_USE_FLAG_TMP1 | MODEL_USE_FLAG_TMP2)
 
 typedef struct		s_model
 {

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:07:03 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 19:55:50 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:19:16 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,20 @@ bool				scene_shader_add(t_scene *scene,
 						const char *vertex_shader_path,
 						const char *fragment_shader_path,
 						const char *name);
-void		scene_set_uniform_lights(t_m_light *m_light, t_shader *shader);
-
-void		scene_set_uniform_texture_basic(t_shader *shader, t_model *model, t_material *material);
-void		scene_set_uniform_texture_personnal(t_shader *shader, t_material *material_personnal);
-void		scene_set_uniform_texture_dynamique(t_scene *scene, t_shader *shader);
-void		scene_set_uniform_material(t_shader *shader, t_material *material);
-void		scene_set_uniform_material_personnal(t_shader *shader, t_material *material_personnal);
-void		scene_set_uniform_data(t_scene *scene, t_shader *shader, t_model *model);
-void		scene_set_uniform_time(t_scene *scene, t_shader *shader, t_model *model, float time);
+void				scene_set_uniform_lights(t_m_light *m_light,
+						t_shader *shader);
+void				scene_set_uniform_texture_basic(t_shader *shader,
+						t_model *model, t_material *material);
+void				scene_set_uniform_texture_personnal(t_shader *shader,
+						t_material *material_personnal);
+void				scene_set_uniform_texture_dynamique(t_scene *scene,
+						t_shader *shader);
+void				scene_set_uniform_material(t_shader *shader,
+						t_material *material);
+void				scene_set_uniform_material_personnal(t_shader *shader,
+						t_material *material_personnal);
+void				scene_set_uniform_data(t_scene *scene, t_shader *shader,
+						t_model *model);
+void				scene_set_uniform_time(t_scene *scene, t_shader *shader,
+						t_model *model, float time);
 #endif
