@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/24 00:36:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/24 00:36:28 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:01:52 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ bool		scene_shader_add(t_scene *scene,
 						const char *fragment_shader_path,
 						const char *name)
 {
-	scene->m_shader->add(scene->m_shader, vertex_shader_path, fragment_shader_path, name);
+	scene->m_shader->add(scene->m_shader, vertex_shader_path,
+		fragment_shader_path, name);
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/24 00:40:02 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/25 20:05:00 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,10 @@ SRC = main.c \
 		c_env.c \
 		c_fps.c \
 		c_scene/scene.c \
+		c_scene/scene_uniform.c \
+		c_scene/scene_uniform_lights.c \
+		c_scene/scene_uniform_texture.c \
 		c_scene/scene_render.c \
-		c_scene/scene_set_uniform.c \
 		c_scene/scene_parse.c \
 		c_scene/scene_tools.c \
 		c_scene/scene_write.c \
