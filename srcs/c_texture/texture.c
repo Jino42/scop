@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 19:01:38 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 21:31:21 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:34:34 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_texture		*texture_construct(const char *path, const int type)
 	texture->flag |= type;
 	if (!texture_load_tga(texture, path))
 		return (texture_destruct(&texture));
-	texture->name = strdup(path);
 	glGenTextures(1, &texture->id);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,

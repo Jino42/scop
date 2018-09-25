@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_model.c                                       :+:      :+:    :+:   */
+/*   lm_parsing_model.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 23:09:48 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 23:13:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:30:57 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool		lm_parsing_basic(t_scene *scene, t_lm *lm, t_model *model)
 			return (false);
 	}
 	else if (!strcmp("mtllib", lm->type))
-	{
+	{		
 		if (!(lm_parsing_mtl(lm, scene->m_material_personnal, model)))
 			return (false);
 	}
