@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 21:49:19 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 19:23:31 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:21:29 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ void		glfw_key_callback(GLFWwindow *window, int inkey,
 	}
 }
 
+static void	glfw_construct_set_opengl(void)
+{
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
+
 t_glfw		*glfw_construct(char *name, int width, int height)
 {
 	t_glfw	*glfw;
@@ -41,10 +49,8 @@ t_glfw		*glfw_construct(char *name, int width, int height)
 		return (NULL);
 	if (!glfwInit())
 		return (glfw_destruct(&glfw));
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfw_construct_set_opengl();
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfw->window = glfwCreateWindow(width, height, name, NULL, NULL);
 	if (glfw->window == NULL)
 		return (glfw_destruct(&glfw));

@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/25 20:05:00 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/25 20:24:19 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC = main.c \
 		c_mesh/mesh.c \
 		c_mesh/m_mesh.c \
 		c_mesh/mesh_gen_gl_buffers.c \
+		c_mesh/mesh_gen_gl_buffers_spe.c \
 		c_model/model.c \
 		c_model/m_model_hidden.c \
 		c_model/m_model_update.c \

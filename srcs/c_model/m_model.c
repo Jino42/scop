@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:46:26 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 22:33:14 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:13:37 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void			m_model_setup(t_m_model *m_model)
 {
 	t_model	*model;
 	size_t	i;
+
 	i = 0;
 	while (i < m_model->size)
 	{

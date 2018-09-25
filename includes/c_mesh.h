@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:43:52 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/22 19:15:48 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:23:49 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ typedef struct		s_mesh
 void				*mesh_destruct(t_mesh **mesh);
 t_mesh				*mesh_construct();
 void				mesh_gen_gl_buffers(t_mesh *mesh);
-
+void				mesh_gen_gl_buffers_u(t_mesh *mesh);
+void				mesh_gen_gl_buffers_color(t_mesh *mesh);
 typedef struct		s_m_mesh
 {
 	unsigned int	size;

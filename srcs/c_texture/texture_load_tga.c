@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 21:30:46 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 01:03:52 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:27:21 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,23 @@ static void		texture_load_tga_reverse_bgr(t_tga *tga, long image_size)
 	}
 }
 
+static bool		texture_load_tga_read_data(t_tga *tga)
+{
+	read(tga->fd, &tga->buffer, sizeof(unsigned char) * 2);
+	read(tga->fd, &tga->type_code, sizeof(unsigned char));
+	if (tga->type_code != 2)
+	{
+		dprintf(0, "Fichier invalide\n");
+		return (tga_destruct_failed(tga));
+	}
+	read(tga->fd, &tga->buffer, sizeof(short int) * 4 + sizeof(unsigned char));
+	read(tga->fd, &tga->width, sizeof(short int));
+	read(tga->fd, &tga->height, sizeof(short int));
+	read(tga->fd, &tga->bit_count, sizeof(unsigned char));
+	read(tga->fd, &tga->buffer, sizeof(unsigned char));
+	return (true);
+}
+
 bool			texture_load_tga(t_texture *texture, const char *filename)
 {
 	t_tga			tga;
@@ -66,18 +83,7 @@ bool			texture_load_tga(t_texture *texture, const char *filename)
 		dprintf(0, "Chemin ou fichier invalide\n");
 		return (tga_destruct_failed(&tga));
 	}
-	read(tga.fd, &tga.buffer, sizeof(unsigned char) * 2);
-	read(tga.fd, &tga.type_code, sizeof(unsigned char));
-	if (tga.type_code != 2)
-	{
-		dprintf(0, "Fichier invalide\n");
-		return (tga_destruct_failed(&tga));
-	}
-	read(tga.fd, &tga.buffer, sizeof(short int) * 4 + sizeof(unsigned char));
-	read(tga.fd, &tga.width, sizeof(short int));
-	read(tga.fd, &tga.height, sizeof(short int));
-	read(tga.fd, &tga.bit_count, sizeof(unsigned char));
-	read(tga.fd, &tga.buffer, sizeof(unsigned char));
+	texture_load_tga_read_data(&tga);
 	color_mode = tga.bit_count / 8;
 	image_size = tga.width * tga.height * color_mode;
 	if (!(tga.data = (unsigned char*)ft_memalloc(

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:12:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 18:08:36 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:22:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,11 @@ static bool		m_material_json_loop(t_m_texture *m_texture,
 	index = 0;
 	while (json_material)
 	{
-		if (!m_material_json_loop_parse(m_texture, m_material, json_material, index))
+		if (!m_material_json_loop_parse(m_texture, m_material,
+			json_material, index))
+		{
 			return (false);
+		}
 		json_material = json_material->next;
 		index++;
 	}

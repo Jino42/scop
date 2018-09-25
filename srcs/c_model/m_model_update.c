@@ -6,13 +6,13 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/24 00:24:08 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/24 00:24:16 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:13:16 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-void m_model_update(t_m_model *m_model)
+void	m_model_update(t_m_model *m_model)
 {
 	t_model *model;
 	size_t	i;
