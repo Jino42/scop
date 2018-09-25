@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/25 20:42:23 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/25 21:24:50 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC_DIR = srcs/
 SRC = main.c \
 		../glad/glad.c \
 		loop.c \
+		equalf.c \
 		c_rbo.c \
 		flag.c \
 		c_env.c \
@@ -78,7 +79,12 @@ SRC = main.c \
 		json/json_parse.c \
 		json/json_write.c \
 		json/json_error.c \
-		load_model/c_lm.c \
+		c_lm/lm.c \
+		c_lm/lm_get_v_data.c \
+		c_lm/lm_check_realloc.c \
+		c_lm/lm_get_face.c \
+		c_lm/lm_indexing.c \
+		c_lm/lm_indexing_calculate.c \
 		load_model/load_model.c \
 		glfw/glfw_construct.c \
 		glfw/glfw_destruct.c \
@@ -155,6 +161,7 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/c_material
 	@mkdir $(OBJ_DIR)$/c_texture
 	@mkdir $(OBJ_DIR)$/c_scene
+	@mkdir $(OBJ_DIR)$/c_lm
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<

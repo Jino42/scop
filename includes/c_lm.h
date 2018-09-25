@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:42:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/22 19:21:58 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 21:20:56 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ bool				lm_get_face(t_lm *lm);
 void				*lm_destruct(t_lm **c_lm);
 t_lm				*lm_construct(t_scene *scene,
 									t_model *model, const char *path_obj);
-
+bool				lm_indexing_face(t_lm *lm, t_mesh *mesh, const int sommet4);
+void				lm_indexing_calculate_vt(t_mesh *mesh);
+void				lm_indexing_calculate_normal(t_mesh *mesh);
 #endif

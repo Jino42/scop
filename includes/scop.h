@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:43:11 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 21:09:55 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,9 @@ void				nk_material(t_nk *nk, t_material *material);
 void				nk_m_material(t_nk *nk, t_m_material *m_material);
 void				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light);
 void				nk_light(t_nk *nk, t_light *light);
+
+bool				equal2f(const float *a, const float *b);
+bool				equalf(const float a, const float b);
+bool				equal3f(const float *a, const float *b);
 
 #endif
