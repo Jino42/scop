@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/25 21:24:50 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/25 23:14:21 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,12 +80,13 @@ SRC = main.c \
 		json/json_write.c \
 		json/json_error.c \
 		c_lm/lm.c \
+		c_lm/lm_parsing_model.c \
+		c_lm/lm_parsing_mtl.c \
 		c_lm/lm_get_v_data.c \
 		c_lm/lm_check_realloc.c \
 		c_lm/lm_get_face.c \
 		c_lm/lm_indexing.c \
 		c_lm/lm_indexing_calculate.c \
-		load_model/load_model.c \
 		glfw/glfw_construct.c \
 		glfw/glfw_destruct.c \
 		glfw/glfw_update.c \
@@ -150,7 +151,6 @@ $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)$/event
 	@mkdir $(OBJ_DIR)$/parsing
 	@mkdir $(OBJ_DIR)$/tools
-	@mkdir $(OBJ_DIR)$/load_model
 	@mkdir $(OBJ_DIR)$/nk
 	@mkdir $(OBJ_DIR)$/json
 	@mkdir $(OBJ_DIR)$/c_mesh

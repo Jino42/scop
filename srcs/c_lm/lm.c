@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 00:04:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 21:22:07 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:12:22 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ t_lm		*lm_construct(t_scene *scene, t_model *model, const char *path_obj)
 	lm->model = model;
 	lm->scene = scene;
 	if (!(lm->mesh = lm->model->m_mesh->new(lm->model->m_mesh)))
-		return (lm_destruct(&lm));
+		return (lm_destruct(&lm, &lm->model));
 	if (!(lm->v = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));
+		return (lm_destruct(&lm, &lm->model));
 	if (!(lm->vt = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));
+		return (lm_destruct(&lm, &lm->model));
 	if (!(lm->vn = ft_memalloc(sizeof(GLfloat) * BUFFER_OBJ)))
-		return (lm_destruct(&lm));
+		return (lm_destruct(&lm, &lm->model));
 	lm_construct_set_mem_len(lm);
 	lm->fd = fd;
 	return (lm);
 }
 
-void		*lm_destruct(t_lm **c_lm)
+void		*lm_destruct(t_lm **c_lm, t_model **model)
 {
 	t_lm	*lm;
 
@@ -66,13 +66,15 @@ void		*lm_destruct(t_lm **c_lm)
 		ft_memdel((void **)&lm->vn);
 		ft_memdel((void **)c_lm);
 	}
+	if (model && *model)
+		model_destruct(model);
 	return (NULL);
 }
 
 bool		lm_add_mesh(t_lm *lm, int flag)
 {
 	if (!(lm->mesh = lm->model->m_mesh->new(lm->model->m_mesh)))
-		return (lm_destruct(&lm));
+		return (lm_destruct(&lm, &lm->model));
 	lm->mem_len_indices = BUFFER_OBJ * sizeof(GLuint);
 	lm->mem_len_indexed_v = BUFFER_OBJ * sizeof(GLfloat);
 	lm->mem_len_indexed_vn = BUFFER_OBJ * sizeof(GLfloat);
