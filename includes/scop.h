@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 18:21:02 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:43:11 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ bool				nk_scene_menu(t_nk *nk, t_scene **scene);
 void				nk_cam(t_nk *nk, t_cam *cam);
 void				nk_m_model(t_nk *nk, t_scene *scene, t_m_model *m_model);
 void				nk_model(t_nk *nk, t_scene *scene, t_model *model);
+void				nk_model_material_flag(t_nk *nk,t_scene *scene,
+						t_model *model);
 void				nk_material(t_nk *nk, t_material *material);
 void				nk_m_material(t_nk *nk, t_m_material *m_material);
 void				nk_m_light(t_nk *nk, t_scene *scene, t_m_light *m_light);

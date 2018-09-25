@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:38:57 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/23 22:18:12 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 20:43:53 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ static void			nk_model_type_draw(struct nk_context *ctx, t_model *model)
 		model->type_draw == GL_FILL) ? GL_FILL : model->type_draw;
 }
 
-static void			nk_model_material(t_scene *scene, t_nk *nk,
-									struct nk_context *ctx, t_model *model)
+static void			nk_model_material(t_scene *scene,
+									struct nk_context *ctx,
+									t_model *model)
 {
-	//nk_check(nk, &model->flag, MODEL_USE_MATERIAL_PERSONNAL, "Personnal");
-	(void)nk;
 	if (!(model->flag & MODEL_USE_MATERIAL_PERSONNAL))
 	{
 		model->index_material = nk_combo(ctx,
@@ -55,7 +54,8 @@ static void			nk_model_material(t_scene *scene, t_nk *nk,
 								scene->m_material->size,
 								model->index_material,
 								25, nk_vec2(200, 200));
-		if (!(scene->m_material->material[model->index_material]->flag & MATERIAL_MAP_DIFFUSE))
+		if (!(scene->m_material->material[model->index_material]->flag
+				& MATERIAL_MAP_DIFFUSE))
 		{
 			if (model->flag & MODEL_USE_TEXTURE)
 				model->flag ^= MODEL_USE_TEXTURE;
@@ -81,81 +81,7 @@ void				nk_model(t_nk *nk, t_scene *scene, t_model *model)
 							scene->m_shader->size,
 							model->index_shader,
 							25, nk_vec2(200, 200));
-	nk_model_material(scene, nk, ctx, model);
-
-
-/*
-	nk_check(nk, &model->flag, MODEL_USE_DYNAMIQUE_TEXTURE,
-		"Dynamique texture");
-	if (scene->m_material->material[model->index_material]->flag & MATERIAL_MAP_DIFFUSE)
-		nk_check(nk, &model->flag, MODEL_USE_TEXTURE, "Texture Licorne");
-*/
-/*
-	model->flag = nk_option_label(ctx, "MODEL_USE_TEXTURE",
-		model->flag & MODEL_USE_TEXTURE) ? MODEL_USE_TEXTURE : model->flag;
-	model->flag = nk_option_label(ctx, "MODEL_USE_DYNAMIQUE_TEXTURE",
-		model->flag & MODEL_USE_DYNAMIQUE_TEXTURE) ? MODEL_USE_DYNAMIQUE_TEXTURE : model->flag;
-*/
-
-
-	if ((scene->m_material->material[model->index_material]->flag & MATERIAL_MAP_DIFFUSE)
-		&& nk_option_label(ctx, "MODEL_USE_TEXTURE", model->flag & MODEL_USE_TEXTURE))
-	{
-		model->flag |= MODEL_USE_TEXTURE;
-		if (model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
-			model->flag ^= MODEL_USE_DYNAMIQUE_TEXTURE;
-		if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
-			model->flag ^= MODEL_USE_MATERIAL_PERSONNAL;
-		if (model->flag & MODEL_USE_BASIC)
-			model->flag ^= MODEL_USE_BASIC;
-	}
-	if (nk_option_label(ctx, "MODEL_USE_DYNAMIQUE_TEXTURE", model->flag & MODEL_USE_DYNAMIQUE_TEXTURE))
-	{
-		model->flag |= MODEL_USE_DYNAMIQUE_TEXTURE;
-		if (model->flag & MODEL_USE_TEXTURE)
-			model->flag ^= MODEL_USE_TEXTURE;
-		if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
-			model->flag ^= MODEL_USE_MATERIAL_PERSONNAL;
-		if (model->flag & MODEL_USE_BASIC)
-			model->flag ^= MODEL_USE_BASIC;
-	}
-	if (nk_option_label(ctx, "MODEL_USE_MATERIAL_PERSONNAL", model->flag & MODEL_USE_MATERIAL_PERSONNAL))
-	{
-		model->flag |= MODEL_USE_MATERIAL_PERSONNAL;
-		if (model->flag & MODEL_USE_TEXTURE)
-			model->flag ^= MODEL_USE_TEXTURE;
-		if (model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
-			model->flag ^= MODEL_USE_DYNAMIQUE_TEXTURE;
-		if (model->flag & MODEL_USE_BASIC)
-			model->flag ^= MODEL_USE_BASIC;
-	}
-	if (nk_option_label(ctx, "MODEL_USE_BASIC", model->flag & MODEL_USE_BASIC))
-	{
-		model->flag |= MODEL_USE_BASIC;
-		if (model->flag & MODEL_USE_MATERIAL_PERSONNAL)
-			model->flag ^= MODEL_USE_MATERIAL_PERSONNAL;
-		if (model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
-			model->flag ^= MODEL_USE_DYNAMIQUE_TEXTURE;
-		if (model->flag & MODEL_USE_TEXTURE)
-			model->flag ^= MODEL_USE_TEXTURE;
-	}
-
-	if ((model->flag & (MODEL_USE_TEXTURE | MODEL_USE_MATERIAL_PERSONNAL | MODEL_USE_DYNAMIQUE_TEXTURE | MODEL_USE_BASIC))
-		!= (model->temp_flag & (MODEL_USE_TEXTURE | MODEL_USE_MATERIAL_PERSONNAL | MODEL_USE_DYNAMIQUE_TEXTURE | MODEL_USE_BASIC)))
-	{
-		if ((model->temp_flag & (MODEL_USE_TEXTURE | MODEL_USE_MATERIAL_PERSONNAL | MODEL_USE_DYNAMIQUE_TEXTURE | MODEL_USE_BASIC))
-			!= (model->last_flag & (MODEL_USE_TEXTURE | MODEL_USE_MATERIAL_PERSONNAL | MODEL_USE_DYNAMIQUE_TEXTURE | MODEL_USE_BASIC)))
-			model->last_flag = model->flag;
-		model->timestamp = scene->timestamp;
-		model->temp_flag = model->flag;
-	}
-	if ((model->flag & (MODEL_USE_TEXTURE | MODEL_USE_MATERIAL_PERSONNAL | MODEL_USE_DYNAMIQUE_TEXTURE | MODEL_USE_BASIC))
-		!= (model->last_flag & (MODEL_USE_TEXTURE | MODEL_USE_MATERIAL_PERSONNAL | MODEL_USE_DYNAMIQUE_TEXTURE | MODEL_USE_BASIC)))
-	{
-		if (scene->timestamp - model->timestamp >= TEXTURE_TRANSITION)
-			model->last_flag = model->flag;
-
-	}
-
+	nk_model_material(scene, ctx, model);
+	nk_model_material_flag(nk, scene, model);
 	nk_check(nk, &model->flag, MODEL_ROTATE, "Rotate");
 }
