@@ -11,7 +11,6 @@ in mat4 oP;
 uniform vec3		cameraPosition;
 in mat4 oMVP;
 vec3 lightDir;
-uniform vec3 camDir;
 
 void    main()
 {

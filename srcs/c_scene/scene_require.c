@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/24 00:28:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/24 00:46:44 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:24:22 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static bool		scene_require_index_m_model(t_scene *scene)
 	return (true);
 }
 
-bool		scene_require(t_scene *scene)
+bool			scene_require(t_scene *scene)
 {
 	if (!scene->m_model->size)
 		return (ft_bool_error("La Scene a besoin d'au moins d'un Model", NULL, NULL));
@@ -39,7 +39,17 @@ bool		scene_require(t_scene *scene)
 	if (!scene->m_material->size)
 		return (ft_bool_error("La Scene a besoin d'au moins d'un Materiau", NULL, NULL));
 	if (scene->m_light->size > SCOP_MAX_LIGHTS)
-		return (ft_bool_error("La Scene a trop de lumière", NULL, NULL));
+		return (ft_bool_error("La Scene a trop de lights", NULL, NULL));
+	if (scene->m_model->size > SCOP_MAX_MODEL)
+		return (ft_bool_error("La Scene a trop de models", NULL, NULL));
+	if (scene->m_material->size > SCOP_MAX_MATERIAL)
+		return (ft_bool_error("La Scene a trop de materials", NULL, NULL));
+	if (!scene->m_model->size)
+		return (ft_bool_error("La Scene a pas de model", NULL, NULL));
+	if (!scene->m_material->size)
+		return (ft_bool_error("La Scene a pas de material", NULL, NULL));
+	if (!scene->m_light->size)
+		return (ft_bool_error("La Scene a pas de light", NULL, NULL));
 	if (!scene_require_index_m_model(scene))
 		return (false);
 	return (true);

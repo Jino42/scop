@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/24 00:43:16 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:21:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,30 @@
 # include "c_lm.h"
 # include "c_rbo.h"
 
-# define DEBUG 1
+# define DEBUG				1
 
-# define BUFFER_OBJ (2048)
+# define BUFFER_OBJ			(2048)
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH				1920
+# define HEIGHT				1080
 
-# define SCOP_V (1 << 1)
-# define SCOP_VT (1 << 2)
-# define SCOP_VN (1 << 3)
-# define F_TEXTURE (1 << 4)
-# define SCOP_MAX_LIGHTS 8
+# define SCOP_V				(1 << 1)
+# define SCOP_VT			(1 << 2)
+# define SCOP_VN			(1 << 3)
+# define F_TEXTURE			(1 << 4)
 
-# define FLOAT_MIN -100000.f
-# define FLOAT_MAX 100000.f
+# define SCOP_MAX_LIGHTS	8
+# define SCOP_MAX_MODEL		16
+# define SCOP_MAX_MATERIAL	16
 
-# define MAX_SOURCE_SIZE 8000
-# define BUFFER_LOG 2048
+# define FLOAT_MIN			-100000.f
+# define FLOAT_MAX			100000.f
 
-# define CURSOR_NORMAL (1 << 0)
-# define CURSOR_HIDDEN (1 << 0)
+# define MAX_SOURCE_SIZE	8000
+# define BUFFER_LOG			2048
+
+# define CURSOR_NORMAL		(1 << 0)
+# define CURSOR_HIDDEN		(1 << 0)
 
 typedef struct		s_vector3f
 {
