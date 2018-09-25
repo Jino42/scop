@@ -6,14 +6,14 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 20:46:45 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/15 22:53:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:23:43 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 #include <stdio.h>
 
-void 	matrix_print(const t_matrix *m, const char *str)
+void	matrix_print(const t_matrix *m, const char *str)
 {
 	int y;
 	int x;
@@ -24,7 +24,7 @@ void 	matrix_print(const t_matrix *m, const char *str)
 	{
 		x = 0;
 		printf("[");
-		while(x < 4)
+		while (x < 4)
 		{
 			printf("%.2f ", m->matrix[y][x]);
 			x++;

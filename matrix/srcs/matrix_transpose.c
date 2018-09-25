@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_transpose.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntoniolo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 20:37:12 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/01/15 20:40:09 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:24:09 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 
-void	matrix_transpose(t_matrix *mn)
+void		matrix_transpose(t_matrix *mn)
 {
 	t_matrix	m;
 	int			y;

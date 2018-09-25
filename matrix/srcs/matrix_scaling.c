@@ -6,13 +6,13 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 23:13:53 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/07/25 13:39:53 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/25 23:23:58 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 
-void	matrix_scaling(t_matrix *m, const float s)
+void		matrix_scaling(t_matrix *m, const float s)
 {
 	m->matrix[0][0] *= s;
 	m->matrix[1][1] *= s;
@@ -30,8 +30,7 @@ t_matrix	matrix_get_scaling(t_matrix *m, const float s)
 	return (new);
 }
 
-
-void	matrix_vector_scaling(t_matrix *m, t_vector *vec)
+void		matrix_vector_scaling(t_matrix *m, t_vector *vec)
 {
 	m->matrix[0][0] *= vec->x;
 	m->matrix[1][1] *= vec->y;
