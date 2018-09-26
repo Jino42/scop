@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/24 00:35:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:07:53 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/26 17:42:41 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,34 @@
 #include <fcntl.h>
 #include "scop.h"
 
+static bool	scene_write_open_fd(int *fd, const char *path)
+{
+	if ((*fd = open(path, O_RDWR | O_CREAT | S_IRWXU)) <= 0)
+	{
+		if ((*fd = open(path, O_RDWR)) <= 0)
+		{
+			dprintf(2, "Fd error\n");
+			return (false);
+		}
+	}
+	return (true);
+}
+
+static void	scene_write_json(int fd, cJSON *json_scene)
+{
+	char	*str;
+
+	str = cJSON_Print(json_scene);
+	dprintf(fd, "%s\n", str);
+	free(str);
+}
+
 bool		scene_write(t_scene *scene, const char *path)
 {
 	cJSON	*json_scene;
 	int		fd;
 
-	if ((fd = open(path, O_RDWR | O_CREAT, 0666)) <= 0)
+	if (!scene_write_open_fd(&fd, path))
 		return (false);
 	if (!(json_scene = cJSON_CreateObject()))
 	{
@@ -36,6 +58,7 @@ bool		scene_write(t_scene *scene, const char *path)
 		cJSON_Delete(json_scene);
 		return (false);
 	}
+	scene_write_json(fd, json_scene);
 	close(fd);
 	cJSON_Delete(json_scene);
 	return (true);
