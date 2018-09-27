@@ -1,0 +1,502 @@
+The system is: Darwin - 16.7.0 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is AppleClang, found in "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/3.11.4/CompilerIdC/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e4fab/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_e4fab.dir/build.make CMakeFiles/cmTC_e4fab.dir/build
+Building C object CMakeFiles/cmTC_e4fab.dir/testCCompiler.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_e4fab.dir/testCCompiler.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_e4fab
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e4fab.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e4fab.dir/testCCompiler.c.o  -o cmTC_e4fab 
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b42eb/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_b42eb.dir/build.make CMakeFiles/cmTC_b42eb.dir/build
+Building C object CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o   -c /Users/ntoniolo/.brew/Cellar/cmake/3.11.4/share/cmake/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_b42eb
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b42eb.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o  -o cmTC_b42eb 
+Apple LLVM version 9.0.0 (clang-900.0.39.2)
+Target: x86_64-apple-darwin16.7.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.12.0 -o cmTC_b42eb -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a
+@(#)PROGRAM:ld  PROJECT:ld64-305
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
+Library search paths:
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_b42eb/fast"]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_b42eb.dir/build.make CMakeFiles/cmTC_b42eb.dir/build]
+  ignore line: [Building C object CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -o CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o   -c /Users/ntoniolo/.brew/Cellar/cmake/3.11.4/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_b42eb]
+  ignore line: [/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b42eb.dir/link.txt --verbose=1]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o  -o cmTC_b42eb ]
+  ignore line: [Apple LLVM version 9.0.0 (clang-900.0.39.2)]
+  ignore line: [Target: x86_64-apple-darwin16.7.0]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
+  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.12.0 -o cmTC_b42eb -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
+    arg [-demangle] ==> ignore
+    arg [-lto_library] ==> ignore, skip following value
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib] ==> skip value of -lto_library
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.12.0] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_b42eb] ==> ignore
+    arg [-search_paths_first] ==> ignore
+    arg [-headerpad_max_install_names] ==> ignore
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_b42eb.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a]
+  Library search paths: [;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
+  implicit libs: []
+  implicit dirs: [/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1b2ca/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_1b2ca.dir/build.make CMakeFiles/cmTC_1b2ca.dir/build
+Building C object CMakeFiles/cmTC_1b2ca.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_1b2ca.dir/feature_tests.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_1b2ca
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1b2ca.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_1b2ca.dir/feature_tests.c.o  -o cmTC_1b2ca 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_daafc/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_daafc.dir/build.make CMakeFiles/cmTC_daafc.dir/build
+Building C object CMakeFiles/cmTC_daafc.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_daafc.dir/feature_tests.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_daafc
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_daafc.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_daafc.dir/feature_tests.c.o  -o cmTC_daafc 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_544a0/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_544a0.dir/build.make CMakeFiles/cmTC_544a0.dir/build
+Building C object CMakeFiles/cmTC_544a0.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_544a0.dir/feature_tests.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_544a0
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_544a0.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_544a0.dir/feature_tests.c.o  -o cmTC_544a0 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Performing C SOURCE FILE Test FLAG_SUPPORTED_stdc89 succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a920e/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_a920e.dir/build.make CMakeFiles/cmTC_a920e.dir/build
+Building C object CMakeFiles/cmTC_a920e.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -DFLAG_SUPPORTED_stdc89   -std=c89 -o CMakeFiles/cmTC_a920e.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_a920e
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a920e.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -DFLAG_SUPPORTED_stdc89 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a920e.dir/src.c.o  -o cmTC_a920e 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_pedantic succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e5abe/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_e5abe.dir/build.make CMakeFiles/cmTC_e5abe.dir/build
+Building C object CMakeFiles/cmTC_e5abe.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -DFLAG_SUPPORTED_pedantic   -pedantic -o CMakeFiles/cmTC_e5abe.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_e5abe
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e5abe.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -DFLAG_SUPPORTED_pedantic -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e5abe.dir/src.c.o  -o cmTC_e5abe 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wall succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_93f73/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_93f73.dir/build.make CMakeFiles/cmTC_93f73.dir/build
+Building C object CMakeFiles/cmTC_93f73.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -DFLAG_SUPPORTED_Wall   -Wall -o CMakeFiles/cmTC_93f73.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_93f73
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93f73.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -DFLAG_SUPPORTED_Wall -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_93f73.dir/src.c.o  -o cmTC_93f73 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wextra succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9951d/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_9951d.dir/build.make CMakeFiles/cmTC_9951d.dir/build
+Building C object CMakeFiles/cmTC_9951d.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -DFLAG_SUPPORTED_Wextra   -Wextra -o CMakeFiles/cmTC_9951d.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_9951d
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9951d.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -DFLAG_SUPPORTED_Wextra -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_9951d.dir/src.c.o  -o cmTC_9951d 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Werror succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6e613/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_6e613.dir/build.make CMakeFiles/cmTC_6e613.dir/build
+Building C object CMakeFiles/cmTC_6e613.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -DFLAG_SUPPORTED_Werror   -Werror -o CMakeFiles/cmTC_6e613.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_6e613
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6e613.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -DFLAG_SUPPORTED_Werror -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_6e613.dir/src.c.o  -o cmTC_6e613 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wstrictprototypes succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ad9d5/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_ad9d5.dir/build.make CMakeFiles/cmTC_ad9d5.dir/build
+Building C object CMakeFiles/cmTC_ad9d5.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -DFLAG_SUPPORTED_Wstrictprototypes   -Wstrict-prototypes -o CMakeFiles/cmTC_ad9d5.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_ad9d5
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ad9d5.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -DFLAG_SUPPORTED_Wstrictprototypes -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ad9d5.dir/src.c.o  -o cmTC_ad9d5 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wwritestrings succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_3a9d7/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_3a9d7.dir/build.make CMakeFiles/cmTC_3a9d7.dir/build
+Building C object CMakeFiles/cmTC_3a9d7.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -DFLAG_SUPPORTED_Wwritestrings   -Wwrite-strings -o CMakeFiles/cmTC_3a9d7.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_3a9d7
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3a9d7.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -DFLAG_SUPPORTED_Wwritestrings -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_3a9d7.dir/src.c.o  -o cmTC_3a9d7 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wshadow succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b2a50/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_b2a50.dir/build.make CMakeFiles/cmTC_b2a50.dir/build
+Building C object CMakeFiles/cmTC_b2a50.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -DFLAG_SUPPORTED_Wshadow   -Wshadow -o CMakeFiles/cmTC_b2a50.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_b2a50
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b2a50.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -DFLAG_SUPPORTED_Wshadow -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_b2a50.dir/src.c.o  -o cmTC_b2a50 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Winitself succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c519c/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_c519c.dir/build.make CMakeFiles/cmTC_c519c.dir/build
+Building C object CMakeFiles/cmTC_c519c.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -DFLAG_SUPPORTED_Winitself   -Winit-self -o CMakeFiles/cmTC_c519c.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_c519c
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c519c.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -DFLAG_SUPPORTED_Winitself -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_c519c.dir/src.c.o  -o cmTC_c519c 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wcastalign succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4c9b7/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_4c9b7.dir/build.make CMakeFiles/cmTC_4c9b7.dir/build
+Building C object CMakeFiles/cmTC_4c9b7.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -DFLAG_SUPPORTED_Wcastalign   -Wcast-align -o CMakeFiles/cmTC_4c9b7.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_4c9b7
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4c9b7.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -DFLAG_SUPPORTED_Wcastalign -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_4c9b7.dir/src.c.o  -o cmTC_4c9b7 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wformat2 succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_3843e/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_3843e.dir/build.make CMakeFiles/cmTC_3843e.dir/build
+Building C object CMakeFiles/cmTC_3843e.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -DFLAG_SUPPORTED_Wformat2   -Wformat=2 -o CMakeFiles/cmTC_3843e.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_3843e
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3843e.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -DFLAG_SUPPORTED_Wformat2 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_3843e.dir/src.c.o  -o cmTC_3843e 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wmissingprototypes succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_86245/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_86245.dir/build.make CMakeFiles/cmTC_86245.dir/build
+Building C object CMakeFiles/cmTC_86245.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -DFLAG_SUPPORTED_Wmissingprototypes   -Wmissing-prototypes -o CMakeFiles/cmTC_86245.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_86245
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_86245.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -DFLAG_SUPPORTED_Wmissingprototypes -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_86245.dir/src.c.o  -o cmTC_86245 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wstrictoverflow2 succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_15493/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_15493.dir/build.make CMakeFiles/cmTC_15493.dir/build
+Building C object CMakeFiles/cmTC_15493.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -DFLAG_SUPPORTED_Wstrictoverflow2   -Wstrict-overflow=2 -o CMakeFiles/cmTC_15493.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_15493
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_15493.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -DFLAG_SUPPORTED_Wstrictoverflow2 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_15493.dir/src.c.o  -o cmTC_15493 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wcastqual succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_28afe/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_28afe.dir/build.make CMakeFiles/cmTC_28afe.dir/build
+Building C object CMakeFiles/cmTC_28afe.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -DFLAG_SUPPORTED_Wcastqual   -Wcast-qual -o CMakeFiles/cmTC_28afe.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_28afe
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_28afe.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -DFLAG_SUPPORTED_Wcastqual -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_28afe.dir/src.c.o  -o cmTC_28afe 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wundef succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5b281/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_5b281.dir/build.make CMakeFiles/cmTC_5b281.dir/build
+Building C object CMakeFiles/cmTC_5b281.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -DFLAG_SUPPORTED_Wundef   -Wundef -o CMakeFiles/cmTC_5b281.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_5b281
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5b281.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -DFLAG_SUPPORTED_Wundef -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5b281.dir/src.c.o  -o cmTC_5b281 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wswitchdefault succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1533a/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_1533a.dir/build.make CMakeFiles/cmTC_1533a.dir/build
+Building C object CMakeFiles/cmTC_1533a.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -DFLAG_SUPPORTED_Wswitchdefault   -Wswitch-default -o CMakeFiles/cmTC_1533a.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_1533a
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1533a.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -DFLAG_SUPPORTED_Wswitchdefault -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_1533a.dir/src.c.o  -o cmTC_1533a 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wconversion succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_24c24/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_24c24.dir/build.make CMakeFiles/cmTC_24c24.dir/build
+Building C object CMakeFiles/cmTC_24c24.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -DFLAG_SUPPORTED_Wconversion   -Wconversion -o CMakeFiles/cmTC_24c24.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_24c24
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_24c24.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -DFLAG_SUPPORTED_Wconversion -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_24c24.dir/src.c.o  -o cmTC_24c24 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wccompat succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_98ece/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_98ece.dir/build.make CMakeFiles/cmTC_98ece.dir/build
+Building C object CMakeFiles/cmTC_98ece.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -DFLAG_SUPPORTED_Wccompat   -Wc++-compat -o CMakeFiles/cmTC_98ece.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_98ece
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_98ece.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -DFLAG_SUPPORTED_Wccompat -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_98ece.dir/src.c.o  -o cmTC_98ece 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_fstackprotectorstrong succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_863fe/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_863fe.dir/build.make CMakeFiles/cmTC_863fe.dir/build
+Building C object CMakeFiles/cmTC_863fe.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -DFLAG_SUPPORTED_fstackprotectorstrong   -fstack-protector-strong -o CMakeFiles/cmTC_863fe.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_863fe
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_863fe.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -DFLAG_SUPPORTED_fstackprotectorstrong -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_863fe.dir/src.c.o  -o cmTC_863fe 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wcomma succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e6da6/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_e6da6.dir/build.make CMakeFiles/cmTC_e6da6.dir/build
+Building C object CMakeFiles/cmTC_e6da6.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -DFLAG_SUPPORTED_Wcomma   -Wcomma -o CMakeFiles/cmTC_e6da6.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_e6da6
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e6da6.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -DFLAG_SUPPORTED_Wcomma -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e6da6.dir/src.c.o  -o cmTC_e6da6 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wdoublepromotion succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5bc39/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_5bc39.dir/build.make CMakeFiles/cmTC_5bc39.dir/build
+Building C object CMakeFiles/cmTC_5bc39.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -DFLAG_SUPPORTED_Wdoublepromotion   -Wdouble-promotion -o CMakeFiles/cmTC_5bc39.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_5bc39
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5bc39.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -DFLAG_SUPPORTED_Wdoublepromotion -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5bc39.dir/src.c.o  -o cmTC_5bc39 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wparentheses succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a1b87/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_a1b87.dir/build.make CMakeFiles/cmTC_a1b87.dir/build
+Building C object CMakeFiles/cmTC_a1b87.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -DFLAG_SUPPORTED_Wparentheses   -Wparentheses -o CMakeFiles/cmTC_a1b87.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_a1b87
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a1b87.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -DFLAG_SUPPORTED_Wparentheses -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a1b87.dir/src.c.o  -o cmTC_a1b87 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wunusedmacros succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ada5a/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_ada5a.dir/build.make CMakeFiles/cmTC_ada5a.dir/build
+Building C object CMakeFiles/cmTC_ada5a.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -DFLAG_SUPPORTED_Wunusedmacros   -Wunused-macros -o CMakeFiles/cmTC_ada5a.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_ada5a
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ada5a.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -DFLAG_SUPPORTED_Wunusedmacros -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ada5a.dir/src.c.o  -o cmTC_ada5a 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wmissingvariabledeclarations succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_25a13/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_25a13.dir/build.make CMakeFiles/cmTC_25a13.dir/build
+Building C object CMakeFiles/cmTC_25a13.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -DFLAG_SUPPORTED_Wmissingvariabledeclarations   -Wmissing-variable-declarations -o CMakeFiles/cmTC_25a13.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_25a13
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_25a13.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -DFLAG_SUPPORTED_Wmissingvariabledeclarations -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_25a13.dir/src.c.o  -o cmTC_25a13 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wusedbutmarkedunused succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d1dec/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_d1dec.dir/build.make CMakeFiles/cmTC_d1dec.dir/build
+Building C object CMakeFiles/cmTC_d1dec.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -DFLAG_SUPPORTED_Wusedbutmarkedunused   -Wused-but-marked-unused -o CMakeFiles/cmTC_d1dec.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_d1dec
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d1dec.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -DFLAG_SUPPORTED_Wusedbutmarkedunused -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d1dec.dir/src.c.o  -o cmTC_d1dec 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_Wswitchenum succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_17ed8/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_17ed8.dir/build.make CMakeFiles/cmTC_17ed8.dir/build
+Building C object CMakeFiles/cmTC_17ed8.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -DFLAG_SUPPORTED_Wswitchenum   -Wswitch-enum -o CMakeFiles/cmTC_17ed8.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_17ed8
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_17ed8.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -DFLAG_SUPPORTED_Wswitchenum -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_17ed8.dir/src.c.o  -o cmTC_17ed8 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test FLAG_SUPPORTED_fvisibilityhidden succeeded with the following output:
+Change Dir: /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5c235/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTC_5c235.dir/build.make CMakeFiles/cmTC_5c235.dir/build
+Building C object CMakeFiles/cmTC_5c235.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -DFLAG_SUPPORTED_fvisibilityhidden   -fvisibility=hidden -o CMakeFiles/cmTC_5c235.dir/src.c.o   -c /Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_5c235
+/Users/ntoniolo/.brew/Cellar/cmake/3.11.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5c235.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -DFLAG_SUPPORTED_fvisibilityhidden -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5c235.dir/src.c.o  -o cmTC_5c235 
+
+Source file was:
+int main(void) { return 0; }

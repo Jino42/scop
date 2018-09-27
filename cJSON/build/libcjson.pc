@@ -1,0 +1,10 @@
+libdir=/Users/ntoniolo/base/scop/cJSON/lib
+includedir=/Users/ntoniolo/base/scop/cJSON/include
+
+Name: libcjson
+Version: 1.7.7
+Description: Ultralightweight JSON parser in ANSI C
+URL: https://github.com/DaveGamble/cJSON
+Libs: -L${libdir} -lcjson
+Libs.Private: -lm
+Cflags: -I${includedir}

@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/ntoniolo/base/scop/cJSON/cJSON.c
+string.h
+-
+stdio.h
+-
+math.h
+-
+stdlib.h
+-
+limits.h
+-
+ctype.h
+-
+locale.h
+-
+cJSON.h
+/Users/ntoniolo/base/scop/cJSON/cJSON.h
+
+/Users/ntoniolo/base/scop/cJSON/cJSON.h
+stddef.h
+-
+

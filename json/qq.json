@@ -1,24 +1,5 @@
 {
 	"model":	[{
-			"name":	"cabin",
-			"path":	"./ressources/cabin/WoodenCabinObj.obj",
-			"shader":	0,
-			"position":	{
-				"x":	5.7999987602233887,
-				"y":	-0.30000001192092896,
-				"z":	0.30000001192092896
-			},
-			"rotation":	{
-				"x":	0,
-				"y":	0,
-				"z":	0
-			},
-			"scaling":	{
-				"x":	1,
-				"y":	1,
-				"z":	1
-			}
-		}, {
 			"name":	"42",
 			"path":	"./ressources/42.obj",
 			"shader":	0,
@@ -82,12 +63,12 @@
 			"material":	0,
 			"shader":	0,
 			"position":	{
-				"x":	0,
-				"y":	-0.5,
+				"x":	2.6000006198883057,
+				"y":	-0.89999997615814209,
 				"z":	0
 			},
 			"rotation":	{
-				"x":	0,
+				"x":	13.799992561340332,
 				"y":	0,
 				"z":	0
 			},
@@ -263,10 +244,7 @@
 			"fragment":	"./shader/grey.frag"
 		}],
 	"light":	[{
-			"type":	"point",
-			"constent":	1,
-			"linear":	0.045000001788139343,
-			"quadratic":	0.0074999998323619366,
+			"type":	"basic",
 			"name":	"1st light",
 			"ambient":	{
 				"x":	0.15000000596046448,
@@ -293,7 +271,7 @@
 				"y":	0.30000001192092896,
 				"z":	1.9000002145767212
 			},
-			"intensity":	0.75
+			"intensity":	1
 		}, {
 			"type":	"basic",
 			"name":	"1st light2",
@@ -322,7 +300,7 @@
 				"y":	0.1745000034570694,
 				"z":	0.21500000357627869
 			},
-			"intensity":	0.44999998807907104
+			"intensity":	0
 		}],
 	"material":	[{
 			"name":	"EMERALD",
@@ -416,6 +394,12 @@
 			}
 		}]
 }
-ame":	"ressources/unicorn-min_grande.tga"
+	0.699999988079071,
+				"y":	0.60000002384185791,
+				"z":	0.60000002384185791
+			}
+		}]
+}
+n_grande.tga"
 		}]
 }

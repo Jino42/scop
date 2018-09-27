@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 23:09:48 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/26 00:10:07 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/27 21:58:50 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,8 @@ t_model			*m_model_load(t_scene *scene,
 	while (get_next_line(lm->fd, &lm->line) == 1)
 	{
 		sscanf(lm->line, "%s ", lm->type);
-		if (!lm_parsing_basic(scene, lm, model))
-			return (lm_destruct(&lm, &lm->model));
-		if (!(lm_check_realloc(lm)))
+		if (!lm_parsing_basic(scene, lm, model)
+			|| !(lm_check_realloc(lm)))
 			return (lm_destruct(&lm, &lm->model));
 		lm_parsing_basic_bzero(lm);
 	}
