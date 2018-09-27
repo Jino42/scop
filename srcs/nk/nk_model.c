@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:38:57 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:43:53 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/26 18:41:13 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ void				nk_model(t_nk *nk, t_scene *scene, t_model *model)
 
 	ctx = nk->ctx;
 	model->update = true;
+	nk_layout_row_dynamic(ctx, 25, 2);
+	sprintf(nk->buffer_text, "Unique  Indices: %i", model->nb_indices);
+	nk_label(ctx, nk->buffer_text, NK_TEXT_LEFT);
+	sprintf(nk->buffer_text, "Refered Indices: %i", model->same_indices);
+	nk_label(ctx, nk->buffer_text, NK_TEXT_LEFT);
 	nk_layout_row_static(ctx, 25, 300, 1);
 	nk_combo_vector(nk, &model->position, "Position");
 	nk_layout_row_static(ctx, 25, 300, 1);
@@ -77,10 +82,9 @@ void				nk_model(t_nk *nk, t_scene *scene, t_model *model)
 	nk_model_type_draw(ctx, model);
 	nk_layout_row_static(ctx, 25, 150, 1);
 	model->index_shader = nk_combo(ctx,
-							(const char **)scene->m_shader->shader_name,
-							scene->m_shader->size,
-							model->index_shader,
-							25, nk_vec2(200, 200));
+			(const char **)scene->m_shader->shader_name,
+			scene->m_shader->size,
+			model->index_shader, 25, nk_vec2(200, 200));
 	nk_model_material(scene, ctx, model);
 	nk_model_material_flag(nk, scene, model);
 	nk_check(nk, &model->flag, MODEL_ROTATE, "Rotate");

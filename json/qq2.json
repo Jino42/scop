@@ -1,11 +1,11 @@
 {
 	"model":	[{
 			"name":	"olol",
-			"path":	"./old_ressources/lowtri.obj",
+			"path":	"./ressources/lowtri.obj",
 			"material":	4,
 			"shader":	0,
 			"position":	{
-				"x":	-1.2999999523162842,
+				"x":	-6.3000001907348633,
 				"y":	0.30000001192092896,
 				"z":	0.30000001192092896
 			},
@@ -21,8 +21,7 @@
 			}
 		}, {
 			"name":	"1",
-			"path":	"old_ressources/multicube.obj",
-			"material":	0,
+			"path":	"ressources/newmulti.obj",
 			"shader":	0,
 			"position":	{
 				"x":	0,
@@ -41,7 +40,49 @@
 			}
 		}, {
 			"name":	"2",
-			"path":	"old_ressources/lowtri.obj",
+			"path":	"ressources/lowtri_ss_vn.obj",
+			"material":	0,
+			"shader":	0,
+			"position":	{
+				"x":	0,
+				"y":	-0.5,
+				"z":	0
+			},
+			"rotation":	{
+				"x":	0,
+				"y":	0,
+				"z":	0
+			},
+			"scaling":	{
+				"x":	1,
+				"y":	1,
+				"z":	1
+			}
+		},
+		{
+			"name":	"2.2",
+			"path":	"ressources/lowtri.obj",
+			"material":	0,
+			"shader":	0,
+			"position":	{
+				"x":	0.1,
+				"y":	-0.5,
+				"z":	0
+			},
+			"rotation":	{
+				"x":	0,
+				"y":	0,
+				"z":	0
+			},
+			"scaling":	{
+				"x":	1,
+				"y":	1,
+				"z":	1
+			}
+		}
+		, {
+			"name":	"3",
+			"path":	"./ressources/newdva.obj",
 			"material":	0,
 			"shader":	0,
 			"position":	{
@@ -60,14 +101,48 @@
 				"z":	1
 			}
 		}, {
-			"name":	"3",
-			"path":	"old_ressources/newdva.obj",
-			"material":	0,
+			"name":	"42",
+			"path":	"./ressources/42.obj",
+			"shader":	0,
+			"position":	{
+				"x":	-0.2,
+				"y":	-0.30000001192092896,
+				"z":	0.30000001192092896
+			},
+			"rotation":	0,
+			"scaling":	{
+				"x":	1,
+				"y":	1,
+				"z":	1
+			}
+		},{
+			"name":	"plant",
+			"path":	"./ressources/leviet/leviet0.obj",
+			"shader":	0,
+			"position":	{
+				"x":	-1.2999999523162842,
+				"y":	0.30000001192092896,
+				"z":	0.30000001192092896
+			},
+			"rotation":	{
+				"x":	4.9999995231628418,
+				"y":	2.6000003814697266,
+				"z":	5.7999987602233887
+			},
+			"scaling":	{
+				"x":	1,
+				"y":	1,
+				"z":	1
+			}
+		}, {
+			"name":	"dplan",
+			"path":	"./ressources/plan2.obj",
+			"material":	1,
 			"shader":	0,
 			"position":	{
 				"x":	0,
-				"y":	-0.5,
-				"z":	0
+				"y":	0,
+				"z":	-10
 			},
 			"rotation":	{
 				"x":	0,
@@ -75,40 +150,56 @@
 				"z":	0
 			},
 			"scaling":	{
-				"x":	1,
-				"y":	1,
-				"z":	1
+				"x":	30,
+				"y":	30,
+				"z":	30
 			}
 		}],
 	"shader":	[{
 			"name":	"shader_1",
 			"vertex":	"./shader/basic.vert",
 			"fragment":	"./shader/basic.frag"
+		},
+		{
+				"name":	"shader_2",
+				"vertex":	"./shader/grey.vert",
+				"fragment":	"./shader/grey.frag"
 		}],
 	"light":	[{
 			"name":	"1st light",
 			"ambient":	{
-				"x":	0.20000000298023224,
-				"y":	0.20000000298023224,
-				"z":	0.20000000298023224
+				"x":	0.15000000596046448,
+				"y":	0.15000000596046448,
+				"z":	0.15000000596046448
 			},
 			"diffuse":	{
-				"x":	0.699999988079071,
-				"y":	0.699999988079071,
-				"z":	0.699999988079071
+				"x":	0.5,
+				"y":	0.5,
+				"z":	0.5
 			},
 			"specular":	{
 				"x":	1,
 				"y":	1,
 				"z":	1
 			},
+			"direction":	{
+				"x":	0,
+				"y":	1,
+				"z":	0
+			},
 			"position":	{
 				"x":	0.30000001192092896,
 				"y":	0.30000001192092896,
-				"z":	0.30000001192092896
-			}
+				"z":	1.9000002145767212
+			},
+			"type":	"point",
+			"constent":	1,
+			"linear":	0.045000001788139343,
+			"quadratic":	0.0074999998323619366,
+			"intensity": 0.75
 		}, {
 			"name":	"1st light2",
+			"intensity": 0.45,
 			"ambient":	{
 				"x":	0.10000000149011612,
 				"y":	0.10000000149011612,
@@ -124,15 +215,21 @@
 				"y":	1,
 				"z":	1
 			},
+			"direction":	{
+				"x":	0,
+				"y":	1,
+				"z":	0
+			},
 			"position":	{
 				"x":	-0.60000002384185791,
 				"y":	0.1745000034570694,
 				"z":	0.21500000357627869
-			}
+			},
+			"type":	"basic"
 		}],
 	"material":	[{
 			"name":	"EMERALD",
-			"shininess":	76.800003051757812,
+			"shininess":	76.470588684082031,
 			"ambient":	{
 				"x":	0.0215000007301569,
 				"y":	0.1745000034570694,
@@ -220,5 +317,8 @@
 				"y":	0.60000002384185791,
 				"z":	0.60000002384185791
 			}
-		}]
+		}],
+		"textures":	[
+			{ "path": "ressources/grass.tga" },
+		{ "path": "ressources/grass.tga" }]
 }

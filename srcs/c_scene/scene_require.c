@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/24 00:28:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:01:33 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/27 20:40:37 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,10 @@ bool			scene_require(t_scene *scene)
 		return (ft_bool_error("La Scene a trop de models", NULL, NULL));
 	if (scene->m_material->size > SCOP_MAX_MATERIAL)
 		return (ft_bool_error("La Scene a trop de materials", NULL, NULL));
-	if (!scene->m_model->size)
-		return (ft_bool_error("La Scene a pas de model", NULL, NULL));
-	if (!scene->m_material->size)
-		return (ft_bool_error("La Scene a pas de material", NULL, NULL));
 	if (!scene->m_light->size)
 		return (ft_bool_error("La Scene a pas de light", NULL, NULL));
+	if (scene->m_shader->size > SCOP_MAX_SHADER)
+		return (ft_bool_error("La Scene a trop de shader", NULL, NULL));
 	if (!scene_require_index_m_model(scene))
 		return (false);
 	return (true);

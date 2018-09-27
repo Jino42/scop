@@ -1,6 +1,44 @@
 {
 	"model":	[{
-			"name":	"olol",
+			"name":	"cabin",
+			"path":	"./ressources/cabin/WoodenCabinObj.obj",
+			"shader":	0,
+			"position":	{
+				"x":	5.7999987602233887,
+				"y":	-0.30000001192092896,
+				"z":	0.30000001192092896
+			},
+			"rotation":	{
+				"x":	0,
+				"y":	0,
+				"z":	0
+			},
+			"scaling":	{
+				"x":	1,
+				"y":	1,
+				"z":	1
+			}
+		}, {
+			"name":	"42",
+			"path":	"./ressources/42.obj",
+			"shader":	0,
+			"position":	{
+				"x":	-0.20000000298023224,
+				"y":	-0.30000001192092896,
+				"z":	0.30000001192092896
+			},
+			"rotation":	{
+				"x":	0,
+				"y":	0,
+				"z":	0
+			},
+			"scaling":	{
+				"x":	1,
+				"y":	1,
+				"z":	1
+			}
+		}, {
+			"name":	"lowtri",
 			"path":	"./ressources/lowtri.obj",
 			"material":	4,
 			"shader":	0,
@@ -20,7 +58,7 @@
 				"z":	1.6000000238418579
 			}
 		}, {
-			"name":	"1",
+			"name":	"newmulti",
 			"path":	"ressources/newmulti.obj",
 			"shader":	0,
 			"position":	{
@@ -39,7 +77,7 @@
 				"z":	1
 			}
 		}, {
-			"name":	"2",
+			"name":	"lowtri_ss_vn",
 			"path":	"ressources/lowtri_ss_vn.obj",
 			"material":	0,
 			"shader":	0,
@@ -58,14 +96,13 @@
 				"y":	1,
 				"z":	1
 			}
-		},
-		{
-			"name":	"2.2",
+		}, {
+			"name":	"lowtri",
 			"path":	"ressources/lowtri.obj",
 			"material":	0,
 			"shader":	0,
 			"position":	{
-				"x":	0.1,
+				"x":	0.10000000149011612,
 				"y":	-0.5,
 				"z":	0
 			},
@@ -79,9 +116,8 @@
 				"y":	1,
 				"z":	1
 			}
-		}
-		, {
-			"name":	"3",
+		}, {
+			"name":	"newdva",
 			"path":	"./ressources/newdva.obj",
 			"material":	0,
 			"shader":	0,
@@ -101,22 +137,7 @@
 				"z":	1
 			}
 		}, {
-			"name":	"42",
-			"path":	"./ressources/42.obj",
-			"shader":	0,
-			"position":	{
-				"x":	-0.2,
-				"y":	-0.30000001192092896,
-				"z":	0.30000001192092896
-			},
-			"rotation":	0,
-			"scaling":	{
-				"x":	1,
-				"y":	1,
-				"z":	1
-			}
-		},{
-			"name":	"plant",
+			"name":	"leviet",
 			"path":	"./ressources/leviet/leviet0.obj",
 			"shader":	0,
 			"position":	{
@@ -212,7 +233,7 @@
 				"z":	1
 			}
 		}, {
-			"name":	"dplan",
+			"name":	"plan",
 			"path":	"./ressources/plan2.obj",
 			"material":	1,
 			"shader":	0,
@@ -236,13 +257,16 @@
 			"name":	"shader_1",
 			"vertex":	"./shader/basic.vert",
 			"fragment":	"./shader/basic.frag"
-		},
-		{
-				"name":	"shader_2",
-				"vertex":	"./shader/grey.vert",
-				"fragment":	"./shader/grey.frag"
+		}, {
+			"name":	"shader_2",
+			"vertex":	"./shader/grey.vert",
+			"fragment":	"./shader/grey.frag"
 		}],
 	"light":	[{
+			"type":	"point",
+			"constent":	1,
+			"linear":	0.045000001788139343,
+			"quadratic":	0.0074999998323619366,
 			"name":	"1st light",
 			"ambient":	{
 				"x":	0.15000000596046448,
@@ -269,14 +293,10 @@
 				"y":	0.30000001192092896,
 				"z":	1.9000002145767212
 			},
-			"type":	"point",
-			"constent":	1,
-			"linear":	0.045000001788139343,
-			"quadratic":	0.0074999998323619366,
-			"intensity": 0.75
+			"intensity":	0.75
 		}, {
+			"type":	"basic",
 			"name":	"1st light2",
-			"intensity": 0.45,
 			"ambient":	{
 				"x":	0.10000000149011612,
 				"y":	0.10000000149011612,
@@ -302,7 +322,7 @@
 				"y":	0.1745000034570694,
 				"z":	0.21500000357627869
 			},
-			"type":	"basic"
+			"intensity":	0.44999998807907104
 		}],
 	"material":	[{
 			"name":	"EMERALD",
@@ -394,8 +414,8 @@
 				"y":	0.60000002384185791,
 				"z":	0.60000002384185791
 			}
-		}],
-		"textures":	[
-			{ "path": "ressources/grass.tga" },
-		{ "path": "ressources/grass.tga" }]
+		}]
+}
+ame":	"ressources/unicorn-min_grande.tga"
+		}]
 }

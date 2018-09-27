@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:06:41 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 23:18:20 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/26 18:28:04 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct		s_model
 	unsigned int	index_material;
 	unsigned int	index_material_personnal;
 	int				timestamp;
+	unsigned int	same_indices;
+	unsigned int	nb_indices;
 }					t_model;
 void				model_setup_scaling(t_model *model);
 void				*model_destruct(t_model **model);

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 23:19:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/27 20:25:40 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define SCOP_MAX_LIGHTS	8
 # define SCOP_MAX_MODEL		16
 # define SCOP_MAX_MATERIAL	16
+# define SCOP_MAX_SHADER	4
 
 # define FLOAT_MIN			-100000.f
 # define FLOAT_MAX			100000.f

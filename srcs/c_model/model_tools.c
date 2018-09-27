@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:49:51 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/22 18:42:30 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/26 18:28:50 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void			model_gen_gl_buffers(t_model *model)
 	while (i < model->m_mesh->size)
 	{
 		mesh_gen_gl_buffers(model->m_mesh->mesh[i]);
+		model->nb_indices += model->m_mesh->mesh[i]->nb_indices;
+		model->same_indices += model->m_mesh->mesh[i]->same_indices;
 		i++;
 	}
 }
