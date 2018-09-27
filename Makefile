@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/25 23:14:21 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/27 23:21:28 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS = -Wall -Werror -Wextra -Wvla -g3
 
 INC_FILES = includes/scop.h includes/scop_glfw.h includes/scop_nk.h includes/c_scene.h includes/c_texture.h includes/json.h includes/c_lm.h  includes/c_cam.h includes/c_light.h includes/c_material.h includes/c_mesh.h includes/c_model.h includes/c_shader.h includes/c_rbo.h
 
-INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw-3.2.1/include/GLFW/ -g3 -I ~/.brew/include/ -I ./cJSON/ -I glad/ -I nuklear/src/
+INC = -I includes/ -I libft/includes -I vector/includes/ -I matrix/includes/ -I glfw/include/GLFW/ -g3 -I ~/.brew/include/ -I ./cJSON/ -I glad/ -I nuklear/src/
 
 SANIT = -fsanitize=address
 
@@ -113,7 +113,7 @@ OBJ_DIR = objs/
 
 OBJET = $(SRC:.c=.o)
 
-GLFW_DIR = ./glfw-3.2.1/construct
+GLFW_DIR = ./glfw
 GLFW_LIB = $(GLFW_DIR)/src/libglfw3.a
 GLFW_FLAG = $(GLFW_LIB) -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
@@ -129,12 +129,27 @@ DIR_LIB = libs/
 
 .PHONY: all, clean, fclean, re
 
+
+
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) lib $(addprefix $(OBJ_DIR), $(OBJET))
 	@$(CC) $(INC) $(addprefix $(OBJ_DIR), $(OBJET)) -L./$(DIR_LIB) $(FLAG_LIB) $(GLFW_FLAG) $(FRAMEWORK) -o $(NAME)
 
 lib:
+	@if [ -f ./glfw/src/libglfw3.a ] ; \
+		then \
+			printf ""; \
+		else \
+			make -C ./glfw; \
+	fi;
+	@(cd ./nuklear/src && $(MAKE))
+	@if [ -f ./cJSON/build/libcjson.a ] ; \
+		then \
+			printf ""; \
+		else \
+			make -C ./cJSON/build; \
+	fi;
 	@(cd $(DIR_LFT) && $(MAKE))
 	@(cd $(DIR_VEC) && $(MAKE))
 	@(cd $(DIR_MATRIX) && $(MAKE))
@@ -171,6 +186,9 @@ clean:
 	@echo "Clean scop"
 	@(cd $(DIR_LFT) && $(MAKE) clean)
 	@(cd $(DIR_VEC) && $(MAKE) clean)
+	@(cd ./glfw && $(MAKE) clean)
+	@(cd ./cJSON/build && $(MAKE) clean)
+	@(cd ./nuklear/src && $(MAKE) fclean)
 	@(cd $(DIR_MATRIX) && $(MAKE) clean)
 	@/bin/rm -rf $(OBJ_DIR)
 	@/bin/rm -rf $(DIR_LIB)

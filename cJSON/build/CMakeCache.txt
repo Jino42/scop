@@ -113,7 +113,7 @@ CMAKE_INSTALL_NAME_TOOL:FILEPATH=/usr/bin/install_name_tool
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=/Users/ntoniolo/base/scop/cJSON
+CMAKE_INSTALL_PREFIX:PATH=/usr
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
@@ -266,9 +266,6 @@ ENABLE_SANITIZERS:BOOL=OFF
 //Enable exporting of CMake targets. Disable when it causes problems!
 ENABLE_TARGET_EXPORT:BOOL=ON
 
-//OFF
-ENABLE_VALGRIND:BOOL=OFF
-
 //Value Computed by CMake
 cJSON_BINARY_DIR:STATIC=/Users/ntoniolo/base/scop/cJSON/build
 
@@ -280,9 +277,6 @@ cjson_LIB_DEPENDS:STATIC=general;m;
 
 //Dependencies for the target
 cjson_utils_LIB_DEPENDS:STATIC=general;cjson;
-
-//Dependencies for target
-unity_LIB_DEPENDS:STATIC=
 
 
 ########################
@@ -497,5 +491,5 @@ FLAG_SUPPORTED_pedantic:INTERNAL=1
 //Test FLAG_SUPPORTED_stdc89
 FLAG_SUPPORTED_stdc89:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/Users/ntoniolo/base/scop/cJSON
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr
 

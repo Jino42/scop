@@ -1,8 +1,8 @@
-libdir=/Users/ntoniolo/base/scop/cJSON/lib
-includedir=/Users/ntoniolo/base/scop/cJSON/include
+libdir=/usr/lib
+includedir=/usr/include
 
 Name: libcjson_utils
-Version: 1.7.7
+Version: 1.7.8
 Description: An implementation of JSON Pointer, Patch and Merge Patch based on cJSON.
 URL: https://github.com/DaveGamble/cJSON
 Libs: -L${libdir} -lcjson_utils

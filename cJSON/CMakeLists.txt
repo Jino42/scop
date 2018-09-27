@@ -7,7 +7,7 @@ include(GNUInstallDirs)
 
 set(PROJECT_VERSION_MAJOR 1)
 set(PROJECT_VERSION_MINOR 7)
-set(PROJECT_VERSION_PATCH 7)
+set(PROJECT_VERSION_PATCH 8)
 set(CJSON_VERSION_SO 1)
 set(CJSON_UTILS_VERSION_SO 1)
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
@@ -49,11 +49,15 @@ if (ENABLE_CUSTOM_COMPILER_FLAGS)
             -Wswitch-enum
         )
     elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
+        # Disable warning c4001 - nonstandard extension 'single line comment' was used
+        # Define _CRT_SECURE_NO_WARNINGS to disable deprecation warnings for "insecure" C library functions
         list(APPEND custom_compiler_flags
             /GS
             /Za
             /sdl
             /W4
+            /wd4001
+            /D_CRT_SECURE_NO_WARNINGS
         )
     endif()
 endif()

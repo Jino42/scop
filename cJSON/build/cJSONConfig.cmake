@@ -2,8 +2,8 @@
 set(CJSON_UTILS_FOUND On)
 
 # The include directories used by cJSON
-set(CJSON_INCLUDE_DIRS "/Users/ntoniolo/base/scop/cJSON/include")
-set(CJSON_INCLUDE_DIR "/Users/ntoniolo/base/scop/cJSON/include")
+set(CJSON_INCLUDE_DIRS "/usr/include")
+set(CJSON_INCLUDE_DIR "/usr/include")
 
 get_filename_component(_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
 

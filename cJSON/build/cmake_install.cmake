@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/Users/ntoniolo/base/scop/cJSON")
+  set(CMAKE_INSTALL_PREFIX "/usr")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,46 +34,46 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/include/cjson/cJSON.h")
+   "/usr/include/cjson/cJSON.h")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/include/cjson" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/cJSON.h")
+file(INSTALL DESTINATION "/usr/include/cjson" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/cJSON.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/lib/pkgconfig/libcjson.pc")
+   "/usr/lib/pkgconfig/libcjson.pc")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib/pkgconfig" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/libcjson.pc")
+file(INSTALL DESTINATION "/usr/lib/pkgconfig" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/libcjson.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/lib/libcjson.1.7.7.dylib;/Users/ntoniolo/base/scop/cJSON/lib/libcjson.1.dylib;/Users/ntoniolo/base/scop/cJSON/lib/libcjson.dylib")
+   "/usr/lib/libcjson.1.7.8.dylib;/usr/lib/libcjson.1.dylib;/usr/lib/libcjson.dylib")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib" TYPE SHARED_LIBRARY FILES
-    "/Users/ntoniolo/base/scop/cJSON/build/libcjson.1.7.7.dylib"
+file(INSTALL DESTINATION "/usr/lib" TYPE SHARED_LIBRARY FILES
+    "/Users/ntoniolo/base/scop/cJSON/build/libcjson.1.7.8.dylib"
     "/Users/ntoniolo/base/scop/cJSON/build/libcjson.1.dylib"
     "/Users/ntoniolo/base/scop/cJSON/build/libcjson.dylib"
     )
   foreach(file
-      "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/libcjson.1.7.7.dylib"
-      "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/libcjson.1.dylib"
-      "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/libcjson.dylib"
+      "$ENV{DESTDIR}/usr/lib/libcjson.1.7.8.dylib"
+      "$ENV{DESTDIR}/usr/lib/libcjson.1.dylib"
+      "$ENV{DESTDIR}/usr/lib/libcjson.dylib"
       )
     if(EXISTS "${file}" AND
        NOT IS_SYMLINK "${file}")
@@ -88,58 +88,58 @@ file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib" TYPE SHARED_LIBRA
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson.cmake")
+  if(EXISTS "$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
-         "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson.cmake"
-         "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson.cmake")
+         "$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson.cmake"
+         "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_usr/lib/cmake/cJSON/cjson.cmake")
     if(EXPORT_FILE_CHANGED)
-      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson-*.cmake")
+      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson-*.cmake")
       if(OLD_CONFIG_FILES)
-        message(STATUS "Old export file \"$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
+        message(STATUS "Old export file \"$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
         file(REMOVE ${OLD_CONFIG_FILES})
       endif()
     endif()
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson.cmake")
+   "/usr/lib/cmake/cJSON/cjson.cmake")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson.cmake")
+file(INSTALL DESTINATION "/usr/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_usr/lib/cmake/cJSON/cjson.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^()$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson-noconfig.cmake")
+     "/usr/lib/cmake/cJSON/cjson-noconfig.cmake")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
         message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
     if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
         message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson-noconfig.cmake")
+file(INSTALL DESTINATION "/usr/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_usr/lib/cmake/cJSON/cjson-noconfig.cmake")
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/lib/libcjson_utils.1.7.7.dylib;/Users/ntoniolo/base/scop/cJSON/lib/libcjson_utils.1.dylib;/Users/ntoniolo/base/scop/cJSON/lib/libcjson_utils.dylib")
+   "/usr/lib/libcjson_utils.1.7.8.dylib;/usr/lib/libcjson_utils.1.dylib;/usr/lib/libcjson_utils.dylib")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib" TYPE SHARED_LIBRARY FILES
-    "/Users/ntoniolo/base/scop/cJSON/build/libcjson_utils.1.7.7.dylib"
+file(INSTALL DESTINATION "/usr/lib" TYPE SHARED_LIBRARY FILES
+    "/Users/ntoniolo/base/scop/cJSON/build/libcjson_utils.1.7.8.dylib"
     "/Users/ntoniolo/base/scop/cJSON/build/libcjson_utils.1.dylib"
     "/Users/ntoniolo/base/scop/cJSON/build/libcjson_utils.dylib"
     )
   foreach(file
-      "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/libcjson_utils.1.7.7.dylib"
-      "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/libcjson_utils.1.dylib"
-      "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/libcjson_utils.dylib"
+      "$ENV{DESTDIR}/usr/lib/libcjson_utils.1.7.8.dylib"
+      "$ENV{DESTDIR}/usr/lib/libcjson_utils.1.dylib"
+      "$ENV{DESTDIR}/usr/lib/libcjson_utils.dylib"
       )
     if(EXISTS "${file}" AND
        NOT IS_SYMLINK "${file}")
@@ -156,73 +156,73 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/include/cjson/cJSON_Utils.h")
+   "/usr/include/cjson/cJSON_Utils.h")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/include/cjson" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/cJSON_Utils.h")
+file(INSTALL DESTINATION "/usr/include/cjson" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/cJSON_Utils.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/lib/pkgconfig/libcjson_utils.pc")
+   "/usr/lib/pkgconfig/libcjson_utils.pc")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib/pkgconfig" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/libcjson_utils.pc")
+file(INSTALL DESTINATION "/usr/lib/pkgconfig" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/libcjson_utils.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils.cmake")
+  if(EXISTS "$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson_utils.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
-         "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils.cmake"
-         "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils.cmake")
+         "$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson_utils.cmake"
+         "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_usr/lib/cmake/cJSON/cjson_utils.cmake")
     if(EXPORT_FILE_CHANGED)
-      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils-*.cmake")
+      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson_utils-*.cmake")
       if(OLD_CONFIG_FILES)
-        message(STATUS "Old export file \"$ENV{DESTDIR}/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
+        message(STATUS "Old export file \"$ENV{DESTDIR}/usr/lib/cmake/cJSON/cjson_utils.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
         file(REMOVE ${OLD_CONFIG_FILES})
       endif()
     endif()
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils.cmake")
+   "/usr/lib/cmake/cJSON/cjson_utils.cmake")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils.cmake")
+file(INSTALL DESTINATION "/usr/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_usr/lib/cmake/cJSON/cjson_utils.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^()$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils-noconfig.cmake")
+     "/usr/lib/cmake/cJSON/cjson_utils-noconfig.cmake")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
         message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
     if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
         message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cjson_utils-noconfig.cmake")
+file(INSTALL DESTINATION "/usr/lib/cmake/cJSON" TYPE FILE FILES "/Users/ntoniolo/base/scop/cJSON/build/CMakeFiles/Export/_usr/lib/cmake/cJSON/cjson_utils-noconfig.cmake")
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cJSONConfig.cmake;/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON/cJSONConfigVersion.cmake")
+   "/usr/lib/cmake/cJSON/cJSONConfig.cmake;/usr/lib/cmake/cJSON/cJSONConfigVersion.cmake")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/ntoniolo/base/scop/cJSON/lib/cmake/cJSON" TYPE FILE FILES
+file(INSTALL DESTINATION "/usr/lib/cmake/cJSON" TYPE FILE FILES
     "/Users/ntoniolo/base/scop/cJSON/build/cJSONConfig.cmake"
     "/Users/ntoniolo/base/scop/cJSON/build/cJSONConfigVersion.cmake"
     )

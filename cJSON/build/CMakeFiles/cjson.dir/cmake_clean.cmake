@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cjson.dir/cJSON.c.o"
   "libcjson.pdb"
-  "libcjson.1.7.7.dylib"
+  "libcjson.1.7.8.dylib"
   "libcjson.dylib"
   "libcjson.1.dylib"
 )
