@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/09/27 23:21:28 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/09/27 23:57:03 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,18 +137,22 @@ $(NAME): $(OBJ_DIR) lib $(addprefix $(OBJ_DIR), $(OBJET))
 	@$(CC) $(INC) $(addprefix $(OBJ_DIR), $(OBJET)) -L./$(DIR_LIB) $(FLAG_LIB) $(GLFW_FLAG) $(FRAMEWORK) -o $(NAME)
 
 lib:
-	@if [ -f ./glfw/src/libglfw3.a ] ; \
+	@if [ ! -d ./glfw ] ; \
 		then \
-			printf ""; \
-		else \
-			make -C ./glfw; \
+			git clone https://github.com/glfw/glfw; \
+			cd glfw; \
+			cmake .; \
+			make; \
 	fi;
-	@(cd ./nuklear/src && $(MAKE))
-	@if [ -f ./cJSON/build/libcjson.a ] ; \
+	@(cd ./nuklear/src && $(MAKE) glfw=$(shell pwd)/glfw)
+	@if [ ! -d ./cJSON ] ; \
 		then \
-			printf ""; \
-		else \
-			make -C ./cJSON/build; \
+			git clone https://github.com/DaveGamble/cJSON; \
+			cd cJSON; \
+			mkdir build; \
+			cd build; \
+			cmake .. -DENABLE_CJSON_UTILS=On -DENABLE_CJSON_TEST=Off -DCMAKE_INSTALL_PREFIX=/usr; \
+			make; \
 	fi;
 	@(cd $(DIR_LFT) && $(MAKE))
 	@(cd $(DIR_VEC) && $(MAKE))
@@ -186,8 +190,14 @@ clean:
 	@echo "Clean scop"
 	@(cd $(DIR_LFT) && $(MAKE) clean)
 	@(cd $(DIR_VEC) && $(MAKE) clean)
-	@(cd ./glfw && $(MAKE) clean)
-	@(cd ./cJSON/build && $(MAKE) clean)
+	@if [ -d ./glfw ] ; \
+	then \
+		rm -rf glfw; \
+	fi;
+	@if [ -d ./cJSON ] ; \
+	then \
+		rm -rf cJSON; \
+	fi;
 	@(cd ./nuklear/src && $(MAKE) fclean)
 	@(cd $(DIR_MATRIX) && $(MAKE) clean)
 	@/bin/rm -rf $(OBJ_DIR)
@@ -196,6 +206,7 @@ clean:
 fclean:
 	@echo "fClean scop"
 	@/bin/rm -rf $(OBJ_DIR)
+	@(cd nuklear/src && $(MAKE) fclean)
 	@(cd $(DIR_LFT) && $(MAKE) fclean)
 	@(cd $(DIR_VEC) && $(MAKE) fclean)
 	@(cd $(DIR_MATRIX) && $(MAKE) fclean)
