@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 23:09:48 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/28 01:08:44 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/28 01:20:26 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_model			*m_model_load(t_scene *scene,
 	t_model	*model;
 	t_lm	*lm;
 
-	printf("%s\n", path_obj);
 	if (!(model = model_construct(path_obj, name)))
 		return (false);
 	if (!(lm = lm_construct(scene, model, path_obj)))
