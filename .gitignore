@@ -21,7 +21,6 @@ old_ressources
 
 # Libraries
 *.lib
-*.a
 *.la
 *.lo
 
