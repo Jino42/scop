@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:26:18 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 18:58:18 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/27 21:25:52 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ t_m_shader		*m_shader_construct_hidden(void)
 	m_shader->add = &m_shader_add;
 	if (!(m_shader->add(m_shader, "./shader/light.vert",
 							"./shader/light.frag", "light")))
-		return (m_shader_destruct(&m_shader));
-	if (!(m_shader->add(m_shader, "./shader/outline.vert",
-							"./shader/outline.frag", "outline")))
 		return (m_shader_destruct(&m_shader));
 	if (!(m_shader->add(m_shader, "./shader/uv.vert",
 							"./shader/cellular.frag", "dynamique texture")))
