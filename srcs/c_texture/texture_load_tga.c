@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 21:30:46 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:27:21 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/09/28 00:43:14 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ bool			texture_load_tga(t_texture *texture, const char *filename)
 		dprintf(0, "Chemin ou fichier invalide\n");
 		return (tga_destruct_failed(&tga));
 	}
-	texture_load_tga_read_data(&tga);
+	if (!(texture_load_tga_read_data(&tga)))
+		return (tga_destruct_failed(&tga));
 	color_mode = tga.bit_count / 8;
 	image_size = tga.width * tga.height * color_mode;
 	if (!(tga.data = (unsigned char*)ft_memalloc(
