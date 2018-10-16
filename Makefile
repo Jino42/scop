@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/10/16 16:49:01 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/10/16 19:57:46 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,7 @@ SRC = main.c \
 		c_lm/lm_check_realloc.c \
 		c_lm/lm_get_face.c \
 		c_lm/lm_indexing.c \
+		c_lm/lm_tools.c \
 		c_lm/lm_indexing_calculate.c \
 		glfw/glfw_construct.c \
 		glfw/glfw_destruct.c \

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:42:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 23:16:18 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 23:07:53 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct		s_lm
 	float			buffer_vt[4];
 	float			buffer_vn[4];
 
+	uint32_t		nb_indices;
 	uint32_t		nb_mesh;
 	uint32_t		mem_len_indices;
 
@@ -54,10 +55,6 @@ typedef struct		s_lm
 	uint32_t		mem_len_indexed_color;
 	uint32_t		mem_len_indexed_u;
 
-	uint32_t		last_index_v;
-	uint32_t		last_index_vt;
-	uint32_t		last_index_vn;
-	uint32_t		last_index;
 	char			*line;
 	int				fd;
 	int				fd_mlt;
@@ -78,4 +75,6 @@ void				lm_indexing_calculate_vt(t_mesh *mesh);
 void				lm_indexing_calculate_normal(t_mesh *mesh);
 bool				lm_parsing_mtl(t_lm *lm, t_m_material *m_material,
 						t_model *model);
+bool				lm_indexing_verif_range(t_lm *lm, const int sommet);
+bool				lm_verif_file(t_lm *lm);
 #endif

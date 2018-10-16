@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:46:31 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 18:30:37 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 19:39:14 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ bool				m_model_json_parse(t_scene *scene,
 	source = cJSON_GetObjectItemCaseSensitive(get, key);
 	if (!(m_model_json_loop(scene, source)))
 	{
-		return (ft_bool_error("Erreur: Le parsing de t_m_model a échoué",
+		return (ft_bool_error("Error: t_m_model cannot be initialised",
 				NULL, NULL));
 	}
 	return (true);

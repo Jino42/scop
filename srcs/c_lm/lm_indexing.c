@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 21:11:23 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 21:30:54 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 23:08:26 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	lm_indexing_memcpy(t_lm *lm, t_mesh *mesh, const int sommet)
 	}
 }
 
-static void	lm_indexing(t_lm *lm, t_mesh *mesh, const int sommet)
+static bool	lm_indexing(t_lm *lm, t_mesh *mesh, const int sommet)
 {
 	float	nb;
 	int		indice;
@@ -69,15 +69,19 @@ static void	lm_indexing(t_lm *lm, t_mesh *mesh, const int sommet)
 		{
 			mesh->indices[mesh->nb_indices + mesh->same_indices] = indice;
 			mesh->same_indices++;
-			return ;
+			return (true);
 		}
 	}
 	mesh->indices[mesh->nb_indices + mesh->same_indices] = mesh->nb_indices;
+	if (!lm_indexing_verif_range(lm, sommet))
+		return (false);
 	lm_indexing_memcpy(lm, mesh, sommet);
 	nb = (float)rand() / (float)RAND_MAX;
 	mesh->indexed_color[mesh->nb_indices] =
 		nb - (((int)(nb * 100.f)) % 10 / 100.f);
 	mesh->nb_indices++;
+	lm->nb_indices++;
+	return (true);
 }
 
 static void	lm_indexing_face_increment(t_mesh *mesh)
@@ -96,7 +100,8 @@ bool		lm_indexing_face(t_lm *lm, t_mesh *mesh, const int sommet4)
 	sommet = 0;
 	while (sommet < 3)
 	{
-		lm_indexing(lm, mesh, sommet);
+		if (!lm_indexing(lm, mesh, sommet))
+			return (false);
 		sommet++;
 	}
 	lm_indexing_face_increment(mesh);
@@ -107,7 +112,8 @@ bool		lm_indexing_face(t_lm *lm, t_mesh *mesh, const int sommet4)
 		{
 			if (sommet == 1)
 				sommet++;
-			lm_indexing(lm, mesh, sommet);
+			if (!lm_indexing(lm, mesh, sommet))
+			return (false);
 			sommet++;
 		}
 		lm_indexing_face_increment(mesh);

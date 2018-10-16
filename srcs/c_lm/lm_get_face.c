@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 21:20:39 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 21:25:59 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 19:58:33 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,5 @@ bool		lm_get_face(t_lm *lm)
 		ret = lm_get_face_v_vn_vt(lm);
 	if (!ret)
 		return (false);
-	lm_indexing_face(lm, lm->mesh, ret);
-	return (true);
+	return (lm_indexing_face(lm, lm->mesh, ret));
 }
