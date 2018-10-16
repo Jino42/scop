@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:27:05 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/20 23:38:32 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 18:44:09 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,23 @@ t_env	*env_construct(int argc, char **argv)
 {
 	t_env *e;
 
-	(void)argc;
 	if (!(e = ft_memalloc(sizeof(t_env))))
 		return (NULL);
 	if (!(e->fps = fps_construct()))
 	{
-		return (ft_error("Erreur: L'initialisation de t_glfw a échoué",
+		return (ft_error("Error: t_fps cannot be initialised",
 					&env_destruct, e));
 	}
 	if (!(e->glfw = glfw_construct("scop", 1920, 1080)))
 	{
-		return (ft_error("Erreur: L'initialisation de t_glfw a échoué",
+		return (ft_error("Error: t_glfw cannot be initialised",
 					&env_destruct, e));
 	}
-	if (!(e->scene = scene_construct(argv[1], argc >= 3)))
+	if (!strcmp(argv[1], "-debug_p"))
+		e->debug = true;
+	if (!(e->scene = scene_construct(argv[(argc == 3 ? 2 : 1)], argc >= 4)))
 	{
-		return (ft_error("Erreur: L'initialisation de t_scene a échoué",
+		return (ft_error("Error: t_scene cannot be initialised",
 					&env_destruct, e));
 	}
 	return (e);

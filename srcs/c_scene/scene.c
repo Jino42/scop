@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 20:02:02 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/10/16 16:53:07 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 18:28:05 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static t_scene	*scene_construct_2(t_scene *scene, const char *path)
 	if (!(scene->cam = cam_construct()))
 		return (scene_destruct(&scene));
 	if (!(scene_parse(scene, path)))
+	{
+		ft_dprintf(2, "Error: Failed to pars\n");
 		return (scene_destruct(&scene));
+	}
 	if (!scene_require(scene))
 		return (scene_destruct(&scene));
 	if (!m_model_hidden_setup(scene))

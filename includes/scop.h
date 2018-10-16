@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/10/16 17:20:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:53:28 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct		s_env
 
 	t_scene			*scene;
 
+	bool			debug;
 	int64_t			flag;
 }					t_env;
 
