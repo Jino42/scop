@@ -11,17 +11,9 @@ uniform mat4 P;
 
 out	vec2 uv;
 out	vec3 position;
-out mat4 oM;
-out mat4 oV;
-out mat4 oP;
-out mat4 oMVP;
 
 void main()
 {
-	oM = M;
-	oV = V;
-	oP = P;
-	oMVP = MVP;
 	gl_Position =  MVP * vec4(vertexPos, 1.0f);
 	position = vec3(M * vec4(vertexPos, 1.f));
 	uv = vt;

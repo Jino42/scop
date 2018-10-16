@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 14:07:51 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/27 21:26:12 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:01:42 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "glad.h"
 
 # define SHADER_INDEX_LIGHT				0
-# define SHADER_INDEX_DYNAMIQUE_TEXTURE	1
 
 typedef struct		s_shader
 {

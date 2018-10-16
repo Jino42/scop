@@ -6,20 +6,11 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 19:54:32 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:06:36 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 16:56:00 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
-
-void		scene_set_uniform_texture_dynamique(t_scene *scene,
-												t_shader *shader)
-{
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, scene->rbo->texture_color_buffer);
-	glUniform1i(glGetUniformLocation(shader->program,
-		"u_texture_dynamique"), 0);
-}
 
 void		scene_set_uniform_texture_personnal(t_shader *shader,
 												t_material *material_personnal)

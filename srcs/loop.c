@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 20:28:07 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 23:29:41 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 16:54:20 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ bool			loop(t_env *e)
 		if (!(nk_scene(glfw->nk, &e->scene)))
 			return (false);
 		cam_update(e->scene->cam, e->glfw, e->delta_time);
-		rbo_render(e->scene->rbo,
-			e->scene->m_shader_hidden->shader[SHADER_INDEX_DYNAMIQUE_TEXTURE],
-			e->scene->m_model_hidden->model[MODEL_INDEX_PLAN],
-			e->fps->time);
 		scene_render(e->scene, e->fps->time);
 		nk_render(glfw->nk);
 		glfwSwapBuffers(glfw->window);

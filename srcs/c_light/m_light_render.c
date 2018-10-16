@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 18:11:06 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:12:57 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:02:41 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ static t_model		*light_pick_model(t_scene *scene, t_light *light)
 		return (scene->m_model_hidden->model[MODEL_INDEX_LIGHT_DIRECTIONNAL]);
 	else if (light->flag & LIGHT_POINT)
 		return (scene->m_model_hidden->model[MODEL_INDEX_LIGHT_POINT]);
-	else if (light->flag & LIGHT_SPOT)
-		return (scene->m_model_hidden->model[MODEL_INDEX_LIGHT_SPOT]);
 	return (NULL);
 }
 

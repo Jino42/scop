@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:42:33 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 00:42:53 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:02:14 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # define LIGHT_BASIC				(1 << 0)
 # define LIGHT_DIRECTIONNAL			(1 << 1)
 # define LIGHT_POINT				(1 << 2)
-# define LIGHT_SPOT					(1 << 3)
 
 typedef struct		s_light
 {

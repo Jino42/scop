@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 20:02:02 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/26 18:22:44 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 16:53:07 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static t_scene	*scene_construct_2(t_scene *scene, const char *path)
 	if (!scene_require(scene))
 		return (scene_destruct(&scene));
 	if (!m_model_hidden_setup(scene))
-		return (scene_destruct(&scene));
-	if (!(scene->rbo = rbo_construct(WIDTH, HEIGHT)))
 		return (scene_destruct(&scene));
 	return (scene);
 }
@@ -75,8 +73,6 @@ static void		scene_destruct_2(t_scene **scene)
 		cam_destruct(&(*scene)->cam);
 	if ((*scene)->m_texture)
 		m_texture_destruct(&(*scene)->m_texture);
-	if ((*scene)->rbo)
-		rbo_destruct(&(*scene)->rbo);
 }
 
 void			*scene_destruct(t_scene **scene)

@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/24 00:38:25 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:10:27 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 16:56:04 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	scene_render_mesh(t_scene *scene,
 	{
 		material_personnal = scene->m_material_personnal->material[\
 			m_mesh->mesh[i]->index_material_personnal];
-		scene_set_uniform_texture_dynamique(scene, shader);
 		scene_set_uniform_texture_personnal(shader, material_personnal);
 		scene_set_uniform_texture_basic(shader, model, material);
 		scene_set_uniform_material_personnal(shader, material_personnal);

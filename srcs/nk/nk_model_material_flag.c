@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 20:42:43 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/25 20:42:47 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:04:30 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 static void			nk_model_material_flag_set(t_model *model, int set)
 {
 	model->flag |= set;
-	if (set != MODEL_USE_DYNAMIQUE_TEXTURE
-		&& model->flag & MODEL_USE_DYNAMIQUE_TEXTURE)
-	{
-		model->flag ^= MODEL_USE_DYNAMIQUE_TEXTURE;
-	}
 	if (set != MODEL_USE_MATERIAL_PERSONNAL
 		&& model->flag & MODEL_USE_MATERIAL_PERSONNAL)
 	{
@@ -70,11 +65,6 @@ void				nk_model_material_flag(t_nk *nk,
 			model->flag & MODEL_USE_TEXTURE))
 	{
 		nk_model_material_flag_set(model, MODEL_USE_TEXTURE);
-	}
-	if (nk_option_label(ctx, "MODEL_USE_DYNAMIQUE_TEXTURE",
-		model->flag & MODEL_USE_DYNAMIQUE_TEXTURE))
-	{
-		nk_model_material_flag_set(model, MODEL_USE_DYNAMIQUE_TEXTURE);
 	}
 	if (nk_option_label(ctx, "MODEL_USE_MATERIAL_PERSONNAL",
 		model->flag & MODEL_USE_MATERIAL_PERSONNAL))

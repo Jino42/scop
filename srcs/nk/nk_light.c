@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:28:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/19 21:26:37 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:03:06 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void			nk_light_type_option(t_light *light,
 		light->flag & LIGHT_DIRECTIONNAL) ? LIGHT_DIRECTIONNAL : light->flag;
 	light->flag = nk_option_label(ctx, "Point",
 		light->flag & LIGHT_POINT) ? LIGHT_POINT : light->flag;
-	light->flag = nk_option_label(ctx, "Spot",
-		light->flag & LIGHT_SPOT) ? LIGHT_SPOT : light->flag;
 }
 
 static void			nk_light_type(t_light *light, struct nk_context	*ctx)
@@ -40,14 +38,6 @@ static void			nk_light_type(t_light *light, struct nk_context	*ctx)
 		nk_layout_row_static(ctx, 30, 300, 1);
 		nk_property_float(ctx, "Quadratic", 0.0001f, &light->quadratic,
 										1.f, 0.0005f, 0.0005f);
-	}
-	if (light->flag & LIGHT_SPOT)
-	{
-		nk_layout_row_static(ctx, 30, 300, 1);
-		nk_property_float(ctx, "Angle", 0.0001f,
-							&light->spot_little_radius, 360.f, 0.05f, 0.05f);
-		nk_property_float(ctx, "Angle5", 0.0001f,
-							&light->spot_big_radius, 360.f, 0.05f, 0.05f);
 	}
 }
 

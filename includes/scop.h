@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 20:15:15 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/27 20:25:40 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:20:41 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 # include "c_scene.h"
 # include "c_lm.h"
-# include "c_rbo.h"
 
 # define DEBUG				1
 
@@ -50,7 +49,7 @@
 # define FLOAT_MAX			100000.f
 
 # define MAX_SOURCE_SIZE	8000
-# define BUFFER_LOG			2048
+# define BUFFER_LOG			4096
 
 # define CURSOR_NORMAL		(1 << 0)
 # define CURSOR_HIDDEN		(1 << 0)
@@ -111,8 +110,6 @@ t_model				*m_model_load(t_scene *scene, t_m_model *m_model,
 						const char *path_obj, const char *name);
 void				scene_render(t_scene *scene, float time);
 bool				m_model_hidden_setup(t_scene *scene);
-void				rbo_render(t_rbo *rbo, t_shader *shader, t_model *model,
-						const float time);
 void				cam_update(t_cam *cam, const t_glfw *glfw,
 						const float delta_time);
 bool				nk_scene(t_nk *nk, t_scene **scene);
