@@ -6,7 +6,7 @@
 #    By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 18:45:43 by ntoniolo          #+#    #+#              #
-#    Updated: 2018/10/16 19:57:46 by ntoniolo         ###   ########.fr        #
+#    Updated: 2018/10/17 14:01:14 by ntoniolo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,6 +135,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_DIR) lib $(addprefix $(OBJ_DIR), $(OBJET))
 	@$(CC) $(INC) $(addprefix $(OBJ_DIR), $(OBJET)) -L./$(DIR_LIB) $(FLAG_LIB) $(GLFW_FLAG) $(FRAMEWORK) -o $(NAME)
+	@printf "\n"
 
 lib:
 	@if [ ! -d ./glfw ] ; \
@@ -184,7 +185,7 @@ $(OBJ_DIR) :
 
 $(OBJ_DIR)%.o: $(addprefix $(SRC_DIR), %.c) $(INC_FILES)
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
-	@echo "build $<"
+	@printf "\033[1;32m+\033[0m"
 
 clean:
 	@echo "Clean scop"

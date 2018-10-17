@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 23:09:48 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/10/16 23:17:01 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/17 13:58:15 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,20 @@ static void		lm_parsing_basic_bzero(t_lm *lm)
 	bzero(lm->buffer_vn, 4 * sizeof(int));
 }
 
+static t_model	*m_model_load_setup(t_lm *lm, t_m_model *m_model,
+										t_model *model)
+{
+	if (!lm_verif_file(lm))
+		return (lm_destruct(&lm, &model));
+	glfwPollEvents();
+	model_gen_gl_buffers(model);
+	model_setup_scaling(model);
+	if (!(m_model->add(m_model, model)))
+		return (lm_destruct(&lm, &model));
+	lm_destruct(&lm, NULL);
+	return (model);
+}
+
 t_model			*m_model_load(t_scene *scene,
 							t_m_model *m_model,
 							const char *path_obj,
@@ -93,17 +107,9 @@ t_model			*m_model_load(t_scene *scene,
 	{
 		sscanf(lm->line, "%s ", lm->type);
 		if (!lm_parsing_basic(scene, lm, model)
-			|| !(lm_check_realloc(lm)))
+			|| !lm_check_realloc(lm))
 			return (lm_destruct(&lm, &model));
 		lm_parsing_basic_bzero(lm);
 	}
-	if (!lm_verif_file(lm))
-		return (lm_destruct(&lm, &model));
-	glfwPollEvents();
-	model_gen_gl_buffers(model);
-	model_setup_scaling(model);
-	if (!(m_model->add(m_model, model)))
-		return (lm_destruct(&lm, &model));
-	lm_destruct(&lm, NULL);
-	return (model);
+	return (m_model_load_setup(lm, m_model, model));
 }
