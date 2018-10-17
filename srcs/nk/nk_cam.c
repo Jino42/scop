@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:28:35 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/09/18 22:28:47 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/17 14:07:02 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void				nk_cam_pitch_yaw(t_nk *nk, t_cam *cam)
 
 	ctx = nk->ctx;
 	nk_layout_row_static(ctx, 25, 150, 2);
-	nk_property_float(ctx, "Yaw", FLOAT_MIN, &cam->yaw, FLT_MAX, 0.1f, 0.05f);
-	nk_property_float(ctx, "Pitch", FLT_MIN, &cam->pitch, FLT_MAX, 0.1f, 0.05f);
 	cam->front = cam_get_front(cam->pitch, cam->yaw);
 }
 

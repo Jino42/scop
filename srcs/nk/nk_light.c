@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:28:58 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/10/16 17:03:06 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/17 14:06:53 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void				nk_light(t_nk *nk, t_light *light)
 	nk_layout_row_static(ctx, 30, 150, 2);
 	nk_combo_colorf(nk, &light->diffuse, "Diffuse");
 	nk_combo_colorf(nk, &light->ambient, "Ambient");
-	nk_combo_colorf(nk, &light->specular, "Specular");
 	nk_layout_row_static(ctx, 30, 80, 3);
 	nk_light_type(light, ctx);
 	light->update = true;

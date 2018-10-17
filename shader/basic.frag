@@ -104,6 +104,7 @@ vec3	phong(t_light light)
 
 	diffuse = max(dot(norm, -dirLight), 0) * material.diffuse * light.diffuse;
 
+
 	result_phong = (ambient + diffuse) * light.intensity;
 
 	if (light.type == LIGHT_POINT)
