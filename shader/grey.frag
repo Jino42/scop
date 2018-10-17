@@ -83,7 +83,6 @@ uniform int			u_obj_flag;
 vec3 ambient;
 vec3 diffuse;
 vec3 dir_light;
-vec3 dir_view;
 vec3 norm;
 vec3 result_color;
 vec4 textureAmbient;
@@ -101,9 +100,6 @@ vec3	phong(t_light light)
 		dir_light = normalize(light.position - position);
 
 	diffuse = max(dot(norm, dir_light), 0) * material.diffuse * light.diffuse;
-
-	vec3 reflection = reflect(-dir_light, norm);
-	dir_view = normalize(u_cameraPosition - position);
 
 
 	recult_phong = (ambient + diffuse) * light.intensity;
