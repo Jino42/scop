@@ -84,50 +84,42 @@ uniform int				u_model_timestamp;
 uniform int				u_obj_flag;
 uniform int				u_obj_last_flag;
 
-vec3					ambient;
-vec3					diffuse;
-vec3					specular;
-vec3					dir_light;
-vec3					dir_view;
-vec3					norm;
-vec3					result_color;
-vec4					textureAmbient;
+
 t_material				material;
 
 vec3	phong(t_light light)
 {
-	vec3 recult_phong;
+	vec3					dirLight;
+	vec3					norm;
+	vec3					diffuse;
+	vec3					ambient;
+	vec3					result_phong;
 	ambient = material.ambient * light.ambient;
 
 	norm = normalize(normal);
 	if (light.type == LIGHT_DIRECTIONNAL)
-		dir_light = normalize(-light.direction);
+		dirLight = normalize(light.direction);
 	else
-		dir_light = normalize(light.position - position);
+		dirLight = normalize(position - light.position);
 
-	diffuse = max(dot(norm, dir_light), 0) * material.diffuse * light.diffuse;
+	diffuse = max(dot(norm, -dirLight), 0) * material.diffuse * light.diffuse;
 
-	vec3 reflection = reflect(dir_light, norm);
-	dir_view = normalize(u_cameraPosition - position);
-
-	float angleReflection = max(dot(dir_view, reflection), 0.f);
-	specular = (pow(angleReflection, material.shininess) * material.specular) * light.specular;
-
-	recult_phong = (ambient + diffuse + specular) * light.intensity;
+	result_phong = (ambient + diffuse) * light.intensity;
 
 	if (light.type == LIGHT_POINT)
 	{
 		float distance    = length(light.position - position);
 		float attenuation = 1.0 / (light.constent + light.linear * distance +
 							light.quadratic * (distance * distance));
-		recult_phong *= attenuation;
+		result_phong *= attenuation;
 	}
-	return (recult_phong);
+	return (result_phong);
 }
 
 t_material  get_material(int flag)
 {
-	t_material ret_material;
+	vec4					textureAmbient;
+	t_material				ret_material;
 	ret_material = u_material;
 
 	if ((flag & MODEL_USE_MATERIAL_PERSONNAL) != 0)
@@ -152,6 +144,7 @@ t_material  get_material(int flag)
 
 void main()
 {
+	vec3					result_color;
 	material = get_material(u_obj_flag);
 
 	for (int i = 0; i < SCOP_MAX_LIGHTS; i++)

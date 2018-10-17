@@ -82,7 +82,6 @@ uniform int			u_obj_flag;
 
 vec3 ambient;
 vec3 diffuse;
-vec3 specular;
 vec3 dir_light;
 vec3 dir_view;
 vec3 norm;
@@ -103,23 +102,11 @@ vec3	phong(t_light light)
 
 	diffuse = max(dot(norm, dir_light), 0) * material.diffuse * light.diffuse;
 
-	vec3 reflection = reflect(dir_light, norm);
+	vec3 reflection = reflect(-dir_light, norm);
 	dir_view = normalize(u_cameraPosition - position);
 
-	float angleReflection = max(dot(dir_view, reflection), 0.f);
-	specular = (pow(angleReflection, material.shininess) * material.specular) * light.specular;
 
-	if (light.type == LIGHT_SPOT)
-	{
-
-		float theta = dot(-dir_light, normalize(light.direction)) * 180 / M_PI;
-		float epsilon = (light.spot_little_radius - light.spot_big_radius);
-		float intensity = clamp((theta - light.spot_big_radius) / epsilon, 0.0, 1.0);
-		diffuse  *= intensity;
-		specular *= intensity;
-	}
-
-	recult_phong = (ambient + diffuse + specular) * light.intensity;
+	recult_phong = (ambient + diffuse) * light.intensity;
 
 	if (light.type == LIGHT_POINT)
 	{

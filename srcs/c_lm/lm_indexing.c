@@ -6,7 +6,7 @@
 /*   By: ntoniolo <ntoniolo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 21:11:23 by ntoniolo          #+#    #+#             */
-/*   Updated: 2018/10/16 23:08:26 by ntoniolo         ###   ########.fr       */
+/*   Updated: 2018/10/17 00:21:15 by ntoniolo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ bool		lm_indexing_face(t_lm *lm, t_mesh *mesh, const int sommet4)
 			if (sommet == 1)
 				sommet++;
 			if (!lm_indexing(lm, mesh, sommet))
-			return (false);
+				return (false);
 			sommet++;
 		}
 		lm_indexing_face_increment(mesh);
